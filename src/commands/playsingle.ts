@@ -14,11 +14,13 @@ import {
     ButtonStyle,
     Message,
     GuildTextBasedChannel,
+    EmbedBuilder,
 } from 'discord.js';
 import { Playlist } from 'distube';
 import { Command } from '../@types/command';
 import { replyWithEmbed } from '../utils/embedHelper';
 import { setInitiator } from '../utils/sessionStore';
+import { getPluginForUrl } from '../utils/getPluginNameForUrl';
 
 const PAGE_SIZE = 20;
 
@@ -28,6 +30,7 @@ const playsingle: Command = {
     usage: 'b!playsingle <playlist URL>',
     category: 'music',
     aliases: ['psi', 'psingle'],
+
     async execute(message: Message, args: string[], distube) {
         const url = args[0];
         if (!url) {
@@ -41,14 +44,19 @@ const playsingle: Command = {
             return;
         }
 
-        await setInitiator(message.guildId!, message.author.id);
+        setInitiator(message.guildId!, message.author.id);
 
         try {
-            const extractorPlugin = distube.plugins[0];
-            const playlist = await extractorPlugin.resolve(url, {}) as Playlist<any>;
+            const plugin = await getPluginForUrl(distube, url);
+            const playlist = await plugin.resolve(url, {});
 
-            if (!playlist || playlist.songs.length === 0) {
-                await replyWithEmbed(message, 'warning', '⚠️ Không tìm thấy playlist hoặc không có bài.');
+            if (playlist instanceof Playlist) {
+                if (!playlist || playlist.songs.length === 0) {
+                    await replyWithEmbed(message, 'warning', 'Không tìm thấy playlist hoặc không có bài.');
+                    return;
+                }
+            } else {
+                await replyWithEmbed(message, 'warning', 'Đường dẫn không hợp lệ hoặc không phải playlist.');
                 return;
             }
 
@@ -85,17 +93,25 @@ const playsingle: Command = {
                         .setDisabled(page === totalPages - 1),
                 );
 
-                const list = songs.map(
-                    (song, i) => `\`${start + i + 1}.\` ${song.name} (${song.formattedDuration})`
-                ).join('\n');
+                const list = songs
+                    .map((song, i) => `\`${start + i + 1}.\` [${song.name}](${song.url}) • ${song.formattedDuration}`)
+                    .join('\n');
 
-                const content = `📄 **Trang ${page + 1}/${totalPages} - ${playlist.name || 'Không tên'}**\n${list}`;
+                const embed = new EmbedBuilder()
+                    .setColor('#1DB954')
+                    .setTitle(`🎵 Playlist: ${playlist.name || 'Không tên'}`)
+                    .setDescription(list || '*Không có bài hát nào.*')
+                    .setFooter({ text: `Trang ${page + 1} / ${totalPages}` })
+                    .setTimestamp();
 
-                return { content, components: [row, buttons] };
+                const thumb = songs[0]?.thumbnail || playlist.songs[0]?.thumbnail;
+                if (thumb) embed.setThumbnail(thumb);
+
+                return { embeds: [embed], components: [row, buttons] };
             };
 
-            let { content, components } = renderPage(currentPage);
-            const reply = await message.reply({ content, components });
+            let { embeds, components } = renderPage(currentPage);
+            const reply = await message.reply({ embeds, components });
 
             const collector = reply.createMessageComponentCollector({
                 time: 60_000,
@@ -124,9 +140,10 @@ const playsingle: Command = {
                     await interaction.update({
                         content: `✅ Đang phát: **${selected.name}**`,
                         components: [],
+                        embeds: [],
                     });
 
-                    collector.stop(); // Stop listening
+                    collector.stop();
                 }
 
                 if (interaction.isButton()) {
@@ -143,7 +160,21 @@ const playsingle: Command = {
 
             collector.on('end', async () => {
                 try {
-                    await reply.edit({ components: [] });
+                    const disabledComponents = components.map(row => {
+                        const newRow = new ActionRowBuilder();
+
+                        for (const component of row.components) {
+                            if (component instanceof ButtonBuilder) {
+                                newRow.addComponents(ButtonBuilder.from(component).setDisabled(true));
+                            } else if (component instanceof StringSelectMenuBuilder) {
+                                newRow.addComponents(StringSelectMenuBuilder.from(component).setDisabled(true));
+                            }
+                        }
+
+                        return newRow.toJSON();
+                    });
+
+                    await reply.edit({ components: disabledComponents });
                 } catch {
                     await reply.delete();
                 }

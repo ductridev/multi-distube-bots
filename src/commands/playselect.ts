@@ -15,9 +15,11 @@ import {
   ButtonStyle,
   Message,
   GuildTextBasedChannel,
+  EmbedBuilder,
 } from 'discord.js';
 import { replyWithEmbed } from '../utils/embedHelper';
 import { setInitiator } from '../utils/sessionStore';
+import { getPluginForUrl } from '../utils/getPluginNameForUrl';
 
 const PAGE_SIZE = 20;
 
@@ -41,14 +43,19 @@ const playselect: Command = {
       return;
     }
 
-    await setInitiator(message.guildId!, message.author.id);
+    setInitiator(message.guildId!, message.author.id);
 
     try {
-      const extractorPlugin = distube.plugins[0];
-      const playlist = await extractorPlugin.resolve(url, {}) as Playlist<any>;
+      const plugin = await getPluginForUrl(distube, url);
+      const playlist = await plugin.resolve(url, {}) as Playlist<any>;
 
-      if (!playlist || playlist.songs.length === 0) {
-        await replyWithEmbed(message, 'warning', 'Playlist không hợp lệ hoặc không có bài.');
+      if (playlist instanceof Playlist) {
+        if (!playlist || playlist.songs.length === 0) {
+          await replyWithEmbed(message, 'warning', 'Không tìm thấy playlist hoặc không có bài.');
+          return;
+        }
+      } else {
+        await replyWithEmbed(message, 'warning', 'Đường dẫn không hợp lệ hoặc không phải playlist.');
         return;
       }
 
@@ -89,16 +96,24 @@ const playselect: Command = {
         );
 
         const list = songs
-          .map((song, i) => `\`${start + i + 1}.\` ${song.name} (${song.formattedDuration})`)
+          .map((song, i) => `\`${start + i + 1}.\` [${song.name}](${song.url}) • ${song.formattedDuration}`)
           .join('\n');
 
-        const content = `🎶 **Playlist:** *${playlist.name || 'Không tên'}*\n📄 **Trang ${page + 1}/${totalPages}**\n${list}`;
+        const embed = new EmbedBuilder()
+          .setColor('#1DB954')
+          .setTitle(`📚 Playlist: ${playlist.name || 'Không tên'}`)
+          .setDescription(list || '*Không có bài hát.*')
+          .setFooter({ text: `Trang ${page + 1} / ${totalPages}` })
+          .setTimestamp();
 
-        return { content, components: [row, buttons] };
+        const thumbnail = songs[0]?.thumbnail || playlist.songs[0]?.thumbnail;
+        if (thumbnail) embed.setThumbnail(thumbnail);
+
+        return { embeds: [embed], components: [row, buttons] };
       };
 
-      let { content, components } = renderPage(currentPage);
-      const reply = await message.reply({ content, components });
+      let { embeds, components } = renderPage(currentPage);
+      const reply = await message.reply({ embeds, components });
 
       const collector = reply.createMessageComponentCollector({
         time: 30_000,
@@ -127,6 +142,7 @@ const playselect: Command = {
           await interaction.update({
             content: `✅ Đang phát: **${selectedSong.name}**`,
             components: [],
+            embeds: [],
           });
 
           collector.stop();
@@ -146,7 +162,21 @@ const playselect: Command = {
 
       collector.on('end', async () => {
         try {
-          await reply.edit({ components: [] });
+          const disabledComponents = components.map(row => {
+            const newRow = new ActionRowBuilder();
+
+            for (const component of row.components) {
+              if (component instanceof ButtonBuilder) {
+                newRow.addComponents(ButtonBuilder.from(component).setDisabled(true));
+              } else if (component instanceof StringSelectMenuBuilder) {
+                newRow.addComponents(StringSelectMenuBuilder.from(component).setDisabled(true));
+              }
+            }
+
+            return newRow.toJSON();
+          });
+
+          await reply.edit({ components: disabledComponents });
         } catch {
           await reply.delete();
         }
