@@ -44,11 +44,9 @@ export const search: Command = {
             return;
         }
 
-        await setInitiator(message.guildId!, message.author.id);
+        setInitiator(message.guildId!, message.author.id);
 
         try {
-
-            // Perform search with more results for pagination (up to 50)
             const searchResult = await ytSearch(query);
             const videos = searchResult.videos.slice(0, 50);
 
@@ -65,50 +63,61 @@ export const search: Command = {
                 const pageVideos = videos.slice(start, start + PAGE_SIZE);
 
                 const embed = new EmbedBuilder()
-                    .setTitle(`🔎 Kết quả tìm kiếm - Trang ${page + 1}/${totalPages}`)
-                    .setDescription('Vui lòng chọn một bài hát từ danh sách bên dưới:')
-                    .setColor('Blue')
-                    .setFooter({ text: `Hiển thị kết quả từ ${start + 1} đến ${start + pageVideos.length} trên tổng số ${videos.length}` });
+                    .setColor('#1DB954')
+                    .setTitle('🔎 Kết quả tìm kiếm')
+                    .setDescription(
+                        pageVideos
+                            .map((v, i) => `\`${start + i + 1}.\` [${v.title}](${v.url}) • ${v.timestamp} — ${v.author.name}`)
+                            .join('\n')
+                    )
+                    .setFooter({
+                        text: `Trang ${page + 1}/${totalPages} • Hiển thị ${start + 1} - ${start + pageVideos.length} trong tổng ${videos.length}`,
+                    })
+                    .setTimestamp();
+
+                if (pageVideos[0]?.image) embed.setThumbnail(pageVideos[0].image);
 
                 const selectMenu = new StringSelectMenuBuilder()
                     .setCustomId('search_select')
-                    .setPlaceholder('Chọn một bài hát')
+                    .setPlaceholder('🎵 Chọn một bài hát')
                     .addOptions(
                         pageVideos.map((video, i) => ({
                             label: `${start + i + 1}. ${video.title.slice(0, 100)}`,
                             value: video.url,
-                            description: video.author.name.slice(0, 50),
+                            description: `${video.timestamp} — ${video.author.name.slice(0, 50)}`,
                         }))
                     );
 
-                const selectRow = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
-
-                const buttonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+                const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
+                const nav = new ActionRowBuilder<ButtonBuilder>().addComponents(
                     new ButtonBuilder()
                         .setCustomId('prev_page')
-                        .setLabel('⬅️ Trang trước')
+                        .setLabel('⬅️')
                         .setStyle(ButtonStyle.Secondary)
                         .setDisabled(page === 0),
                     new ButtonBuilder()
                         .setCustomId('next_page')
-                        .setLabel('Trang tiếp ➡️')
+                        .setLabel('➡️')
                         .setStyle(ButtonStyle.Secondary)
                         .setDisabled(page === totalPages - 1)
                 );
 
-                return { embeds: [embed], components: [selectRow, buttonRow] };
+                return { embeds: [embed], components: [row, nav] };
             };
 
-            let replyData = renderPage(currentPage);
-            const sentMessage = await message.reply(replyData);
+            let messageData = renderPage(currentPage);
+            const reply = await message.reply(messageData);
 
-            const collector = sentMessage.createMessageComponentCollector({
+            const collector = reply.createMessageComponentCollector({
                 time: 45_000,
             });
 
-            collector.on('collect', async (interaction) => {
+            collector.on('collect', async interaction => {
                 if (interaction.user.id !== message.author.id) {
-                    await interaction.reply({ content: '⛔ Bạn không được phép sử dụng menu này.', ephemeral: true });
+                    await interaction.reply({
+                        content: '⛔ Bạn không được phép sử dụng menu này.',
+                        ephemeral: true,
+                    });
                     return;
                 }
 
@@ -121,7 +130,12 @@ export const search: Command = {
                         member: message.member!,
                     });
 
-                    await interaction.editReply({ components: [], content: `✅ Đang phát bài hát bạn đã chọn.` });
+                    await interaction.editReply({
+                        content: `✅ Đang phát bài hát bạn đã chọn.`,
+                        embeds: [],
+                        components: [],
+                    });
+
                     collector.stop();
                 }
 
@@ -131,21 +145,22 @@ export const search: Command = {
                     } else if (interaction.customId === 'next_page' && currentPage < totalPages - 1) {
                         currentPage++;
                     }
-                    const updatedData = renderPage(currentPage);
-                    await interaction.update(updatedData);
+
+                    const updated = renderPage(currentPage);
+                    await interaction.update(updated);
                 }
             });
 
             collector.on('end', async () => {
                 try {
-                    await sentMessage.edit({ components: [] });
+                    await reply.edit({ components: [] });
                 } catch {
-                    await sentMessage.delete();
+                    await reply.delete();
                 }
             });
         } catch (err) {
-            console.error('Lỗi playselect:', err);
-            await replyWithEmbed(message, 'error', 'Không thể chọn bài từ playlist.');
+            console.error('Lỗi search:', err);
+            await replyWithEmbed(message, 'error', 'Không thể tìm kiếm bài hát.');
         }
     },
 };
