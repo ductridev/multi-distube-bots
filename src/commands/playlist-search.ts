@@ -12,6 +12,7 @@ import { Command } from '../@types/command';
 import { GuildTextBasedChannel, Message } from 'discord.js';
 import { replyWithEmbed } from '../utils/embedHelper';
 import { setInitiator } from '../utils/sessionStore';
+import { getPluginForUrl } from '../utils/getPluginNameForUrl';
 
 const playlistSearch: Command = {
     name: 'playlist-search',
@@ -32,11 +33,11 @@ const playlistSearch: Command = {
             return;
         }
 
-        await setInitiator(message.guildId!, message.author.id);
+        setInitiator(message.guildId!, message.author.id);
 
         try {
-            const extractorPlugin = distube.plugins[0];
-            const playlist = await extractorPlugin.resolve(query, {}) as Playlist<any>;
+            const plugin = await getPluginForUrl(distube, query);
+            const playlist = await plugin.resolve(query, {}) as Playlist<any>;
 
             if (!playlist || playlist.songs.length === 0) {
                 await replyWithEmbed(message, 'warning', '⚠️ Không tìm thấy playlist nào phù hợp.');

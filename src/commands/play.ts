@@ -12,6 +12,7 @@ import { Command } from '../@types/command';
 import { GuildTextBasedChannel, Message } from 'discord.js';
 import { replyWithEmbed } from '../utils/embedHelper';
 import { setInitiator } from '../utils/sessionStore';
+import { getPluginForUrl } from '../utils/getPluginNameForUrl';
 
 const play: Command = {
   name: 'play',
@@ -32,10 +33,11 @@ const play: Command = {
       return;
     }
 
-    await setInitiator(message.guildId!, message.author.id);
+    setInitiator(message.guildId!, message.author.id);
 
     try {
-      const songOrPlaylist = await distube.plugins[0].resolve(query, {});
+      const plugin = await getPluginForUrl(distube, query);
+      const songOrPlaylist = await plugin.resolve(query, {});
 
       let queue = distube.getQueue(message);
 

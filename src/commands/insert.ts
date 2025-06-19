@@ -12,6 +12,7 @@ import { GuildTextBasedChannel, Message } from 'discord.js';
 import { replyWithEmbed } from '../utils/embedHelper';
 import { Playlist } from 'distube';
 import { setInitiator } from '../utils/sessionStore';
+import { getPluginForUrl } from '../utils/getPluginNameForUrl';
 
 const insert: Command = {
   name: 'insert',
@@ -32,10 +33,11 @@ const insert: Command = {
       return;
     }
 
-    await setInitiator(message.guildId!, message.author.id);
+    setInitiator(message.guildId!, message.author.id);
 
     try {
-      const songOrPlaylist = await distube.plugins[0].resolve(query, {});
+      const plugin = await getPluginForUrl(distube, query);
+      const songOrPlaylist = await plugin.resolve(query, {});
 
       let queue = distube.getQueue(message);
 
@@ -56,7 +58,7 @@ const insert: Command = {
       }
     } catch (err: any) {
       console.error('Lỗi khi chèn bài hát:', err);
-      if(err instanceof Error && err.message.includes('Unsupported URL')) await replyWithEmbed(message, 'error', 'URL không hợp lệ hoặc không được hỗ trợ.');
+      if (err instanceof Error && err.message.includes('Unsupported URL')) await replyWithEmbed(message, 'error', 'URL không hợp lệ hoặc không được hỗ trợ.');
       else await replyWithEmbed(message, 'error', 'Không thể thêm bài hát vào hàng đợi.');
     }
   },
