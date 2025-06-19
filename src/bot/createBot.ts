@@ -9,6 +9,10 @@ import { registerDiscordEvents } from './discordEvents';
 import { loadCommands } from './loadCommands';
 import ExtendedClient from '../@types/extendedClient';
 import BotInstance from '../@types/botInstance';
+import SpotifyPlugin from '@distube/spotify';
+import { BandlabPlugin } from '@distube/bandlab';
+import DeezerPlugin from '@distube/deezer';
+import SoundCloudPlugin from '@distube/soundcloud';
 
 export function createBot({ name, token, prefix, mainPrefix }: BotConfig & { mainPrefix: string }, activeBots: BotInstance[]) {
     const client = new Client({
@@ -24,7 +28,13 @@ export function createBot({ name, token, prefix, mainPrefix }: BotConfig & { mai
     const recentTracks = new Map<string, string[]>();
 
     const distube = new DisTube(client, {
-        plugins: [new YtDlpPlugin()],
+        plugins: [new SpotifyPlugin({
+            api: {
+                clientId: "217d1a118e1946d5b52fc16448158850",
+                clientSecret: "db43cbfb2aa04029a922ca3098126e3f",
+                topTracksCountry: "VN",
+            },
+        }), new BandlabPlugin(), new DeezerPlugin(), new SoundCloudPlugin(), new YtDlpPlugin()],
         emitNewSongOnly: true,
         joinNewVoiceChannel: false,
     });
