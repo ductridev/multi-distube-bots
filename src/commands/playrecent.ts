@@ -26,7 +26,7 @@ const playrecent: Command = {
             return;
         }
 
-        await setInitiator(message.guildId!, message.author.id);
+        setInitiator(message.guildId!, message.author.id);
 
         try {
             const recent = await RecentTrackModel.findOne({ userId: message.author.id });

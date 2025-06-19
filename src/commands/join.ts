@@ -26,7 +26,7 @@ const join: Command = {
             return;
         }
 
-        await setInitiator(message.guildId!, message.author.id);
+        setInitiator(message.guildId!, message.author.id);
 
         try {
             // Note: DisTube handles join internally on play

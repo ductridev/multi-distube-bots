@@ -33,7 +33,7 @@ const albumSearch: Command = {
       return;
     }
 
-    await setInitiator(message.guildId!, message.author.id);
+    setInitiator(message.guildId!, message.author.id);
 
     try {
       // Append "album" to increase likelihood of getting a playlist
