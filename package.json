@@ -1,0 +1,23 @@
+{
+  "scripts": {
+    "start": "ts-node --project tsconfig.json index.ts"
+  },
+  "dependencies": {
+    "@discordjs/opus": "^0.10.0",
+    "@discordjs/voice": "^0.18.0",
+    "@distube/yt-dlp": "^2.0.1",
+    "discord.js": "^14.20.0",
+    "distube": "^5.0.7",
+    "dotenv": "^16.5.0",
+    "mongoose": "^8.16.0",
+    "yt-search": "^2.13.1"
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.11.96",
+    "@types/node": "^24.0.3",
+    "@types/ws": "^8.18.1",
+    "@types/yt-search": "^2.10.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
