@@ -71,12 +71,12 @@ export function registerDisTubeEvents(
             return;
         }
 
-        queue.textChannel?.send('⚠️ Không có ai trong kênh thoại. Tôi sẽ rời sau 10 phút nếu không có ai tham gia.');
+        sendWithEmbed(queue.textChannel as GuildTextBasedChannel, 'warning', '⚠️ Không có ai trong kênh thoại. Tôi sẽ rời sau 10 phút nếu không có ai tham gia.');
 
         const timeout = setTimeout(() => {
             if (channel.members.filter(m => !m.user.bot).size === 0) {
                 queue.stop();
-                queue.textChannel?.send('👋 Tôi đã rời khỏi vì không có người nghe.');
+                sendWithEmbed(queue.textChannel as GuildTextBasedChannel, 'info', '👋 Tôi đã rời khỏi vì không có người nghe.');
             }
             noListenerTimeouts.delete(guildId);
         }, 10 * 60_000);
