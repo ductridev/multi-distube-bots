@@ -5,6 +5,13 @@
   "dependencies": {
     "@discordjs/opus": "^0.10.0",
     "@discordjs/voice": "^0.18.0",
+    "@distube/bandlab": "^1.0.0",
+    "@distube/deezer": "^2.0.1",
+    "@distube/direct-link": "^1.0.1",
+    "@distube/file": "^1.0.1",
+    "@distube/prism-media": "^1.0.0",
+    "@distube/soundcloud": "^2.0.4",
+    "@distube/spotify": "^2.0.2",
     "@distube/yt-dlp": "^2.0.1",
     "discord.js": "^14.20.0",
     "distube": "^5.0.7",
