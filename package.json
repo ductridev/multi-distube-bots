@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "ts-node --project tsconfig.json index.ts"
+    "start": "ts-node --project tsconfig.json index.ts",
+    "build": "tsc --project tsconfig.json"
   },
   "dependencies": {
     "@discordjs/opus": "^0.10.0",
