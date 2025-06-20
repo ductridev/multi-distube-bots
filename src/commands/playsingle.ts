@@ -132,18 +132,28 @@ const playsingle: Command = {
                         return;
                     }
 
-                    await distube.play(vc, selected.url, {
+                    try {
+                        await interaction.update({
+                            content: `✅ Đang phát: **${selected.name}**`,
+                            components: [],
+                            embeds: [],
+                        });
+                        collector.stop();
+                    } catch (err) {
+                        console.error('❌ Interaction update failed:', err);
+                        if (!interaction.replied && !interaction.deferred) {
+                            await message.reply({
+                                content: '⛔ Quá hạn phản hồi hoặc lỗi xảy ra khi phát bài hát.',
+                            });
+                        }
+
+                        return;
+                    }
+
+                    distube.play(vc, selected.url, {
                         member: message.member!,
                         textChannel: message.channel as GuildTextBasedChannel,
                     });
-
-                    await interaction.update({
-                        content: `✅ Đang phát: **${selected.name}**`,
-                        components: [],
-                        embeds: [],
-                    });
-
-                    collector.stop();
                 }
 
                 if (interaction.isButton()) {
@@ -175,12 +185,19 @@ const playsingle: Command = {
                     });
 
                     await reply.edit({ components: disabledComponents });
-                } catch {
-                    await reply.delete();
+                } catch (err) {
+                    console.warn('⚠️ Could not disable components:', err);
+                    try {
+                        await reply.delete();
+                    } catch (_) { }
                 }
             });
 
         } catch (err) {
+            if (err instanceof Error && err.message.includes('Private video.')) {
+                await replyWithEmbed(message, 'error', 'Danh sách phát hoặc bài hát nằm trong danh sách phát ở trong trạng thái riêng tư.');
+                return;
+            }
             console.error('Lỗi playsingle:', err);
             await replyWithEmbed(message, 'error', 'Không thể phát bài đầu tiên từ playlist.');
         }
