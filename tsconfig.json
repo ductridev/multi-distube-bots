@@ -16,6 +16,7 @@
         "resolveJsonModule": true,
     },
     "include": [
+        "index.ts", 
         "src/**/*",
         "src/config.ts"
     ],
