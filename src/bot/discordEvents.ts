@@ -46,11 +46,11 @@ export function registerDiscordEvents(
 
         const userVCId = message.member?.voice.channelId;
 
+        // Step 1: If any bot is already in the user's VC, let only that one respond
         const botInSameVC = activeBots.find(b => b.currentVoiceChannelId === userVCId);
-
-        // Prioritize bot already in same VC
         if (botInSameVC) {
-            if (botInSameVC.client.user?.id !== client.user?.id) return; // Only that bot responds
+            if (botInSameVC.client.user?.id !== client.user?.id) return;
+
             try {
                 await command.execute(message, args, distube);
             } catch (err) {
@@ -60,22 +60,21 @@ export function registerDiscordEvents(
             return;
         }
 
-        // No bot in same VC → continue with prefix matching logic
-
-        // Find bot that matches the prefix
-        const matchingBot = activeBots.find(b => b.client.prefix === usedPrefix);
-
-        // Select best bot (in case matchingBot is not free)
-        const [selectedBot, isFree] = selectBotForCommand(command, activeBots, userVCId);
+        // Step 2: Determine the best bot based on prefix and availability
+        const [selectedBot, isFree] = selectBotForCommand(command, activeBots, userVCId, usedPrefix);
 
         const isThisBot = client.user?.id === selectedBot.client.user?.id;
-        const isMatchingBot = client.user?.id === matchingBot?.client.user?.id;
+        if (!isThisBot) return; // Only selected bot should continue
 
-        // Not the selected bot and not the matching bot — ignore
-        if (!isThisBot && !isMatchingBot) return;
+        // Step 3: Block if selected bot is in a different VC
+        const botAlreadyInOtherVC = selectedBot.currentVoiceChannelId && selectedBot.currentVoiceChannelId !== userVCId;
+        if (botAlreadyInOtherVC) {
+            await replyWithEmbed(message, 'error', 'Bot này đang hoạt động ở kênh thoại khác. Vui lòng chờ hoặc sử dụng bot khác.');
+            return;
+        }
 
-        // If this bot matches prefix and is free, proceed
-        if (isMatchingBot && isFree) {
+        // Step 4: Execute if bot is free
+        if (isFree) {
             try {
                 await command.execute(message, args, distube);
             } catch (err) {
@@ -85,19 +84,7 @@ export function registerDiscordEvents(
             return;
         }
 
-        // If matching bot is not free → allow selected fallback bot to reply
-        if (!isThisBot) return;
-
-        if (!isFree) {
-            await replyWithEmbed(message, 'error', 'Tất cả các bot đều đang được sử dụng, bạn có thể thử lại sau.');
-            return;
-        }
-
-        try {
-            await command.execute(message, args, distube);
-        } catch (err) {
-            console.error(`[${name}] Error in command '${cmdName}':`, err);
-            replyWithEmbed(message, 'error', 'Có gì đó đã xảy ra khi thực hiện lệnh.');
-        }
+        // Step 5: All bots are busy
+        await replyWithEmbed(message, 'error', 'Tất cả các bot đều đang được sử dụng, bạn có thể thử lại sau.');
     });
 }

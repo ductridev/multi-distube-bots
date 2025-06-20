@@ -2,20 +2,33 @@
 import BotInstance from "../@types/botInstance";
 import { Command } from "../@types/command";
 
-export default function selectBotForCommand(command: Command, activeBots: BotInstance[], userVCId?: string | null): [BotInstance, boolean] {
+export default function selectBotForCommand(
+    command: Command,
+    activeBots: BotInstance[],
+    userVCId?: string | null,
+    usedPrefix?: string
+): [BotInstance, boolean] {
     if (command.category === 'music') {
-        // 1. Bot already in same VC as user
+        // 1. Bot already in user's VC
         const sameVCBot = activeBots.find(bot => bot.currentVoiceChannelId === userVCId);
         if (sameVCBot) return [sameVCBot, true];
 
-        // 2. Bot not in any VC
+        // 2. Matching prefix and idle
+        if (usedPrefix) {
+            const matchingFreeBot = activeBots.find(
+                bot => bot.client.prefix === usedPrefix && !bot.currentVoiceChannelId
+            );
+            if (matchingFreeBot) return [matchingFreeBot, true];
+        }
+
+        // 3. Any idle bot
         const idleBot = activeBots.find(bot => !bot.currentVoiceChannelId);
         if (idleBot) return [idleBot, true];
 
-        // 3. Fallback
+        // 4. Fallback to first bot
         return [activeBots[0], false];
     }
 
-    // Non-music → always use default
+    // Non-music → fallback
     return [activeBots[0], true];
 }
