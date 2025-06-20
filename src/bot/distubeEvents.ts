@@ -65,9 +65,22 @@ export function registerDisTubeEvents(
 
         if (queue.previousSongs.length === 0) return;
 
+        const songSource = song.source;
+        let sourceEmoji = '';
+        if (songSource === 'youtube')
+            sourceEmoji = '<:youtubeicon:1385543095143235584>';
+        else if (songSource === 'spotify')
+            sourceEmoji = '<:spotifyicon:1385543086888718356>';
+        else if (songSource === 'soundcloud')
+            sourceEmoji = '<:soundcloudicon:1385543084493766717>';
+        else if (songSource === 'deezer')
+            sourceEmoji = '<:deezericon:1385543082476568716>';
+        else if (songSource === 'bandlab')
+            sourceEmoji = '<:bandlabicon:1385543080635142174>';
+
         const nonBotListeners = channel.members.filter(m => !m.user.bot);
         if (nonBotListeners.size > 0 || noListenerTimeouts.has(guildId)) {
-            sendWithEmbed(queue.textChannel as GuildTextBasedChannel, 'info', `▶️ Đang phát bài hát [**${song.name}**](${song.url}).\nThời lượng phát: **${song.formattedDuration}**.`);
+            sendWithEmbed(queue.textChannel as GuildTextBasedChannel, 'info', `${sourceEmoji} Đang phát bài hát [**${song.name}**](${song.url}).`);
             return;
         }
 
