@@ -40,10 +40,7 @@ export function createBot({ name, token, prefix, mainPrefix }: BotConfig & { mai
                 clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
                 topTracksCountry: "VN",
             },
-        }), new YouTubePlugin(), new YtDlpPlugin({ update: true }), new BandlabPlugin(), new DeezerPlugin(), new SoundCloudPlugin({
-            clientId: process.env.SOUNDCLOUD_CLIENT_ID,
-            oauthToken: process.env.SOUNDCLOUD_CLIENT_ACCESS_TOKEN,
-        })],
+        }), new BandlabPlugin(), new DeezerPlugin(), new SoundCloudPlugin(), new YouTubePlugin(), new YtDlpPlugin({ update: true })],
         emitNewSongOnly: true,
         joinNewVoiceChannel: false,
         savePreviousSongs: false,
