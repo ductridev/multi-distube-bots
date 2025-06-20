@@ -17,7 +17,7 @@ import {
   GuildTextBasedChannel,
   EmbedBuilder,
 } from 'discord.js';
-import { replyWithEmbed } from '../utils/embedHelper';
+import { replyEmbedWFooter, replyWithEmbed } from '../utils/embedHelper';
 import { setInitiator } from '../utils/sessionStore';
 import { getPluginForUrl } from '../utils/getPluginNameForUrl';
 
@@ -109,14 +109,14 @@ const playselect: Command = {
         const thumbnail = songs[0]?.thumbnail || playlist.songs[0]?.thumbnail;
         if (thumbnail) embed.setThumbnail(thumbnail);
 
-        return { embeds: [embed], components: [row, buttons] };
+        return { embed, components: [row, buttons] };
       };
 
-      let { embeds, components } = renderPage(currentPage);
-      const reply = await message.reply({ embeds, components });
+      let { embed, components } = renderPage(currentPage);
+      const reply = await replyEmbedWFooter(message, embed, components);
 
       const collector = reply.createMessageComponentCollector({
-        time: 30_000,
+        time: 60_000,
       });
 
       collector.on('collect', async (interaction) => {
