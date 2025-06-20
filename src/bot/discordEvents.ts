@@ -35,8 +35,8 @@ export function registerDiscordEvents(
     client.on('messageCreate', async (message: Message) => {
         if (message.author.bot || !message.guild) return;
 
-        const prefixes = [prefix, mainPrefix];
-        const usedPrefix = prefixes.find(p => message.content.startsWith(p));
+        const allPrefixes = activeBots.map(b => b.client.prefix).concat(mainPrefix);
+        const usedPrefix = allPrefixes.find(p => message.content.startsWith(p));
         if (!usedPrefix) return;
 
         const args = message.content.slice(usedPrefix.length).trim().split(/\s+/);
