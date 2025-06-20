@@ -16,6 +16,7 @@ import {
 } from 'discord.js';
 import { Command } from '../@types/command';
 import DisTube from 'distube';
+import { replyWithEmbed } from '../utils/embedHelper';
 
 const PAGE_SIZE = 10;
 
@@ -29,7 +30,7 @@ const queue: Command = {
     execute: async (message: Message, args: string[], distube: DisTube) => {
         const queue = distube.getQueue(message);
         if (!queue || !queue.songs.length) {
-            await message.reply('🔇 Không có bài hát nào trong hàng đợi.');
+            await replyWithEmbed(message, 'info', '🔇 Không có bài hát nào trong hàng đợi.');
             return;
         }
 

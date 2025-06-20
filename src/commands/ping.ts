@@ -10,6 +10,7 @@
 import { Message } from "discord.js";
 import { Command } from "../@types/command";
 import DisTube from "distube";
+import { replyWithEmbed } from "../utils/embedHelper";
 
 const ping: Command = {
     name: 'ping',
@@ -18,7 +19,7 @@ const ping: Command = {
     category: 'utility',
     aliases: [],
     execute: async (message: Message, args: string[], distube: DisTube) => {
-        const sent = await message.reply('🏓 Đang đo độ trễ...');
+        const sent = await replyWithEmbed(message, 'info', '🏓 Đang đo độ trễ...');
         const latency = sent.createdTimestamp - message.createdTimestamp;
         const apiPing = Math.round(message.client.ws.ping);
 

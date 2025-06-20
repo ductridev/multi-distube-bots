@@ -142,9 +142,9 @@ const playsingle: Command = {
                     } catch (err) {
                         console.error('❌ Interaction update failed:', err);
                         if (!interaction.replied && !interaction.deferred) {
-                            await message.reply({
-                                content: '⛔ Quá hạn phản hồi hoặc lỗi xảy ra khi phát bài hát.',
-                            });
+                            await replyWithEmbed(message, 'error',
+                                '⛔ Quá hạn phản hồi hoặc lỗi xảy ra khi phát bài hát.',
+                            );
                         }
 
                         return;
