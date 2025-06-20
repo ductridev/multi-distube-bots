@@ -6,7 +6,7 @@ export interface Command {
     name: string;
     description: string;
     usage: string;
-    category: 'music' | 'help' | 'utility' = 'music';
+    category: 'music' | 'help' | 'utility' | 'owner' = 'music';
     aliases: string[];
     execute(message: Message, args: string[], distube: DisTube): Promise<void>;
 }
