@@ -1,5 +1,6 @@
 // src/utils/embedHelper.ts
 import { EmbedBuilder, GuildTextBasedChannel, Message } from 'discord.js';
+import { getEmbedFooter } from './embedSettingsLoader';
 
 export const messageType = {
     error: '❌ Lỗi',
@@ -10,7 +11,9 @@ export const messageType = {
 
 export type MessageType = keyof typeof messageType;
 
-export function createEmbed(type: MessageType, description: string, color?: number, title?: string) {
+export async function createEmbed(type: MessageType, description: string, color?: number, title?: string) {
+    const footer = await getEmbedFooter();
+
     const defaultColors: Record<MessageType, number> = {
         error: 0xff5555,
         success: 0x57f287,
@@ -22,23 +25,24 @@ export function createEmbed(type: MessageType, description: string, color?: numb
         // .setTitle(title ?? messageType[type])
         .setDescription(description)
         .setColor(color ?? defaultColors[type])
-        .setFooter({ text: 'BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️', iconURL: 'https://i.imgur.com/YOUR_ICON.png' })
+        .setFooter(footer)
         .setTimestamp();
 }
 
-export function replyWithEmbed(message: Message, type: MessageType, description: string, color?: number, title?: string) {
-    const embed = createEmbed(type, description, color, title);
+export async function replyWithEmbed(message: Message, type: MessageType, description: string, color?: number, title?: string) {
+    const embed = await createEmbed(type, description, color, title);
     return message.reply({ embeds: [embed] });
 }
 
-export function replyEmbedWFooter(message: Message, embed: EmbedBuilder) {
+export async function replyEmbedWFooter(message: Message, embed: EmbedBuilder) {
+    const footer = await getEmbedFooter();
     embed
-        .setFooter({ text: 'BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️', iconURL: 'https://i.imgur.com/YOUR_ICON.png' })
+        .setFooter(footer)
         .setTimestamp();
     return (message.channel as GuildTextBasedChannel).send({ embeds: [embed] });
 }
 
-export function sendWithEmbed(channel: GuildTextBasedChannel, type: MessageType, description: string, color?: number, title?: string) {
-    const embed = createEmbed(type, description, color, title);
+export async function sendWithEmbed(channel: GuildTextBasedChannel, type: MessageType, description: string, color?: number, title?: string) {
+    const embed = await createEmbed(type, description, color, title);
     return channel.send({ embeds: [embed] });
 }
