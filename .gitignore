@@ -5,3 +5,5 @@ dist/
 *.log
 src/config.json
 multi-distube-bots.zip
+src/cookies.json
+ffmpeg/
