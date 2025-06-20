@@ -33,6 +33,7 @@ async function startAllBots() {
     }
     await mongoose.connect(process.env.MONGOOSE_URL, {
         dbName: process.env.MONGOOSE_DB_NAME,
+        serverSelectionTimeoutMS: 20000,
     });
     console.log('✅ [botManager] MongoDB đã kết nối.');
 
