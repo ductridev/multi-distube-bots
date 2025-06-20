@@ -7,6 +7,7 @@ export const messageType = {
     success: '✅ Thành công',
     info: 'ℹ️ Thông báo',
     warning: '⚠️ Cảnh báo',
+    denied: '⛔ Không có quyền',
 } as const;
 
 export type MessageType = keyof typeof messageType;
@@ -19,6 +20,7 @@ export async function createEmbed(type: MessageType, description: string, color?
         success: 0x57f287,
         info: 0x00bfff,
         warning: 0xffcc00,
+        denied: 0xff0000
     };
 
     return new EmbedBuilder()
