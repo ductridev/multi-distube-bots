@@ -1,5 +1,5 @@
 // src/utils/embedHelper.ts
-import { EmbedBuilder, GuildTextBasedChannel, Message } from 'discord.js';
+import { ActionRowBuilder, EmbedBuilder, GuildTextBasedChannel, Message } from 'discord.js';
 import { getEmbedFooter } from './embedSettingsLoader';
 
 export const messageType = {
@@ -31,20 +31,35 @@ export async function createEmbed(type: MessageType, description: string, color?
         .setTimestamp();
 }
 
-export async function replyWithEmbed(message: Message, type: MessageType, description: string, color?: number, title?: string) {
+export async function replyWithEmbed(message: Message, type: MessageType, description: string, color?: number, title?: string, actionRow?: ActionRowBuilder<any> | ActionRowBuilder<any>[]) {
     const embed = await createEmbed(type, description, color, title);
-    return message.reply({ embeds: [embed] });
+    const components = actionRow
+        ? Array.isArray(actionRow)
+            ? actionRow
+            : [actionRow]
+        : [];
+    return message.reply({ embeds: [embed], components });
 }
 
-export async function replyEmbedWFooter(message: Message, embed: EmbedBuilder) {
+export async function replyEmbedWFooter(message: Message, embed: EmbedBuilder, actionRow?: ActionRowBuilder<any> | ActionRowBuilder<any>[]) {
     const footer = await getEmbedFooter();
     embed
         .setFooter(footer)
         .setTimestamp();
-    return (message.channel as GuildTextBasedChannel).send({ embeds: [embed] });
+    const components = actionRow
+        ? Array.isArray(actionRow)
+            ? actionRow
+            : [actionRow]
+        : [];
+    return message.reply({ embeds: [embed], components });
 }
 
-export async function sendWithEmbed(channel: GuildTextBasedChannel, type: MessageType, description: string, color?: number, title?: string) {
+export async function sendWithEmbed(channel: GuildTextBasedChannel, type: MessageType, description: string, color?: number, title?: string, actionRow?: ActionRowBuilder<any> | ActionRowBuilder<any>[]) {
     const embed = await createEmbed(type, description, color, title);
-    return channel.send({ embeds: [embed] });
+    const components = actionRow
+        ? Array.isArray(actionRow)
+            ? actionRow
+            : [actionRow]
+        : [];
+    return channel.send({ embeds: [embed], components });
 }
