@@ -13,6 +13,7 @@ import SpotifyPlugin from '@distube/spotify';
 import { BandlabPlugin } from '@distube/bandlab';
 import DeezerPlugin from '@distube/deezer';
 import SoundCloudPlugin from '@distube/soundcloud';
+import path from 'path';
 
 export function createBot({ name, token, prefix, mainPrefix }: BotConfig & { mainPrefix: string }, activeBots: BotInstance[]) {
     const client = new Client({
@@ -28,6 +29,9 @@ export function createBot({ name, token, prefix, mainPrefix }: BotConfig & { mai
     const recentTracks = new Map<string, string[]>();
 
     const distube = new DisTube(client, {
+        ffmpeg: {
+            path: path.resolve(__dirname, '../../ffmpeg/bin/ffmpeg'),
+        },
         plugins: [new SpotifyPlugin({
             api: {
                 clientId: "217d1a118e1946d5b52fc16448158850",
@@ -37,6 +41,7 @@ export function createBot({ name, token, prefix, mainPrefix }: BotConfig & { mai
         }), new BandlabPlugin(), new DeezerPlugin(), new SoundCloudPlugin(), new YtDlpPlugin()],
         emitNewSongOnly: true,
         joinNewVoiceChannel: false,
+        savePreviousSongs: false,
     });
     console.log(`[${name}-${prefix}] Đang khởi động bot...`);
 
