@@ -45,7 +45,7 @@ const play: Command = {
 
       if (songOrPlaylist instanceof Playlist) {
         if (!queue || queue.songs.length === 0) {
-          await replyWithEmbed(message, 'success', `▶️ Đang phát playlist [**${songOrPlaylist.name}**](${songOrPlaylist.url})</a> gồm ${songOrPlaylist.songs.length} bài hát.\nThời lượng phát: **${songOrPlaylist.formattedDuration}**.`);
+          await replyWithEmbed(message, 'success', `▶️ Đang phát playlist [**${songOrPlaylist.name}**](${songOrPlaylist.url}) gồm ${songOrPlaylist.songs.length} bài hát.\nThời lượng phát: **${songOrPlaylist.formattedDuration}**.`);
         } else {
           await replyWithEmbed(message, 'success', `▶️ Đã thêm playlist [**${songOrPlaylist.name}**](${songOrPlaylist.url}) gồm ${songOrPlaylist.songs.length} bài hát vào danh sách phát.\nThời lượng phát: **${songOrPlaylist.formattedDuration}**.`);
         }
