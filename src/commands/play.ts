@@ -45,14 +45,11 @@ const play: Command = {
 
     try {
       const plugin = await getPluginForUrl(distube, query);
-      console.debug(plugin);
       const songOrPlaylist = await plugin.resolve(query, {});
 
       let queue = distube.getQueue(message);
 
       distube.play(vc, songOrPlaylist, { member: message.member!, textChannel: message.channel as GuildTextBasedChannel });
-
-      if (!queue) queue = await distube.queues.create(vc);
 
       const embed = new EmbedBuilder()
         .setColor(0x1DB954)
@@ -73,12 +70,12 @@ const play: Command = {
           },
           {
             name: '⏳ Thời gian ước tính cho đến khi phát',
-            value: getEstimatedWaitTime(queue),
+            value: getEstimatedWaitTime(),
             inline: false,
           },
           {
             name: '📍 Số bài hát còn lại tới khi phát',
-            value: getUpcomingPosition(queue),
+            value: getUpcomingPosition(),
             inline: true,
           },
           {
@@ -112,7 +109,7 @@ const play: Command = {
       );
 
       if (songOrPlaylist instanceof Playlist) {
-        if (queue.songs.length === 0) {
+        if (!queue || queue.songs.length === 0) {
           embed.setTitle('🎶 Đang phát playlist');
           embed.setThumbnail(songOrPlaylist.songs[0]?.thumbnail || '');
         } else {

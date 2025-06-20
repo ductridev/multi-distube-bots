@@ -51,8 +51,6 @@ const playleave: Command = {
 
       distube.play(vc, songOrPlaylist, { member: message.member!, textChannel: message.channel as GuildTextBasedChannel });
 
-      if (!queue) queue = await distube.queues.create(vc);
-
       const controlRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
         new ButtonBuilder()
           .setCustomId('pause')
@@ -111,7 +109,7 @@ const playleave: Command = {
         );
 
       if (songOrPlaylist instanceof Playlist) {
-        if (queue.songs.length === 0) {
+        if (!queue || queue.songs.length === 0) {
           embed.setTitle('🎶 Đang phát playlist');
           embed.setThumbnail(songOrPlaylist.songs[0]?.thumbnail || '');
         } else {
