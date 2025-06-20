@@ -125,18 +125,29 @@ export const search: Command = {
                     await interaction.deferUpdate();
                     const selectedUrl = interaction.values[0];
 
-                    await distube.play(vc, selectedUrl, {
+                    try {
+                        await interaction.editReply({
+                            content: `✅ Đang phát bài hát bạn đã chọn.`,
+                            embeds: [],
+                            components: [],
+                        });
+
+                        collector.stop();
+                    } catch (err) {
+                        console.error('❌ Interaction update failed:', err);
+                        if (!interaction.replied && !interaction.deferred) {
+                            await replyWithEmbed(message, 'error',
+                                '⛔ Quá hạn phản hồi hoặc lỗi xảy ra khi phát bài hát.',
+                            );
+                        }
+
+                        return;
+                    }
+
+                    distube.play(vc, selectedUrl, {
                         textChannel: message.channel as GuildTextBasedChannel,
                         member: message.member!,
                     });
-
-                    await interaction.editReply({
-                        content: `✅ Đang phát bài hát bạn đã chọn.`,
-                        embeds: [],
-                        components: [],
-                    });
-
-                    collector.stop();
                 }
 
                 if (interaction.isButton()) {

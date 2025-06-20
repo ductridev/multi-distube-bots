@@ -134,18 +134,29 @@ const playselect: Command = {
             return;
           }
 
-          await distube.play(vc, selectedSong.url, {
+          try {
+            await interaction.update({
+              content: `✅ Đang phát: **${selectedSong.name}**`,
+              components: [],
+              embeds: [],
+            });
+
+            collector.stop();
+          } catch (err) {
+            console.error('❌ Interaction update failed:', err);
+            if (!interaction.replied && !interaction.deferred) {
+              await replyWithEmbed(message, 'error',
+                '⛔ Quá hạn phản hồi hoặc lỗi xảy ra khi phát bài hát.',
+              );
+            }
+
+            return;
+          }
+
+          distube.play(vc, selectedSong.url, {
             member: message.member!,
             textChannel: message.channel as GuildTextBasedChannel,
           });
-
-          await interaction.update({
-            content: `✅ Đang phát: **${selectedSong.name}**`,
-            components: [],
-            embeds: [],
-          });
-
-          collector.stop();
         }
 
         if (interaction.isButton()) {
