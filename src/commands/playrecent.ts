@@ -8,7 +8,14 @@
 */
 
 import { Command } from '../@types/command';
-import { GuildTextBasedChannel, Message } from 'discord.js';
+import {
+  EmbedBuilder,
+  GuildTextBasedChannel,
+  Message,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} from 'discord.js';
 import { RecentTrackModel } from '../models/RecentTrack';
 import { replyWithEmbed } from '../utils/embedHelper';
 import { setInitiator } from '../utils/sessionStore';
