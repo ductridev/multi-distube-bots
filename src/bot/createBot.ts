@@ -13,6 +13,7 @@ import SpotifyPlugin from '@distube/spotify';
 import { BandlabPlugin } from '@distube/bandlab';
 import DeezerPlugin from '@distube/deezer';
 import SoundCloudPlugin from '@distube/soundcloud';
+import { YouTubePlugin } from "@distube/youtube";
 import path from 'path';
 import { BotConfigModel } from '../models/BotConfig';
 
@@ -35,11 +36,14 @@ export function createBot({ name, token, prefix, mainPrefix }: BotConfig & { mai
         },
         plugins: [new SpotifyPlugin({
             api: {
-                clientId: "217d1a118e1946d5b52fc16448158850",
-                clientSecret: "db43cbfb2aa04029a922ca3098126e3f",
+                clientId: process.env.SPOTIFY_CLIENT_ID,
+                clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
                 topTracksCountry: "VN",
             },
-        }), new BandlabPlugin(), new DeezerPlugin(), new SoundCloudPlugin(), new YtDlpPlugin()],
+        }), new YouTubePlugin(), new YtDlpPlugin({ update: true }), new BandlabPlugin(), new DeezerPlugin(), new SoundCloudPlugin({
+            clientId: process.env.SOUNDCLOUD_CLIENT_ID,
+            oauthToken: process.env.SOUNDCLOUD_CLIENT_ACCESS_TOKEN,
+        })],
         emitNewSongOnly: true,
         joinNewVoiceChannel: false,
         savePreviousSongs: false,
@@ -82,7 +86,7 @@ export function createBot({ name, token, prefix, mainPrefix }: BotConfig & { mai
                 if (currentAvatarURL.includes(botConfig.avatarURL) || currentAvatarURL === botConfig.avatarURL) return;
 
                 await client.user.setAvatar(botConfig.avatarURL);
-                console.log(`✅ Updated bot avatar`);
+                console.log(`✅ Updated bot avatar`, client.user.id);
             } catch (err) {
                 console.warn(`⚠️ Could not update avatar:`, err);
             }
