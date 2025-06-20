@@ -38,7 +38,7 @@ export function formatExtendedDuration(totalSeconds: number): string {
     return parts.join(' ');
 }
 
-export function getEstimatedWaitTime(queue: Queue) {
+export function getEstimatedWaitTime(queue?: Queue) {
     if (!queue) return '00:00';
     let time = 0;
     for (let i = 0; i < queue.songs.length; i++) {
@@ -52,12 +52,12 @@ export function getEstimatedWaitTime(queue: Queue) {
     return formatExtendedDuration(time);
 }
 
-export function getQueuePosition(queue: Queue) {
+export function getQueuePosition(queue?: Queue) {
     if (!queue) return '1';
     return `${queue.songs.length + 1}`;
 }
 
-export function getUpcomingPosition(queue: Queue) {
+export function getUpcomingPosition(queue?: Queue) {
     if (!queue || queue.songs.length === 0) return 'Ngay bây giờ';
     if (queue.songs.length === 1) return 'Tiếp theo';
     return `#${queue.songs.length + 1}`;
