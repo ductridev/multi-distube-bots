@@ -63,6 +63,12 @@ const writeToFile = async (level: string, line: string) => {
     }
 };
 
+const safeStringify = (obj: any): string => {
+    return JSON.stringify(obj, (_, value) =>
+        typeof value === 'bigint' ? value.toString() + 'n' : value
+    );
+};
+
 const overrideConsoleMethod = (
     methodName: keyof Console,
     originalMethod: (...args: any[]) => void
@@ -74,7 +80,7 @@ const overrideConsoleMethod = (
         const message = args
             .map(arg =>
                 arg instanceof Error ? arg.toString()
-                    : typeof arg === 'object' ? JSON.stringify(arg)
+                    : typeof arg === 'object' ? safeStringify(arg)
                         : String(arg)
             )
             .join(' ')
