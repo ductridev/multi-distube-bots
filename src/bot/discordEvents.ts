@@ -46,6 +46,22 @@ export function registerDiscordEvents(
 
         const userVCId = message.member?.voice.channelId;
 
+        const botInSameVC = activeBots.find(b => b.currentVoiceChannelId === userVCId);
+
+        // Prioritize bot already in same VC
+        if (botInSameVC) {
+            if (botInSameVC.client.user?.id !== client.user?.id) return; // Only that bot responds
+            try {
+                await command.execute(message, args, distube);
+            } catch (err) {
+                console.error(`[${name}] Error in command '${cmdName}':`, err);
+                replyWithEmbed(message, 'error', 'Có gì đó đã xảy ra khi thực hiện lệnh.');
+            }
+            return;
+        }
+
+        // No bot in same VC → continue with prefix matching logic
+
         // Find bot that matches the prefix
         const matchingBot = activeBots.find(b => b.client.prefix === usedPrefix);
 
