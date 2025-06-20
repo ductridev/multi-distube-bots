@@ -70,12 +70,12 @@ const play: Command = {
           },
           {
             name: '⏳ Thời gian ước tính cho đến khi phát',
-            value: getEstimatedWaitTime(),
+            value: getEstimatedWaitTime(queue),
             inline: false,
           },
           {
             name: '📍 Số bài hát còn lại tới khi phát',
-            value: getUpcomingPosition(),
+            value: getUpcomingPosition(queue),
             inline: true,
           },
           {
