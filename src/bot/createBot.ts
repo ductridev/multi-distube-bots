@@ -14,6 +14,7 @@ import { BandlabPlugin } from '@distube/bandlab';
 import DeezerPlugin from '@distube/deezer';
 import SoundCloudPlugin from '@distube/soundcloud';
 import path from 'path';
+import { BotConfigModel } from '../models/BotConfig';
 
 export function createBot({ name, token, prefix, mainPrefix }: BotConfig & { mainPrefix: string }, activeBots: BotInstance[]) {
     const client = new Client({
@@ -59,8 +60,33 @@ export function createBot({ name, token, prefix, mainPrefix }: BotConfig & { mai
     registerDisTubeEvents(distube, client, name, noSongTimeouts, noListenerTimeouts);
     registerDiscordEvents(client, distube, prefix, mainPrefix, name, noListenerTimeouts, activeBots);
 
-    client.once('ready', () => {
+    client.once('ready', async () => {
         console.log(`[${name}] Đã đăng nhập với ${client.user?.tag}`);
+
+        const botConfig = await BotConfigModel.findOne({ name });
+
+        if (!botConfig) return;
+
+        if (botConfig.displayName && client.user?.username !== botConfig.displayName) {
+            try {
+                await client.user.setUsername(botConfig.displayName);
+                console.log(`✅ Updated bot name to ${botConfig.displayName}`);
+            } catch (err) {
+                console.warn(`⚠️ Could not update username:`, err);
+            }
+        }
+
+        if (botConfig.avatarURL) {
+            try {
+                const currentAvatarURL = client.user.displayAvatarURL({ extension: 'png', forceStatic: true });
+                if (currentAvatarURL.includes(botConfig.avatarURL) || currentAvatarURL === botConfig.avatarURL) return;
+
+                await client.user.setAvatar(botConfig.avatarURL);
+                console.log(`✅ Updated bot avatar`);
+            } catch (err) {
+                console.warn(`⚠️ Could not update avatar:`, err);
+            }
+        }
     });
 
     client.login(token);

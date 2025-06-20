@@ -6,6 +6,9 @@ export interface IBotConfig {
     token: string;
     prefix: string;
     enabled: boolean;
+    displayName?: string;
+    avatarURL?: string;
+    ownerId: string;
 }
 
 const BotConfigSchema = new Schema<IBotConfig>(
@@ -14,6 +17,9 @@ const BotConfigSchema = new Schema<IBotConfig>(
         token: { type: String, required: true },
         prefix: { type: String, required: true },
         enabled: { type: Boolean, default: true },
+        displayName: { type: String },
+        avatarURL: { type: String },
+        ownerId: { type: String, required: true },
     },
     { collection: 'botconfigs' }
 );
