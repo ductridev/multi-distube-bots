@@ -44,12 +44,33 @@ export function registerDiscordEvents(
         const command = client.commands.get(cmdName);
         if (!command) return;
 
-        // Select best bot for this command
         const userVCId = message.member?.voice.channelId;
+
+        // Find bot that matches the prefix
+        const matchingBot = activeBots.find(b => b.client.prefix === usedPrefix);
+
+        // Select best bot (in case matchingBot is not free)
         const [selectedBot, isFree] = selectBotForCommand(command, activeBots, userVCId);
 
-        // Skip if this bot is not the selected one
-        if (selectedBot.client.user?.id !== client.user?.id) return;
+        const isThisBot = client.user?.id === selectedBot.client.user?.id;
+        const isMatchingBot = client.user?.id === matchingBot?.client.user?.id;
+
+        // Not the selected bot and not the matching bot — ignore
+        if (!isThisBot && !isMatchingBot) return;
+
+        // If this bot matches prefix and is free, proceed
+        if (isMatchingBot && isFree) {
+            try {
+                await command.execute(message, args, distube);
+            } catch (err) {
+                console.error(`[${name}] Error in command '${cmdName}':`, err);
+                replyWithEmbed(message, 'error', 'Có gì đó đã xảy ra khi thực hiện lệnh.');
+            }
+            return;
+        }
+
+        // If matching bot is not free → allow selected fallback bot to reply
+        if (!isThisBot) return;
 
         if (!isFree) {
             await replyWithEmbed(message, 'error', 'Tất cả các bot đều đang được sử dụng, bạn có thể thử lại sau.');
