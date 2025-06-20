@@ -12,7 +12,6 @@ import { Command } from "../@types/command";
 import DisTube from "distube";
 import { replyWithEmbed } from "../utils/embedHelper";
 import { startVotingUI } from "../utils/startVotingUI";
-import { getVoiceConnection } from "@discordjs/voice";
 
 const skip: Command = {
     name: 'stop',
