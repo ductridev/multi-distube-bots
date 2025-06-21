@@ -1,7 +1,8 @@
 {
   "scripts": {
     "start": "ts-node --project tsconfig.json index.ts",
-    "build": "tsc --project tsconfig.json"
+    "build": "tsc --project tsconfig.json",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@discordjs/opus": "^0.10.0",
@@ -15,11 +16,12 @@
     "@distube/spotify": "^2.0.2",
     "@distube/youtube": "^1.0.4",
     "@distube/yt-dlp": "^2.0.1",
-    "@distube/ytdl-core": "^4.16.12",
+    "@distube/ytdl-core": "latest",
     "discord.js": "^14.20.0",
     "distube": "^5.0.7",
     "dotenv": "^16.5.0",
     "mongoose": "^8.16.0",
+    "patch-package": "^8.0.0",
     "yt-search": "^2.13.1"
   },
   "devDependencies": {
