@@ -7,7 +7,7 @@
     Aliases: pse, pselect
 */
 import { Playlist, Song } from 'distube';
-import { Command } from '../@types/command';
+import { Command } from '../../@types/command';
 import {
   ActionRowBuilder,
   StringSelectMenuBuilder,
@@ -17,9 +17,9 @@ import {
   GuildTextBasedChannel,
   EmbedBuilder,
 } from 'discord.js';
-import { replyEmbedWFooter, replyWithEmbed } from '../utils/embedHelper';
-import { setInitiator } from '../utils/sessionStore';
-import { getPluginForUrl } from '../utils/getPluginNameForUrl';
+import { replyEmbedWFooter, replyWithEmbed } from '../../utils/embedHelper';
+import { setInitiator } from '../../utils/sessionStore';
+import { getPluginForUrl } from '../../utils/getPluginNameForUrl';
 
 const PAGE_SIZE = 20;
 
@@ -62,8 +62,8 @@ const playselect: Command = {
       const totalPages = Math.ceil(playlist.songs.length / PAGE_SIZE);
       let currentPage = 0;
 
-      const renderPage = (page: number) => {
-        const start = page * PAGE_SIZE;
+      const renderPage = () => {
+        const start = currentPage * PAGE_SIZE;
         const songs = playlist.songs.slice(start, start + PAGE_SIZE);
 
         const options = songs.map((song, i) => {
@@ -87,12 +87,12 @@ const playselect: Command = {
             .setCustomId('prev_page')
             .setLabel('⬅️')
             .setStyle(ButtonStyle.Secondary)
-            .setDisabled(page === 0),
+            .setDisabled(currentPage === 0),
           new ButtonBuilder()
             .setCustomId('next_page')
             .setLabel('➡️')
             .setStyle(ButtonStyle.Secondary)
-            .setDisabled(page === totalPages - 1),
+            .setDisabled(currentPage === totalPages - 1),
         );
 
         const list = songs
@@ -103,7 +103,7 @@ const playselect: Command = {
           .setColor('#1DB954')
           .setTitle(`📚 Playlist: ${playlist.name || 'Không tên'}`)
           .setDescription(list || '*Không có bài hát.*')
-          .setFooter({ text: `Trang ${page + 1} / ${totalPages}` })
+          .setFooter({ text: `Trang ${currentPage + 1} / ${totalPages}` })
           .setTimestamp();
 
         const thumbnail = songs[0]?.thumbnail || playlist.songs[0]?.thumbnail;
@@ -112,7 +112,7 @@ const playselect: Command = {
         return { embed, components: [row, buttons] };
       };
 
-      let { embed, components } = renderPage(currentPage);
+      let { embed, components } = renderPage();
       const reply = await replyEmbedWFooter(message, embed, components);
 
       const collector = reply.createMessageComponentCollector({
@@ -166,7 +166,7 @@ const playselect: Command = {
             currentPage++;
           }
 
-          const updateData = renderPage(currentPage);
+          const updateData = renderPage();
           await interaction.update(updateData);
         }
       });

@@ -8,10 +8,10 @@
 */
 
 import { Message } from 'discord.js';
-import { Command } from '../@types/command';
-import { BotAdminModel } from '../models/BotAdmin';
+import { Command } from '../../@types/command';
+import { BotAdminModel } from '../../models/BotAdmin';
 import DisTube from 'distube';
-import { replyWithEmbed } from '../utils/embedHelper';
+import { replyWithEmbed } from '../../utils/embedHelper';
 
 const removeadmin: Command = {
     name: 'removeadmin',

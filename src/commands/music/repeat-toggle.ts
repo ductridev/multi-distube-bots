@@ -9,8 +9,8 @@
 
 import { Message } from "discord.js";
 import DisTube, { RepeatMode } from "distube";
-import { replyWithEmbed } from "../utils/embedHelper";
-import { Command } from "../@types/command";
+import { replyWithEmbed } from "../../utils/embedHelper";
+import { Command } from "../../@types/command";
 
 const repeatToggle: Command = {
     name: 'repeat-toggle',

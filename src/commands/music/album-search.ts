@@ -7,12 +7,12 @@
     Aliases: ab
 */
 
-import { Command } from '../@types/command';
+import { Command } from '../../@types/command';
 import { GuildTextBasedChannel, Message } from 'discord.js';
 import ytSearch from 'yt-search';
 import { DisTube } from 'distube';
-import { replyWithEmbed } from '../utils/embedHelper';
-import { setInitiator } from '../utils/sessionStore';
+import { replyWithEmbed } from '../../utils/embedHelper';
+import { setInitiator } from '../../utils/sessionStore';
 
 const albumSearch: Command = {
   name: 'album-search',

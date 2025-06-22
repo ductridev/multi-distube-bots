@@ -8,9 +8,9 @@
 */
 
 import { Message } from "discord.js";
-import { Command } from "../@types/command";
+import { Command } from "../../@types/command";
 import DisTube from "distube";
-import { replyWithEmbed } from "../utils/embedHelper";
+import { replyWithEmbed } from "../../utils/embedHelper";
 
 const playing: Command = {
     name: 'playing',

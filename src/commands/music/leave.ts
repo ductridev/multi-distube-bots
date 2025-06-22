@@ -7,11 +7,11 @@
     Aliases: l
 */
 
-import { getVoiceConnection } from '@discordjs/voice';
-import { Command } from '../@types/command';
+import { Command } from '../../@types/command';
 import { Message } from 'discord.js';
-import { replyWithEmbed } from '../utils/embedHelper';
+import { replyWithEmbed } from '../../utils/embedHelper';
 import { DisTube } from 'distube';
+import { QueueSessionModel } from '../../models/QueueSession';
 
 const leave: Command = {
     name: 'leave',
@@ -35,6 +35,7 @@ const leave: Command = {
         }
 
         try {
+            QueueSessionModel.deleteOne({ userId: message.author.id });
             distube.voices.leave(guildId);
             await replyWithEmbed(message, 'info', '👋 Đã rời khỏi kênh thoại. Hẹn gặp lại ✌💋');
         } catch (err) {

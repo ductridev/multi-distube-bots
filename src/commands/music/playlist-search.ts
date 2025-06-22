@@ -8,11 +8,11 @@
 */
 
 import { Playlist } from 'distube';
-import { Command } from '../@types/command';
+import { Command } from '../../@types/command';
 import { GuildTextBasedChannel, Message } from 'discord.js';
-import { replyWithEmbed } from '../utils/embedHelper';
-import { setInitiator } from '../utils/sessionStore';
-import { getPluginForUrl } from '../utils/getPluginNameForUrl';
+import { replyWithEmbed } from '../../utils/embedHelper';
+import { setInitiator } from '../../utils/sessionStore';
+import { getPluginForUrl } from '../../utils/getPluginNameForUrl';
 
 const playlistSearch: Command = {
     name: 'playlist-search',

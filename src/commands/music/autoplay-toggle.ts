@@ -7,9 +7,9 @@
     Aliases: auto, au-toggle
 */
 
-import { Command } from '../@types/command';
+import { Command } from '../../@types/command';
 import { Message } from 'discord.js';
-import { replyWithEmbed } from '../utils/embedHelper';
+import { replyWithEmbed } from '../../utils/embedHelper';
 
 const autoplayToggle: Command = {
     name: 'autoplay-toggle',

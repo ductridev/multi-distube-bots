@@ -7,17 +7,17 @@
     Aliases: rs, rsession, resumesession
 */
 
-import { Command } from '../@types/command';
+import { Command } from '../../@types/command';
 import { GuildTextBasedChannel, Message } from 'discord.js';
-import { QueueSessionModel } from '../models/QueueSession';
-import { replyWithEmbed } from '../utils/embedHelper';
+import { QueueSessionModel } from '../../models/QueueSession';
+import { replyWithEmbed } from '../../utils/embedHelper';
 
 const resume: Command = {
     name: 'resume-session',
     description: 'Khôi phục lần nghe gần nhất từ cơ sở dữ liệu.',
     usage: 'b!resume-session',
     category: 'music',
-    aliases: ['rs', 'rsession', 'resumesession'],
+    aliases: ['rss', 'rsession', 'resumesession'],
     async execute(message: Message, _args: string[], distube) {
         const vc = message.member?.voice.channel;
         if (!vc) {

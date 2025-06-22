@@ -7,11 +7,11 @@
     Aliases: j
 */
 
-import { Command } from '../@types/command';
+import { Command } from '../../@types/command';
 import { Message } from 'discord.js';
 import { DisTube } from 'distube';
-import { replyWithEmbed } from '../utils/embedHelper';
-import { setInitiator } from '../utils/sessionStore';
+import { replyWithEmbed } from '../../utils/embedHelper';
+import { setInitiator } from '../../utils/sessionStore';
 
 const join: Command = {
     name: 'join',

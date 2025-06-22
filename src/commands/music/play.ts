@@ -1,13 +1,14 @@
-// src/commands/insert.js
+// src/commands/play.js
 /* 
-  Command: insert
-  Description: Inserts a song into the queue at a specific position.
-  Usage: b!insert <position> <song name or URL>
+  Command: play
+  Description: Plays a song or adds it to the queue.
+  Usage: b!play <song name or URL>
   Category: music
-  Aliases: i, ins
+  Aliases: p
 */
 
-import { Command } from '../@types/command';
+import { Playlist, Song } from 'distube';
+import { Command } from '../../@types/command';
 import {
   EmbedBuilder,
   GuildTextBasedChannel,
@@ -16,28 +17,30 @@ import {
   ButtonBuilder,
   ButtonStyle,
 } from 'discord.js';
-import { replyEmbedWFooter, replyWithEmbed } from '../utils/embedHelper';
-import { Playlist } from 'distube';
-import { setInitiator } from '../utils/sessionStore';
-import { getPluginForUrl } from '../utils/getPluginNameForUrl';
-import { getEstimatedWaitTime, getQueuePosition, getUpcomingPosition } from '../utils/queueEstimate';
+import { replyEmbedWFooter, replyWithEmbed } from '../../utils/embedHelper';
+import { setInitiator } from '../../utils/sessionStore';
+import { getPluginForUrl } from '../../utils/getPluginNameForUrl';
+import { getEstimatedWaitTime, getQueuePosition, getUpcomingPosition } from '../../utils/queueEstimate';
+import { QueueSessionModel } from '../../models/QueueSession';
+import { RecentTrackModel } from '../../models/RecentTrack';
+import { saveLimitedArray } from '../../utils/mongoArrayLimiter';
 
-const insert: Command = {
-  name: 'insert',
-  description: 'Thêm bài hát vào hàng đợi tại một vị trí cụ thể.',
-  usage: 'b!insert <position> <song name or URL>',
+const play: Command = {
+  name: 'play',
+  description: 'Phát bài hát hoặc thêm bài hát vào hàng đợi.',
+  usage: 'b!play <song name or URL>',
   category: 'music',
-  aliases: ['i', 'ins'],
+  aliases: ['p'],
   async execute(message: Message, args: string[], distube) {
     const query = args.join(' ');
     if (!query) {
-      await replyWithEmbed(message, 'error', 'Vui lòng nhập tên bài hát hoặc URL.');
+      await replyWithEmbed(message, 'error', 'Vui lòng nhập tên bài hát hoặc đường dẫn URL.');
       return;
     }
 
     const vc = message.member?.voice.channel;
     if (!vc) {
-      await replyWithEmbed(message, 'error', 'Bạn cần tham gia một kênh thoại.');
+      await replyWithEmbed(message, 'error', 'Bạn cần tham gia một kênh thoại trước.');
       return;
     }
 
@@ -47,11 +50,28 @@ const insert: Command = {
       const plugin = await getPluginForUrl(distube, query);
       const songOrPlaylist = await plugin.resolve(query, {});
 
+      if (songOrPlaylist instanceof Playlist && songOrPlaylist.songs.length === 0) {
+        await replyWithEmbed(message, 'error', 'Không thể phát playlist này.');
+        return;
+      } else if (songOrPlaylist instanceof Song && songOrPlaylist.duration === 0) {
+        await replyWithEmbed(message, 'error', 'Không thể phát bài hát này.');
+        return;
+      }
+
+      if (!songOrPlaylist.url) {
+        await replyWithEmbed(message, 'error', 'Không thể phát bài hát hoặc playlist này.');
+        return;
+      }
+
+      // Save session
+      saveLimitedArray(QueueSessionModel, message.author.id, 'urls', songOrPlaylist.url);
+
+      // Save recent track
+      saveLimitedArray(RecentTrackModel, message.author.id, 'tracks', songOrPlaylist.url);
+
       let queue = distube.getQueue(message);
 
       distube.play(vc, songOrPlaylist, { member: message.member!, textChannel: message.channel as GuildTextBasedChannel });
-
-      if (!queue) queue = await distube.queues.create(vc);
 
       const embed = new EmbedBuilder()
         .setColor(0x1DB954)
@@ -111,7 +131,7 @@ const insert: Command = {
       );
 
       if (songOrPlaylist instanceof Playlist) {
-        if (queue.songs.length === 0) {
+        if (!queue || queue.songs.length === 0) {
           embed.setTitle('🎶 Đang phát playlist');
           embed.setThumbnail(songOrPlaylist.songs[0]?.thumbnail || '');
         } else {
@@ -179,12 +199,13 @@ const insert: Command = {
             break;
         }
       });
-    } catch (err: any) {
-      console.error('Lỗi khi chèn bài hát:', err);
+
+    } catch (err) {
+      console.error('Lỗi khi phát nhạc:', err);
       if (err instanceof Error && err.message.includes('Unsupported URL')) await replyWithEmbed(message, 'error', 'URL không hợp lệ hoặc không được hỗ trợ.');
-      else await replyWithEmbed(message, 'error', 'Không thể thêm bài hát vào hàng đợi.');
+      else await replyWithEmbed(message, 'error', 'Không thể phát bài hát.');
     }
   },
 };
 
-export = insert;
+export = play;

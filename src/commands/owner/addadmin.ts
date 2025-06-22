@@ -8,11 +8,11 @@
 */
 
 import { Message, User } from 'discord.js';
-import { Command } from '../@types/command';
-import { BotAdminModel } from '../models/BotAdmin';
-import { isBotAdmin } from '../utils/isBotAdmin';
+import { Command } from '../../@types/command';
+import { BotAdminModel } from '../../models/BotAdmin';
 import DisTube from 'distube';
-import { replyWithEmbed } from '../utils/embedHelper';
+import { replyWithEmbed } from '../../utils/embedHelper';
+import { isBotAdmin } from '../../utils/permissions';
 
 const addadmin: Command = {
     name: 'addadmin',

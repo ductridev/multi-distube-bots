@@ -7,7 +7,7 @@
     Aliases: s
 */
 
-import { Command } from '../@types/command';
+import { Command } from '../../@types/command';
 import {
     ActionRowBuilder,
     StringSelectMenuBuilder,
@@ -19,8 +19,8 @@ import {
 } from 'discord.js';
 import ytSearch from 'yt-search';
 import { DisTube } from 'distube';
-import { replyWithEmbed } from '../utils/embedHelper';
-import { setInitiator } from '../utils/sessionStore';
+import { replyWithEmbed } from '../../utils/embedHelper';
+import { setInitiator } from '../../utils/sessionStore';
 
 const PAGE_SIZE = 20;
 
@@ -58,8 +58,8 @@ export const search: Command = {
             const totalPages = Math.ceil(videos.length / PAGE_SIZE);
             let currentPage = 0;
 
-            const renderPage = (page: number) => {
-                const start = page * PAGE_SIZE;
+            const renderPage = () => {
+                const start = currentPage * PAGE_SIZE;
                 const pageVideos = videos.slice(start, start + PAGE_SIZE);
 
                 const embed = new EmbedBuilder()
@@ -71,7 +71,7 @@ export const search: Command = {
                             .join('\n')
                     )
                     .setFooter({
-                        text: `Trang ${page + 1}/${totalPages} • Hiển thị ${start + 1} - ${start + pageVideos.length} trong tổng ${videos.length}`,
+                        text: `Trang ${currentPage + 1}/${totalPages} • Hiển thị ${start + 1} - ${start + pageVideos.length} trong tổng ${videos.length}`,
                     })
                     .setTimestamp();
 
@@ -94,18 +94,18 @@ export const search: Command = {
                         .setCustomId('prev_page')
                         .setLabel('⬅️')
                         .setStyle(ButtonStyle.Secondary)
-                        .setDisabled(page === 0),
+                        .setDisabled(currentPage === 0),
                     new ButtonBuilder()
                         .setCustomId('next_page')
                         .setLabel('➡️')
                         .setStyle(ButtonStyle.Secondary)
-                        .setDisabled(page === totalPages - 1)
+                        .setDisabled(currentPage === totalPages - 1)
                 );
 
                 return { embeds: [embed], components: [row, nav] };
             };
 
-            let messageData = renderPage(currentPage);
+            let messageData = renderPage();
             const reply = await message.reply(messageData);
 
             const collector = reply.createMessageComponentCollector({
@@ -157,7 +157,7 @@ export const search: Command = {
                         currentPage++;
                     }
 
-                    const updated = renderPage(currentPage);
+                    const updated = renderPage();
                     await interaction.update(updated);
                 }
             });

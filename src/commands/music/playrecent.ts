@@ -7,7 +7,7 @@
     Aliases: pr, precent
 */
 
-import { Command } from '../@types/command';
+import { Command } from '../../@types/command';
 import {
   EmbedBuilder,
   GuildTextBasedChannel,
@@ -16,9 +16,9 @@ import {
   ButtonBuilder,
   ButtonStyle,
 } from 'discord.js';
-import { RecentTrackModel } from '../models/RecentTrack';
-import { replyWithEmbed } from '../utils/embedHelper';
-import { setInitiator } from '../utils/sessionStore';
+import { RecentTrackModel } from '../../models/RecentTrack';
+import { replyWithEmbed } from '../../utils/embedHelper';
+import { setInitiator } from '../../utils/sessionStore';
 
 const playrecent: Command = {
     name: 'playrecent',

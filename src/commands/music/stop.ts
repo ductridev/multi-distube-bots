@@ -8,10 +8,11 @@
 */
 
 import { Message } from "discord.js";
-import { Command } from "../@types/command";
+import { Command } from "../../@types/command";
 import DisTube from "distube";
-import { replyWithEmbed } from "../utils/embedHelper";
-import { startVotingUI } from "../utils/startVotingUI";
+import { replyWithEmbed } from "../../utils/embedHelper";
+import { startVotingUI } from "../../utils/startVotingUI";
+import { QueueSessionModel } from "../../models/QueueSession";
 
 const skip: Command = {
     name: 'stop',
@@ -38,6 +39,7 @@ const skip: Command = {
             const queue = distube.getQueue(guildId);
             if (queue && queue.songs.length > 0) {
                 queue.stop();
+                QueueSessionModel.deleteOne({ userId: message.author.id });
                 distube.voices.leave(guildId);
                 await replyWithEmbed(message, 'success', '👋 Đã dừng phát và rời khỏi kênh thoại. Hẹn gặp lại ✌💋');
             }

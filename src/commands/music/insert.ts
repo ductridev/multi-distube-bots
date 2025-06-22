@@ -1,13 +1,13 @@
-// src/commands/playleave.js
+// src/commands/insert.js
 /* 
-  Command: playleave
-  Description: Plays a song or playlist and leaves the voice channel after the song finishes.
-  Usage: b!playleave <song name or URL>
+  Command: insert
+  Description: Inserts a song into the queue at a specific position.
+  Usage: b!insert <position> <song name or URL>
   Category: music
-  Aliases: pl, pleave
+  Aliases: i, ins
 */
 
-import { Command } from '../@types/command';
+import { Command } from '../../@types/command';
 import {
   EmbedBuilder,
   GuildTextBasedChannel,
@@ -16,28 +16,31 @@ import {
   ButtonBuilder,
   ButtonStyle,
 } from 'discord.js';
-import { replyEmbedWFooter, replyWithEmbed, sendWithEmbed } from '../utils/embedHelper';
-import { setInitiator } from '../utils/sessionStore';
-import { Events, Playlist, Song } from 'distube';
-import { getPluginForUrl } from '../utils/getPluginNameForUrl';
-import { getEstimatedWaitTime, getQueuePosition, getUpcomingPosition } from '../utils/queueEstimate';
+import { replyEmbedWFooter, replyWithEmbed } from '../../utils/embedHelper';
+import { Playlist, Song } from 'distube';
+import { setInitiator } from '../../utils/sessionStore';
+import { getPluginForUrl } from '../../utils/getPluginNameForUrl';
+import { getEstimatedWaitTime, getQueuePosition, getUpcomingPosition } from '../../utils/queueEstimate';
+import { saveLimitedArray } from '../../utils/mongoArrayLimiter';
+import { QueueSessionModel } from '../../models/QueueSession';
+import { RecentTrackModel } from '../../models/RecentTrack';
 
-const playleave: Command = {
-  name: 'playleave',
-  description: 'Phát bài hát hoặc playlist và rời khỏi kênh thoại sau khi kết thúc.',
-  usage: 'b!playleave <song name or URL>',
+const insert: Command = {
+  name: 'insert',
+  description: 'Thêm bài hát vào hàng đợi tại một vị trí cụ thể.',
+  usage: 'b!insert <position> <song name or URL>',
   category: 'music',
-  aliases: ['pl', 'pleave'],
+  aliases: ['i', 'ins'],
   async execute(message: Message, args: string[], distube) {
     const query = args.join(' ');
     if (!query) {
-      await replyWithEmbed(message, 'error', 'Vui lòng nhập bài hát hoặc URL.');
+      await replyWithEmbed(message, 'error', 'Vui lòng nhập tên bài hát hoặc URL.');
       return;
     }
 
     const vc = message.member?.voice.channel;
     if (!vc) {
-      await replyWithEmbed(message, 'error', 'Bạn cần tham gia kênh thoại trước.');
+      await replyWithEmbed(message, 'error', 'Bạn cần tham gia một kênh thoại.');
       return;
     }
 
@@ -47,32 +50,30 @@ const playleave: Command = {
       const plugin = await getPluginForUrl(distube, query);
       const songOrPlaylist = await plugin.resolve(query, {});
 
+      if (songOrPlaylist instanceof Playlist && songOrPlaylist.songs.length === 0) {
+        await replyWithEmbed(message, 'error', 'Không thể phát playlist này.');
+        return;
+      } else if (songOrPlaylist instanceof Song && songOrPlaylist.duration === 0) {
+        await replyWithEmbed(message, 'error', 'Không thể phát bài hát này.');
+        return;
+      }
+
+      if (!songOrPlaylist.url) {
+        await replyWithEmbed(message, 'error', 'Không thể phát bài hát hoặc playlist này.');
+        return;
+      }
+
+      // Save session
+      saveLimitedArray(QueueSessionModel, message.author.id, 'urls', songOrPlaylist.url);
+
+      // Save recent track
+      saveLimitedArray(RecentTrackModel, message.author.id, 'tracks', songOrPlaylist.url);
+
       let queue = distube.getQueue(message);
 
       distube.play(vc, songOrPlaylist, { member: message.member!, textChannel: message.channel as GuildTextBasedChannel });
 
-      const controlRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
-        new ButtonBuilder()
-          .setCustomId('pause')
-          .setLabel('⏯ Pause')
-          .setStyle(ButtonStyle.Secondary),
-        new ButtonBuilder()
-          .setCustomId('skip')
-          .setLabel('⏭ Skip')
-          .setStyle(ButtonStyle.Secondary),
-        new ButtonBuilder()
-          .setCustomId('stop')
-          .setLabel('⏹ Stop')
-          .setStyle(ButtonStyle.Danger),
-        new ButtonBuilder()
-          .setCustomId('loop')
-          .setLabel('🔁 Loop')
-          .setStyle(ButtonStyle.Primary),
-        new ButtonBuilder()
-          .setCustomId('shuffle')
-          .setLabel('🔀 Shuffle')
-          .setStyle(ButtonStyle.Primary),
-      );
+      if (!queue) queue = await distube.queues.create(vc);
 
       const embed = new EmbedBuilder()
         .setColor(0x1DB954)
@@ -108,8 +109,31 @@ const playleave: Command = {
           },
         );
 
+      const controlRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+        new ButtonBuilder()
+          .setCustomId('pause')
+          .setLabel('⏯ Pause')
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId('skip')
+          .setLabel('⏭ Skip')
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+          .setCustomId('stop')
+          .setLabel('⏹ Stop')
+          .setStyle(ButtonStyle.Danger),
+        new ButtonBuilder()
+          .setCustomId('loop')
+          .setLabel('🔁 Loop')
+          .setStyle(ButtonStyle.Primary),
+        new ButtonBuilder()
+          .setCustomId('shuffle')
+          .setLabel('🔀 Shuffle')
+          .setStyle(ButtonStyle.Primary),
+      );
+
       if (songOrPlaylist instanceof Playlist) {
-        if (!queue || queue.songs.length === 0) {
+        if (queue.songs.length === 0) {
           embed.setTitle('🎶 Đang phát playlist');
           embed.setThumbnail(songOrPlaylist.songs[0]?.thumbnail || '');
         } else {
@@ -171,30 +195,18 @@ const playleave: Command = {
               ephemeral: true,
             });
             break;
+          case 'shuffle':
+            queue.shuffle();
+            await interaction.reply({ content: '🔀 Đã xáo trộn hàng chờ.', ephemeral: true });
+            break;
         }
       });
-
-      // Optional safety: auto leave after current song
-      const leaveListener = (queue: any, finishedSong?: any) => {
-        if (queue.url === songOrPlaylist.url && songOrPlaylist instanceof Playlist) {
-          queue.voice.leave();
-          sendWithEmbed(message.channel as GuildTextBasedChannel, 'success', 'Phát xong playlist, đã rời kênh thoại.');
-        }
-
-        if (finishedSong && finishedSong.url === songOrPlaylist.url && songOrPlaylist instanceof Song) {
-          queue.voice.leave();
-          sendWithEmbed(message.channel as GuildTextBasedChannel, 'success', 'Phát xong bài, đã rời kênh thoại.');
-        }
-      };
-
-      distube.addListener(Events.FINISH, leaveListener);
-      distube.addListener(Events.FINISH_SONG, leaveListener);
-
-    } catch (e) {
-      console.error('Lỗi khi phát và rời kênh:', e);
-      await replyWithEmbed(message, 'error', 'Không thể phát bài hát.');
+    } catch (err: any) {
+      console.error('Lỗi khi chèn bài hát:', err);
+      if (err instanceof Error && err.message.includes('Unsupported URL')) await replyWithEmbed(message, 'error', 'URL không hợp lệ hoặc không được hỗ trợ.');
+      else await replyWithEmbed(message, 'error', 'Không thể thêm bài hát vào hàng đợi.');
     }
   },
 };
 
-export = playleave;
+export = insert;
