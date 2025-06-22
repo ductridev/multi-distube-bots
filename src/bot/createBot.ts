@@ -1,24 +1,18 @@
 // src/bot/createBot.ts
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
-import { DisTube } from 'distube';
-import { YtDlpPlugin } from '@distube/yt-dlp';
 import { BotConfig } from '../config';
 import { Command } from '../@types/command';
 import { registerDisTubeEvents } from './distubeEvents';
 import { registerDiscordEvents } from './discordEvents';
-import { loadCommands } from './loadCommands';
+import { loadCommands } from '../utils/loadCommands';
 import ExtendedClient from '../@types/extendedClient';
 import BotInstance from '../@types/botInstance';
-import SpotifyPlugin from '@distube/spotify';
-import { BandlabPlugin } from '@distube/bandlab';
-import DeezerPlugin from '@distube/deezer';
-import SoundCloudPlugin from '@distube/soundcloud';
-import { YouTubePlugin } from "@distube/youtube";
-import path from 'path';
-import fs from 'fs';
 import { onReady } from '../events/discord/onReady';
+import { activeBots } from '../botManager';
+import { createDisTube } from './createDistube';
+import { YouTubePlugin } from '@distube/youtube';
 
-export function createBot({ name, token, prefix, mainPrefix }: BotConfig & { mainPrefix: string }, activeBots: BotInstance[]) {
+export const createBot = async ({ name, token, prefix, mainPrefix }: BotConfig & { mainPrefix: string }, youtubePlugin: YouTubePlugin) => {
     const client = new Client({
         intents: [
             GatewayIntentBits.Guilds,
@@ -31,23 +25,7 @@ export function createBot({ name, token, prefix, mainPrefix }: BotConfig & { mai
     const commands = new Collection<string, Command>();
     const recentTracks = new Map<string, string[]>();
 
-    const distube = new DisTube(client, {
-        ffmpeg: {
-            path: path.resolve(__dirname, '../../ffmpeg/bin/ffmpeg'),
-        },
-        plugins: [new SpotifyPlugin({
-            api: {
-                clientId: process.env.SPOTIFY_CLIENT_ID,
-                clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-                topTracksCountry: "VN",
-            },
-        }), new YouTubePlugin({
-            cookies: JSON.parse(fs.readFileSync(path.resolve(__dirname, '../cookies.json'), 'utf8')),
-        }), new YtDlpPlugin({ update: true }), new BandlabPlugin(), new DeezerPlugin(), new SoundCloudPlugin()],
-        emitNewSongOnly: true,
-        joinNewVoiceChannel: false,
-        savePreviousSongs: false,
-    });
+    const distube = await createDisTube(client, youtubePlugin, name);
     console.log(`[${name}-${prefix}] Đang khởi động bot...`);
 
     // Extend client
@@ -63,6 +41,8 @@ export function createBot({ name, token, prefix, mainPrefix }: BotConfig & { mai
     loadCommands(commands);
     registerDisTubeEvents(distube, client, name, noSongTimeouts, noListenerTimeouts);
     registerDiscordEvents(client, distube, prefix, mainPrefix, name, noListenerTimeouts, activeBots);
+
+    client.rest.on('rateLimited', (rateLimitData) => console.warn(`[${name}] Bot đang bị ratelimit:`, rateLimitData));
 
     client.once('ready', () => onReady(client, name));
 

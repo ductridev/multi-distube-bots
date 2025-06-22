@@ -7,10 +7,12 @@ import { createBot } from './bot/createBot';
 import { getGlobalValue } from './utils/getGlobalConfig';
 import seedConfig from './config.json';
 import BotInstance from './@types/botInstance';
+import { loadPluginsPartYoutube } from './bot/createDistube';
+import { YouTubePlugin } from '@distube/youtube';
 
-const activeBots: BotInstance[] = [];
+export const activeBots: BotInstance[] = [];
 
-async function initializeDatabase() {
+const initializeDatabase = async () => {
     const botCount = await BotConfigModel.countDocuments();
     if (botCount === 0) {
         console.log('⚙️ Seeding BotConfig from config.ts...');
@@ -42,8 +44,17 @@ async function startAllBots() {
     const bots = await BotConfigModel.find({ enabled: true });
     const mainPrefix = await getGlobalValue<string>('mainPrefix') ?? 'm';
 
+    let youtubePlugin = new YouTubePlugin({
+        ytdlOptions: {
+            lang: 'vi',
+            playerClients: ['WEB_EMBEDDED', 'WEB'],
+        },
+    });
+
+    youtubePlugin = await loadPluginsPartYoutube(youtubePlugin);
+
     bots.forEach(botConfig => {
-        createBot({ ...botConfig.toObject(), mainPrefix }, activeBots);
+        createBot({ ...botConfig.toObject(), mainPrefix }, youtubePlugin);
     });
 }
 

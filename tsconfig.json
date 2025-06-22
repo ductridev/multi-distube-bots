@@ -18,7 +18,6 @@
     "include": [
         "index.ts",
         "src/config.json",
-        "src/cookies.json",
         "src/**/*",
         "src/config.ts"
     ],
