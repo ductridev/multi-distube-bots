@@ -1,9 +1,12 @@
-import { Message, VoiceState } from 'discord.js';
+// src/events/discord/onMessageCreate.ts
+
+import { Message } from 'discord.js';
 import { DisTube } from 'distube';
 import ExtendedClient from '../../@types/extendedClient';
 import BotInstance from '../../@types/botInstance';
 import { replyWithEmbed } from '../../utils/embedHelper';
 import selectBotForCommand from '../../utils/selectBotResponseUser';
+import { canRunCommand } from '../../middleware/commandPermissionCheck';
 
 export const onMessageCreate = async (message: Message, activeBots: BotInstance[], mainPrefix: string, client: ExtendedClient, distube: DisTube, name: string) => {
     if (message.author.bot || !message.guild) return;
@@ -18,6 +21,9 @@ export const onMessageCreate = async (message: Message, activeBots: BotInstance[
     if (!command) return;
 
     const userVCId = message.member?.voice.channelId;
+
+    const allowed = await canRunCommand(message, command);
+    if (!allowed) return;
 
     // Step 1: If any bot is already in the user's VC, let only that one respond
     const botInSameVC = activeBots.find(b => b.currentVoiceChannelId === userVCId);
