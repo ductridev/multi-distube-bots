@@ -9,6 +9,13 @@ export interface IBotConfig {
     displayName?: string;
     avatarURL?: string;
     ownerId: string;
+    bio?: string;
+    bannerURL?: string;
+    presence?: string;
+    status?: string;
+    streamURL?: string;
+    avatarUpdated?: boolean;
+    bannerUpdated?: boolean;
 }
 
 const BotConfigSchema = new Schema<IBotConfig>(
@@ -20,6 +27,13 @@ const BotConfigSchema = new Schema<IBotConfig>(
         displayName: { type: String },
         avatarURL: { type: String },
         ownerId: { type: String, required: true },
+        bio: { type: String },
+        bannerURL: { type: String },
+        presence: { type: String },
+        status: { type: String },
+        streamURL: { type: String },
+        avatarUpdated: { type: Boolean, default: false },
+        bannerUpdated: { type: Boolean, default: false },
     },
     { collection: 'botconfigs' }
 );
