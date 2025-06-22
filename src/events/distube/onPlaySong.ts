@@ -1,6 +1,6 @@
+// src/events/distube/onPlaySong.ts
+
 import { Queue, Song } from "distube";
-import { QueueSessionModel } from "../../models/QueueSession";
-import { RecentTrackModel } from "../../models/RecentTrack";
 import { GuildTextBasedChannel } from "discord.js";
 import { sendWithEmbed } from "../../utils/embedHelper";
 
@@ -9,16 +9,6 @@ export const onPlaySong = async (queue: Queue, song: Song) => {
     const guildId = queue.textChannel?.guild.id;
     const channel = queue.voice?.channel;
     if (!userId || !guildId || !channel) return;
-
-    // Save session
-    const existing = await QueueSessionModel.findOne({ userId });
-    const updated = [song.url, ...(existing?.urls || [])].slice(0, 10);
-    await QueueSessionModel.updateOne({ userId }, { $set: { urls: updated } }, { upsert: true });
-
-    // Save recent track
-    const existingTrack = await RecentTrackModel.findOne({ userId });
-    const recent = [song.url, ...(existingTrack?.tracks || [])].slice(0, 5);
-    await RecentTrackModel.updateOne({ userId }, { $set: { tracks: recent } }, { upsert: true });
 
     // Send now playing message
     const songSource = song.source;
