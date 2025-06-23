@@ -41,15 +41,15 @@ const queue: Command = {
 
         let currentPage = 0;
 
-        const buildDropdownRow = (page: number) => {
-            const start = 1 + page * PAGE_SIZE;
+        const buildDropdownRow = () => {
+            const start = currentPage * PAGE_SIZE;
             const end = start + PAGE_SIZE;
             const dropdownSongs = songs.slice(start, end);
 
             const options = dropdownSongs.map((song, i) => ({
-                label: `${start + i}. ${song.name}`.slice(0, 100),
+                label: `${start + i + 1}. ${song.name}`.slice(0, 100),
                 description: song.formattedDuration,
-                value: String(start + i),
+                value: String(start + i + 1),
             }));
 
             return new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
@@ -99,7 +99,7 @@ const queue: Command = {
                     .setDisabled(currentPage === totalPages - 1)
             );
 
-            const dropdownRow = buildDropdownRow(currentPage);
+            const dropdownRow = buildDropdownRow();
 
             return {
                 embeds: [embed],
@@ -138,12 +138,12 @@ const queue: Command = {
                 try {
                     await queue.jump(index);
                     await interaction.reply({
-                        content: `⏩ Đã chuyển đến bài thứ ${index + 1}: **${songs[index].name}**`,
+                        content: `⏩ Đã chuyển đến bài thứ ${index}: **${songs[index - 1].name}**`,
                         ephemeral: true,
                     });
                 } catch {
                     await interaction.reply({
-                        content: `⚠️ Không thể chuyển đến bài số ${index + 1}.`,
+                        content: `⚠️ Không thể chuyển đến bài số ${index}.`,
                         ephemeral: true,
                     });
                 }
