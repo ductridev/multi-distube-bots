@@ -1,28 +1,25 @@
 // src/utils/loadCommands.ts
-import { Collection } from 'discord.js';
-import { Command } from '../@types/command';
 import fs from 'fs';
 import path from 'path';
+import { Collection } from 'discord.js';
+import { Command, SlashCommand } from '../@types/command';
 
 const commandsBasePath = path.resolve(__dirname, '../commands');
 
-function getCommandFiles(dir: string, excludeHelp = false): string[] {
+function getCommandFiles(dir: string): string[] {
     const entries = fs.readdirSync(dir, { withFileTypes: true });
 
     return entries.flatMap(entry => {
         const fullPath = path.join(dir, entry.name);
-
         if (entry.isDirectory()) {
-            return getCommandFiles(fullPath, excludeHelp);
+            return getCommandFiles(fullPath);
         }
-
-        const isCommandFile = entry.name.endsWith('.ts') || entry.name.endsWith('.js');
-
-        return isCommandFile ? [fullPath] : [];
+        return entry.name.endsWith('.ts') || entry.name.endsWith('.js') ? [fullPath] : [];
     });
 }
 
-export async function loadCommands(commands: Collection<string, Command>) {
+export const loadAllCommands = async (): Promise<Collection<string, Command>> => {
+    const commands = new Collection<string, Command>();
     const files = getCommandFiles(commandsBasePath);
 
     for (const file of files) {
@@ -39,30 +36,29 @@ export async function loadCommands(commands: Collection<string, Command>) {
                 }
             }
         } catch (err) {
-            console.warn(`⚠️ Failed to load command: ${file}`, err);
+            console.warn(`⚠️ Failed to load legacy command: ${file}`, err);
         }
     }
+
+    return commands;
 }
 
-export async function loadAllCommands(): Promise<Command[]> {
-    const files = getCommandFiles(commandsBasePath, true);
-    const commands: Command[] = [];
+export async function loadSlashCommands(): Promise<SlashCommand[]> {
+    const files = getCommandFiles(commandsBasePath);
+    const slashCommands: SlashCommand[] = [];
 
     for (const file of files) {
         try {
             const mod = await import(file);
-            const command: Command = mod.default || mod;
+            const command: SlashCommand = mod.default || mod;
 
-            if (command?.name) {
-                commands.push(command);
+            if (command?.data) {
+                slashCommands.push(command);
             }
         } catch (err) {
-            console.warn(`⚠️ Could not import command: ${file}`, err);
+            console.warn(`⚠️ Could not load slash command: ${file}`, err);
         }
     }
 
-    // Deduplicate by name (avoid alias duplication)
-    return commands.filter((cmd, index, self) =>
-        self.findIndex(c => c.name === cmd.name) === index
-    );
+    return slashCommands;
 }

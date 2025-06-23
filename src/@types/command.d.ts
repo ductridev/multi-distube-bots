@@ -12,3 +12,8 @@ export interface Command {
     aliases: string[];
     execute(message: Message, args: string[], distube: DisTube): Promise<void>;
 }
+
+export interface SlashCommand {
+    data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder;
+    run: (interaction: ChatInputCommandInteraction, client: ExtendedClient) => Promise<void>;
+}

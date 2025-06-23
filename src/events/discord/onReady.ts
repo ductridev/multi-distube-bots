@@ -1,11 +1,28 @@
 // src/events/discord/onReady.ts
 
-import { ActivityType, PresenceStatusData } from "discord.js";
+import { ActivityType, Interaction, PresenceStatusData } from "discord.js";
 import ExtendedClient from "../../@types/extendedClient";
 import { BotConfigModel } from "../../models/BotConfig";
+import { loadSlashCommands } from "../../utils/loadCommands";
+import { onInteractionCreate } from "./onInteractionCreate";
+import { SlashCommand } from "../../@types/command";
 
 export const onReady = async (client: ExtendedClient, name: string) => {
     console.log(`[${name}] Đã đăng nhập với ${client.user?.tag}`);
+
+    // Load slash commands
+    const slashCommandsMap = new Map<string, SlashCommand>();
+    const slashCommands = await loadSlashCommands();
+    const commandsData = slashCommands.map(cmd => cmd.data.toJSON());
+    for (const cmd of slashCommands) {
+        slashCommandsMap.set(cmd.data.name, cmd);
+    }
+
+    await client.application.commands.set(commandsData);
+    console.log(`✅ Đã thêm thành công ${slashCommands.length} lệnh slash.`);
+
+    client.on('interactionCreate', (interaction: Interaction) => onInteractionCreate(interaction, slashCommandsMap, client));
+    // End load slash commands
 
     const botConfig = await BotConfigModel.findOne({ name });
 

@@ -4,7 +4,7 @@ import { BotConfig } from '../config';
 import { Command } from '../@types/command';
 import { registerDisTubeEvents } from './distubeEvents';
 import { registerDiscordEvents } from './discordEvents';
-import { loadCommands } from '../utils/loadCommands';
+import { loadAllCommands } from '../utils/loadCommands';
 import ExtendedClient from '../@types/extendedClient';
 import BotInstance from '../@types/botInstance';
 import { onReady } from '../events/discord/onReady';
@@ -22,7 +22,7 @@ export const createBot = async ({ name, token, prefix, mainPrefix }: BotConfig &
         ],
     }) as ExtendedClient;
 
-    const commands = new Collection<string, Command>();
+    const commands = await loadAllCommands();
     const recentTracks = new Map<string, string[]>();
 
     const distube = await createDisTube(client, youtubePlugin, name);
@@ -38,7 +38,6 @@ export const createBot = async ({ name, token, prefix, mainPrefix }: BotConfig &
     const noSongTimeouts = new Map<string, NodeJS.Timeout>();
     const noListenerTimeouts = new Map<string, NodeJS.Timeout>();
 
-    loadCommands(commands);
     registerDisTubeEvents(distube, client, name, noSongTimeouts, noListenerTimeouts);
     registerDiscordEvents(client, distube, prefix, mainPrefix, name, noListenerTimeouts, activeBots);
 

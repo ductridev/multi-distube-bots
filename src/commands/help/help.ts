@@ -84,9 +84,10 @@ const help: Command = {
 
         // Helper: build paginated embeds for a given category
         function buildEmbedsFor(category: string): EmbedBuilder[] {
+            const commandArray = [...commands.values()];
             const filtered = category === 'all'
-                ? commands
-                : commands.filter(c => c.category === category);
+                ? commandArray
+                : commandArray.filter(c => c.category === category);
 
             const pages: EmbedBuilder[] = [];
             for (let i = 0; i < filtered.length; i += ITEMS_PER_PAGE) {

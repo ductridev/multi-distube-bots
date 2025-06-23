@@ -77,9 +77,10 @@ const helpAlias: Command = {
 
         // Helper to build paginated embeds based on category
         function buildEmbedsFor(category: string): EmbedBuilder[] {
+            const commandArray = [...commands.values()];
             const filtered = category === 'all'
-                ? commands
-                : commands.filter(c => c.category === category);
+                ? commandArray
+                : commandArray.filter(c => c.category === category);
 
             const unique = filtered.filter((cmd, index, self) =>
                 self.findIndex(c => c.name === cmd.name) === index
