@@ -4,7 +4,7 @@
     Description: Skips the current song and plays the next song in the queue.
     Usage: b!skip
     Category: music
-    Aliases: sk
+    Aliases: s, sk
 */
 
 import { Message } from "discord.js";
@@ -18,7 +18,7 @@ const skip: Command = {
     description: 'Bỏ qua bài hát hiện tại và phát bài hát tiếp theo.',
     usage: 'b!skip',
     category: 'music',
-    aliases: ['sk'],
+    aliases: ['s', 'sk'],
     execute: async (message: Message, args: string[], distube: DisTube) => {
         await startVotingUI(message, distube, 'skip', async () => {
             const guildId = message.guild?.id;

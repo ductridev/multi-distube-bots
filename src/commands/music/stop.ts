@@ -4,7 +4,7 @@
     Description: Stops the bot and leaving the voice channel.
     Usage: b!stop
     Category: music
-    Aliases: s, st
+    Aliases: st
 */
 
 import { Message } from "discord.js";
@@ -19,7 +19,7 @@ const skip: Command = {
     description: 'Dừng phát và rời khỏi kênh thoại.',
     usage: 'b!stop',
     category: 'music',
-    aliases: ['s', 'st'],
+    aliases: ['st'],
     execute: async (message: Message, args: string[], distube: DisTube) => {
         await startVotingUI(message, distube, 'stop', async () => {
             const guildId = message.guild?.id;
@@ -38,7 +38,7 @@ const skip: Command = {
 
             const queue = distube.getQueue(guildId);
             if (queue && queue.songs.length > 0) {
-                queue.stop();
+                await queue.stop();
                 QueueSessionModel.deleteOne({ userId: message.author.id });
                 distube.voices.leave(guildId);
                 await replyWithEmbed(message, 'success', '👋 Đã dừng phát và rời khỏi kênh thoại. Hẹn gặp lại ✌💋');
