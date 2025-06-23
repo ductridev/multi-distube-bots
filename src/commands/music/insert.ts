@@ -24,6 +24,7 @@ import { getEstimatedWaitTime, getQueuePosition, getUpcomingPosition } from '../
 import { saveLimitedArray } from '../../utils/mongoArrayLimiter';
 import { QueueSessionModel } from '../../models/QueueSession';
 import { RecentTrackModel } from '../../models/RecentTrack';
+import { getSongOrPlaylist } from '../../utils/getSongOrPlaylist';
 
 const insert: Command = {
   name: 'insert',
@@ -47,8 +48,12 @@ const insert: Command = {
     setInitiator(message.guildId!, message.author.id);
 
     try {
-      const plugin = await getPluginForUrl(distube, query);
-      const songOrPlaylist = await plugin.resolve(query, {});
+      const songOrPlaylist = await getSongOrPlaylist(distube, query);
+
+      if (!songOrPlaylist) {
+        await replyWithEmbed(message, 'error', 'Không tìm thấy bài hát nào phù hợp.');
+        return;
+      }
 
       if (songOrPlaylist instanceof Playlist && songOrPlaylist.songs.length === 0) {
         await replyWithEmbed(message, 'error', 'Không thể phát playlist này.');
@@ -69,11 +74,9 @@ const insert: Command = {
       // Save recent track
       saveLimitedArray(RecentTrackModel, message.author.id, 'tracks', songOrPlaylist.url);
 
+      await distube.play(vc, songOrPlaylist, { member: message.member!, textChannel: message.channel as GuildTextBasedChannel });
+
       let queue = distube.getQueue(message);
-
-      distube.play(vc, songOrPlaylist, { member: message.member!, textChannel: message.channel as GuildTextBasedChannel });
-
-      if (!queue) queue = await distube.queues.create(vc);
 
       const embed = new EmbedBuilder()
         .setColor(0x1DB954)
@@ -133,7 +136,7 @@ const insert: Command = {
       );
 
       if (songOrPlaylist instanceof Playlist) {
-        if (queue.songs.length === 0) {
+        if (queue && queue.songs.length === 0) {
           embed.setTitle('🎶 Đang phát playlist');
           embed.setThumbnail(songOrPlaylist.songs[0]?.thumbnail || '');
         } else {

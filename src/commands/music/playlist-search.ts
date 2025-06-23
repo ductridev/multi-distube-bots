@@ -13,6 +13,7 @@ import { GuildTextBasedChannel, Message } from 'discord.js';
 import { replyWithEmbed } from '../../utils/embedHelper';
 import { setInitiator } from '../../utils/sessionStore';
 import { getPluginForUrl } from '../../utils/getPluginNameForUrl';
+import { getSongOrPlaylist } from '../../utils/getSongOrPlaylist';
 
 const playlistSearch: Command = {
     name: 'playlist-search',
@@ -36,8 +37,7 @@ const playlistSearch: Command = {
         setInitiator(message.guildId!, message.author.id);
 
         try {
-            const plugin = await getPluginForUrl(distube, query);
-            const playlist = await plugin.resolve(query, {}) as Playlist<any>;
+            const playlist = await getSongOrPlaylist(distube, query) as Playlist;
 
             if (!playlist || playlist.songs.length === 0) {
                 await replyWithEmbed(message, 'warning', '⚠️ Không tìm thấy playlist nào phù hợp.');

@@ -7,7 +7,7 @@
   Aliases: p
 */
 
-import { Playlist, Song } from 'distube';
+import { ExtractorPlugin, Playlist, Song } from 'distube';
 import { Command } from '../../@types/command';
 import {
   EmbedBuilder,
@@ -24,6 +24,8 @@ import { getEstimatedWaitTime, getQueuePosition, getUpcomingPosition } from '../
 import { QueueSessionModel } from '../../models/QueueSession';
 import { RecentTrackModel } from '../../models/RecentTrack';
 import { saveLimitedArray } from '../../utils/mongoArrayLimiter';
+import { sleep } from '../../utils/sleep';
+import { getSongOrPlaylist } from '../../utils/getSongOrPlaylist';
 
 const play: Command = {
   name: 'play',
@@ -47,14 +49,16 @@ const play: Command = {
     setInitiator(message.guildId!, message.author.id);
 
     try {
-      const plugin = await getPluginForUrl(distube, query);
-      const songOrPlaylist = await plugin.resolve(query, {});
+      const songOrPlaylist = await getSongOrPlaylist(distube, query);
 
       if (songOrPlaylist instanceof Playlist && songOrPlaylist.songs.length === 0) {
         await replyWithEmbed(message, 'error', 'Không thể phát playlist này.');
         return;
       } else if (songOrPlaylist instanceof Song && songOrPlaylist.duration === 0) {
         await replyWithEmbed(message, 'error', 'Không thể phát bài hát này.');
+        return;
+      } else if (!songOrPlaylist) {
+        await replyWithEmbed(message, 'error', 'Không tìm thấy bài hát nào phù hợp.');
         return;
       }
 
@@ -70,8 +74,6 @@ const play: Command = {
       saveLimitedArray(RecentTrackModel, message.author.id, 'tracks', songOrPlaylist.url);
 
       let queue = distube.getQueue(message);
-
-      distube.play(vc, songOrPlaylist, { member: message.member!, textChannel: message.channel as GuildTextBasedChannel });
 
       const embed = new EmbedBuilder()
         .setColor(0x1DB954)
@@ -200,10 +202,13 @@ const play: Command = {
         }
       });
 
+      await distube.play(vc, songOrPlaylist, { member: message.member!, textChannel: message.channel as GuildTextBasedChannel });
     } catch (err) {
       console.error('Lỗi khi phát nhạc:', err);
       if (err instanceof Error && err.message.includes('Unsupported URL')) await replyWithEmbed(message, 'error', 'URL không hợp lệ hoặc không được hỗ trợ.');
       else await replyWithEmbed(message, 'error', 'Không thể phát bài hát.');
+
+      await sleep(5000);
     }
   },
 };

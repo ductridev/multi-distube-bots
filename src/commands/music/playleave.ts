@@ -21,6 +21,7 @@ import { setInitiator } from '../../utils/sessionStore';
 import { Events, Playlist, Song } from 'distube';
 import { getPluginForUrl } from '../../utils/getPluginNameForUrl';
 import { getEstimatedWaitTime, getQueuePosition, getUpcomingPosition } from '../../utils/queueEstimate';
+import { getSongOrPlaylist } from '../../utils/getSongOrPlaylist';
 
 const playleave: Command = {
   name: 'playleave',
@@ -44,12 +45,16 @@ const playleave: Command = {
     setInitiator(message.guildId!, message.author.id);
 
     try {
-      const plugin = await getPluginForUrl(distube, query);
-      const songOrPlaylist = await plugin.resolve(query, {});
+      const songOrPlaylist = await getSongOrPlaylist(distube, query);
+
+      if (!songOrPlaylist) {
+        await replyWithEmbed(message, 'error', 'Không tìm thấy bài hát nào phù hợp.');
+        return;
+      }
 
       let queue = distube.getQueue(message);
 
-      distube.play(vc, songOrPlaylist, { member: message.member!, textChannel: message.channel as GuildTextBasedChannel });
+      await distube.play(vc, songOrPlaylist, { member: message.member!, textChannel: message.channel as GuildTextBasedChannel });
 
       const controlRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
         new ButtonBuilder()

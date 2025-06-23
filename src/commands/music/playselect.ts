@@ -20,6 +20,7 @@ import {
 import { replyEmbedWFooter, replyWithEmbed } from '../../utils/embedHelper';
 import { setInitiator } from '../../utils/sessionStore';
 import { getPluginForUrl } from '../../utils/getPluginNameForUrl';
+import { getSongOrPlaylist } from '../../utils/getSongOrPlaylist';
 
 const PAGE_SIZE = 20;
 
@@ -46,8 +47,7 @@ const playselect: Command = {
     setInitiator(message.guildId!, message.author.id);
 
     try {
-      const plugin = await getPluginForUrl(distube, url);
-      const playlist = await plugin.resolve(url, {}) as Playlist<any>;
+      const playlist = await getSongOrPlaylist(distube, url) as Playlist;
 
       if (playlist instanceof Playlist) {
         if (!playlist || playlist.songs.length === 0) {
@@ -153,7 +153,7 @@ const playselect: Command = {
             return;
           }
 
-          distube.play(vc, selectedSong.url, {
+          await distube.play(vc, selectedSong.url, {
             member: message.member!,
             textChannel: message.channel as GuildTextBasedChannel,
           });
