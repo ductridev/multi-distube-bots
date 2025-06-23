@@ -27,7 +27,7 @@ index 332f649..73ac176 100644
      getRelatedSongs(): never[];
  }
 diff --git a/node_modules/@distube/yt-dlp/dist/index.js b/node_modules/@distube/yt-dlp/dist/index.js
-index b17b126..a3d1016 100644
+index b17b126..cd87ca0 100644
 --- a/node_modules/@distube/yt-dlp/dist/index.js
 +++ b/node_modules/@distube/yt-dlp/dist/index.js
 @@ -125,9 +125,11 @@ var YtDlpPlugin = class extends import_distube.PlayableExtractorPlugin {
@@ -38,7 +38,7 @@ index b17b126..a3d1016 100644
 +  constructor({ update, cookies, extractorArgs } = {}) {
      super();
      if (update ?? true) download().catch(() => void 0);
-+    this.cookies = cookies;
++    // this.cookies = cookies;
 +    this.extractorArgs = extractorArgs;
    }
    init(distube) {
@@ -49,7 +49,7 @@ index b17b126..a3d1016 100644
        skipDownload: true,
 -      simulate: true
 +      simulate: true,
-+      cookies: this.cookies,
++      // cookies: this.cookies,
 +      extractorArgs: this.extractorArgs
      }).catch((e2) => {
        throw new import_distube.DisTubeError("YTDLP_ERROR", `${e2.stderr || e2}`);
@@ -60,7 +60,7 @@ index b17b126..a3d1016 100644
        simulate: true,
 -      format: "ba/ba*"
 +      format: "ba/ba*",
-+      cookies: this.cookies,
++      // cookies: this.cookies,
 +      extractorArgs: this.extractorArgs
      }).catch((e2) => {
        throw new import_distube.DisTubeError("YTDLP_ERROR", `${e2.stderr || e2}`);
