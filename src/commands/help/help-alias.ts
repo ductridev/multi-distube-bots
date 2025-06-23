@@ -113,7 +113,7 @@ const helpAlias: Command = {
                         const line = `🔹 ${aliasStr} — ${cmd.description || 'Không có mô tả.'}`;
                         const lineLength = line.length + 1;
 
-                        if (currentLength + lineLength > 1024) {
+                        if (currentLength + lineLength > 950) {
                             embed.addFields({
                                 name: 'Alias:',
                                 value: fieldLines.join('\n'),

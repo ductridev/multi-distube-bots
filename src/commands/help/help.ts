@@ -115,8 +115,7 @@ const help: Command = {
                         const line = `🔹 **${cmd.name}** — ${cmd.description || 'Không có mô tả.'}`;
                         const lineLength = line.length + 1; // +1 for \n or separator
 
-                        // Start a new field if adding this line would exceed 1024
-                        if (currentLength + lineLength > 1024) {
+                        if (currentLength + lineLength > 950) {
                             embed.addFields({
                                 name: 'Lệnh:',
                                 value: fieldLines.join('\n'),
