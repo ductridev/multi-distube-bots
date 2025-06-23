@@ -85,29 +85,60 @@ const help: Command = {
         // Helper: build paginated embeds for a given category
         function buildEmbedsFor(category: string): EmbedBuilder[] {
             const commandArray = [...commands.values()];
-            const filtered = category === 'all'
+            const filtered = (category === 'all'
                 ? commandArray
-                : commandArray.filter(c => c.category === category);
+                : commandArray.filter(c => c.category === category)
+            ).filter((cmd, index, self) =>
+                self.findIndex(c => c.name === cmd.name) === index
+            );
 
             const pages: EmbedBuilder[] = [];
+
             for (let i = 0; i < filtered.length; i += ITEMS_PER_PAGE) {
                 const chunk = filtered.slice(i, i + ITEMS_PER_PAGE);
-                const list = chunk
-                    .map(cmd => `🔹 **${cmd.name}** — ${cmd.description || 'Không có mô tả.'}`)
-                    .join('\n');
 
-                pages.push(
-                    new EmbedBuilder()
-                        .setTitle(
-                            category === 'all'
-                                ? '📚 Tất cả lệnh'
-                                : `📚 Lệnh trong mục “${category}”`
-                        )
-                        .setDescription('Dùng `b!help <tên lệnh>` để xem chi tiết.')
-                        .addFields({ name: 'Lệnh:', value: list, inline: false })
-                        .setFooter({ text: `Trang ${pages.length + 1}` })
-                        .setColor(0x00bfff)
-                );
+                const embed = new EmbedBuilder()
+                    .setTitle(
+                        category === 'all'
+                            ? '📚 Tất cả lệnh'
+                            : `📚 Lệnh trong mục “${category}”`
+                    )
+                    .setDescription('Dùng `b!help <tên lệnh>` để xem chi tiết.')
+                    .setFooter({ text: `Trang ${pages.length + 1}` })
+                    .setColor(0x00bfff);
+
+                let fieldLines: string[] = [];
+                let currentLength = 0;
+
+                for (const cmd of chunk) {
+                    const line = `🔹 **${cmd.name}** — ${cmd.description || 'Không có mô tả.'}`;
+                    const lineLength = line.length + 1; // +1 for \n or separator
+
+                    // Start a new field if adding this line would exceed 1024
+                    if (currentLength + lineLength > 1024) {
+                        embed.addFields({
+                            name: 'Lệnh:',
+                            value: fieldLines.join('\n'),
+                            inline: false,
+                        });
+                        fieldLines = [line];
+                        currentLength = lineLength;
+                    } else {
+                        fieldLines.push(line);
+                        currentLength += lineLength;
+                    }
+                }
+
+                // Push remaining lines
+                if (fieldLines.length > 0) {
+                    embed.addFields({
+                        name: 'Lệnh:',
+                        value: fieldLines.join('\n'),
+                        inline: false,
+                    });
+                }
+
+                pages.push(embed);
             }
 
             if (pages.length === 0) {
