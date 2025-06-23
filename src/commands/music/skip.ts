@@ -20,24 +20,29 @@ const skip: Command = {
     category: 'music',
     aliases: ['s', 'sk'],
     execute: async (message: Message, args: string[], distube: DisTube) => {
-        await startVotingUI(message, distube, 'skip', async () => {
-            const guildId = message.guild?.id;
-            if (!guildId) return;
+        try {
+            await startVotingUI(message, distube, 'skip', async () => {
+                const guildId = message.guild?.id;
+                if (!guildId) return;
 
-            const vc = message.member?.voice.channel;
-            if (!vc) {
-                await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại.');
-                return;
-            }
+                const vc = message.member?.voice.channel;
+                if (!vc) {
+                    await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại.');
+                    return;
+                }
 
-            const queue = distube.getQueue(guildId);
-            if (queue && queue.songs.length > 0) {
-                await distube.skip(message);
-                await replyWithEmbed(message, 'success', 'Đã bỏ qua bài hát.');
-            } else {
-                await replyWithEmbed(message, 'error', 'Không có bài hát nào đang phát.');
-            }
-        });
+                const queue = distube.getQueue(guildId);
+                if (queue && queue.songs.length > 0) {
+                    await distube.skip(message);
+                    await replyWithEmbed(message, 'success', 'Đã bỏ qua bài hát.');
+                } else {
+                    await replyWithEmbed(message, 'error', 'Không có bài hát nào đang phát.');
+                }
+            });
+        } catch (err) {
+            console.error(err);
+            // Do nothing
+        }
     },
 }
 

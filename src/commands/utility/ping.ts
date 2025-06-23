@@ -19,19 +19,24 @@ const ping: Command = {
     category: 'utility',
     aliases: [],
     execute: async (message: Message, args: string[], distube: DisTube) => {
-        const embed = new EmbedBuilder()
-            .setColor(0x00bfff)
-            .setDescription('🏓 Đang đo độ trễ...');
+        try {
+            const embed = new EmbedBuilder()
+                .setColor(0x00bfff)
+                .setDescription('🏓 Đang đo độ trễ...');
 
-        const sent = await replyEmbedWFooter(message, embed);
+            const sent = await replyEmbedWFooter(message, embed);
 
-        const latency = sent.createdTimestamp - message.createdTimestamp;
-        const apiPing = Math.round(message.client.ws.ping);
+            const latency = sent.createdTimestamp - message.createdTimestamp;
+            const apiPing = Math.round(message.client.ws.ping);
 
-        const updatedEmbed = EmbedBuilder.from(embed)
-            .setDescription(`🏓 Pong! Tin nhắn phản hồi mất **${latency}ms**\n🌐 Độ trễ API: **${apiPing}ms**`);
+            const updatedEmbed = EmbedBuilder.from(embed)
+                .setDescription(`🏓 Pong! Tin nhắn phản hồi mất **${latency}ms**\n🌐 Độ trễ API: **${apiPing}ms**`);
 
-        await sent.edit({ embeds: [updatedEmbed] });
+            await sent.edit({ embeds: [updatedEmbed] });
+        } catch (err) {
+            console.error(err);
+            // Do nothing
+        }
     },
 };
 

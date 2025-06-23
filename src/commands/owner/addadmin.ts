@@ -21,30 +21,35 @@ const addadmin: Command = {
     category: 'owner',
     aliases: ['adminadd'],
     execute: async (message: Message, args: string[], distube: DisTube) => {
-        // Only allow server admins to run this
-        if (!(await isBotAdmin(message.author.id))) {
-            await replyWithEmbed(message, 'denied', 'Bạn không phải là admin bot.');
-            return;
-        }
-
-        const user = message.mentions.users.first();
-        if (!user) {
-            await replyWithEmbed(message, 'error', 'Vui lòng đề cập tới người dùng để thêm làm admin.');
-            return;
-        }
-
         try {
-            const existing = await BotAdminModel.findOne({ userId: user.id });
-            if (existing) {
-                await replyWithEmbed(message, 'info', `Người dùng <@${user.id}> đã là admin.`);
+            // Only allow server admins to run this
+            if (!(await isBotAdmin(message.author.id))) {
+                await replyWithEmbed(message, 'denied', 'Bạn không phải là admin bot.');
                 return;
             }
 
-            await BotAdminModel.create({ userId: user.id });
-            await replyWithEmbed(message, 'success', `Đã thêm <@${user.id}> làm admin bot.`);
-        } catch (err: any) {
-            console.error('Lỗi khi thêm admin:', err);
-            await replyWithEmbed(message, 'error', 'Có lỗi xảy ra khi thêm admin.');
+            const user = message.mentions.users.first();
+            if (!user) {
+                await replyWithEmbed(message, 'error', 'Vui lòng đề cập tới người dùng để thêm làm admin.');
+                return;
+            }
+
+            try {
+                const existing = await BotAdminModel.findOne({ userId: user.id });
+                if (existing) {
+                    await replyWithEmbed(message, 'info', `Người dùng <@${user.id}> đã là admin.`);
+                    return;
+                }
+
+                await BotAdminModel.create({ userId: user.id });
+                await replyWithEmbed(message, 'success', `Đã thêm <@${user.id}> làm admin bot.`);
+            } catch (err: any) {
+                console.error('Lỗi khi thêm admin:', err);
+                await replyWithEmbed(message, 'error', 'Có lỗi xảy ra khi thêm admin.');
+            }
+        } catch (err) {
+            console.error(err);
+            // Do nothing
         }
     },
 };

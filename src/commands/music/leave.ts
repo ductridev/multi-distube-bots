@@ -20,27 +20,32 @@ const leave: Command = {
     category: 'music',
     aliases: ['l'],
     async execute(message: Message, _args: string[], distube: DisTube) {
-        const guildId = message.guild?.id;
-        if (!guildId) return;
-
-        const vc = message.member?.voice.channel;
-        if (!vc) {
-            await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại.');
-            return;
-        }
-
-        if (!distube.voices.get(guildId)) {
-            await replyWithEmbed(message, 'error', 'Bot không ở trong kênh thoại.');
-            return;
-        }
-
         try {
-            QueueSessionModel.deleteOne({ userId: message.author.id });
-            distube.voices.leave(guildId);
-            await replyWithEmbed(message, 'info', '👋 Đã rời khỏi kênh thoại. Hẹn gặp lại ✌💋');
+            const guildId = message.guild?.id;
+            if (!guildId) return;
+
+            const vc = message.member?.voice.channel;
+            if (!vc) {
+                await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại.');
+                return;
+            }
+
+            if (!distube.voices.get(guildId)) {
+                await replyWithEmbed(message, 'error', 'Bot không ở trong kênh thoại.');
+                return;
+            }
+
+            try {
+                QueueSessionModel.deleteOne({ userId: message.author.id });
+                distube.voices.leave(guildId);
+                await replyWithEmbed(message, 'info', '👋 Đã rời khỏi kênh thoại. Hẹn gặp lại ✌💋');
+            } catch (err) {
+                console.error('Lỗi khi rời kênh thoại:', err);
+                await replyWithEmbed(message, 'error', 'Không thể rời khỏi kênh thoại.');
+            }
         } catch (err) {
-            console.error('Lỗi khi rời kênh thoại:', err);
-            await replyWithEmbed(message, 'error', 'Không thể rời khỏi kênh thoại.');
+            console.error(err);
+            // Do nothing
         }
     },
 };

@@ -29,8 +29,13 @@ export default {
         .addStringOption(opt => opt.setName('stream_url').setDescription('URL stream (nếu có)')),
 
     run: async (interaction: ChatInputCommandInteraction, client: ExtendedClient) => {
-        await interaction.deferReply({ ephemeral: true });
-        const result = await handleBotUpdate(interaction, client);
-        await interaction.editReply(result);
+        try {
+            await interaction.deferReply({ ephemeral: true });
+            const result = await handleBotUpdate(interaction, client);
+            await interaction.editReply(result);
+        } catch (err) {
+            console.error(err);
+            // Do nothing
+        }
     },
 };

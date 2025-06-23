@@ -18,20 +18,25 @@ const autoplayToggle: Command = {
     category: 'music',
     aliases: ['auto', 'au-toggle'],
     async execute(message: Message, _args: string[], distube) {
-        const vc = message.member?.voice.channel;
-        if (!vc) {
-            await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại để phát album.');
-            return;
-        }
+        try {
+            const vc = message.member?.voice.channel;
+            if (!vc) {
+                await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại để phát album.');
+                return;
+            }
 
-        const queue = distube.getQueue(message);
-        if (!queue) {
-            await replyWithEmbed(message, 'error', 'Không có bài hát nào đang phát.');
-            return;
-        }
+            const queue = distube.getQueue(message);
+            if (!queue) {
+                await replyWithEmbed(message, 'error', 'Không có bài hát nào đang phát.');
+                return;
+            }
 
-        const autoplay = distube.toggleAutoplay(message);
-        await replyWithEmbed(message, 'success', `🔁 Tự động phát đã được **${autoplay ? 'bật' : 'tắt'}**.`);
+            const autoplay = distube.toggleAutoplay(message);
+            await replyWithEmbed(message, 'success', `🔁 Tự động phát đã được **${autoplay ? 'bật' : 'tắt'}**.`);
+        } catch (err) {
+            console.error(err);
+            // Do nothing
+        }
     },
 };
 

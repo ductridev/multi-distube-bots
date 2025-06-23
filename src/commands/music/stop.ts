@@ -21,29 +21,34 @@ const skip: Command = {
     category: 'music',
     aliases: ['st'],
     execute: async (message: Message, args: string[], distube: DisTube) => {
-        await startVotingUI(message, distube, 'stop', async () => {
-            const guildId = message.guild?.id;
-            if (!guildId) return;
+        try {
+            await startVotingUI(message, distube, 'stop', async () => {
+                const guildId = message.guild?.id;
+                if (!guildId) return;
 
-            const vc = message.member?.voice.channel;
-            if (!vc) {
-                await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại.');
-                return;
-            }
+                const vc = message.member?.voice.channel;
+                if (!vc) {
+                    await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại.');
+                    return;
+                }
 
-            if (!distube.voices.get(guildId)) {
-                await replyWithEmbed(message, 'error', 'Bot không ở trong kênh thoại.');
-                return;
-            }
+                if (!distube.voices.get(guildId)) {
+                    await replyWithEmbed(message, 'error', 'Bot không ở trong kênh thoại.');
+                    return;
+                }
 
-            const queue = distube.getQueue(guildId);
-            if (queue && queue.songs.length > 0) {
-                await queue.stop();
-                QueueSessionModel.deleteOne({ userId: message.author.id });
-                distube.voices.leave(guildId);
-                await replyWithEmbed(message, 'success', '👋 Đã dừng phát và rời khỏi kênh thoại. Hẹn gặp lại ✌💋');
-            }
-        });
+                const queue = distube.getQueue(guildId);
+                if (queue && queue.songs.length > 0) {
+                    await queue.stop();
+                    QueueSessionModel.deleteOne({ userId: message.author.id });
+                    distube.voices.leave(guildId);
+                    await replyWithEmbed(message, 'success', '👋 Đã dừng phát và rời khỏi kênh thoại. Hẹn gặp lại ✌💋');
+                }
+            });
+        } catch (err) {
+            console.error(err);
+            // Do nothing
+        }
     },
 }
 

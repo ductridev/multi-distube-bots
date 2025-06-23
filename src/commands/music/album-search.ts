@@ -21,39 +21,44 @@ const albumSearch: Command = {
   category: 'music',
   aliases: ['ab'],
   async execute(message: Message, args: string[], distube: DisTube) {
-    const query = args.join(' ');
-    if (!query) {
-      await replyWithEmbed(message, 'error', 'Nhập từ khóa album (ví dụ: `album BlackPink`)');
-      return;
-    }
-
-    const vc = message.member?.voice.channel;
-    if (!vc) {
-      await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại để phát album.');
-      return;
-    }
-
-    setInitiator(message.guildId!, message.author.id);
-
     try {
-      // Append "album" to increase likelihood of getting a playlist
-      const result = await ytSearch(`${query} album`);
-      const playlist = result.playlists[0];
-
-      if (!playlist) {
-        await replyWithEmbed(message, 'warning', 'Không tìm thấy album nào phù hợp.');
+      const query = args.join(' ');
+      if (!query) {
+        await replyWithEmbed(message, 'error', 'Nhập từ khóa album (ví dụ: `album BlackPink`)');
         return;
       }
 
-      await distube.play(vc, playlist.url, {
-        member: message.member!,
-        textChannel: message.channel as GuildTextBasedChannel,
-      });
+      const vc = message.member?.voice.channel;
+      if (!vc) {
+        await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại để phát album.');
+        return;
+      }
 
-      await replyWithEmbed(message, 'success', `🎼 Đang phát album: **${playlist.title}**`);
+      setInitiator(message.guildId!, message.author.id);
+
+      try {
+        // Append "album" to increase likelihood of getting a playlist
+        const result = await ytSearch(`${query} album`);
+        const playlist = result.playlists[0];
+
+        if (!playlist) {
+          await replyWithEmbed(message, 'warning', 'Không tìm thấy album nào phù hợp.');
+          return;
+        }
+
+        await distube.play(vc, playlist.url, {
+          member: message.member!,
+          textChannel: message.channel as GuildTextBasedChannel,
+        });
+
+        await replyWithEmbed(message, 'success', `🎼 Đang phát album: **${playlist.title}**`);
+      } catch (err) {
+        console.error('Lỗi tìm album:', err);
+        await replyWithEmbed(message, 'error', 'Không thể phát album.');
+      }
     } catch (err) {
-      console.error('Lỗi tìm album:', err);
-      await replyWithEmbed(message, 'error', 'Không thể phát album.');
+      console.error(err);
+      // Do nothing
     }
   },
 };

@@ -19,35 +19,40 @@ const playing: Command = {
     category: 'music',
     aliases: ['pcr', 'current', 'pcurrent'],
     execute: async (message: Message, args: string[], distube: DisTube) => {
-        const vc = message.member?.voice.channel;
-        if (!vc) {
-            await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại.');
-            return;
-        }
+        try {
+            const vc = message.member?.voice.channel;
+            if (!vc) {
+                await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại.');
+                return;
+            }
 
-        const queue = distube.getQueue(message);
-        if (!queue || !queue.songs.length) {
+            const queue = distube.getQueue(message);
+            if (!queue || !queue.songs.length) {
+                replyWithEmbed(
+                    message,
+                    'info',
+                    'Không có bài hát nào đang được phát.',
+                    undefined,
+                    '🎧 Không có bài hát'
+                );
+                return;
+            }
+
+            const song = queue.songs[0];
+
             replyWithEmbed(
                 message,
                 'info',
-                'Không có bài hát nào đang được phát.',
+                `🎶 **${song.name}**\n⏱️ \`${song.formattedDuration}\`\n👤 **Người yêu cầu:** <@${song.user?.id || 'Không rõ'}>\n🔗 [Link bài hát](${song.url})`,
                 undefined,
-                '🎧 Không có bài hát'
+                '🎵 Đang phát bài hát'
             );
+
             return;
+        } catch (err) {
+            console.error(err);
+            // Do nothing
         }
-
-        const song = queue.songs[0];
-
-        replyWithEmbed(
-            message,
-            'info',
-            `🎶 **${song.name}**\n⏱️ \`${song.formattedDuration}\`\n👤 **Người yêu cầu:** <@${song.user?.id || 'Không rõ'}>\n🔗 [Link bài hát](${song.url})`,
-            undefined,
-            '🎵 Đang phát bài hát'
-        );
-
-        return;
     }
 }
 

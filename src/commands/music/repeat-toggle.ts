@@ -19,29 +19,34 @@ const repeatToggle: Command = {
     category: 'music',
     aliases: ['rp', 'repeat', 're-toggle'],
     execute: async (message: Message, args: string[], distube: DisTube) => {
-        const vc = message.member?.voice.channel;
-        if (!vc) {
-            await replyWithEmbed(message, 'error', 'Bạn cần tham gia một kênh thoại trước.');
-            return;
-        }
+        try {
+            const vc = message.member?.voice.channel;
+            if (!vc) {
+                await replyWithEmbed(message, 'error', 'Bạn cần tham gia một kênh thoại trước.');
+                return;
+            }
 
-        const queue = distube.getQueue(message);
-        if (!queue) {
-            await replyWithEmbed(message, 'error', 'Không có bài hát nào đang phát.');
-            return;
-        }
+            const queue = distube.getQueue(message);
+            if (!queue) {
+                await replyWithEmbed(message, 'error', 'Không có bài hát nào đang phát.');
+                return;
+            }
 
-        const repeatMode = args[0];
+            const repeatMode = args[0];
 
-        if (repeatMode === 'queue') {
-            distube.setRepeatMode(message.member.guild.id, RepeatMode.QUEUE);
-            await replyWithEmbed(message, 'success', 'Bật lặp danh sách bài hát.');
-        } else if (repeatMode === 'track') {
-            distube.setRepeatMode(message.member.guild.id, RepeatMode.SONG);
-            await replyWithEmbed(message, 'success', 'Bật lặp bài hát.');
-        } else {
-            distube.setRepeatMode(message.member.guild.id, RepeatMode.DISABLED);
-            await replyWithEmbed(message, 'success', 'Tắt lặp bài hát.');
+            if (repeatMode === 'queue') {
+                distube.setRepeatMode(message.member.guild.id, RepeatMode.QUEUE);
+                await replyWithEmbed(message, 'success', 'Bật lặp danh sách bài hát.');
+            } else if (repeatMode === 'track') {
+                distube.setRepeatMode(message.member.guild.id, RepeatMode.SONG);
+                await replyWithEmbed(message, 'success', 'Bật lặp bài hát.');
+            } else {
+                distube.setRepeatMode(message.member.guild.id, RepeatMode.DISABLED);
+                await replyWithEmbed(message, 'success', 'Tắt lặp bài hát.');
+            }
+        } catch (err) {
+            console.error(err);
+            // Do nothing
         }
     }
 }

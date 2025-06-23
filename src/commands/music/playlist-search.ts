@@ -22,37 +22,42 @@ const playlistSearch: Command = {
     category: 'music',
     aliases: ['pls', 'pl-search', 'plsearch', 'playlistsearch'],
     async execute(message: Message, args: string[], distube) {
-        const query = args.join(' ');
-        if (!query) {
-            await replyWithEmbed(message, 'error', 'Vui lòng nhập từ khóa để tìm playlist.');
-            return;
-        }
-
-        const vc = message.member?.voice.channel;
-        if (!vc) {
-            await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại.');
-            return;
-        }
-
-        setInitiator(message.guildId!, message.author.id);
-
         try {
-            const playlist = await getSongOrPlaylist(distube, query) as Playlist;
-
-            if (!playlist || playlist.songs.length === 0) {
-                await replyWithEmbed(message, 'warning', '⚠️ Không tìm thấy playlist nào phù hợp.');
+            const query = args.join(' ');
+            if (!query) {
+                await replyWithEmbed(message, 'error', 'Vui lòng nhập từ khóa để tìm playlist.');
                 return;
             }
 
-            await distube.play(vc, playlist, {
-                member: message.member!,
-                textChannel: message.channel as GuildTextBasedChannel,
-            });
+            const vc = message.member?.voice.channel;
+            if (!vc) {
+                await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại.');
+                return;
+            }
 
-            await replyWithEmbed(message, 'success', `📀 Đang phát playlist: **${playlist.name}**`);
+            setInitiator(message.guildId!, message.author.id);
+
+            try {
+                const playlist = await getSongOrPlaylist(distube, query) as Playlist;
+
+                if (!playlist || playlist.songs.length === 0) {
+                    await replyWithEmbed(message, 'warning', '⚠️ Không tìm thấy playlist nào phù hợp.');
+                    return;
+                }
+
+                await distube.play(vc, playlist, {
+                    member: message.member!,
+                    textChannel: message.channel as GuildTextBasedChannel,
+                });
+
+                await replyWithEmbed(message, 'success', `📀 Đang phát playlist: **${playlist.name}**`);
+            } catch (err) {
+                console.error('playlist-search lỗi:', err);
+                await replyWithEmbed(message, 'error', 'Không thể phát playlist.');
+            }
         } catch (err) {
-            console.error('playlist-search lỗi:', err);
-            await replyWithEmbed(message, 'error', 'Không thể phát playlist.');
+            console.error(err);
+            // Do nothing
         }
     },
 };
