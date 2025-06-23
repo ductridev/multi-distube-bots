@@ -144,7 +144,7 @@ export const search: Command = {
                         return;
                     }
 
-                    distube.play(vc, selectedUrl, {
+                    await distube.play(vc, selectedUrl, {
                         textChannel: message.channel as GuildTextBasedChannel,
                         member: message.member!,
                     });
