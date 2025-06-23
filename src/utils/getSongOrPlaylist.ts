@@ -13,7 +13,7 @@ export const getSongOrPlaylist = async (distube: DisTube, query: string) => {
         let song = await searchPlugin.searchSong(query, {});
 
         if (song && song.url) {
-            return plugin.resolve(song.url, {});
+            return song;
         } else {
             return null;
         }
