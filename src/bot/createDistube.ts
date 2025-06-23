@@ -21,7 +21,6 @@ export const createDisTube = async (client: Client, youtubePlugin: YouTubePlugin
     const ffmpegPath = path.resolve(__dirname, '../../ffmpeg/bin/ffmpeg');
 
     const plugins: DisTubePlugin[] = [];
-
     plugins.push(youtubePlugin);
 
     if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
@@ -32,7 +31,6 @@ export const createDisTube = async (client: Client, youtubePlugin: YouTubePlugin
         api: {
             clientId: process.env.SPOTIFY_CLIENT_ID!,
             clientSecret: process.env.SPOTIFY_CLIENT_SECRET!,
-            topTracksCountry: 'VN',
         },
     }));
 
@@ -51,7 +49,11 @@ export const createDisTube = async (client: Client, youtubePlugin: YouTubePlugin
     plugins.push(new DeezerPlugin());
     plugins.push(new DirectLinkPlugin());
     plugins.push(new FilePlugin());
-    plugins.push(new YtDlpPlugin({ update: true }));
+    if (fs.existsSync(ytCookiesPath)) {
+        plugins.push(new YtDlpPlugin({ update: true, cookies: fs.readFileSync(ytCookiesPath, { encoding: 'utf8', flag: 'r' }), extractorArgs: process.env.EXTRACTOR_URLS ?? "youtubepot-bgutilhttp:base_url=http://127.0.0.1:4416" }));
+    } else {
+        plugins.push(new YtDlpPlugin({ update: true, extractorArgs: process.env.EXTRACTOR_URLS ?? "youtubepot-bgutilhttp:base_url=http://127.0.0.1:4416" }));
+    }
 
     console.log(`[${name}][DisTube] Đã load các plugins: ${plugins.map((plugin: DisTubePlugin) => plugin.constructor.name).join(', ')}`);
 
@@ -60,11 +62,8 @@ export const createDisTube = async (client: Client, youtubePlugin: YouTubePlugin
             path: ffmpegPath,
         },
         plugins,
-        emitNewSongOnly: true,
         joinNewVoiceChannel: false,
         savePreviousSongs: false,
-        emitAddListWhenCreatingQueue: true,
-        emitAddSongWhenCreatingQueue: true,
     });
 }
 
