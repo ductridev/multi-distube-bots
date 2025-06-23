@@ -3,7 +3,8 @@
     "start": "ts-node --project tsconfig.json index.ts",
     "build": "tsc --project tsconfig.json",
     "test-get-cookie": "ts-node --project tsconfig.json src/scripts/getcookie.ts",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "setup-po-server": "git clone --single-branch --branch 1.1.0 https://github.com/Brainicism/bgutil-ytdlp-pot-provider.git && cd bgutil-ytdlp-pot-provider/server && yarn install --frozen-lockfile && npx tsc && node build/main.js"
   },
   "dependencies": {
     "@discordjs/opus": "^0.10.0",
@@ -21,6 +22,7 @@
     "discord.js": "^14.20.0",
     "distube": "^5.0.7",
     "dotenv": "^16.5.0",
+    "genius-lyrics": "^4.4.7",
     "mongoose": "^8.16.0",
     "node-cron": "^4.1.1",
     "patch-package": "^8.0.0",

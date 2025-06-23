@@ -1,126 +1,134 @@
-// import {
-//     Message,
-//     ActionRowBuilder,
-//     ButtonBuilder,
-//     ButtonStyle,
-//     EmbedBuilder,
-// } from 'discord.js';
-// import { Command } from '../@types/command';
-// import DisTube from 'distube';
-// import { replyWithEmbed } from '../utils/embedHelper';
-// import { lyricsv2 } from '@bochilteam/scraper-lyrics';
+// src/commands/music/lyrics.ts
 
-// const LYRICS_PER_PAGE = 4000;
+import {
+    Message,
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+} from 'discord.js';
+import { Command } from '../../@types/command';
+import DisTube from 'distube';
+import { replyWithEmbed } from '../../utils/embedHelper';
+import { Client } from 'genius-lyrics';
 
-// const lyrics: Command = {
-//     name: 'lyrics',
-//     description: 'Hiển thị lời bài hát.',
-//     usage: 'b!lyrics <song name or URL>',
-//     category: 'music',
-//     aliases: ['ly', 'lyric'],
-//     execute: async (message: Message, args: string[], distube: DisTube) => {
-//         const vc = message.member?.voice.channel;
-//         if (!vc) {
-//             await replyWithEmbed(message, 'error', 'Bạn cần tham gia một kênh thoại trước.');
-//             return;
-//         }
+const LYRICS_PER_PAGE = 4000;
 
-//         const queue = distube.getQueue(message);
-//         const currentSong = queue?.songs[0];
+export const getLyricsSong = async (searchQuery: string) => {
+    const Lyrics = new Client(process.env.GENIUS_TOKEN);
+    const geniusSearch = await Lyrics.songs.search(searchQuery);
 
-//         if (!currentSong?.name) {
-//             await replyWithEmbed(message, 'error', 'Không có bài hát nào đang phát.');
-//             return;
-//         }
+    if (geniusSearch.length === 0) {
+        return undefined;
+    }
 
-//         if (currentSong.source !== 'spotify') {
-//             await replyWithEmbed(message, 'error', 'Lấy lời bài hát chỉ hỗ trợ bài hát từ Spotify.');
-//             return;
-//         }
+    return geniusSearch[0];
+}
 
-//         const lyricsResponse = await lyricsv2(currentSong.name);
-//         const lyricsText = lyricsResponse.lyrics.map(l => l.text).join('\n');
+const lyrics: Command = {
+    name: 'lyrics',
+    description: 'Hiển thị lời bài hát.',
+    usage: 'b!lyrics <song name or URL>',
+    category: 'music',
+    aliases: ['ly', 'lyric'],
+    execute: async (message: Message, args: string[], distube: DisTube) => {
+        if (!process.env.GENIUS_TOKEN) {
+            await replyWithEmbed(message, 'error', 'Lấy lời bài hát hiện không khả dụng.');
+            return;
+        }
 
-//         if (!lyricsText) {
-//             await replyWithEmbed(message, 'error', 'Không tìm thấy lời bài hát.');
-//             return;
-//         }
+        const queue = distube.getQueue(message);
+        const currentSong = queue?.songs[0];
 
-//         // 🔹 Safe splitting by line with page size control
-//         const lines = lyricsText.split('\n');
-//         const pages: string[] = [];
-//         let buffer = '';
+        if (!currentSong?.name) {
+            await replyWithEmbed(message, 'error', 'Không có bài hát nào đang phát.');
+            return;
+        }
 
-//         for (const line of lines) {
-//             const lineWithNewline = line + '\n';
-//             if (buffer.length + lineWithNewline.length > LYRICS_PER_PAGE) {
-//                 pages.push(buffer);
-//                 buffer = lineWithNewline;
-//             } else {
-//                 buffer += lineWithNewline;
-//             }
-//         }
-//         if (buffer) pages.push(buffer);
+        const geniusSong = await getLyricsSong(currentSong.name);
 
-//         let currentPage = 0;
+        if (!geniusSong) {
+            await replyWithEmbed(message, 'error', 'Không tìm thấy lời bài hát.');
+            return;
+        }
 
-//         const buildEmbed = (pageIndex: number) =>
-//             new EmbedBuilder()
-//                 .setTitle(`📖 Lyrics - ${currentSong.name}`)
-//                 .setDescription(pages[pageIndex])
-//                 .setColor(0x1DB954)
-//                 .setFooter({ text: `Trang ${pageIndex + 1} / ${pages.length}` })
-//                 .setTimestamp();
+        const lyricsText = await geniusSong.lyrics();
 
-//         const getActionRow = (pageIndex: number) =>
-//             new ActionRowBuilder<ButtonBuilder>().addComponents(
-//                 new ButtonBuilder()
-//                     .setCustomId('prev')
-//                     .setLabel('⬅️')
-//                     .setStyle(ButtonStyle.Secondary)
-//                     .setDisabled(pageIndex === 0),
-//                 new ButtonBuilder()
-//                     .setCustomId('next')
-//                     .setLabel('➡️')
-//                     .setStyle(ButtonStyle.Secondary)
-//                     .setDisabled(pageIndex === pages.length - 1)
-//             );
+        // 🔹 Safe splitting by line with page size control
+        const lines = lyricsText.split('\n');
+        const pages: string[] = [];
+        let buffer = '';
 
-//         const reply = await message.reply({
-//             embeds: [buildEmbed(currentPage)],
-//             components: [getActionRow(currentPage)],
-//         });
+        for (const line of lines) {
+            const lineWithNewline = line + '\n';
+            if (buffer.length + lineWithNewline.length > LYRICS_PER_PAGE) {
+                pages.push(buffer);
+                buffer = lineWithNewline;
+            } else {
+                buffer += lineWithNewline;
+            }
+        }
+        if (buffer) pages.push(buffer);
 
-//         const collector = reply.createMessageComponentCollector({
-//             time: 10 * 60_000, // 10 minutes
-//         });
+        let currentPage = 0;
 
-//         collector.on('collect', async interaction => {
-//             if (interaction.user.id !== message.author.id) {
-//                 return interaction.reply({
-//                     content: '⛔ Bạn không thể điều khiển phân trang lời bài hát này.',
-//                     ephemeral: true,
-//                 });
-//             }
+        const buildEmbed = (pageIndex: number) =>
+            new EmbedBuilder()
+                .setTitle(`📖 Lyrics - ${currentSong.name}`)
+                .setDescription(pages[pageIndex])
+                .setColor(0x1DB954)
+                .setFooter({ text: `Trang ${pageIndex + 1} / ${pages.length}` })
+                .setTimestamp();
 
-//             if (interaction.customId === 'prev') currentPage--;
-//             if (interaction.customId === 'next') currentPage++;
+        const getActionRow = (pageIndex: number) =>
+            new ActionRowBuilder<ButtonBuilder>().addComponents(
+                new ButtonBuilder()
+                    .setCustomId('prev')
+                    .setLabel('⬅️')
+                    .setStyle(ButtonStyle.Secondary)
+                    .setDisabled(pageIndex === 0),
+                new ButtonBuilder()
+                    .setCustomId('next')
+                    .setLabel('➡️')
+                    .setStyle(ButtonStyle.Secondary)
+                    .setDisabled(pageIndex === pages.length - 1)
+            );
 
-//             await interaction.update({
-//                 embeds: [buildEmbed(currentPage)],
-//                 components: [getActionRow(currentPage)],
-//             });
-//         });
+        const reply = await message.reply({
+            embeds: [buildEmbed(currentPage)],
+            components: [getActionRow(currentPage)],
+        });
 
-//         collector.on('end', async () => {
-//             try {
-//                 await reply.edit({ components: [] });
-//             } catch {
-//                 console.error('Không thể cập nhật phân trang khi hết hạn.');
-//                 await replyWithEmbed(message, 'error', 'Không thể chuyển trang.');
-//             }
-//         });
-//     },
-// };
+        const collector = reply.createMessageComponentCollector({
+            time: 10 * 60_000, // 10 minutes
+        });
 
-// export = lyrics;
+        collector.on('collect', async interaction => {
+            if (interaction.user.id !== message.author.id) {
+                return interaction.reply({
+                    content: '⛔ Bạn không thể điều khiển phân trang lời bài hát này.',
+                    ephemeral: true,
+                });
+            }
+
+            if (interaction.customId === 'prev') currentPage--;
+            if (interaction.customId === 'next') currentPage++;
+
+            await interaction.update({
+                embeds: [buildEmbed(currentPage)],
+                components: [getActionRow(currentPage)],
+            });
+        });
+
+        collector.on('end', async () => {
+            try {
+                await reply.edit({ components: [] });
+            } catch {
+                console.error('Không thể cập nhật phân trang khi hết hạn.');
+                await replyWithEmbed(message, 'error', 'Không thể chuyển trang.');
+            }
+        });
+    },
+};
+
+export default lyrics;

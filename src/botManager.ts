@@ -44,11 +44,13 @@ async function startAllBots() {
     const bots = await BotConfigModel.find({ enabled: true });
     const mainPrefix = await getGlobalValue<string>('mainPrefix') ?? 'm';
 
+    if (!process.env.GENIUS_TOKEN)
+        console.warn("[Genius Lyrics] Lấy lời bài hát không khả dụng vì GENIUS_TOKEN không được cung cấp.");
+
     let youtubePlugin = new YouTubePlugin({
         ytdlOptions: {
-            lang: 'vi',
-            playerClients: ['WEB_EMBEDDED', 'WEB'],
-        },
+            playerClients: ["WEB_EMBEDDED", "TV", "WEB"]
+        }
     });
 
     youtubePlugin = await loadPluginsPartYoutube(youtubePlugin);
