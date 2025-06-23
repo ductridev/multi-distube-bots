@@ -39,7 +39,7 @@ export function formatExtendedDuration(totalSeconds: number): string {
 }
 
 export function getEstimatedWaitTime(queue?: Queue) {
-    if (!queue) return '00:00';
+    if (!queue || queue.songs.length === 0) return 'Ngay bây giờ';
     let time = 0;
     for (let i = 0; i < queue.songs.length; i++) {
         time += queue.songs[i].duration || 0;
