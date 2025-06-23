@@ -61,5 +61,7 @@ export async function sendWithEmbed(channel: GuildTextBasedChannel, type: Messag
             ? actionRow
             : [actionRow]
         : [];
-    return channel.send({ embeds: [embed], components });
+    return channel.send({
+        embeds: [embed], components, flags: [4096]
+    });
 }
