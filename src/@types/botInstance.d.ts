@@ -5,5 +5,5 @@ export default interface BotInstance {
     name: string;
     client: ExtendedClient;
     distube: DisTube;
-    currentVoiceChannelId?: string;
+    voiceChannelMap: Map<string, string>;
 }

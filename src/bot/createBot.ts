@@ -51,7 +51,7 @@ export const createBot = async ({ name, token, prefix, mainPrefix }: BotConfig &
         name: name,
         client,
         distube,
-        currentVoiceChannelId: undefined,
+        voiceChannelMap: new Map<string, string>(),
     };
 
     activeBots.push(botInstance);
