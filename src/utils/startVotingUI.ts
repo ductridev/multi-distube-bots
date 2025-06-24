@@ -40,8 +40,7 @@ export async function startVotingUI(
     }
 
     const members = vc.members.filter(m => !m.user.bot);
-    const eligibleVoters = members.filter(m => m.id !== session.initiatorId);
-    const requiredVotes = Math.ceil(eligibleVoters.size * 0.8);
+    const requiredVotes = Math.ceil((members.size + 1) * 0.8);
 
     const votes = new Set<string>();
     const voters = new Set<string>();
