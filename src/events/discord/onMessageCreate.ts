@@ -7,10 +7,19 @@ import BotInstance from '../../@types/botInstance';
 import { replyWithEmbed } from '../../utils/embedHelper';
 import selectBotForCommand from '../../utils/selectBotResponseUser';
 import { canRunCommand } from '../../middleware/commandPermissionCheck';
+import GuildAccess from '../../models/GuildAccess';
 
 export const onMessageCreate = async (message: Message, activeBots: BotInstance[], mainPrefix: string, client: ExtendedClient, distube: DisTube, name: string) => {
     try {
         if (message.author.bot || !message.guild) return;
+
+        const guildId = message.guild.id;
+
+        const access = await GuildAccess.findOne({ guildId });
+        if (access?.type === 'blacklist') return;
+        if (process.env.ONLY_WHITELIST === 'true') {
+            if (!access || access.type !== 'whitelist') return;
+        }
 
         const allPrefixes = activeBots.map(b => b.client.prefix).concat(mainPrefix);
         const usedPrefix = allPrefixes.find(p => message.content.startsWith(p));
@@ -41,7 +50,7 @@ export const onMessageCreate = async (message: Message, activeBots: BotInstance[
         }
 
         // Step 2: Determine the best bot based on prefix and availability
-        const [selectedBot, isFree] = selectBotForCommand(command, activeBots, message.guild!.id, userVCId, usedPrefix);
+        const [selectedBot, isFree] = selectBotForCommand(command, activeBots, message.guild.id, userVCId, usedPrefix);
 
         const isThisBot = client.user?.id === selectedBot.client.user?.id;
         if (!isThisBot) return; // Only selected bot should continue
