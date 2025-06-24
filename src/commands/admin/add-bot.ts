@@ -14,7 +14,7 @@ export const addBot: Command = {
     description: 'Thêm bot mới với token.',
     usage: 'b!addbot <token> [prefix] [name] [displayName] [avatarUrl]',
     category: 'admin',
-    ownerOnly: true,
+    adminOnly: true,
     aliases: [],
     execute: async (message: Message, args: string[]) => {
         try {

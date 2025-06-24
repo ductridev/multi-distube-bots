@@ -10,9 +10,8 @@ const removeBot: Command = {
     description: 'Xóa bot theo prefix, name, ID hoặc tag bot.',
     usage: 'b!removebot <prefix | name | _id | tag>',
     category: 'admin',
-    ownerOnly: true,
+    adminOnly: true,
     aliases: [],
-
     execute: async (message: Message, args: string[]) => {
         try {
             const input = args[0];
