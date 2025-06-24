@@ -16,7 +16,7 @@ const autoplayToggle: Command = {
     description: 'Bật/Tắt tự động phát bài hát.',
     usage: 'b!autoplay-toggle',
     category: 'music',
-    aliases: ['auto', 'au-toggle'],
+    aliases: ['auto', 'autoplay', 'au-toggle'],
     async execute(message: Message, _args: string[], distube) {
         try {
             const vc = message.member?.voice.channel;
