@@ -4,6 +4,7 @@
     "build": "tsc --project tsconfig.json",
     "test-get-cookie": "ts-node --project tsconfig.json src/scripts/getcookie.ts",
     "postinstall": "patch-package",
+    "seed:whitelist": "ts-node scripts/seedGuildAccess.ts",
     "setup-po-server": "git clone --single-branch --branch 1.1.0 https://github.com/Brainicism/bgutil-ytdlp-pot-provider.git && cd bgutil-ytdlp-pot-provider/server && yarn install --frozen-lockfile && npx tsc && node build/main.js"
   },
   "dependencies": {
