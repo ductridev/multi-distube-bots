@@ -2,17 +2,26 @@
 
 import { VoiceState } from "discord.js";
 import BotInstance from "../../@types/botInstance";
+import DisTube from "distube";
 
-export const onVoiceStateUpdate = (oldState: VoiceState, newState: VoiceState, activeBots: BotInstance[], noListenerTimeouts: Map<string, NodeJS.Timeout>) => {
+export const onVoiceStateUpdate = (oldState: VoiceState, newState: VoiceState, activeBots: BotInstance[], noListenerTimeouts: Map<string, NodeJS.Timeout>, distube: DisTube) => {
     try {
         const guildId = newState.guild.id;
         const botInstance = activeBots.find(b => b.client.user?.id === newState.id);
 
         if (botInstance) {
-            if (newState.channelId) {
-                botInstance.voiceChannelMap.set(guildId, newState.channelId);
-            } else {
+            const wasInVC = oldState.channelId;
+            const nowInVC = newState.channelId;
+
+            if (wasInVC && !nowInVC) {
+                const queue = distube.getQueue(guildId);
+                if (queue) {
+                    queue.stop();
+                    console.log(`[VoiceState] Bot left VC in guild ${guildId}, queue stopped.`);
+                }
                 botInstance.voiceChannelMap.delete(guildId);
+            } else if (nowInVC) {
+                botInstance.voiceChannelMap.set(guildId, nowInVC);
             }
         }
 

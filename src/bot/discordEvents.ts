@@ -15,7 +15,7 @@ export function registerDiscordEvents(
     noListenerTimeouts: Map<string, NodeJS.Timeout>,
     activeBots: BotInstance[],
 ) {
-    client.on('voiceStateUpdate', (oldState: VoiceState, newState: VoiceState) => onVoiceStateUpdate(oldState, newState, activeBots, noListenerTimeouts));
+    client.on('voiceStateUpdate', (oldState: VoiceState, newState: VoiceState) => onVoiceStateUpdate(oldState, newState, activeBots, noListenerTimeouts, distube));
 
     client.on('messageCreate', async (message: Message) => onMessageCreate(message, activeBots, mainPrefix, client, distube, name));
 }
