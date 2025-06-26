@@ -6,17 +6,23 @@
     Category: admin
     Aliases: wl
 */
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { Command } from '../../@types/command';
 import GuildAccess from '../../models/GuildAccess';
 import { replyWithEmbed } from '../../utils/embedHelper';
 
-export const whitelist: Command = {
+const whitelist: Command = {
     name: 'whitelist',
-    description: 'Add or remove a guild from the whitelist',
+    description: 'Thêm hoặc xóa bot ra khỏi whitelist.',
     usage: 'b!whitelist add/remove <guildId>',
     category: 'admin',
     adminOnly: true,
     aliases: [],
+    data: new SlashCommandBuilder()
+        .setName('whitelist')
+        .setDescription('Thêm hoặc gỡ guild khỏi whitelist')
+        .addStringOption(opt => opt.setName('action').setDescription('add/remove').setRequired(true))
+        .addStringOption(opt => opt.setName('guild').setDescription('Guild ID (tùy chọn, mặc định là guild hiện tại)')),
     execute: async (message, args, distube) => {
         if (!args[0] || !['add', 'remove'].includes(args[0])) {
             await replyWithEmbed(message, 'error', 'Usage: `whitelist add/remove <guildId>`');
@@ -45,4 +51,18 @@ export const whitelist: Command = {
             await replyWithEmbed(message, 'success', `⛔ Guild \`${guildId}\` removed from whitelist.`);
         }
     },
+    run: async (interaction: ChatInputCommandInteraction) => {
+        const action = interaction.options.getString('action', true);
+        const guildId = interaction.options.getString('guild') || interaction.guildId;
+
+        if (action === 'add') {
+            await GuildAccess.findOneAndUpdate({ guildId }, { guildId, type: 'whitelist' }, { upsert: true });
+            await interaction.reply({ content: `✅ Guild \`${guildId}\` whitelisted.`, ephemeral: true });
+        } else {
+            await GuildAccess.deleteOne({ guildId, type: 'whitelist' });
+            await interaction.reply({ content: `⛔ Guild \`${guildId}\` removed from whitelist.`, ephemeral: true });
+        }
+    },
 };
+
+export = whitelist;
