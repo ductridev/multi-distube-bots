@@ -14,7 +14,7 @@ import { replyWithEmbed } from "../../utils/embedHelper";
 import { startVotingUI } from "../../utils/startVotingUI";
 import { QueueSessionModel } from "../../models/QueueSession";
 
-const skip: Command = {
+const stop: Command = {
     name: 'stop',
     description: 'Dừng phát và rời khỏi kênh thoại.',
     usage: 'b!stop',
@@ -38,10 +38,10 @@ const skip: Command = {
                 }
 
                 const queue = distube.getQueue(guildId);
-                if (queue && queue.songs.length > 0) {
+                if (queue) {
+                    queue.voice.leave();
                     await queue.stop();
                     QueueSessionModel.deleteOne({ userId: message.author.id });
-                    distube.voices.leave(guildId);
                     await replyWithEmbed(message, 'success', '👋 Đã dừng phát và rời khỏi kênh thoại. Hẹn gặp lại ✌💋');
                 }
             });
@@ -52,4 +52,4 @@ const skip: Command = {
     },
 }
 
-export = skip;
+export = stop;
