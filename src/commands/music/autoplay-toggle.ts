@@ -31,7 +31,7 @@ const autoplayToggle: Command = {
                 return;
             }
 
-            const autoplay = distube.toggleAutoplay(message);
+            const autoplay = queue.toggleAutoplay();
             await replyWithEmbed(message, 'success', `🔁 Tự động phát đã được **${autoplay ? 'bật' : 'tắt'}**.`);
         } catch (err) {
             console.error(err);
