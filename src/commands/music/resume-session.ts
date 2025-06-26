@@ -11,6 +11,9 @@ import { Command } from '../../@types/command';
 import { GuildTextBasedChannel, Message } from 'discord.js';
 import { QueueSessionModel } from '../../models/QueueSession';
 import { replyWithEmbed } from '../../utils/embedHelper';
+import { getSongOrPlaylist } from '../../utils/getSongOrPlaylist';
+import { Playlist, Song } from 'distube';
+import { canBotJoinVC } from '../../utils/voicePermission';
 
 const resume: Command = {
     name: 'resume-session',
@@ -26,6 +29,12 @@ const resume: Command = {
                 return;
             }
 
+            const error = canBotJoinVC(vc, message.client.user!.id);
+            if (error) {
+                await replyWithEmbed(message, 'error', error);
+                return;
+            }
+
             const session = await QueueSessionModel.findOne({ userId: message.author.id });
             if (!session || session.urls.length === 0) {
                 await replyWithEmbed(message, 'warning', '⚠️ Không có session nào để khôi phục.');
@@ -33,11 +42,34 @@ const resume: Command = {
             }
 
             try {
+                let queue = distube.getQueue(message);
+
+                if (!queue) {
+                    queue = await distube.queues.create(vc, message.channel as GuildTextBasedChannel)
+                }
+
                 for (const url of session.urls.reverse()) {
-                    await distube.play(vc, url, {
-                        member: message.member!,
-                        textChannel: message.channel as GuildTextBasedChannel,
-                    });
+                    const songOrPlaylist = await getSongOrPlaylist(distube, url);
+                    if (songOrPlaylist instanceof Playlist && songOrPlaylist.songs.length === 0) {
+                        await replyWithEmbed(message, 'error', `Không thể phát playlist [${url}](${url}).`);
+                        return;
+                    } else if (songOrPlaylist instanceof Song && songOrPlaylist.duration === 0) {
+                        await replyWithEmbed(message, 'error', `Không thể phát bài hát [${url}](${url}).`);
+                        return;
+                    } else if (!songOrPlaylist) {
+                        await replyWithEmbed(message, 'error', 'Không tìm thấy bài hát nào phù hợp.');
+                        return;
+                    }
+
+                    if (!songOrPlaylist.url) {
+                        await replyWithEmbed(message, 'error', 'Không thể phát bài hát hoặc playlist [${url}](${url}).');
+                        return;
+                    }
+                    queue.addToQueue(songOrPlaylist instanceof Playlist ? songOrPlaylist.songs : songOrPlaylist);
+
+                    if (!queue.playing) {
+                        queue.play();
+                    }
                 }
                 await replyWithEmbed(message, 'success', '🔁 Đã khôi phục hàng đợi.');
             } catch (err) {

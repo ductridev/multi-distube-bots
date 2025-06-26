@@ -18,13 +18,15 @@ import {
     Message,
 } from 'discord.js';
 import ytSearch from 'yt-search';
-import { DisTube } from 'distube';
+import { DisTube, Playlist, Song } from 'distube';
 import { replyWithEmbed } from '../../utils/embedHelper';
 import { setInitiator } from '../../utils/sessionStore';
+import { getSongOrPlaylist } from '../../utils/getSongOrPlaylist';
+import { canBotJoinVC } from '../../utils/voicePermission';
 
 const PAGE_SIZE = 20;
 
-export const search: Command = {
+const search: Command = {
     name: 'search',
     description: 'Tìm kiếm bài hát và thêm bài hát vào hàng đợi nếu người dùng chọn.',
     usage: 'b!search <tên bài hát>',
@@ -45,7 +47,13 @@ export const search: Command = {
                 return;
             }
 
-            setInitiator(message.guildId!, message.author.id);
+            const error = canBotJoinVC(vc, message.client.user!.id);
+            if (error) {
+                await replyWithEmbed(message, 'error', error);
+                return;
+            }
+
+            setInitiator(message.guildId!, vc.id, message.author.id);
 
             try {
                 const searchResult = await ytSearch(query);
@@ -145,10 +153,35 @@ export const search: Command = {
                             return;
                         }
 
-                        await distube.play(vc, selectedUrl, {
-                            textChannel: message.channel as GuildTextBasedChannel,
-                            member: message.member!,
-                        });
+                        const songOrPlaylist = await getSongOrPlaylist(distube, selectedUrl);
+
+                        if (songOrPlaylist instanceof Playlist && songOrPlaylist.songs.length === 0) {
+                            await replyWithEmbed(message, 'error', 'Không thể phát playlist này.');
+                            return;
+                        } else if (songOrPlaylist instanceof Song && songOrPlaylist.duration === 0) {
+                            await replyWithEmbed(message, 'error', 'Không thể phát bài hát này.');
+                            return;
+                        } else if (!songOrPlaylist) {
+                            await replyWithEmbed(message, 'error', 'Không tìm thấy bài hát nào phù hợp.');
+                            return;
+                        }
+
+                        if (!songOrPlaylist.url) {
+                            await replyWithEmbed(message, 'error', 'Không thể phát bài hát hoặc playlist này.');
+                            return;
+                        }
+
+                        let queue = distube.getQueue(message);
+
+                        if (!queue) {
+                            queue = await distube.queues.create(vc, message.channel as GuildTextBasedChannel)
+                        }
+
+                        queue.addToQueue(songOrPlaylist instanceof Playlist ? songOrPlaylist.songs : songOrPlaylist);
+
+                        if (!queue.playing) {
+                            queue.play();
+                        }
                     }
 
                     if (interaction.isButton()) {
@@ -180,3 +213,5 @@ export const search: Command = {
         }
     },
 };
+
+export = search;
