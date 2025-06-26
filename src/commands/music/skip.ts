@@ -9,7 +9,7 @@
 
 import { Message } from "discord.js";
 import { Command } from "../../@types/command";
-import DisTube from "distube";
+import DisTube, { Events } from "distube";
 import { replyWithEmbed } from "../../utils/embedHelper";
 import { startVotingUI } from "../../utils/startVotingUI";
 
@@ -32,11 +32,13 @@ const skip: Command = {
                 }
 
                 const queue = distube.getQueue(guildId);
-                if (queue && queue.songs.length > 0) {
-                    await distube.skip(message);
-                    await replyWithEmbed(message, 'success', 'Đã bỏ qua bài hát.');
+                if (queue && queue.songs.length > 1) {
+                    queue.skip();
+                    await replyWithEmbed(message, 'success', '⏭ Đã chuyển bài.');
                 } else {
-                    await replyWithEmbed(message, 'error', 'Không có bài hát nào đang phát.');
+                    queue?.stop();
+                    await replyWithEmbed(message, 'error', 'Đã bỏ qua bài hát cuối cùng.');
+                    distube.emit(Events.FINISH, queue!);
                 }
             });
         } catch (err) {
