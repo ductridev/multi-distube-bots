@@ -16,6 +16,7 @@ import Cron from 'node-cron';
 import { getYoutubeCookie } from '../utils/getCookiesAutomation';
 
 const ytCookiesPath = path.resolve(__dirname, '../cookies.json');
+const ytCookiesTxtPath = path.resolve(__dirname, '../cookies.txt');
 
 export const createDisTube = async (client: Client, youtubePlugin: YouTubePlugin, name: string): Promise<DisTube> => {
     const ffmpegPath = path.resolve(__dirname, '../../ffmpeg/bin/ffmpeg');
@@ -31,6 +32,13 @@ export const createDisTube = async (client: Client, youtubePlugin: YouTubePlugin
         api: {
             clientId: process.env.SPOTIFY_CLIENT_ID!,
             clientSecret: process.env.SPOTIFY_CLIENT_SECRET!,
+            topTracksCountry: 'VN',
+        },
+    }));
+
+    plugins.push(new SpotifyPlugin({
+        api: {
+            topTracksCountry: 'VN',
         },
     }));
 
@@ -49,10 +57,10 @@ export const createDisTube = async (client: Client, youtubePlugin: YouTubePlugin
     plugins.push(new DeezerPlugin());
     plugins.push(new DirectLinkPlugin());
     plugins.push(new FilePlugin());
-    if (fs.existsSync(ytCookiesPath)) {
-        plugins.push(new YtDlpPlugin({ update: true, cookies: fs.readFileSync(ytCookiesPath, { encoding: 'utf8', flag: 'r' }), extractorArgs: process.env.EXTRACTOR_URLS ?? "youtubepot-bgutilhttp:base_url=http://127.0.0.1:4416" }));
+    if (fs.existsSync(ytCookiesTxtPath)) {
+        plugins.push(new YtDlpPlugin({ update: false, cookies: ytCookiesTxtPath, extractorArgs: process.env.EXTRACTOR_URLS ?? "youtubepot-bgutilhttp:base_url=http://127.0.0.1:4416", proxy: process.env.PROXY_URL ?? "bungo:bungomusic@127.0.0.1:20082" }));
     } else {
-        plugins.push(new YtDlpPlugin({ update: true, extractorArgs: process.env.EXTRACTOR_URLS ?? "youtubepot-bgutilhttp:base_url=http://127.0.0.1:4416" }));
+        plugins.push(new YtDlpPlugin({ update: false, extractorArgs: process.env.EXTRACTOR_URLS ?? "youtubepot-bgutilhttp:base_url=http://127.0.0.1:4416", proxy: process.env.PROXY_URL ?? "bungo:bungomusic@127.0.0.1:20082" }));
     }
 
     console.log(`[${name}][DisTube] Đã load các plugins: ${plugins.map((plugin: DisTubePlugin) => plugin.constructor.name).join(', ')}`);
@@ -84,10 +92,10 @@ const setupYtCookieSchedule = async (YtPlugin: YouTubePlugin) => {
 export const loadPluginsPartYoutube = async (YtPlugin: YouTubePlugin) => {
     YtPlugin = await setupYtCookieSchedule(YtPlugin);
 
-    if (fs.existsSync(ytCookiesPath)) {
+    if (fs.existsSync(ytCookiesPath) && fs.existsSync(ytCookiesTxtPath)) {
         try {
-            YtPlugin.cookies = JSON.parse(fs.readFileSync(ytCookiesPath, { encoding: 'utf8', flag: 'r' }));
-            console.log(`[YouTube Plugin] 'cookies.json' đã được tải`);
+            YtPlugin.cookies = JSON.parse(fs.readFileSync(ytCookiesPath, { encoding: 'utf8', flag: 'r' })); 
+            console.log(`[YouTube Plugin] 'cookies.json' và 'cookies.txt' đã được tải`);
         } catch {
             console.error(`[YouTube Plugin] 'cookies.json' đã gặp lỗi khi cố gắng xử lý`);
             if (process.env.GOOGLE_EMAIL && process.env.GOOGLE_PASSWORD) {
@@ -95,7 +103,8 @@ export const loadPluginsPartYoutube = async (YtPlugin: YouTubePlugin) => {
             }
         }
     } else {
-        console.warn(`[YouTube Plugin] 'cookies.json' not found`);
+        if(!fs.existsSync(ytCookiesPath)) console.warn(`[YouTube Plugin] không tìm thấy 'cookies.json'`);
+        if (!fs.existsSync(ytCookiesTxtPath)) console.warn(`[YouTube Plugin] không tìm thấy 'cookies.txt'`);
 
         if (process.env.GOOGLE_EMAIL && process.env.GOOGLE_PASSWORD) {
             console.log(`[YouTube Plugin] Đang cố gắng lấy cookie từ Google Auth, điều này có thể sẽ mất một chút thời gian.`);
