@@ -19,19 +19,24 @@ export async function startVotingUI(
     onPassed: () => Promise<void>
 ) {
     try {
-        const queue = distube.getQueue(message);
-        if (!queue) {
-            await replyWithEmbed(message, 'error', 'Không có bài hát nào đang phát.');
+        const vc = message.member?.voice.channel;
+        if (!vc) {
+            await replyWithEmbed(message, 'error', 'Bạn cần tham gia một kênh thoại trước.');
             return;
         }
 
         const guildId = message.guild!.id;
-        const session = await getSession(guildId); // ✅ Now async
-        const vc = message.member?.voice.channel;
         const userId = message.author.id;
+        const session = await getSession(guildId, vc.id); // ✅ Now async
 
-        if (!vc || !session) {
+        if (!session) {
             await replyWithEmbed(message, 'error', 'Không xác định được kênh thoại hoặc phiên bot.');
+            return;
+        }
+
+        const queue = distube.getQueue(message);
+        if (!queue) {
+            onPassed();
             return;
         }
 
@@ -41,7 +46,15 @@ export async function startVotingUI(
         }
 
         const members = vc.members.filter(m => !m.user.bot);
-        const requiredVotes = Math.ceil((members.size + 1) * 0.8);
+        if (members.size === 1) {
+            onPassed();
+            return;
+        }
+
+        let requiredVotes = Math.ceil((members.size) * 0.8);
+        if (members.size === 2 && members.has(session.initiatorId)) {
+            requiredVotes = 2;
+        }
 
         const votes = new Set<string>();
         const voters = new Set<string>();
@@ -103,7 +116,7 @@ export async function startVotingUI(
             if (!collector.ended) collector.stop('timeout');
         }, timeoutMs);
 
-        await setVoteExpire(message.guildId!, timeoutMs); // ✅ Update DB with expiration
+        await setVoteExpire(message.guildId!, vc.id, timeoutMs); // ✅ Update DB with expiration
 
         collector.on('end', async (_, reason) => {
             clearTimeout(timeout);
@@ -114,7 +127,7 @@ export async function startVotingUI(
                     components: [],
                 });
             } else {
-                await clearSession(message.guildId!);
+                await clearSession(message.guildId!, vc.id);
             }
         });
     } catch (err) {
