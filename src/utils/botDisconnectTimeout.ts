@@ -1,12 +1,12 @@
 import { Queue } from "distube";
 
 export const cancelNoSongTimeout = (queue: Queue, noSongTimeouts: Map<string, NodeJS.Timeout>) => {
-    const guildId = queue.textChannel?.guild.id;
-    if (!guildId) return;
+    const vc = queue.voiceChannel;
+    if (!vc) return;
 
-    const timeout = noSongTimeouts.get(guildId);
+    const timeout = noSongTimeouts.get(vc.id);
     if (timeout) {
         clearTimeout(timeout);
-        noSongTimeouts.delete(guildId);
+        noSongTimeouts.delete(vc.id);
     }
 }

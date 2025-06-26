@@ -3,23 +3,24 @@
 import { VoiceState } from "discord.js";
 import BotInstance from "../../@types/botInstance";
 import DisTube from "distube";
+import { deleteByVoiceChannelId } from "../../utils/voicChannelMap";
 
-export const onVoiceStateUpdate = (oldState: VoiceState, newState: VoiceState, activeBots: BotInstance[], noListenerTimeouts: Map<string, NodeJS.Timeout>, distube: DisTube) => {
+export const onVoiceStateUpdate = async (oldState: VoiceState, newState: VoiceState, activeBots: BotInstance[], noListenerTimeouts: Map<string, NodeJS.Timeout>, distube: DisTube) => {
     try {
         const guildId = newState.guild.id;
         const botInstance = activeBots.find(b => b.client.user?.id === newState.id);
+        const wasInVC = oldState.channelId ?? '';
+        const nowInVC = newState.channelId;
 
         if (botInstance) {
-            const wasInVC = oldState.channelId;
-            const nowInVC = newState.channelId;
-
             if (wasInVC && !nowInVC) {
-                const queue = distube.getQueue(guildId);
+                const queue = distube.getQueue(wasInVC);
                 if (queue) {
-                    queue.stop();
-                    console.log(`[VoiceState] Bot left VC in guild ${guildId}, queue stopped.`);
+                    queue.voice.leave();
+                    await queue.stop();
+                    console.log(`[VoiceState] đã rời khỏi vc ${wasInVC}, dừng phát.`);
                 }
-                botInstance.voiceChannelMap.delete(guildId);
+                deleteByVoiceChannelId(botInstance.voiceChannelMap, wasInVC);
             } else if (nowInVC) {
                 botInstance.voiceChannelMap.set(guildId, nowInVC);
             }
@@ -29,9 +30,9 @@ export const onVoiceStateUpdate = (oldState: VoiceState, newState: VoiceState, a
         if (!channel || newState.member?.user.bot) return;
 
         const humans = channel.members.filter(m => !m.user.bot);
-        if (humans.size > 0 && noListenerTimeouts?.has(guildId)) {
-            clearTimeout(noListenerTimeouts.get(guildId));
-            noListenerTimeouts.delete(guildId);
+        if (humans.size > 0 && noListenerTimeouts?.has(wasInVC)) {
+            clearTimeout(noListenerTimeouts.get(wasInVC));
+            noListenerTimeouts.delete(wasInVC);
         }
     } catch (err) {
         console.error(err);

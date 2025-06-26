@@ -1,12 +1,13 @@
 // src/utils/sessionStore.ts
 import { SessionModel } from '../models/Session';
 
-export async function setInitiator(guildId: string, userId: string) {
+export async function setInitiator(guildId: string, channelId: string, userId: string) {
     const now = Date.now();
     const session = await SessionModel.findOne({ guildId });
 
     if (session) {
         session.initiatorId = userId;
+        session.channelId = channelId;
         session.joinedAt = now;
         session.voteSkips = [];
         session.voteStops = [];
@@ -15,6 +16,7 @@ export async function setInitiator(guildId: string, userId: string) {
     } else {
         await SessionModel.create({
             guildId,
+            channelId,
             initiatorId: userId,
             joinedAt: now,
             voteSkips: [],
@@ -24,8 +26,8 @@ export async function setInitiator(guildId: string, userId: string) {
     }
 }
 
-export async function getSession(guildId: string) {
-    const session = await SessionModel.findOne({ guildId }).lean();
+export async function getSession(guildId: string, channelId: string) {
+    const session = await SessionModel.findOne({ guildId, channelId }).lean();
     if (!session) return undefined;
 
     return {
@@ -36,11 +38,11 @@ export async function getSession(guildId: string) {
     };
 }
 
-export async function clearSession(guildId: string) {
-    await SessionModel.deleteOne({ guildId });
+export async function clearSession(guildId: string, channelId: string) {
+    await SessionModel.deleteOne({ guildId, channelId });
 }
 
-export async function setVoteExpire(guildId: string, ms: number) {
+export async function setVoteExpire(guildId: string, channelId: string, ms: number) {
     const expireAt = new Date(Date.now() + ms);
-    await SessionModel.updateOne({ guildId }, { voteExpireAt: expireAt });
+    await SessionModel.updateOne({ guildId, channelId }, { voteExpireAt: expireAt });
 }

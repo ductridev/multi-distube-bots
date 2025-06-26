@@ -3,6 +3,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface ISession extends Document {
     guildId: string;
+    channelId: string;
     initiatorId: string;
     joinedAt: number;
     voteSkips: string[];
@@ -12,6 +13,7 @@ export interface ISession extends Document {
 
 const sessionSchema = new Schema({
     guildId: { type: String, required: true, unique: true },
+    channelId: { type: String, required: true },
     initiatorId: { type: String, required: true },
     joinedAt: { type: Number, required: true },
     voteSkips: { type: [String], default: [] },
