@@ -3,7 +3,7 @@
 import { VoiceState } from "discord.js";
 import BotInstance from "../../@types/botInstance";
 import DisTube from "distube";
-import { deleteByVoiceChannelId } from "../../utils/voicChannelMap";
+import { deleteByVoiceChannelId } from "../../utils/voiceChannelMap";
 
 export const onVoiceStateUpdate = async (oldState: VoiceState, newState: VoiceState, activeBots: BotInstance[], noListenerTimeouts: Map<string, NodeJS.Timeout>, distube: DisTube) => {
     try {
