@@ -1,7 +1,6 @@
 // src/bot/createBot.ts
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import { BotConfig } from '../config';
-import { Command } from '../@types/command';
 import { registerDisTubeEvents } from './distubeEvents';
 import { registerDiscordEvents } from './discordEvents';
 import { loadAllCommands } from '../utils/loadCommands';
