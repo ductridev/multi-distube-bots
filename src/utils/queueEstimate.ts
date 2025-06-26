@@ -41,7 +41,7 @@ export function formatExtendedDuration(totalSeconds: number): string {
 export function getEstimatedWaitTime(queue?: Queue) {
     if (!queue || queue.songs.length === 0) return 'Ngay bây giờ';
     let time = 0;
-    for (let i = 0; i < queue.songs.length; i++) {
+    for (let i = 1; i < queue.songs.length; i++) {
         time += queue.songs[i].duration || 0;
     }
     time -= queue.currentTime
@@ -54,11 +54,11 @@ export function getEstimatedWaitTime(queue?: Queue) {
 
 export function getQueuePosition(queue?: Queue) {
     if (!queue) return '1';
-    return `${queue.songs.length + 1}`;
+    return `${queue.songs.length}`;
 }
 
 export function getUpcomingPosition(queue?: Queue) {
-    if (!queue || queue.songs.length === 0) return 'Ngay bây giờ';
-    if (queue.songs.length === 1) return 'Tiếp theo';
-    return `#${queue.songs.length + 1}`;
+    if (!queue || queue.songs.length === 1) return 'Ngay bây giờ';
+    if (queue.songs.length === 2) return 'Tiếp theo';
+    return `${queue.songs.length - 1}`;
 }
