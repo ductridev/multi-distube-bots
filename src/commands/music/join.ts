@@ -12,6 +12,7 @@ import { Message } from 'discord.js';
 import { DisTube } from 'distube';
 import { replyWithEmbed } from '../../utils/embedHelper';
 import { setInitiator } from '../../utils/sessionStore';
+import { canBotJoinVC } from '../../utils/voicePermission';
 
 const join: Command = {
     name: 'join',
@@ -27,7 +28,13 @@ const join: Command = {
                 return;
             }
 
-            setInitiator(message.guildId!, message.author.id);
+            const error = canBotJoinVC(vc, message.client.user!.id);
+            if (error) {
+                await replyWithEmbed(message, 'error', error);
+                return;
+            }
+
+            setInitiator(message.guildId!, vc.id, message.author.id);
 
             try {
                 // Note: DisTube handles join internally on play
