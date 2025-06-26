@@ -1,10 +1,9 @@
 // src/events/discord/onReady.ts
 
-import { ActivityType, Interaction, PresenceStatusData } from "discord.js";
+import { ActivityType, PresenceStatusData } from "discord.js";
 import ExtendedClient from "../../@types/extendedClient";
 import { BotConfigModel } from "../../models/BotConfig";
 import { loadSlashCommands } from "../../utils/loadCommands";
-import { onInteractionCreate } from "./onInteractionCreate";
 import { SlashCommand } from "../../@types/command";
 
 export const onReady = async (client: ExtendedClient, name: string) => {
@@ -20,10 +19,7 @@ export const onReady = async (client: ExtendedClient, name: string) => {
         }
 
         await client.application.commands.set(commandsData);
-        console.log(`✅ Đã thêm thành công ${slashCommands.length} lệnh slash.`);
-
-        client.on('interactionCreate', (interaction: Interaction) => onInteractionCreate(interaction, slashCommandsMap, client));
-        // End load slash commands
+        console.log(`[${name}]✅ Đã thêm thành công ${slashCommands.length} lệnh slash.`);
 
         const botConfig = await BotConfigModel.findOne({ name });
 
@@ -32,9 +28,9 @@ export const onReady = async (client: ExtendedClient, name: string) => {
         if (botConfig.displayName && client.user?.username !== botConfig.displayName) {
             try {
                 await client.user.setUsername(botConfig.displayName);
-                console.log(`✅ Updated bot name to ${botConfig.displayName}`);
+                console.log(`[${name}]✅ Đã cập nhật username: ${botConfig.displayName}`);
             } catch (err) {
-                console.warn(`⚠️ Could not update username:`, err);
+                console.warn(`[${name}]⚠️ Không thể cập nhật username:`, err);
             }
         }
 
@@ -42,9 +38,9 @@ export const onReady = async (client: ExtendedClient, name: string) => {
             try {
                 await client.user.setAvatar(botConfig.avatarURL);
                 await BotConfigModel.updateOne({ name }, { avatarUpdated: true });
-                console.log(`✅ Updated bot avatar`, client.user.id);
+                console.log(`[${name}]✅ Đã cập nhật avatar`, client.user.id);
             } catch (err) {
-                console.warn(`⚠️ Could not update avatar:`, err);
+                console.warn(`[${name}]⚠️ Không thể cập nhật avatar:`, err);
             }
         }
 
@@ -52,17 +48,18 @@ export const onReady = async (client: ExtendedClient, name: string) => {
             try {
                 await client.user.setBanner(botConfig.bannerURL);
                 await BotConfigModel.updateOne({ name }, { bannerUpdated: true });
-                console.log(`✅ Updated bot banner`, client.user.id);
+                console.log(`[${name}]✅ Đã cập nhật banner`, client.user.id);
             } catch (err) {
-                console.warn(`⚠️ Could not update banner:`, err);
+                console.warn(`[${name}]⚠️ Không thể cập nhật banner:`, err);
             }
         }
 
         if (botConfig.presence) {
             try {
                 client.user.setActivity(botConfig.presence, { type: ActivityType.Watching, url: botConfig.streamURL });
+                console.log(`[${name}]✅ Đã cập nhật hoạt động: ${botConfig.presence}, ${botConfig.streamURL || 'No stream'}`);
             } catch (err) {
-                console.warn(`⚠️ Could not update activity:`, err);
+                console.warn(`[${name}]⚠️ Không thể cập nhật hoạt động:`, err);
             }
         }
 
@@ -76,10 +73,10 @@ export const onReady = async (client: ExtendedClient, name: string) => {
         try {
             // if (client.user.) {
             client.user.setStatus(status);
-            console.log(`✅ Updated presence: ${botConfig.status}, ${botConfig.presence || 'No activity'}`);
+            console.log(`[${name}]✅ Đã cập nhật trạng thái: ${botConfig.status}, ${botConfig.presence || 'Không có hoạt động nào'}`);
             // }
         } catch (err) {
-            console.warn(`⚠️ Could not update presence:`, err);
+            console.warn(`[${name}]⚠️ Không thể cập nhật trạng thái:`, err);
         }
 
         if (botConfig.bio) {
@@ -87,9 +84,9 @@ export const onReady = async (client: ExtendedClient, name: string) => {
                 await client.application?.edit({
                     description: botConfig.bio,
                 });
-                console.log(`✅ Updated bot bio (About Me)`);
+                console.log(`[${name}]✅ Đã cập nhật bio (About Me)`);
             } catch (err) {
-                console.warn('⚠️ Could not update bot bio:', err);
+                console.warn('[${name}]⚠️ Không thể cập nhật bio:', err);
             }
         }
     } catch (err) {
