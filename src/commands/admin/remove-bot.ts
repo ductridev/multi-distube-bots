@@ -1,6 +1,13 @@
 // src/commands/admin/remove-bot.ts
+/* 
+    Command: removebot
+    Description: Removes a bot from the bot list.
+    Usage: b!removebot <prefix | name | _id | tag>
+    Category: admin
+    Aliases: rmbot
+*/
 import { Command } from '../../@types/command';
-import { Message } from 'discord.js';
+import { ChatInputCommandInteraction, Message } from 'discord.js';
 import { BotConfigModel } from '../../models/BotConfig';
 import { replyWithEmbed } from '../../utils/embedHelper';
 import { activeBots } from '../../botManager';
@@ -63,6 +70,9 @@ const removeBot: Command = {
             console.error(err);
             // Do nothing
         }
+    },
+    run: async (interaction: ChatInputCommandInteraction) => {
+        await interaction.reply({ content: '❌ Lệnh này chỉ dùng qua prefix: `b!removebot ...`', ephemeral: true });
     },
 };
 
