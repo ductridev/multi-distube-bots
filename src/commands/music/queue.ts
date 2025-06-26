@@ -17,7 +17,7 @@ import {
 } from 'discord.js';
 import { Command } from '../../@types/command';
 import DisTube from 'distube';
-import { replyWithEmbed } from '../../utils/embedHelper';
+import { replyEmbedWFooter, replyWithEmbed } from '../../utils/embedHelper';
 
 const PAGE_SIZE = 10;
 
@@ -46,6 +46,8 @@ const queue: Command = {
                 const start = currentPage * PAGE_SIZE;
                 const end = start + PAGE_SIZE;
                 const dropdownSongs = songs.slice(start, end);
+
+                if (dropdownSongs.length === 0) return null;
 
                 const options = dropdownSongs.map((song, i) => ({
                     label: `${start + i + 1}. ${song.name}`.slice(0, 100),
@@ -102,14 +104,18 @@ const queue: Command = {
 
                 const dropdownRow = buildDropdownRow();
 
+                const components = dropdownRow
+                    ? [dropdownRow, buttonRow]
+                    : [buttonRow];
+
                 return {
                     embeds: [embed],
-                    components: [dropdownRow, buttonRow],
+                    components,
                 };
             };
 
             const { embeds, components } = renderPage();
-            const reply = await message.reply({ embeds, components });
+            const reply = await replyEmbedWFooter(message, embeds[0], components);
 
             const collector = reply.createMessageComponentCollector({
                 time: 60_000,
