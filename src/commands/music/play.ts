@@ -19,13 +19,13 @@ import {
 } from 'discord.js';
 import { replyEmbedWFooter, replyWithEmbed } from '../../utils/embedHelper';
 import { setInitiator } from '../../utils/sessionStore';
-import { getPluginForUrl } from '../../utils/getPluginNameForUrl';
 import { getEstimatedWaitTime, getQueuePosition, getUpcomingPosition } from '../../utils/queueEstimate';
 import { QueueSessionModel } from '../../models/QueueSession';
 import { RecentTrackModel } from '../../models/RecentTrack';
 import { saveLimitedArray } from '../../utils/mongoArrayLimiter';
 import { sleep } from '../../utils/sleep';
 import { getSongOrPlaylist } from '../../utils/getSongOrPlaylist';
+import { canBotJoinVC } from '../../utils/voicePermission';
 
 const play: Command = {
   name: 'play',
@@ -47,7 +47,13 @@ const play: Command = {
         return;
       }
 
-      setInitiator(message.guildId!, message.author.id);
+      const error = canBotJoinVC(vc, message.client.user!.id);
+      if (error) {
+        await replyWithEmbed(message, 'error', error);
+        return;
+      }
+
+      setInitiator(message.guildId!, vc.id, message.author.id);
 
       try {
         const songOrPlaylist = await getSongOrPlaylist(distube, query);
@@ -75,6 +81,16 @@ const play: Command = {
         saveLimitedArray(RecentTrackModel, message.author.id, 'tracks', songOrPlaylist.url);
 
         let queue = distube.getQueue(message);
+
+        if (!queue) {
+          queue = await distube.queues.create(vc, message.channel as GuildTextBasedChannel)
+        }
+
+        queue.addToQueue(songOrPlaylist instanceof Playlist ? songOrPlaylist.songs : songOrPlaylist);
+
+        if (!queue.playing) {
+          queue.play();
+        }
 
         const embed = new EmbedBuilder()
           .setColor(0x1DB954)
@@ -179,12 +195,18 @@ const play: Command = {
               break;
 
             case 'skip':
-              queue.skip();
-              await interaction.reply({ content: '⏭ Đã chuyển bài.', ephemeral: true });
+              if (queue && queue.songs.length > 1) {
+                queue.skip();
+                await interaction.reply({ content: '⏭ Đã chuyển bài.', ephemeral: true });
+              } else {
+                queue?.stop();
+                await interaction.reply({ content: 'Đã bỏ qua bài hát cuối cùng.', ephemeral: true });
+              }
               break;
 
             case 'stop':
-              queue.stop();
+              queue.voice.leave();
+              await queue.stop();
               await interaction.reply({ content: '🛑 Đã dừng phát nhạc.', ephemeral: true });
               break;
 
@@ -202,8 +224,6 @@ const play: Command = {
               break;
           }
         });
-
-        await distube.play(vc, songOrPlaylist, { member: message.member!, textChannel: message.channel as GuildTextBasedChannel });
       } catch (err) {
         console.error('Lỗi khi phát nhạc:', err);
         if (err instanceof Error && err.message.includes('Unsupported URL')) await replyWithEmbed(message, 'error', 'URL không hợp lệ hoặc không được hỗ trợ.');
