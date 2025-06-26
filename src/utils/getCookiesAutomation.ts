@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import fs from 'fs';
 import path from 'path';
+import { Cookie } from 'puppeteer';
 
 // Cần để vượt lỗi "This browser or app may not be secure" sau khi điền form email của Google
 const stealth = StealthPlugin();
@@ -10,6 +11,25 @@ stealth.enabledEvasions.delete('media.codecs');
 puppeteer.use(stealth);
 
 const ytCookiesPath = path.resolve(__dirname, '../cookies.json');
+const ytCookiesTxtPath = path.resolve(__dirname, '../cookies.txt');
+
+function serializeCookiesToNetscape(cookies: Cookie[]): string {
+    const lines = ['# Netscape HTTP Cookie File'];
+
+    for (const cookie of cookies) {
+        const domain = cookie.domain.startsWith('.') ? cookie.domain : `.${cookie.domain}`;
+        const flag = cookie.domain.startsWith('.') ? 'TRUE' : 'FALSE';
+        const path = cookie.path ?? '/';
+        const secure = cookie.secure ? 'TRUE' : 'FALSE';
+        const expires = Math.floor(cookie.expires ?? (Date.now() / 1000 + 3600)); // <- FIXED
+        const name = cookie.name;
+        const value = cookie.value;
+
+        lines.push([domain, flag, path, secure, expires, name, value].join('\t'));
+    }
+
+    return lines.join('\n');
+}
 
 export const getYoutubeCookie = async () => {
     if (!process.env.GOOGLE_EMAIL || !process.env.GOOGLE_PASSWORD) {
@@ -68,6 +88,9 @@ export const getYoutubeCookie = async () => {
 
     const cookiesJson = JSON.stringify(cookies, null, 2);
     fs.writeFileSync(ytCookiesPath, cookiesJson);
+
+    const netscapeCookies = serializeCookiesToNetscape(cookies);
+    fs.writeFileSync(ytCookiesTxtPath, netscapeCookies);
 
     if (!cookies) console.error('[Youtube Cookie Automation] Không thể lấy cookie');
     if (cookiesJson) console.log('[Youtube Cookie Automation] Lấy cookie cho Youtube thành công');
