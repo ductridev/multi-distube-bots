@@ -19,10 +19,13 @@
     "@distube/spotify": "^2.0.2",
     "@distube/youtube": "^1.0.4",
     "@distube/yt-dlp": "^2.0.1",
-    "@distube/ytdl-core": "latest",
+    "@distube/ytdl-core": "^4.16.12",
+    "@distube/ytsr": "^2.0.4",
+    "axios": "^1.10.0",
     "discord.js": "^14.20.0",
     "distube": "^5.0.7",
     "dotenv": "^16.5.0",
+    "fs-extra": "^11.3.0",
     "genius-lyrics": "^4.4.7",
     "mongoose": "^8.16.0",
     "node-cron": "^4.1.1",
@@ -30,13 +33,18 @@
     "puppeteer": "^24.10.2",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "straightforward": "^4.2.2",
+    "unzipper": "^0.12.3",
     "yt-search": "^2.13.1"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^24.0.3",
+    "@types/unzipper": "^0.10.11",
     "@types/ws": "^8.18.1",
     "@types/yt-search": "^2.10.3",
+    "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
