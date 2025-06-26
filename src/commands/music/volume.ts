@@ -10,7 +10,7 @@
 import { Command } from "../../@types/command";
 import { replyWithEmbed } from "../../utils/embedHelper";
 
-export const volume: Command = {
+const volume: Command = {
     name: 'volume',
     description: 'Thay đổi âm lượng.',
     usage: 'b!volume <0-200>',
@@ -21,6 +21,12 @@ export const volume: Command = {
             const vc = message.member?.voice.channel;
             if (!vc) {
                 await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại.');
+                return;
+            }
+
+            if (args[0] === 'default' || args.join(" ") === "mặc định") {
+                distube.getQueue(message)?.setVolume(50);
+                await replyWithEmbed(message, 'success', 'Đã thay đổi âm lượng phát về mặc định.');
                 return;
             }
 
@@ -39,3 +45,5 @@ export const volume: Command = {
         }
     },
 }
+
+export = volume;
