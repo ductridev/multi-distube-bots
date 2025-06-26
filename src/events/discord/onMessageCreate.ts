@@ -41,7 +41,7 @@ export const onMessageCreate = async (message: Message, activeBots: BotInstance[
             if (botInSameVC.client.user?.id !== client.user?.id) return;
 
             try {
-                await command.execute(message, args, distube);
+                await command.execute(message, args, distube, client);
             } catch (err) {
                 console.error(`[${name}] Error in command '${cmdName}':`, err);
                 replyWithEmbed(message, 'error', 'Có gì đó đã xảy ra khi thực hiện lệnh.');
@@ -66,7 +66,7 @@ export const onMessageCreate = async (message: Message, activeBots: BotInstance[
         // Step 4: Execute if bot is free
         if (isFree) {
             try {
-                await command.execute(message, args, distube);
+                await command.execute(message, args, distube, client);
             } catch (err) {
                 console.error(`[${name}] Error in command '${cmdName}':`, err);
                 replyWithEmbed(message, 'error', 'Có gì đó đã xảy ra khi thực hiện lệnh.');
