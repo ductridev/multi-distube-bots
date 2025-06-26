@@ -9,6 +9,8 @@ import seedConfig from './config.json';
 import BotInstance from './@types/botInstance';
 import { loadPluginsPartYoutube } from './bot/createDistube';
 import { YouTubePlugin } from '@distube/youtube';
+import ytdl from '@distube/ytdl-core';
+import { getRandomIPv6 } from './utils/getRandomIPv6';
 
 export const activeBots: BotInstance[] = [];
 
@@ -54,6 +56,10 @@ async function startAllBots() {
     });
 
     youtubePlugin = await loadPluginsPartYoutube(youtubePlugin);
+
+    // Create proxy agent
+    const proxyAgent = ytdl.createProxyAgent({ uri: process.env.PROXY_URL ?? "http://bungo:bungomusic@127.0.0.1:20082", localAddress: getRandomIPv6("2001:2::/48") }, youtubePlugin.cookies)
+    youtubePlugin.ytdlOptions.agent = proxyAgent
 
     bots.forEach(botConfig => {
         createBot({ ...botConfig.toObject(), mainPrefix }, youtubePlugin);
