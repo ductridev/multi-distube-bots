@@ -12,8 +12,8 @@ import { Command } from '../../@types/command';
 import { GuildTextBasedChannel, Message } from 'discord.js';
 import { replyWithEmbed } from '../../utils/embedHelper';
 import { setInitiator } from '../../utils/sessionStore';
-import { getPluginForUrl } from '../../utils/getPluginNameForUrl';
 import { getSongOrPlaylist } from '../../utils/getSongOrPlaylist';
+import { canBotJoinVC } from '../../utils/voicePermission';
 
 const playlistSearch: Command = {
     name: 'playlist-search',
@@ -35,7 +35,13 @@ const playlistSearch: Command = {
                 return;
             }
 
-            setInitiator(message.guildId!, message.author.id);
+            const error = canBotJoinVC(vc, message.client.user!.id);
+            if (error) {
+                await replyWithEmbed(message, 'error', error);
+                return;
+            }
+
+            setInitiator(message.guildId!, vc.id, message.author.id);
 
             try {
                 const playlist = await getSongOrPlaylist(distube, query) as Playlist;
@@ -45,10 +51,17 @@ const playlistSearch: Command = {
                     return;
                 }
 
-                await distube.play(vc, playlist, {
-                    member: message.member!,
-                    textChannel: message.channel as GuildTextBasedChannel,
-                });
+                let queue = distube.getQueue(message);
+
+                if (!queue) {
+                    queue = await distube.queues.create(vc, message.channel as GuildTextBasedChannel)
+                }
+
+                queue.addToQueue(playlist instanceof Playlist ? playlist.songs : playlist);
+
+                if (!queue.playing) {
+                    queue.play();
+                }
 
                 await replyWithEmbed(message, 'success', `📀 Đang phát playlist: **${playlist.name}**`);
             } catch (err) {

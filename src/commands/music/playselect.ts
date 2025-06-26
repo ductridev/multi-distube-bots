@@ -19,8 +19,8 @@ import {
 } from 'discord.js';
 import { replyEmbedWFooter, replyWithEmbed } from '../../utils/embedHelper';
 import { setInitiator } from '../../utils/sessionStore';
-import { getPluginForUrl } from '../../utils/getPluginNameForUrl';
 import { getSongOrPlaylist } from '../../utils/getSongOrPlaylist';
+import { canBotJoinVC } from '../../utils/voicePermission';
 
 const PAGE_SIZE = 20;
 
@@ -45,7 +45,13 @@ const playselect: Command = {
         return;
       }
 
-      setInitiator(message.guildId!, message.author.id);
+      const error = canBotJoinVC(vc, message.client.user!.id);
+      if (error) {
+        await replyWithEmbed(message, 'error', error);
+        return;
+      }
+
+      setInitiator(message.guildId!, vc.id, message.author.id);
 
       try {
         const playlist = await getSongOrPlaylist(distube, url) as Playlist;
@@ -154,10 +160,17 @@ const playselect: Command = {
               return;
             }
 
-            await distube.play(vc, selectedSong.url, {
-              member: message.member!,
-              textChannel: message.channel as GuildTextBasedChannel,
-            });
+            let queue = distube.getQueue(message);
+
+            if (!queue) {
+              queue = await distube.queues.create(vc, message.channel as GuildTextBasedChannel)
+            }
+
+            queue.addToQueue(selectedSong instanceof Playlist ? selectedSong.songs : selectedSong);
+
+            if (!queue.playing) {
+              queue.play();
+            }
           }
 
           if (interaction.isButton()) {
