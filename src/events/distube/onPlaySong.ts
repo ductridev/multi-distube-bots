@@ -3,13 +3,11 @@
 import { Queue, Song } from "distube";
 import { GuildTextBasedChannel } from "discord.js";
 import { sendWithEmbed } from "../../utils/embedHelper";
+import { cancelNoSongTimeout } from "../../utils/botDisconnectTimeout";
 
-export const onPlaySong = async (queue: Queue, song: Song) => {
+export const onPlaySong = async (queue: Queue, song: Song, noSongTimeouts: Map<string, NodeJS.Timeout>) => {
     try {
-        const userId = song.member?.id;
-        const guildId = queue.textChannel?.guild.id;
-        const channel = queue.voice?.channel;
-        if (!userId || !guildId || !channel) return;
+        cancelNoSongTimeout(queue, noSongTimeouts)
 
         // Send now playing message
         const songSource = song.source;
