@@ -19,12 +19,12 @@ import {
 import { replyEmbedWFooter, replyWithEmbed } from '../../utils/embedHelper';
 import { Playlist, Song } from 'distube';
 import { setInitiator } from '../../utils/sessionStore';
-import { getPluginForUrl } from '../../utils/getPluginNameForUrl';
 import { getEstimatedWaitTime, getQueuePosition, getUpcomingPosition } from '../../utils/queueEstimate';
 import { saveLimitedArray } from '../../utils/mongoArrayLimiter';
 import { QueueSessionModel } from '../../models/QueueSession';
 import { RecentTrackModel } from '../../models/RecentTrack';
 import { getSongOrPlaylist } from '../../utils/getSongOrPlaylist';
+import { canBotJoinVC } from '../../utils/voicePermission';
 
 const insert: Command = {
   name: 'insert',
@@ -34,7 +34,11 @@ const insert: Command = {
   aliases: ['i', 'ins'],
   async execute(message: Message, args: string[], distube) {
     try {
-      const query = args.join(' ');
+      const position = parseInt(args[0]);
+      let query = args.slice(1).join(' ');
+      if (Number.isNaN(position)) {
+        query = args.join(' ');
+      }
       if (!query) {
         await replyWithEmbed(message, 'error', 'Vui lòng nhập tên bài hát hoặc URL.');
         return;
@@ -46,7 +50,13 @@ const insert: Command = {
         return;
       }
 
-      setInitiator(message.guildId!, message.author.id);
+      const error = canBotJoinVC(vc, message.client.user!.id);
+      if (error) {
+        await replyWithEmbed(message, 'error', error);
+        return;
+      }
+
+      setInitiator(message.guildId!, vc.id, message.author.id);
 
       try {
         const songOrPlaylist = await getSongOrPlaylist(distube, query);
@@ -75,9 +85,17 @@ const insert: Command = {
         // Save recent track
         saveLimitedArray(RecentTrackModel, message.author.id, 'tracks', songOrPlaylist.url);
 
-        await distube.play(vc, songOrPlaylist, { member: message.member!, textChannel: message.channel as GuildTextBasedChannel });
-
         let queue = distube.getQueue(message);
+
+        if (!queue) {
+          queue = await distube.queues.create(vc, message.channel as GuildTextBasedChannel)
+        }
+
+        queue.addToQueue(songOrPlaylist instanceof Playlist ? songOrPlaylist.songs : songOrPlaylist, Number.isNaN(position) ? 1 : position);
+
+        if (!queue.playing) {
+          queue.play();
+        }
 
         const embed = new EmbedBuilder()
           .setColor(0x1DB954)
@@ -182,12 +200,18 @@ const insert: Command = {
               break;
 
             case 'skip':
-              queue.skip();
-              await interaction.reply({ content: '⏭ Đã chuyển bài.', ephemeral: true });
+              if (queue && queue.songs.length > 1) {
+                queue.skip();
+                await interaction.reply({ content: '⏭ Đã chuyển bài.', ephemeral: true });
+              } else {
+                queue?.stop();
+                await interaction.reply({ content: 'Đã bỏ qua bài hát cuối cùng.', ephemeral: true });
+              }
               break;
 
             case 'stop':
-              queue.stop();
+              queue.voice.leave();
+              await queue.stop();
               await interaction.reply({ content: '🛑 Đã dừng phát nhạc.', ephemeral: true });
               break;
 
