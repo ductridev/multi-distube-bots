@@ -1,5 +1,5 @@
 // src/middleware/commandPermissionCheck.ts
-import { Message } from 'discord.js';
+import { ChatInputCommandInteraction, GuildMember, Message } from 'discord.js';
 import { Command } from '../@types/command';
 import { replyWithEmbed } from '../utils/embedHelper';
 
@@ -9,25 +9,38 @@ const isOwner = (userId: string): boolean => {
     return OWNER_IDS.includes(userId);
 };
 
-export async function canRunCommand(message: Message, command: Command): Promise<boolean> {
-    const member = message.member;
+export async function canRunCommand(
+    ctx: Message | ChatInputCommandInteraction,
+    command: Command
+): Promise<boolean> {
+    const isInteraction = 'isChatInputCommand' in ctx;
+    const userId = isInteraction ? ctx.user.id : ctx.author.id;
+    const member = ctx.member as GuildMember;
 
-    // If command is owner-only
+    // Owner-only
     if (command.ownerOnly) {
-        if (!isOwner(message.author.id)) {
-            await replyWithEmbed(message, 'denied', '⛔ Lệnh này chỉ dành cho chủ sở hữu bot.');
+        if (!isOwner(userId)) {
+            if (isInteraction) {
+                await ctx.reply({ content: '⛔ Lệnh này chỉ dành cho chủ sở hữu bot.', ephemeral: true });
+            } else {
+                await replyWithEmbed(ctx, 'denied', '⛔ Lệnh này chỉ dành cho chủ sở hữu bot.');
+            }
             return false;
         }
     }
 
-    // If command is admin-only
+    // Admin-only
     if (command.adminOnly) {
-        if (!member?.permissions.has('Administrator') && !isOwner(message.author.id)) {
-            await replyWithEmbed(message, 'denied', '⛔ Lệnh này chỉ dành cho quản trị viên hoặc chủ sở hữu.');
+        const hasPermission = member?.permissions?.has('Administrator');
+        if (!hasPermission && !isOwner(userId)) {
+            if (isInteraction) {
+                await ctx.reply({ content: '⛔ Lệnh này chỉ dành cho quản trị viên hoặc chủ sở hữu.', ephemeral: true });
+            } else {
+                await replyWithEmbed(ctx, 'denied', '⛔ Lệnh này chỉ dành cho quản trị viên hoặc chủ sở hữu.');
+            }
             return false;
         }
     }
 
-    // All checks passed
     return true;
 }
