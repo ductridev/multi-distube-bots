@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+echo "Updating yt-dlp..."
+./node_modules/@distube/yt-dlp/bin/yt-dlp -U
+
 echo "Downloading get-pip.py..."
 curl -sS -O https://bootstrap.pypa.io/get-pip.py
 
@@ -20,7 +23,7 @@ mkdir -p "$LIB_DIR"
 echo "Setting LD_LIBRARY_PATH..."
 export LD_LIBRARY_PATH="$LIB_DIR:$LD_LIBRARY_PATH"
 
-CHROME="$HOME/.cache/puppeteer/chrome/linux-137.0.7151.119/chrome-linux64/chrome"
+CHROME="$HOME/.cache/puppeteer/chrome/linux-138.0.7204.49/chrome-linux64/chrome"
 
 echo "Testing Chrome launch..."
 
