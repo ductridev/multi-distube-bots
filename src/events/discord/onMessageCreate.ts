@@ -36,7 +36,7 @@ export const onMessageCreate = async (message: Message, activeBots: BotInstance[
         if (!allowed) return;
 
         // Step 1: If any bot is already in the user's VC, let only that one respond
-        const botInSameVC = activeBots.find(b => b.voiceChannelMap?.get(message.guild!.id) === userVCId);
+        const botInSameVC = activeBots.find(b => b.client.voiceChannelMap?.get(message.guild!.id) === userVCId);
         if (botInSameVC) {
             if (botInSameVC.client.user?.id !== client.user?.id) return;
 
@@ -56,7 +56,7 @@ export const onMessageCreate = async (message: Message, activeBots: BotInstance[
         if (!isThisBot) return; // Only selected bot should continue
 
         // Step 3: Block if selected bot is in a different VC
-        const currentVC = selectedBot.voiceChannelMap?.get(message.guild!.id);
+        const currentVC = selectedBot.client.voiceChannelMap?.get(message.guild!.id);
         const botAlreadyInOtherVC = currentVC && currentVC !== userVCId;
         if (botAlreadyInOtherVC) {
             await replyWithEmbed(message, 'error', 'Bot này đang hoạt động ở kênh thoại khác. Vui lòng chờ hoặc sử dụng bot khác.');

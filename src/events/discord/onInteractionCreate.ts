@@ -39,7 +39,7 @@ export const onInteractionCreate = async (
         if (!allowed) return;
 
         // Step 1: If any bot is already in the user's VC, let only that one respond
-        const botInSameVC = activeBots.find(b => b.voiceChannelMap?.get(guildId) === userVCId);
+        const botInSameVC = activeBots.find(b => b.client.voiceChannelMap?.get(guildId) === userVCId);
         if (botInSameVC) {
             if (botInSameVC.client.user?.id !== client.user?.id) return;
 
@@ -61,7 +61,7 @@ export const onInteractionCreate = async (
         if (!isThisBot) return;
 
         // Step 3: Block if selected bot is in a different VC
-        const currentVC = selectedBot.voiceChannelMap?.get(guildId);
+        const currentVC = selectedBot.client.voiceChannelMap?.get(guildId);
         const botAlreadyInOtherVC = currentVC && currentVC !== userVCId;
         if (botAlreadyInOtherVC) {
             if (!interaction.replied) {
