@@ -1,16 +1,18 @@
-diff --git a/node_modules/@distube/yt-dlp/bin/yt-dlp.exe b/node_modules/@distube/yt-dlp/bin/yt-dlp.exe
-index 77a73b5..a9d8c36 100644
-Binary files a/node_modules/@distube/yt-dlp/bin/yt-dlp.exe and b/node_modules/@distube/yt-dlp/bin/yt-dlp.exe differ
+diff --git a/node_modules/@distube/yt-dlp/bin/yt-dlp b/node_modules/@distube/yt-dlp/bin/yt-dlp
+new file mode 100644
+index 0000000..a9d8c36
+Binary files /dev/null and b/node_modules/@distube/yt-dlp/bin/yt-dlp differ
 diff --git a/node_modules/@distube/yt-dlp/dist/index.d.ts b/node_modules/@distube/yt-dlp/dist/index.d.ts
-index 332f649..73ac176 100644
+index 332f649..5d15f51 100644
 --- a/node_modules/@distube/yt-dlp/dist/index.d.ts
 +++ b/node_modules/@distube/yt-dlp/dist/index.d.ts
-@@ -361,16 +361,18 @@ interface YtDlpPlaylist {
+@@ -361,16 +361,19 @@ interface YtDlpPlaylist {
  type YtDlpResponse = YtDlpVideo | YtDlpPlaylist;
  interface YtDlpOptions {
      update?: boolean;
 +    extractorArgs?: string;
 +    cookies?: string;
++    proxy?: string;
  }
  
  declare const json: (url: string, flags?: YtDlpFlags, options?: SpawnOptionsWithoutStdio) => Promise<YtDlpResponse>;
@@ -18,7 +20,7 @@ index 332f649..73ac176 100644
  
  declare class YtDlpPlugin extends PlayableExtractorPlugin {
 -    constructor({ update }?: YtDlpOptions);
-+    constructor({ update, cookies, extractorArgs }?: YtDlpOptions);
++    constructor({ update, cookies, extractorArgs, proxy }?: YtDlpOptions);
      init(distube: DisTube): void;
      validate(): boolean;
 -    resolve<T>(url: string, options: ResolveOptions<T>): Promise<YtDlpSong<T> | Playlist<T>>;
@@ -27,41 +29,62 @@ index 332f649..73ac176 100644
      getRelatedSongs(): never[];
  }
 diff --git a/node_modules/@distube/yt-dlp/dist/index.js b/node_modules/@distube/yt-dlp/dist/index.js
-index b17b126..cd87ca0 100644
+index b17b126..dc0e7a8 100644
 --- a/node_modules/@distube/yt-dlp/dist/index.js
 +++ b/node_modules/@distube/yt-dlp/dist/index.js
-@@ -125,9 +125,11 @@ var YtDlpPlugin = class extends import_distube.PlayableExtractorPlugin {
+@@ -76,9 +76,11 @@ var json = /* @__PURE__ */ __name((url, flags, options) => {
+     let output = "";
+     process2.stdout?.on("data", (chunk) => {
+       output += chunk;
++      console.log(`[yt-dlp stdout]: ${chunk.toString()}`);
+     });
+     process2.stderr?.on("data", (chunk) => {
+       output += chunk;
++      console.log(`[yt-dlp stdout]: ${chunk.toString()}`);
+     });
+     process2.on("close", (code) => {
+       if (code === 0) resolve(JSON.parse(output));
+@@ -125,9 +127,12 @@ var YtDlpPlugin = class extends import_distube.PlayableExtractorPlugin {
    static {
      __name(this, "YtDlpPlugin");
    }
 -  constructor({ update } = {}) {
-+  constructor({ update, cookies, extractorArgs } = {}) {
++  constructor({ update, cookies, extractorArgs, proxy } = {}) {
      super();
      if (update ?? true) download().catch(() => void 0);
-+    // this.cookies = cookies;
++    this.cookies = cookies;
 +    this.extractorArgs = extractorArgs;
++    this.proxy = proxy;
    }
    init(distube) {
      super.init(distube);
-@@ -147,7 +149,9 @@ var YtDlpPlugin = class extends import_distube.PlayableExtractorPlugin {
+@@ -147,8 +152,12 @@ var YtDlpPlugin = class extends import_distube.PlayableExtractorPlugin {
        noCallHome: true,
        preferFreeFormats: true,
        skipDownload: true,
 -      simulate: true
+-    }).catch((e2) => {
 +      simulate: true,
-+      // cookies: this.cookies,
-+      extractorArgs: this.extractorArgs
-     }).catch((e2) => {
++      cookies: this.cookies,
++      extractorArgs: this.extractorArgs,
++      proxy: this.proxy,
++      verbose: true
++    }, { shell: true }).catch((e2) => {
        throw new import_distube.DisTubeError("YTDLP_ERROR", `${e2.stderr || e2}`);
      });
-@@ -178,7 +182,9 @@ var YtDlpPlugin = class extends import_distube.PlayableExtractorPlugin {
+     if (isPlaylist(info)) {
+@@ -178,8 +187,12 @@ var YtDlpPlugin = class extends import_distube.PlayableExtractorPlugin {
        preferFreeFormats: true,
        skipDownload: true,
        simulate: true,
 -      format: "ba/ba*"
+-    }).catch((e2) => {
 +      format: "ba/ba*",
-+      // cookies: this.cookies,
-+      extractorArgs: this.extractorArgs
-     }).catch((e2) => {
++      cookies: this.cookies,
++      extractorArgs: this.extractorArgs,
++      proxy: this.proxy,
++      verbose: true
++    }, { shell: true }).catch((e2) => {
        throw new import_distube.DisTubeError("YTDLP_ERROR", `${e2.stderr || e2}`);
      });
+     if (isPlaylist(info)) throw new import_distube.DisTubeError("YTDLP_ERROR", "Cannot get stream URL of a entire playlist");
