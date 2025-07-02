@@ -14,6 +14,8 @@ import { DirectLinkPlugin } from '@distube/direct-link';
 import { FilePlugin } from '@distube/file';
 import Cron from 'node-cron';
 import { getYoutubeCookie } from '../utils/getCookiesAutomation';
+import ytdl from '@distube/ytdl-core';
+import { getRandomIPv6 } from '../utils/getRandomIPv6';
 
 const ytCookiesPath = path.resolve(__dirname, '../cookies.json');
 const ytCookiesTxtPath = path.resolve(__dirname, '../cookies.txt');
@@ -22,7 +24,7 @@ export const createDisTube = async (client: Client, youtubePlugin: YouTubePlugin
     const ffmpegPath = path.resolve(__dirname, '../../ffmpeg/bin/ffmpeg');
 
     const plugins: DisTubePlugin[] = [];
-    plugins.push(youtubePlugin);
+    // plugins.push(youtubePlugin);
 
     if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
         console.warn(`[${name}][Spotify Plugin] Một số tính năng của Spotify hiện không khả dụng hoặc hoạt động không chính xác vì SPOTIFY_CLIENT_ID hoặc SPOTIFY_CLIENT_SECRET không chính xác hoặc không được cung cấp`);
@@ -94,7 +96,7 @@ export const loadPluginsPartYoutube = async (YtPlugin: YouTubePlugin) => {
 
     if (fs.existsSync(ytCookiesPath) && fs.existsSync(ytCookiesTxtPath)) {
         try {
-            YtPlugin.cookies = JSON.parse(fs.readFileSync(ytCookiesPath, { encoding: 'utf8', flag: 'r' })); 
+            YtPlugin.cookies = JSON.parse(fs.readFileSync(ytCookiesPath, { encoding: 'utf8', flag: 'r' }));
             console.log(`[YouTube Plugin] 'cookies.json' và 'cookies.txt' đã được tải`);
         } catch {
             console.error(`[YouTube Plugin] 'cookies.json' đã gặp lỗi khi cố gắng xử lý`);
@@ -103,7 +105,7 @@ export const loadPluginsPartYoutube = async (YtPlugin: YouTubePlugin) => {
             }
         }
     } else {
-        if(!fs.existsSync(ytCookiesPath)) console.warn(`[YouTube Plugin] không tìm thấy 'cookies.json'`);
+        if (!fs.existsSync(ytCookiesPath)) console.warn(`[YouTube Plugin] không tìm thấy 'cookies.json'`);
         if (!fs.existsSync(ytCookiesTxtPath)) console.warn(`[YouTube Plugin] không tìm thấy 'cookies.txt'`);
 
         if (process.env.GOOGLE_EMAIL && process.env.GOOGLE_PASSWORD) {
@@ -117,6 +119,10 @@ export const loadPluginsPartYoutube = async (YtPlugin: YouTubePlugin) => {
             `[YouTube Plugin] Không thể tìm thấy bất kỳ cookie nào.`,
         );
     }
+
+    // Create proxy agent
+    const proxyAgent = ytdl.createProxyAgent({ uri: process.env.PROXY_URL ?? "http://bungo:bungomusic@127.0.0.1:20082", localAddress: getRandomIPv6("2001:2::/48") }, YtPlugin.cookies)
+    YtPlugin.ytdlOptions.agent = proxyAgent
 
     return YtPlugin;
 }
