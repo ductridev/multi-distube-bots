@@ -42,9 +42,19 @@ export const getYoutubeCookie = async () => {
 
     const browser = await puppeteer.launch({
         headless: true,
-        args: ['--remote-debugging-port=9222', '--remote-debugging-address=0.0.0.0', '--no-sandbox']
+        args: [
+            '--remote-debugging-port=9222',
+            '--remote-debugging-address=0.0.0.0',
+            '--no-sandbox',
+            '--proxy-server=http://127.0.0.1:20082'
+        ]
     });
+
     const page = await browser.newPage();
+    await page.authenticate({
+        username: 'bungo',
+        password: 'bungomusic'
+    });
     await page.goto('https://www.youtube.com', { waitUntil: 'networkidle2' });
 
     try {
