@@ -205,8 +205,12 @@ const play: Command = {
               break;
 
             case 'stop':
-              queue.voice.leave();
-              await queue.stop();
+              if (queue) {
+                queue.voice.leave();
+                await queue.stop();
+              } else {
+                distube.voices.leave(message);
+              }
               await interaction.reply({ content: '🛑 Đã dừng phát nhạc.', ephemeral: true });
               break;
 

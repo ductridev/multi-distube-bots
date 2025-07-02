@@ -13,6 +13,8 @@ import DisTube from "distube";
 import { replyWithEmbed } from "../../utils/embedHelper";
 import { startVotingUI } from "../../utils/startVotingUI";
 import { QueueSessionModel } from "../../models/QueueSession";
+import ExtendedClient from "../../@types/extendedClient";
+import { clearVoiceTimeouts } from "../../utils/clearVoiceTimeouts";
 
 const stop: Command = {
     name: 'stop',
@@ -20,7 +22,7 @@ const stop: Command = {
     usage: 'b!stop',
     category: 'music',
     aliases: ['st'],
-    execute: async (message: Message, args: string[], distube: DisTube) => {
+    execute: async (message: Message, args: string[], distube: DisTube, client: ExtendedClient) => {
         try {
             await startVotingUI(message, distube, 'stop', async () => {
                 const guildId = message.guild?.id;
@@ -41,9 +43,16 @@ const stop: Command = {
                 if (queue) {
                     queue.voice.leave();
                     await queue.stop();
-                    QueueSessionModel.deleteOne({ userId: message.author.id });
-                    await replyWithEmbed(message, 'success', '👋 Đã dừng phát và rời khỏi kênh thoại. Hẹn gặp lại ✌💋');
+                } else {
+                    distube.voices.leave(guildId);
                 }
+
+                const vcId = vc.id;
+                clearVoiceTimeouts(vcId, client.noSongTimeouts!, client.noPlayWarningTimeouts!);
+                client.voiceChannelMap.delete(guildId);
+
+                QueueSessionModel.deleteOne({ userId: message.author.id });
+                await replyWithEmbed(message, 'success', '👋 Đã dừng phát và rời khỏi kênh thoại. Hẹn gặp lại ✌💋');
             });
         } catch (err) {
             console.error(err);

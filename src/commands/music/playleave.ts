@@ -184,8 +184,12 @@ const playleave: Command = {
               break;
 
             case 'stop':
-              queue.voice.leave();
-              await queue.stop();
+              if (queue) {
+                queue.voice.leave();
+                await queue.stop();
+              } else {
+                distube.voices.leave(message);
+              }
               await interaction.reply({ content: '🛑 Đã dừng phát nhạc.', ephemeral: true });
               break;
 
@@ -201,14 +205,16 @@ const playleave: Command = {
         });
 
         // Optional safety: auto leave after current song
-        const leaveListener = (queue: any, finishedSong?: any) => {
+        const leaveListener = async (queue: any, finishedSong?: any) => {
           if (queue.url === songOrPlaylist.url && songOrPlaylist instanceof Playlist) {
             queue.voice.leave();
+            await queue.stop();
             sendWithEmbed(message.channel as GuildTextBasedChannel, 'success', 'Phát xong playlist, đã rời kênh thoại.');
           }
 
           if (finishedSong && finishedSong.url === songOrPlaylist.url && songOrPlaylist instanceof Song) {
             queue.voice.leave();
+            await queue.stop();
             sendWithEmbed(message.channel as GuildTextBasedChannel, 'success', 'Phát xong bài, đã rời kênh thoại.');
           }
         };
