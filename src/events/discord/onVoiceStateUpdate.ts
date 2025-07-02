@@ -48,11 +48,10 @@ export const onVoiceStateUpdate = async (oldState: VoiceState, newState: VoiceSt
                             const leaveTimeout = setTimeout(async () => {
                                 const q2 = distube.getQueue(nowInVC);
                                 if (!q2 || q2.songs.length === 0) {
-                                    const voice = distube.voices.get(nowInVC);
-                                    if (voice) voice.leave();
+                                    distube.voices.leave(guildId);
+                                    console.log(`[${botInstance.name}][VoiceState] Tự động rời khỏi vc ${nowInVC} vì không phát bài hát nào sau 10 phút.`);
 
                                     await q2?.stop();
-                                    console.log(`[${botInstance.name}][VoiceState] Tự động rời khỏi vc ${nowInVC} vì không phát bài hát nào sau 10 phút.`);
                                     sendWithEmbed(channel as GuildTextBasedChannel, 'info', '👋 Tôi đã rời khỏi vì không có bài hát nào sau 10 phút.');
                                 }
 
