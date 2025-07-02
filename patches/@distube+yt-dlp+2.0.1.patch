@@ -1,6 +1,6 @@
 diff --git a/node_modules/@distube/yt-dlp/bin/yt-dlp b/node_modules/@distube/yt-dlp/bin/yt-dlp
 new file mode 100644
-index 0000000..a9d8c36
+index 0000000..9d331f2
 Binary files /dev/null and b/node_modules/@distube/yt-dlp/bin/yt-dlp differ
 diff --git a/node_modules/@distube/yt-dlp/dist/index.d.ts b/node_modules/@distube/yt-dlp/dist/index.d.ts
 index 332f649..5d15f51 100644
@@ -29,22 +29,18 @@ index 332f649..5d15f51 100644
      getRelatedSongs(): never[];
  }
 diff --git a/node_modules/@distube/yt-dlp/dist/index.js b/node_modules/@distube/yt-dlp/dist/index.js
-index b17b126..dc0e7a8 100644
+index b17b126..8d8a471 100644
 --- a/node_modules/@distube/yt-dlp/dist/index.js
 +++ b/node_modules/@distube/yt-dlp/dist/index.js
-@@ -76,9 +76,11 @@ var json = /* @__PURE__ */ __name((url, flags, options) => {
-     let output = "";
-     process2.stdout?.on("data", (chunk) => {
-       output += chunk;
-+      console.log(`[yt-dlp stdout]: ${chunk.toString()}`);
-     });
-     process2.stderr?.on("data", (chunk) => {
-       output += chunk;
-+      console.log(`[yt-dlp stdout]: ${chunk.toString()}`);
-     });
-     process2.on("close", (code) => {
-       if (code === 0) resolve(JSON.parse(output));
-@@ -125,9 +127,12 @@ var YtDlpPlugin = class extends import_distube.PlayableExtractorPlugin {
+@@ -106,6 +106,7 @@ var getBinary = /* @__PURE__ */ __name(async (url) => {
+       url = defaultUrl;
+     }
+   }
++  console.log(url);
+   const response = await makeRequest(url);
+   const contentType = response.headers["content-type"]?.toString();
+   if (binContentTypes.includes(contentType ?? "")) return { buffer: await response.body.arrayBuffer(), version };
+@@ -125,9 +126,12 @@ var YtDlpPlugin = class extends import_distube.PlayableExtractorPlugin {
    static {
      __name(this, "YtDlpPlugin");
    }
@@ -58,7 +54,7 @@ index b17b126..dc0e7a8 100644
    }
    init(distube) {
      super.init(distube);
-@@ -147,8 +152,12 @@ var YtDlpPlugin = class extends import_distube.PlayableExtractorPlugin {
+@@ -147,8 +151,11 @@ var YtDlpPlugin = class extends import_distube.PlayableExtractorPlugin {
        noCallHome: true,
        preferFreeFormats: true,
        skipDownload: true,
@@ -68,12 +64,11 @@ index b17b126..dc0e7a8 100644
 +      cookies: this.cookies,
 +      extractorArgs: this.extractorArgs,
 +      proxy: this.proxy,
-+      verbose: true
 +    }, { shell: true }).catch((e2) => {
        throw new import_distube.DisTubeError("YTDLP_ERROR", `${e2.stderr || e2}`);
      });
      if (isPlaylist(info)) {
-@@ -178,8 +187,12 @@ var YtDlpPlugin = class extends import_distube.PlayableExtractorPlugin {
+@@ -178,8 +185,11 @@ var YtDlpPlugin = class extends import_distube.PlayableExtractorPlugin {
        preferFreeFormats: true,
        skipDownload: true,
        simulate: true,
@@ -83,7 +78,6 @@ index b17b126..dc0e7a8 100644
 +      cookies: this.cookies,
 +      extractorArgs: this.extractorArgs,
 +      proxy: this.proxy,
-+      verbose: true
 +    }, { shell: true }).catch((e2) => {
        throw new import_distube.DisTubeError("YTDLP_ERROR", `${e2.stderr || e2}`);
      });
