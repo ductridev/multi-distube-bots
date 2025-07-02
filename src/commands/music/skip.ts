@@ -32,11 +32,12 @@ const skip: Command = {
                 }
 
                 const queue = distube.getQueue(guildId);
-                if (queue && queue.songs.length > 1) {
+                if (!queue) return;
+                else if (queue && queue.songs.length > 1) {
                     queue.skip();
                     await replyWithEmbed(message, 'success', '⏭ Đã chuyển bài.');
                 } else {
-                    queue?.stop();
+                    queue.stop();
                     await replyWithEmbed(message, 'error', 'Đã bỏ qua bài hát cuối cùng.');
                     distube.emit(Events.FINISH, queue!);
                 }
