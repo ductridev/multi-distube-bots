@@ -12,6 +12,8 @@ import { Message } from 'discord.js';
 import { replyWithEmbed } from '../../utils/embedHelper';
 import { DisTube } from 'distube';
 import { QueueSessionModel } from '../../models/QueueSession';
+import { clearVoiceTimeouts } from '../../utils/clearVoiceTimeouts';
+import ExtendedClient from '../../@types/extendedClient';
 
 const leave: Command = {
     name: 'leave',
@@ -19,7 +21,7 @@ const leave: Command = {
     usage: 'b!leave',
     category: 'music',
     aliases: ['l'],
-    async execute(message: Message, _args: string[], distube: DisTube) {
+    execute: async (message: Message, _args: string[], distube: DisTube, client: ExtendedClient) => {
         try {
             const guildId = message.guild?.id;
             if (!guildId) return;
@@ -38,6 +40,12 @@ const leave: Command = {
             try {
                 QueueSessionModel.deleteOne({ userId: message.author.id });
                 distube.voices.leave(guildId);
+                distube.getQueue(guildId)?.stop();
+
+                const vcId = vc.id;
+                clearVoiceTimeouts(vcId, client.noSongTimeouts!, client.noPlayWarningTimeouts!);
+                client.voiceChannelMap.delete(guildId);
+
                 await replyWithEmbed(message, 'info', '👋 Đã rời khỏi kênh thoại. Hẹn gặp lại ✌💋');
             } catch (err) {
                 console.error('Lỗi khi rời kênh thoại:', err);
