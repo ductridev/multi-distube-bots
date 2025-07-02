@@ -6,7 +6,7 @@ import unzipper from 'unzipper';
 import path from 'path';
 import process from 'process';
 import tar from 'tar';
-// import psList from 'ps-list';
+import psList from 'ps-list';
 
 const FFMPEG_DIR = path.resolve(__dirname, '../../ffmpeg');
 const YTDLP_PATH = path.resolve(__dirname, '../../node_modules/@distube/yt-dlp/bin/yt-dlp');
