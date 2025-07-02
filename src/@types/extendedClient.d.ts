@@ -8,4 +8,8 @@ export default interface ExtendedClient extends Client<true> {
     prefix: string;
     recentTracks: Map<string, string[]>;
     distube: DisTube;
+    voiceChannelMap: Map<string, string>;
+    noSongTimeouts: Map<string, NodeJS.Timeout>;
+    noListenerTimeouts: Map<string, NodeJS.Timeout>;
+    noPlayWarningTimeouts: Map<string, NodeJS.Timeout>;
 }

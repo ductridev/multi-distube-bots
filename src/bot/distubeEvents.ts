@@ -13,14 +13,15 @@ export function registerDisTubeEvents(
     client: ExtendedClient,
     name: string,
     noSongTimeouts: Map<string, NodeJS.Timeout>,
-    noListenerTimeouts: Map<string, NodeJS.Timeout>
+    noListenerTimeouts: Map<string, NodeJS.Timeout>,
+    noPlayWarningTimeouts: Map<string, NodeJS.Timeout>,
 ) {
     // distube.on(Events.FFMPEG_DEBUG, console.debug);
     // distube.on(Events.DEBUG, console.debug);
     distube.on(Events.FINISH, (queue: Queue) => onFinishQueue(queue, noSongTimeouts));
 
     distube.on(Events.FINISH_SONG, (queue: Queue, song: Song) => onFinishSong(queue, song, noListenerTimeouts));
-    distube.on(Events.PLAY_SONG, (queue: Queue, song: Song) => onPlaySong(queue, song, noSongTimeouts));
+    distube.on(Events.PLAY_SONG, (queue: Queue, song: Song) => onPlaySong(queue, song, noSongTimeouts, noPlayWarningTimeouts));
 
     distube.on(Events.NO_RELATED, (queue: Queue) => onNoRelated(queue, noSongTimeouts));
 

@@ -36,9 +36,15 @@ export const createBot = async ({ name, token, prefix, mainPrefix }: BotConfig &
     // Timeouts
     const noSongTimeouts = new Map<string, NodeJS.Timeout>();
     const noListenerTimeouts = new Map<string, NodeJS.Timeout>();
+    const noPlayWarningTimeouts = new Map<string, NodeJS.Timeout>();
 
-    registerDisTubeEvents(distube, client, name, noSongTimeouts, noListenerTimeouts);
-    registerDiscordEvents(client, distube, prefix, mainPrefix, name, noListenerTimeouts, activeBots);
+    client.noSongTimeouts = noSongTimeouts;
+    client.noListenerTimeouts = noListenerTimeouts;
+    client.noPlayWarningTimeouts = noPlayWarningTimeouts;
+    client.voiceChannelMap = new Map<string, string>();
+
+    registerDisTubeEvents(distube, client, name, noSongTimeouts, noListenerTimeouts, noPlayWarningTimeouts);
+    registerDiscordEvents(client, distube, prefix, mainPrefix, name, noSongTimeouts, noListenerTimeouts, noPlayWarningTimeouts, activeBots);
 
     client.rest.on('rateLimited', (rateLimitData) => console.warn(`[${name}] Bot đang bị ratelimit:`, rateLimitData));
 
@@ -50,7 +56,6 @@ export const createBot = async ({ name, token, prefix, mainPrefix }: BotConfig &
         name: name,
         client,
         distube,
-        voiceChannelMap: new Map<string, string>(),
     };
 
     activeBots.push(botInstance);
