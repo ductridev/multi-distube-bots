@@ -18,7 +18,7 @@ export function registerDiscordEvents(
     noPlayWarningTimeouts: Map<string, NodeJS.Timeout>,
     activeBots: BotInstance[],
 ) {
-    client.on('voiceStateUpdate', (oldState: VoiceState, newState: VoiceState) => onVoiceStateUpdate(oldState, newState, activeBots, noSongTimeouts, noListenerTimeouts, noPlayWarningTimeouts, distube));
+    client.on('voiceStateUpdate', (oldState: VoiceState, newState: VoiceState) => onVoiceStateUpdate(oldState, newState, client, activeBots, noSongTimeouts, noListenerTimeouts, noPlayWarningTimeouts, distube));
     client.on('interactionCreate', (interaction: Interaction) => onInteractionCreate(interaction, activeBots, mainPrefix, client, distube, name));
     client.on('messageCreate', async (message: Message) => onMessageCreate(message, activeBots, mainPrefix, client, distube, name));
 }
