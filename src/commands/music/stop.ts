@@ -1,64 +1,49 @@
-// src/commands/stop.ts
-/* 
-    Command: stop
-    Description: Stops the bot and leaving the voice channel.
-    Usage: b!stop
-    Category: music
-    Aliases: st
-*/
+import { Command, type Context, type Lavamusic } from '../../structures/index';
 
-import { Message } from "discord.js";
-import { Command } from "../../@types/command";
-import DisTube from "distube";
-import { replyWithEmbed } from "../../utils/embedHelper";
-import { startVotingUI } from "../../utils/startVotingUI";
-import { QueueSessionModel } from "../../models/QueueSession";
-import ExtendedClient from "../../@types/extendedClient";
-import { clearVoiceTimeouts } from "../../utils/clearVoiceTimeouts";
+export default class Stop extends Command {
+	constructor(client: Lavamusic) {
+		super(client, {
+			name: 'stop',
+			description: {
+				content: 'cmd.stop.description',
+				examples: ['stop'],
+				usage: 'stop',
+			},
+			category: 'music',
+			aliases: ['sp'],
+			cooldown: 3,
+			args: false,
+			vote: false,
+			player: {
+				voice: true,
+				dj: true,
+				active: true,
+				djPerm: null,
+			},
+			permissions: {
+				dev: false,
+				client: ['SendMessages', 'ReadMessageHistory', 'ViewChannel', 'EmbedLinks'],
+				user: [],
+			},
+			slashCommand: true,
+			options: [],
+		});
+	}
 
-const stop: Command = {
-    name: 'stop',
-    description: 'Dừng phát và rời khỏi kênh thoại.',
-    usage: 'b!stop',
-    category: 'music',
-    aliases: ['st'],
-    execute: async (message: Message, args: string[], distube: DisTube, client: ExtendedClient) => {
-        try {
-            await startVotingUI(message, distube, 'stop', async () => {
-                const guildId = message.guild?.id;
-                if (!guildId) return;
+	public async run(client: Lavamusic, ctx: Context): Promise<any> {
+		const player = client.manager.getPlayer(ctx.guild!.id);
+		const embed = this.client.embed().setFooter({
+				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+			})
+			.setTimestamp();
+		if (!player) return await ctx.sendMessage(ctx.locale('event.message.no_music_playing'));
+		player.stopPlaying(true, false);
 
-                const vc = message.member?.voice.channel;
-                if (!vc) {
-                    await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại.');
-                    return;
-                }
-
-                if (!distube.voices.get(guildId)) {
-                    await replyWithEmbed(message, 'error', 'Bot không ở trong kênh thoại.');
-                    return;
-                }
-
-                const queue = distube.getQueue(guildId);
-                if (queue) {
-                    queue.voice.leave();
-                    await queue.stop();
-                } else {
-                    distube.voices.leave(guildId);
-                }
-
-                const vcId = vc.id;
-                clearVoiceTimeouts(vcId, client.noSongTimeouts!, client.noPlayWarningTimeouts!);
-                client.voiceChannelMap.delete(guildId);
-
-                QueueSessionModel.deleteOne({ userId: message.author.id });
-                await replyWithEmbed(message, 'success', '👋 Đã dừng phát và rời khỏi kênh thoại. Hẹn gặp lại ✌💋');
-            });
-        } catch (err) {
-            console.error(err);
-            // Do nothing
-        }
-    },
+		return await ctx.sendMessage({
+			embeds: [embed.setColor(this.client.color.main).setDescription(ctx.locale('cmd.stop.messages.stopped'))],
+		});
+	}
 }
 
-export = stop;
+

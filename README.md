@@ -1,213 +1,262 @@
-<div id="top">
+<center><img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=200&section=header&text=Lavamusic&fontSize=80&fontAlignY=35&animation=twinkling&fontColor=gradient" /></center>
 
-<!-- HEADER STYLE: CLASSIC -->
-<div align="center">
+[![Version][version-shield]](version-url)
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![Support Server][support-shield]][support-server]
+[![MIT License][license-shield]][license-url]
+[![Run on Repl.it](https://repl.it/badge/github/ductridev/multi-distube-bots)](https://repl.it/github/ductridev/multi-distube-bots)
+[![Remix on Glitch](https://cdn.glitch.com/2703baf2-b643-4da7-ab91-7ee2a2d00b5b%2Fremix-button.svg)](https://glitch.com/edit/#!/import/github/ductridev/multi-distube-bots)
 
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/ductridev/multi-distube-bots">
+    <img src="https://cdn.discordapp.com/avatars/875635121770889257/adc4fd956872a72814b70448d1fddd40.webp?size=512" alt="lavamusic" width="200" height="200">
+  </a>
 
-# MULTI-DISTUBE-BOTS
+  <h1 align="center">Lavamusic</h1>
+  <p align="center">Lavamusic is a Discord music bot that uses Discord.js, lavalink-client, and TypeScript.
+    <br />
+    <br />
+    <a href="https://discord.com/oauth2/authorize?client_id=1343814433134346241&permissions=279209954560&response_type=code&redirect_uri=https%3A%2F%2Fdiscord.gg%2Fkhfw8z6gg9&integration_type=0&scope=bot+guilds+applications.commands">Invite Lavamusic</a>
+    ·
+    <a href="https://github.com/appujet/c0ders-io/issues">Report Bug & Request Feature</a>
+  </p>
+</p>
 
-<em>Unleash Limitless Music, Seamlessly Drive Your Community</em>
+## 🔥 Unique Features
 
-<!-- BADGES -->
-<img src="https://img.shields.io/github/license/ductridev/multi-distube-bots?style=flat&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
-<img src="https://img.shields.io/github/last-commit/ductridev/multi-distube-bots?style=flat&logo=git&logoColor=white&color=0080ff" alt="last-commit">
-<img src="https://img.shields.io/github/languages/top/ductridev/multi-distube-bots?style=flat&color=0080ff" alt="repo-top-language">
-<img src="https://img.shields.io/github/languages/count/ductridev/multi-distube-bots?style=flat&color=0080ff" alt="repo-language-count">
+- User-friendly and Easy to Use
+- Highly Configurable
+- Customizable Prefix
+- Multilingual support [Here](/Translation.md)
+- Hybrid Command Handling (Slash and Normal Commands)
+- Developed using TypeScript and Discord.js v14
+- Advanced Music System
+- Powerful Search Engine
+- 12 + Music Filters
+- 24/7 Music Playback
+- Playlist commands
+- Music channel system
 
-<em>Built with the tools and technologies:</em>
+## 🎶 Support Sources
 
-<img src="https://img.shields.io/badge/JSON-000000.svg?style=flat&logo=JSON&logoColor=white" alt="JSON">
-<img src="https://img.shields.io/badge/npm-CB3837.svg?style=flat&logo=npm&logoColor=white" alt="npm">
-<img src="https://img.shields.io/badge/Mongoose-F04D35.svg?style=flat&logo=Mongoose&logoColor=white" alt="Mongoose">
-<img src="https://img.shields.io/badge/.ENV-ECD53F.svg?style=flat&logo=dotenv&logoColor=black" alt=".ENV">
-<img src="https://img.shields.io/badge/TypeScript-3178C6.svg?style=flat&logo=TypeScript&logoColor=white" alt="TypeScript">
-<img src="https://img.shields.io/badge/tsnode-3178C6.svg?style=flat&logo=ts-node&logoColor=white" alt="tsnode">
-<img src="https://img.shields.io/badge/Discord-5865F2.svg?style=flat&logo=Discord&logoColor=white" alt="Discord">
+### 🔍 Default Sources
 
-</div>
-<br>
+- ![SoundCloud](https://img.shields.io/badge/SoundCloud-FF3300?style=plastic&logo=soundcloud&logoColor=white)
+- ![Twitch](https://img.shields.io/badge/Twitch-9146FF?style=plastic&logo=twitch&logoColor=white)
+- ![Bandcamp](https://img.shields.io/badge/Bandcamp-629AA9?style=plastic&logo=bandcamp&logoColor=white)
+- ![Vimeo](https://img.shields.io/badge/Vimeo-1AB7EA?style=plastic&logo=vimeo&logoColor=white)
+- ![Nico](https://img.shields.io/badge/Nico-FF0066?style=plastic&logo=nico&logoColor=white)
+- ![Mixer](https://img.shields.io/badge/Mixer-FFA500?style=plastic&logo=mixer&logoColor=white)
+- ![http](https://img.shields.io/badge/http-FFA500?style=plastic&logo=http&logoColor=white)
 
----
+### 🔌 Plugin Sources
 
-## Table of Contents
+**Note: You need to install the plugins to use these sources**
 
-- [MULTI-DISTUBE-BOTS](#multi-distube-bots)
-  - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
-  - [Features](#features)
-  - [Project Structure](#project-structure)
-  - [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
-    - [Usage](#usage)
-    - [Testing](#testing)
-  - [Contributing](#contributing)
-  - [License](#license)
-  - [Acknowledgments](#acknowledgments)
+- ![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=plastic&logo=youtube&logoColor=white) ([Required Plugin][youtube-source])
+- ![Spotify](https://img.shields.io/badge/Spotify-1ED760?style=plastic&logo=spotify&logoColor=white) ([Required Plugin][LavaSrc])
+- ![Deezer](https://img.shields.io/badge/Deezer-FF0000?style=plastic&logo=deezer&logoColor=white) ([Required Plugin][LavaSrc])
+- ![Apple Music](https://img.shields.io/badge/Apple%20Music-000000?style=plastic&logo=apple-music&logoColor=white) ([Required Plugin][LavaSrc])
+- ![Yandex Music](https://img.shields.io/badge/Yandex%20Music-FF0066?style=plastic&logo=yandex-music&logoColor=white) ([Required Plugin][LavaSrc])
+- ![jiosaavn](https://img.shields.io/badge/jiosaavn-51C4D3?style=plastic&logo=jiosaavn&logoColor=white) ([Required Plugin][Jiosaavn])
+- ![Mixcloud](https://img.shields.io/badge/Mixcloud-51C4D3?style=plastic&logo=mixcloud&logoColor=white) ([Required Plugin][skybot-lavalink-plugin])
+- ![Ocremix](https://img.shields.io/badge/Ocremix-FF6600?style=plastic&logo=ocremix&logoColor=white) ([Required Plugin][skybot-lavalink-plugin])
+- ![Clyp](https://img.shields.io/badge/Clyp-6BB5A6?style=plastic&logo=clyp&logoColor=white) ([Required Plugin][skybot-lavalink-plugin])
+- ![Reddit](https://img.shields.io/badge/Reddit-FF4500?style=plastic&logo=reddit&logoColor=white) ([Required Plugin][skybot-lavalink-plugin])
+- ![Getyarn](https://img.shields.io/badge/Getyarn-FF9000?style=plastic&logo=getyarn&logoColor=white) ([Required Plugin][skybot-lavalink-plugin])
+- ![TikTok](https://img.shields.io/badge/TikTok-FF2D55?style=plastic&logo=tiktok&logoColor=white) ([Required Plugin][skybot-lavalink-plugin])
+- ![Soundgasm](https://img.shields.io/badge/Soundgasm-F1672F?style=plastic&logo=soundgasm&logoColor=white) ([Required Plugin][skybot-lavalink-plugin])
+- ![Text To Speech](https://img.shields.io/badge/Text%20To%20Speech-3080ff?style=plastic&logo=google-translate&logoColor=white) ([Required Plugin][skybot-lavalink-plugin])
 
----
+[LavaSrc]: https://github.com/topi314/LavaSrc
+[skybot-lavalink-plugin]: https://github.com/DuncteBot/skybot-lavalink-plugin
+[youtube-source]: https://github.com/lavalink-devs/youtube-source
+[jiosaavn]: https://github.com/c0ders-io/jiosaavn-plugin
 
-## Overview
+To Setup a Lavalink server on Windows, Linux, or Replit, [Click Here!](https://github.com/LucasB25/lavalink-server)
 
-multi-distube-bots is a comprehensive toolkit for deploying and managing multiple Discord music bots with ease. It offers scalable architecture, seamless media playback, and rich user interaction features to create engaging voice channel experiences.
+### **Need help with plugins?**
 
-**Why multi-distube-bots?**
+Join our [Discord Server](https://discord.gg/YQsGbTwPBx) and ask for help in the `#support` channel!
 
-This project empowers developers to build robust, multi-instance Discord music bots that handle complex interactions and media sources effortlessly. The core features include:
+## 🔧 Requirements
 
-- 🧩 **🎛️ Modular Architecture:** Easily manage multiple bots and commands with dynamic loading and centralized control.
-- 🎶 **🎵 Advanced Music Playback:** Supports plugins for diverse media sources, playlist management, and real-time queue controls.
-- 🚀 **⚙️ Configuration & Session Persistence:** Maintain global settings and user sessions across restarts for a smooth user experience.
-- 💬 **🛠️ Rich User Interaction:** Utility functions for styled messages, voting UI, and detailed help commands enhance user engagement.
-- 🔄 **🔧 Event-Driven Design:** Handles real-time Discord events for voice state updates and playback events, ensuring responsive performance.
+Before starting with the installation, you need to have the following:
 
----
+- ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) [Recommend LTS or higher](https://nodejs.org/)
+- ![Lavalink](https://img.shields.io/badge/Lavalink-7289DA?style=for-the-badge&logo=discord&logoColor=white) [v4 or higher](https://github.com/lavalink-devs/lavalink)
 
-## Features
+### Optional
 
-|      | Component         | Details                                                                                                                                                                                                                                |
-| :--- | :---------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ⚙️    | **Architecture**  | <ul><li>Modular design separating core bot logic, command handling, and integrations</li><li>Uses event-driven architecture with Discord.js event emitters</li></ul>                                                                   |
-| 🔩    | **Code Quality**  | <ul><li>TypeScript used for type safety and maintainability</li><li>Consistent code style with ESLint configurations</li></ul>                                                                                                         |
-| 📄    | **Documentation** | <ul><li>Basic README with setup instructions</li><li>Comments and JSDoc annotations present in source code</li></ul>                                                                                                                   |
-| 🔌    | **Integrations**  | <ul><li>Discord.js for Discord interactions</li><li>DisTube for music playback and streaming</li><li>Spotify, Deezer, SoundCloud, YouTube via respective APIs</li><li>Voice support via @discordjs/voice and @discordjs/opus</li></ul> |
-| 🧩    | **Modularity**    | <ul><li>Separate modules for commands, events, and plugins</li><li>Configurable via JSON files and environment variables</li></ul>                                                                                                     |
-| 🧪    | **Testing**       | <ul><li>Limited testing setup; no explicit test framework shown in dependencies</li><li>Potential for unit tests with TypeScript and mock modules</li></ul>                                                                            |
-| ⚡️    | **Performance**   | <ul><li>Uses distube for efficient music streaming and caching</li><li>Asynchronous event handling for responsiveness</li></ul>                                                                                                        |
-| 🛡️    | **Security**      | <ul><li>Uses environment variables for sensitive data</li><li>Basic validation of config files</li></ul>                                                                                                                               |
-| 📦    | **Dependencies**  | <ul><li>Core: discord.js, distube, mongoose</li><li>Music & streaming: @distube/*, ytdl, yt-search</li><li>Voice & audio: @discordjs/voice, @discordjs/opus, prism-media</li><li>Type definitions for TypeScript</li></ul>             |
+- ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white) [Optional](https://www.mongodb.com/try/download/community) (For MongoDB database)
+- ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white) [Optional](https://www.postgresql.org/download/) (For PostgreSQL database)
+- ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white) [Optional](https://www.docker.com/) (For Docker Installation)
+- ![Docker-Compose](https://img.shields.io/badge/Docker--Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white) [Optional](https://docs.docker.com/compose/) (For Docker Installation)
 
----
+## 🚀 Installation from source
 
-## Project Structure
+1. Clone the Lavamusic repository:
 
-```sh
-└── multi-distube-bots/
-    ├── index.ts
-    ├── package-lock.json
-    ├── package.json
-    ├── src
-    │   ├── @types
-    │   ├── bot
-    │   ├── botManager.ts
-    │   ├── commands
-    │   ├── config.json
-    │   ├── config.ts
-    │   ├── models
-    │   └── utils
-    └── tsconfig.json
+```bash
+git clone https://github.com/appujet/lavamusic.git
 ```
 
----
+2. Change to the Lavamusic directory:
 
-## Getting Started
-
-### Prerequisites
-
-This project requires the following dependencies:
-
-- **Programming Language:** TypeScript
-- **Package Manager:** Npm
-
-### Installation
-
-Build multi-distube-bots from the source and install dependencies:
-
-1. **Clone the repository:**
-
-    ```sh
-    ❯ git clone https://github.com/ductridev/multi-distube-bots
-    ```
-
-2. **Navigate to the project directory:**
-
-    ```sh
-    ❯ cd multi-distube-bots
-    ```
-
-3. **Install the dependencies:**
-
-**Using [npm](https://www.npmjs.com/):**
-
-```sh
-❯ npm install
+```bash
+cd lavamusic
 ```
 
-### Usage
+3. Install the required packages:
 
-Run the project with:
+```bash
+npm i
+```
 
-**Using [npm](https://www.npmjs.com/):**
+4. Compile:
 
-```sh
+```
+npm run build
+```
+
+5. Copy the `.env.example` file to `.env` and fill in all required values:
+
+6. Copy the `example.<The data source you want to use>.schema.prisma` file to `schema.prisma` in `prisma` folder
+Note: If you want to use sqlite, skip this step.
+If you are using a different data source, don't forget to fill in the `DATABASE_URL` value in `.env`.
+
+7. Generate the Prisma client:
+
+```bash
+npm run db:push
+```
+
+8. Run the migrations (Only if you want to migrate your database):
+
+```bash
+npm run db:migrate
+```
+
+9. Run the bot:
+
+Note: You can also run `run.bat` to easily run the bot on Windows.
+
+```bash
 npm start
 ```
 
-### Testing
+10. Invite the bot to your server:
 
-Multi-distube-bots uses the {__test_framework__} test framework. Run the test suite with:
+Generate an invite link for your bot and invite it to your server using the [Discord Developer Portal](https://discord.com/developers/applications) or [Permissions Calculator](https://discordapi.com/permissions.html).
 
-**Using [npm](https://www.npmjs.com/):**
+11. (Optional) Deploy Slash Commands
 
-```sh
-npm test
+Make sure that your User ID is listed under `OWNER_IDS` in `.env`. In the Discord server with Lavamusic, run
+```
+!deploy
 ```
 
----
+## 🚀 Installation using Docker Compose
 
-## Contributing
+This section assumes you have Docker and Docker Compose installed and running correctly.
+Copy the `.env.example` file to `.env` and fill in all required values:
 
-- **💬 [Join the Discussions](https://github.com/ductridev/multi-distube-bots/discussions)**: Share your insights, provide feedback, or ask questions.
-- **🐛 [Report Issues](https://github.com/ductridev/multi-distube-bots/issues)**: Submit bugs found or log feature requests for the `multi-distube-bots` project.
-- **💡 [Submit Pull Requests](https://github.com/ductridev/multi-distube-bots/blob/main/CONTRIBUTING.md)**: Review open PRs, and submit your own PRs.
+```yaml
+TOKEN="." # Your bot token and remember, don't show everyone your bot token
+DEFAULT_LANGUAGE= "EnglishUS" # Default language for bot
+PREFIX="!" # Your prefix
+OWNER_IDS=["859640640640640640","859640640640640640"] # Your discord id, you can add multiple ids
+GUILD_ID="859640640640640640" # Your server ID (if you want to use it for a single server)
+```
 
-<details closed>
-<summary>Contributing Guidelines</summary>
+Then copy `Lavalink/example.application.yml` to `Lavalink/application.yml` and put any Lavalink plugins you want to use in `Lavalink/plugins`.
 
-1. **Fork the Repository**: Start by forking the project repository to your github account.
-2. **Clone Locally**: Clone the forked repository to your local machine using a git client.
-   ```sh
-   git clone https://github.com/ductridev/multi-distube-bots
-   ```
-3. **Create a New Branch**: Always work on a new branch, giving it a descriptive name.
-   ```sh
-   git checkout -b new-feature-x
-   ```
-4. **Make Your Changes**: Develop and test your changes locally.
-5. **Commit Your Changes**: Commit with a clear message describing your updates.
-   ```sh
-   git commit -m 'Implemented new feature x.'
-   ```
-6. **Push to github**: Push the changes to your forked repository.
-   ```sh
-   git push origin new-feature-x
-   ```
-7. **Submit a Pull Request**: Create a PR against the original project repository. Clearly describe the changes and their motivations.
-8. **Review**: Once your PR is reviewed and approved, it will be merged into the main branch. Congratulations on your contribution!
-</details>
+After saving your changes you can open a terminal and go to the same location as the docker-compose.yml file. Then run the following:
 
-<details closed>
-<summary>Contributor Graph</summary>
-<br>
-<p align="left">
-   <a href="https://github.com{/ductridev/multi-distube-bots/}graphs/contributors">
-      <img src="https://contrib.rocks/image?repo=ductridev/multi-distube-bots">
-   </a>
-</p>
-</details>
+```bash
+docker compose up -d
+```
 
----
+The above command will start all your services and your bot should be up and running!
+If you want to run it from the console, remove the -d argument.
 
-## License
+Now, you can invite the bot to your server.
 
-Multi-distube-bots is protected under the [LICENSE](https://choosealicense.com/licenses) License. For more details, refer to the [LICENSE](https://choosealicense.com/licenses/) file.
+To update, you only have to type the following:
 
----
+```bash
+docker compose up --force-recreate --build -d
+image prune -f
+```
 
-## Acknowledgments
+You can automate this by using [Watchtower](https://github.com/containrrr/watchtower). The following should be sufficient:
 
-- Credit `contributors`, `inspiration`, `references`, etc.
+```bash
+docker run --detach \
+    --name watchtower \
+    --volume /var/run/docker.sock:/var/run/docker.sock \
+    --restart on-failure \
+    containrrr/watchtower --cleanup
+```
 
-<div align="left"><a href="#top">⬆ Return</a></div>
+Do note that the bot will restart itself to update to the latest!
 
----
+## 🔗 Useful Links
+
+- ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white) [Node.js](https://nodejs.org/en/download/)
+- ![Discord.js](https://img.shields.io/badge/Discord.js-7289DA?style=for-the-badge&logo=discord&logoColor=white) [Discord.js](https://discord.js.org/#/)
+- ![Lavalink](https://img.shields.io/badge/Lavalink-7289DA?style=for-the-badge&logo=discord&logoColor=white) [Lavalink](https://github.com/lavalink-devs/Lavalink)
+- ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white) [MongoDB](https://www.mongodb.com/try/download/community)
+- ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white) [PostgreSQL](https://www.postgresql.org/download/)
+- ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white) [Docker](https://www.docker.com/)
+- ![Docker-Compose](https://img.shields.io/badge/Docker--Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white) [Docker-Compose](https://docs.docker.com/compose/)
+
+## 📝 Tutorial
+
+A tutorial has been uploaded on YouTube. Watch it by [clicking here](https://youtu.be/x5lQD2rguz0).
+
+## 📜 Contributing
+
+Thank you for your interest in contributing to Lavamusic! Here are some guidelines to follow when contributing:
+
+1. Fork the repository and create a new branch for your feature or bug fix.
+2. Write clean and concise code that follows the established coding style.
+3. Create detailed and thorough documentation for any new features or changes.
+4. Write and run tests for your code.
+5. Submit a pull request with your changes.
+Your contribution will be reviewed by the project maintainers, and any necessary feedback or changes will be discussed with you. We appreciate your help in making Lavamusic better!
+
+## 🔐 License
+
+Distributed under the GPL-3.0 license. See [![LICENSE](https://img.shields.io/github/license/appujet/lavamusic?style=social)](https://github.com/ductridev/multi-distube-bots/blob/main/LICENSE) for more information [READ](https://discord.com/channels/942117923001098260/942120006219624469/1278087961774129314).
+
+## ☕ Donate
+
+Do you like this project? Support it by donating!
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/H2H7LKT9L)
+
+## 👥 Contributors
+
+Thanks go to these wonderful people:
+<a href="https://github.com/ductridev/multi-distube-bots/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ductridev/multi-distube-bots" />
+</a>
+
+[version-shield]: https://img.shields.io/github/package-json/v/ductridev/multi-distube-bots?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/ductridev/multi-distube-bots.svg?style=for-the-badge
+[contributors-url]: https://github.com/ductridev/multi-distube-bots/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/ductridev/multi-distube-bots.svg?style=for-the-badge
+[forks-url]: https://github.com/ductridev/multi-distube-bots/network/members
+[stars-shield]: https://img.shields.io/github/stars/ductridev/multi-distube-bots.svg?style=for-the-badge
+[stars-url]: https://github.com/ductridev/multi-distube-bots/stargazers
+[issues-shield]: https://img.shields.io/github/issues/ductridev/multi-distube-bots.svg?style=for-the-badge
+[issues-url]: https://github.com/ductridev/multi-distube-bots/issues
+[license-shield]: https://img.shields.io/github/license/ductridev/multi-distube-bots.svg?style=for-the-badge
+[license-url]: https://github.com/ductridev/multi-distube-bots/blob/master/LICENSE
+[support-server]: https://discord.gg/YQsGbTwPBx
+[support-shield]: https://img.shields.io/discord/942117923001098260.svg?style=for-the-badge&logo=discord&colorB=7289DA

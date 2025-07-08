@@ -1,139 +1,179 @@
-// src/commands/music/lyrics.ts
-
 import {
-    Message,
-    ActionRowBuilder,
-    ButtonBuilder,
-    ButtonStyle,
-    EmbedBuilder,
+	ActionRowBuilder,
+	ButtonBuilder,
+	type ButtonInteraction,
+	ButtonStyle,
+	ComponentType,
+	type TextChannel,
 } from 'discord.js';
-import { Command } from '../../@types/command';
-import DisTube from 'distube';
-import { replyWithEmbed } from '../../utils/embedHelper';
-import { Client } from 'genius-lyrics';
+import { getLyrics } from 'genius-lyrics-api';
+import { Command, type Context, type Lavamusic } from '../../structures/index';
 
-const LYRICS_PER_PAGE = 4000;
+export default class Lyrics extends Command {
+	constructor(client: Lavamusic) {
+		super(client, {
+			name: 'lyrics',
+			description: {
+				content: 'cmd.lyrics.description',
+				examples: ['lyrics'],
+				usage: 'lyrics',
+			},
+			category: 'music',
+			aliases: ['ly'],
+			cooldown: 3,
+			args: false,
+			vote: false,
+			player: {
+				voice: true,
+				dj: false,
+				active: true,
+				djPerm: null,
+			},
+			permissions: {
+				dev: false,
+				client: ['SendMessages', 'ReadMessageHistory', 'ViewChannel', 'EmbedLinks'],
+				user: [],
+			},
+			slashCommand: true,
+			options: [],
+		});
+	}
 
-export const getLyricsSong = async (searchQuery: string) => {
-    const Lyrics = new Client(process.env.GENIUS_TOKEN);
-    const geniusSearch = await Lyrics.songs.search(searchQuery);
+	public async run(client: Lavamusic, ctx: Context): Promise<any> {
+		const player = client.manager.getPlayer(ctx.guild!.id);
+		if (!player) return await ctx.sendMessage(ctx.locale('event.message.no_music_playing'));
+		const embed = this.client.embed().setFooter({
+			text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+		})
+			.setTimestamp();
 
-    if (geniusSearch.length === 0) {
-        return undefined;
-    }
+		const track = player.queue.current!;
+		const trackTitle = track.info.title.replace(/\[.*?\]/g, '').trim();
+		const artistName = track.info.author.replace(/\[.*?\]/g, '').trim();
+		const trackUrl = track.info.uri;
+		const artworkUrl = track.info.artworkUrl;
 
-    return geniusSearch[0];
+		await ctx.sendDeferMessage(ctx.locale('cmd.lyrics.searching', { trackTitle }));
+
+		const options = {
+			apiKey: client.env.GENIUS_API,
+			title: trackTitle,
+			artist: artistName,
+			optimizeQuery: true,
+		};
+
+		try {
+			const lyrics = await getLyrics(options);
+			if (lyrics) {
+				const lyricsPages = this.paginateLyrics(lyrics);
+				let currentPage = 0;
+
+				const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+					new ButtonBuilder()
+						.setCustomId('prev')
+						.setEmoji(this.client.emoji.page.back)
+						.setStyle(ButtonStyle.Secondary)
+						.setDisabled(true),
+					new ButtonBuilder().setCustomId('stop').setEmoji(this.client.emoji.page.cancel).setStyle(ButtonStyle.Danger),
+					new ButtonBuilder()
+						.setCustomId('next')
+						.setEmoji(this.client.emoji.page.next)
+						.setStyle(ButtonStyle.Secondary)
+						.setDisabled(lyricsPages.length <= 1),
+				);
+
+				await ctx.editMessage({
+					embeds: [
+						embed
+							.setColor(client.color.main)
+							.setDescription(
+								ctx.locale('cmd.lyrics.lyrics_track', { trackTitle, trackUrl, lyrics: lyricsPages[currentPage] }),
+							)
+							.setThumbnail(artworkUrl),
+					],
+					components: [row],
+				});
+
+				const filter = (interaction: ButtonInteraction<'cached'>) => interaction.user.id === ctx.author?.id;
+				const collector = (ctx.channel as TextChannel).createMessageComponentCollector({
+					filter,
+					componentType: ComponentType.Button,
+					time: 60000,
+				});
+
+				collector.on('collect', async (interaction: ButtonInteraction) => {
+					if (interaction.customId === 'prev') {
+						currentPage--;
+					} else if (interaction.customId === 'next') {
+						currentPage++;
+					} else if (interaction.customId === 'stop') {
+						collector.stop();
+						return interaction.update({ components: [] });
+					}
+
+					await interaction.update({
+						embeds: [
+							embed
+								.setDescription(
+									ctx.locale('cmd.lyrics.lyrics_track', { trackTitle, trackUrl, lyrics: lyricsPages[currentPage] }),
+								)
+								.setThumbnail(artworkUrl),
+						],
+						components: [
+							new ActionRowBuilder<ButtonBuilder>().addComponents(
+								new ButtonBuilder()
+									.setCustomId('prev')
+									.setEmoji(this.client.emoji.page.back)
+									.setStyle(ButtonStyle.Secondary)
+									.setDisabled(currentPage === 0),
+								new ButtonBuilder()
+									.setCustomId('stop')
+									.setEmoji(this.client.emoji.page.cancel)
+									.setStyle(ButtonStyle.Danger),
+								new ButtonBuilder()
+									.setCustomId('next')
+									.setEmoji(this.client.emoji.page.next)
+									.setStyle(ButtonStyle.Secondary)
+									.setDisabled(currentPage === lyricsPages.length - 1),
+							),
+						],
+					});
+					return;
+				});
+
+				collector.on('end', () => {
+					ctx.editMessage({ components: [] });
+				});
+			} else {
+				await ctx.editMessage({
+					embeds: [embed.setColor(client.color.red).setDescription(ctx.locale('cmd.lyrics.errors.no_results'))],
+				});
+			}
+		} catch (error) {
+			client.logger.error(error);
+			await ctx.editMessage({
+				embeds: [embed.setColor(client.color.red).setDescription(ctx.locale('cmd.lyrics.errors.lyrics_error'))],
+			});
+		}
+	}
+
+	paginateLyrics(lyrics: string) {
+		const lines = lyrics.split('\n');
+		const pages: any = [];
+		let page = '';
+
+		for (const line of lines) {
+			if (page.length + line.length > 2048) {
+				pages.push(page);
+				page = '';
+			}
+			page += `${line}\n`;
+		}
+
+		if (page) pages.push(page);
+		return pages;
+	}
 }
 
-const lyrics: Command = {
-    name: 'lyrics',
-    description: 'Hiển thị lời bài hát.',
-    usage: 'b!lyrics <song name or URL>',
-    category: 'music',
-    aliases: ['ly', 'lyric'],
-    execute: async (message: Message, args: string[], distube: DisTube) => {
-        try {
-            if (!process.env.GENIUS_TOKEN) {
-                await replyWithEmbed(message, 'error', 'Lấy lời bài hát hiện không khả dụng.');
-                return;
-            }
 
-            const queue = distube.getQueue(message);
-            const currentSong = queue?.songs[0];
-
-            if (!currentSong?.name) {
-                await replyWithEmbed(message, 'error', 'Không có bài hát nào đang phát.');
-                return;
-            }
-
-            const geniusSong = await getLyricsSong(currentSong.name);
-
-            if (!geniusSong) {
-                await replyWithEmbed(message, 'error', 'Không tìm thấy lời bài hát.');
-                return;
-            }
-
-            const lyricsText = await geniusSong.lyrics();
-
-            // 🔹 Safe splitting by line with page size control
-            const lines = lyricsText.split('\n');
-            const pages: string[] = [];
-            let buffer = '';
-
-            for (const line of lines) {
-                const lineWithNewline = line + '\n';
-                if (buffer.length + lineWithNewline.length > LYRICS_PER_PAGE) {
-                    pages.push(buffer);
-                    buffer = lineWithNewline;
-                } else {
-                    buffer += lineWithNewline;
-                }
-            }
-            if (buffer) pages.push(buffer);
-
-            let currentPage = 0;
-
-            const buildEmbed = (pageIndex: number) =>
-                new EmbedBuilder()
-                    .setTitle(`📖 Lyrics - ${currentSong.name}`)
-                    .setDescription(pages[pageIndex])
-                    .setColor(0x1DB954)
-                    .setFooter({ text: `Trang ${pageIndex + 1} / ${pages.length}` })
-                    .setTimestamp();
-
-            const getActionRow = (pageIndex: number) =>
-                new ActionRowBuilder<ButtonBuilder>().addComponents(
-                    new ButtonBuilder()
-                        .setCustomId('prev')
-                        .setLabel('⬅️')
-                        .setStyle(ButtonStyle.Secondary)
-                        .setDisabled(pageIndex === 0),
-                    new ButtonBuilder()
-                        .setCustomId('next')
-                        .setLabel('➡️')
-                        .setStyle(ButtonStyle.Secondary)
-                        .setDisabled(pageIndex === pages.length - 1)
-                );
-
-            const reply = await message.reply({
-                embeds: [buildEmbed(currentPage)],
-                components: [getActionRow(currentPage)],
-            });
-
-            const collector = reply.createMessageComponentCollector({
-                time: 10 * 60_000, // 10 minutes
-            });
-
-            collector.on('collect', async interaction => {
-                if (interaction.user.id !== message.author.id) {
-                    return interaction.reply({
-                        content: '⛔ Bạn không thể điều khiển phân trang lời bài hát này.',
-                        ephemeral: true,
-                    });
-                }
-
-                if (interaction.customId === 'prev') currentPage--;
-                if (interaction.customId === 'next') currentPage++;
-
-                await interaction.update({
-                    embeds: [buildEmbed(currentPage)],
-                    components: [getActionRow(currentPage)],
-                });
-            });
-
-            collector.on('end', async () => {
-                try {
-                    await reply.edit({ components: [] });
-                } catch {
-                    console.error('Không thể cập nhật phân trang khi hết hạn.');
-                    await replyWithEmbed(message, 'error', 'Không thể chuyển trang.');
-                }
-            });
-        } catch (err) {
-            console.error(err);
-            // Do nothing
-        }
-    },
-};
-
-export default lyrics;

@@ -1,61 +1,54 @@
-// src/commands/leave.js
-/* 
-    Command: leave
-    Description: Leaves the voice channel the bot is in.
-    Usage: b!leave
-    Category: music
-    Aliases: l
-*/
+import { Command, type Context, type Lavamusic } from '../../structures/index';
 
-import { Command } from '../../@types/command';
-import { Message } from 'discord.js';
-import { replyWithEmbed } from '../../utils/embedHelper';
-import { DisTube } from 'distube';
-import { QueueSessionModel } from '../../models/QueueSession';
-import { clearVoiceTimeouts } from '../../utils/clearVoiceTimeouts';
-import ExtendedClient from '../../@types/extendedClient';
+export default class Leave extends Command {
+	constructor(client: Lavamusic) {
+		super(client, {
+			name: 'leave',
+			description: {
+				content: 'cmd.leave.description',
+				examples: ['leave'],
+				usage: 'leave',
+			},
+			category: 'music',
+			aliases: ['l'],
+			cooldown: 3,
+			args: false,
+			vote: false,
+			player: {
+				voice: true,
+				dj: true,
+				active: false,
+				djPerm: null,
+			},
+			permissions: {
+				dev: false,
+				client: ['SendMessages', 'ReadMessageHistory', 'ViewChannel', 'EmbedLinks'],
+				user: [],
+			},
+			slashCommand: true,
+			options: [],
+		});
+	}
 
-const leave: Command = {
-    name: 'leave',
-    description: 'Rời khỏi kênh thoại.',
-    usage: 'b!leave',
-    category: 'music',
-    aliases: ['l'],
-    execute: async (message: Message, _args: string[], distube: DisTube, client: ExtendedClient) => {
-        try {
-            const guildId = message.guild?.id;
-            if (!guildId) return;
+	public async run(client: Lavamusic, ctx: Context): Promise<any> {
+		const player = client.manager.getPlayer(ctx.guild!.id);
+		const embed = this.client.embed().setFooter({
+				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+			})
+			.setTimestamp();
 
-            const vc = message.member?.voice.channel;
-            if (!vc) {
-                await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại.');
-                return;
-            }
+		if (player) {
+			const channelId = player.voiceChannelId;
+			player.destroy();
+			return await ctx.sendMessage({
+				embeds: [embed.setColor(this.client.color.main).setDescription(ctx.locale('cmd.leave.left', { channelId }))],
+			});
+		}
+		return await ctx.sendMessage({
+			embeds: [embed.setColor(this.client.color.red).setDescription(ctx.locale('cmd.leave.not_in_channel'))],
+		});
+	}
+}
 
-            if (!distube.voices.get(guildId)) {
-                await replyWithEmbed(message, 'error', 'Bot không ở trong kênh thoại.');
-                return;
-            }
 
-            try {
-                QueueSessionModel.deleteOne({ userId: message.author.id });
-                distube.voices.leave(guildId);
-                distube.getQueue(guildId)?.stop();
-
-                const vcId = vc.id;
-                clearVoiceTimeouts(vcId, client.noSongTimeouts!, client.noPlayWarningTimeouts!);
-                client.voiceChannelMap.delete(guildId);
-
-                await replyWithEmbed(message, 'info', '👋 Đã rời khỏi kênh thoại. Hẹn gặp lại ✌💋');
-            } catch (err) {
-                console.error('Lỗi khi rời kênh thoại:', err);
-                await replyWithEmbed(message, 'error', 'Không thể rời khỏi kênh thoại.');
-            }
-        } catch (err) {
-            console.error(err);
-            // Do nothing
-        }
-    },
-};
-
-export = leave;

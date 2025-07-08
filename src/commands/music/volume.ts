@@ -1,49 +1,75 @@
-// src/commands/music/volume.ts
-/* 
-    Command: volume
-    Description: Changes the volume.
-    Usage: b!volume <0-200>
-    Category: music
-    Aliases: v
-*/
+import { Command, type Context, type Lavamusic } from '../../structures/index';
 
-import { Command } from "../../@types/command";
-import { replyWithEmbed } from "../../utils/embedHelper";
+export default class Volume extends Command {
+	constructor(client: Lavamusic) {
+		super(client, {
+			name: 'volume',
+			description: {
+				content: 'cmd.volume.description',
+				examples: ['volume 100'],
+				usage: 'volume <number>',
+			},
+			category: 'music',
+			aliases: ['v', 'vol'],
+			cooldown: 3,
+			args: true,
+			vote: true,
+			player: {
+				voice: true,
+				dj: true,
+				active: true,
+				djPerm: null,
+			},
+			permissions: {
+				dev: false,
+				client: ['SendMessages', 'ReadMessageHistory', 'ViewChannel', 'EmbedLinks'],
+				user: [],
+			},
+			slashCommand: true,
+			options: [
+				{
+					name: 'number',
+					description: 'cmd.volume.options.number',
+					type: 4,
+					required: true,
+				},
+			],
+		});
+	}
 
-const volume: Command = {
-    name: 'volume',
-    description: 'Thay đổi âm lượng.',
-    usage: 'b!volume <0-200>',
-    category: 'music',
-    aliases: ['v'],
-    execute: async (message, args, distube) => {
-        try {
-            const vc = message.member?.voice.channel;
-            if (!vc) {
-                await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại.');
-                return;
-            }
+	public async run(client: Lavamusic, ctx: Context, args: string[]): Promise<any> {
+		const player = client.manager.getPlayer(ctx.guild!.id);
+		const embed = this.client.embed().setFooter({
+				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+			})
+			.setTimestamp();
+		const number = Number(args[0]);
+		if (!player) return await ctx.sendMessage(ctx.locale('event.message.no_music_playing'));
+		if (Number.isNaN(number) || number < 0 || number > 200) {
+			let description = '';
+			if (Number.isNaN(number)) description = ctx.locale('cmd.volume.messages.invalid_number');
+			else if (number < 0) description = ctx.locale('cmd.volume.messages.too_low');
+			else if (number > 200) description = ctx.locale('cmd.volume.messages.too_high');
 
-            if (args[0] === 'default' || args.join(" ") === "mặc định") {
-                distube.getQueue(message)?.setVolume(50);
-                await replyWithEmbed(message, 'success', 'Đã thay đổi âm lượng phát về mặc định.');
-                return;
-            }
+			return await ctx.sendMessage({
+				embeds: [embed.setColor(this.client.color.red).setDescription(description)],
+			});
+		}
 
-            const volume = parseFloat(args[0]);
+		await player.setVolume(number);
+		const currentVolume = player.volume;
 
-            if (isNaN(volume) || volume < 0 || volume > 200) {
-                await replyWithEmbed(message, 'error', 'Âm lượng phải nằm trong khoảng 0 đến 200.');
-                return;
-            }
-
-            distube.getQueue(message)?.setVolume(volume);
-            await replyWithEmbed(message, 'success', `Đã thay đổi âm lượng phát thành ${volume}.`);
-        } catch (err) {
-            console.error(err);
-            // Do nothing
-        }
-    },
+		return await ctx.sendMessage({
+			embeds: [
+				embed.setColor(this.client.color.main).setDescription(
+					ctx.locale('cmd.volume.messages.set', {
+						volume: currentVolume,
+					}),
+				),
+			],
+		});
+	}
 }
 
-export = volume;
+

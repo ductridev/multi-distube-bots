@@ -1,54 +1,82 @@
-// src/commands/join.js
-/* 
-    Command: join
-    Description: Joins the voice channel the user is in.
-    Usage: b!join
-    Category: music
-    Aliases: j
-*/
+import type { VoiceChannel } from 'discord.js';
+import { Command, type Context, type Lavamusic } from '../../structures/index';
 
-import { Command } from '../../@types/command';
-import { Message } from 'discord.js';
-import { DisTube } from 'distube';
-import { replyWithEmbed } from '../../utils/embedHelper';
-import { setInitiator } from '../../utils/sessionStore';
-import { canBotJoinVC } from '../../utils/voicePermission';
+export default class Join extends Command {
+	constructor(client: Lavamusic) {
+		super(client, {
+			name: 'join',
+			description: {
+				content: 'cmd.join.description',
+				examples: ['join'],
+				usage: 'join',
+			},
+			category: 'music',
+			aliases: ['come', 'j'],
+			cooldown: 3,
+			args: false,
+			vote: false,
+			player: {
+				voice: true,
+				dj: false,
+				active: false,
+				djPerm: null,
+			},
+			permissions: {
+				dev: false,
+				client: ['SendMessages', 'ReadMessageHistory', 'ViewChannel', 'EmbedLinks', 'Connect', 'Speak'],
+				user: [],
+			},
+			slashCommand: true,
+			options: [],
+		});
+	}
 
-const join: Command = {
-    name: 'join',
-    description: 'Tham gia kênh thoại của người dùng.',
-    usage: 'b!join',
-    category: 'music',
-    aliases: ['j'],
-    async execute(message: Message, args: string[], distube: DisTube) {
-        try {
-            const vc = message.member?.voice.channel;
-            if (!vc) {
-                await replyWithEmbed(message, 'error', 'Bạn cần vào một kênh thoại trước.');
-                return;
-            }
+	public async run(client: Lavamusic, ctx: Context): Promise<any> {
+		const embed = this.client.embed().setFooter({
+				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+			})
+			.setTimestamp();
+		let player = client.manager.getPlayer(ctx.guild!.id);
 
-            const error = canBotJoinVC(vc, message.client.user!.id);
-            if (error) {
-                await replyWithEmbed(message, 'error', error);
-                return;
-            }
+		if (player) {
+			return await ctx.sendMessage({
+				embeds: [
+					embed.setColor(this.client.color.main).setDescription(
+						ctx.locale('cmd.join.already_connected', {
+							channelId: player.voiceChannelId,
+						}),
+					),
+				],
+			});
+		}
 
-            setInitiator(message.guildId!, vc.id, message.author.id);
+		const memberVoiceChannel = (ctx.member as any).voice.channel as VoiceChannel;
+		if (!memberVoiceChannel) {
+			return await ctx.sendMessage({
+				embeds: [embed.setColor(this.client.color.red).setDescription(ctx.locale('cmd.join.no_voice_channel'))],
+			});
+		}
 
-            try {
-                // Note: DisTube handles join internally on play
-                distube.voices.join(vc);
-                await replyWithEmbed(message, 'success', `Đang sẵn sàng phát nhạc tại **${vc.name}**.`);
-            } catch (err) {
-                console.error('Lỗi khi tham gia kênh:', err);
-                await replyWithEmbed(message, 'error', 'Không thể tham gia kênh thoại.');
-            }
-        } catch (err) {
-            console.error(err);
-            // Do nothing
-        }
-    },
-};
+		player = client.manager.createPlayer({
+			guildId: ctx.guild!.id,
+			voiceChannelId: memberVoiceChannel.id,
+			textChannelId: ctx.channel.id,
+			selfMute: false,
+			selfDeaf: true,
+			vcRegion: memberVoiceChannel.rtcRegion!,
+		});
+		if (!player.connected) await player.connect();
+		return await ctx.sendMessage({
+			embeds: [
+				embed.setColor(this.client.color.main).setDescription(
+					ctx.locale('cmd.join.joined', {
+						channelId: player.voiceChannelId,
+					}),
+				),
+			],
+		});
+	}
+}
 
-export = join;
+

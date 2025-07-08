@@ -1,217 +1,121 @@
-// src/commands/search.js
-/* 
-    Command: search
-    Description: Searches for a song and adds it to the queue if user selects.
-    Usage: b!search <song name>
-    Category: music
-    Aliases: s
-*/
+import { ActionRowBuilder, StringSelectMenuBuilder, type TextChannel, type VoiceChannel } from 'discord.js';
+import type { SearchResult, Track } from 'lavalink-client';
+import { Command, type Context, type Lavamusic } from '../../structures/index';
 
-import { Command } from '../../@types/command';
-import {
-    ActionRowBuilder,
-    StringSelectMenuBuilder,
-    ButtonBuilder,
-    ButtonStyle,
-    EmbedBuilder,
-    GuildTextBasedChannel,
-    Message,
-} from 'discord.js';
-import ytSearch from 'yt-search';
-import { DisTube, Playlist, Song } from 'distube';
-import { replyWithEmbed } from '../../utils/embedHelper';
-import { setInitiator } from '../../utils/sessionStore';
-import { getSongOrPlaylist } from '../../utils/getSongOrPlaylist';
-import { canBotJoinVC } from '../../utils/voicePermission';
+export default class Search extends Command {
+	constructor(client: Lavamusic) {
+		super(client, {
+			name: 'search',
+			description: {
+				content: 'cmd.search.description',
+				examples: ['search example'],
+				usage: 'search <song>',
+			},
+			category: 'music',
+			aliases: ['sc'],
+			cooldown: 3,
+			args: true,
+			vote: true,
+			player: {
+				voice: true,
+				dj: false,
+				active: false,
+				djPerm: null,
+			},
+			permissions: {
+				dev: false,
+				client: ['SendMessages', 'ReadMessageHistory', 'ViewChannel', 'EmbedLinks'],
+				user: [],
+			},
+			slashCommand: true,
+			options: [
+				{
+					name: 'song',
+					description: 'cmd.search.options.song',
+					type: 3,
+					required: true,
+				},
+			],
+		});
+	}
 
-const PAGE_SIZE = 20;
+	public async run(client: Lavamusic, ctx: Context, args: string[]): Promise<any> {
+		const embed = this.client.embed().setColor(this.client.color.main).setFooter({
+				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+			})
+			.setTimestamp();
+		let player = client.manager.getPlayer(ctx.guild!.id);
+		const query = args.join(' ');
+		const memberVoiceChannel = (ctx.member as any).voice.channel as VoiceChannel;
 
-const search: Command = {
-    name: 'search',
-    description: 'Tìm kiếm bài hát và thêm bài hát vào hàng đợi nếu người dùng chọn.',
-    usage: 'b!search <tên bài hát>',
-    category: 'music',
-    aliases: ['s'],
+		if (!player)
+			player = client.manager.createPlayer({
+				guildId: ctx.guild!.id,
+				voiceChannelId: memberVoiceChannel.id,
+				textChannelId: ctx.channel.id,
+				selfMute: false,
+				selfDeaf: true,
+				vcRegion: memberVoiceChannel.rtcRegion!,
+			});
+		if (!player.connected) await player.connect();
+		const response = (await player.search({ query: query }, ctx.author)) as SearchResult;
+		if (!response || response.tracks?.length === 0) {
+			return await ctx.sendMessage({
+				embeds: [embed.setDescription(ctx.locale('cmd.search.errors.no_results')).setColor(this.client.color.red)],
+			});
+		}
+		const selectMenu = new StringSelectMenuBuilder()
+			.setCustomId('select-track')
+			.setPlaceholder(ctx.locale('cmd.search.select'))
+			.addOptions(
+				response.tracks.slice(0, 10).map((track: Track, index: number) => ({
+					label: `${index + 1}. ${track.info.title}`,
+					description: track.info.author,
+					value: index.toString(),
+				})),
+			);
+		const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
 
-    async execute(message: Message, args: string[], distube: DisTube) {
-        try {
-            const query = args.join(' ');
-            if (!query) {
-                await replyWithEmbed(message, 'error', 'Vui lòng nhập từ khóa để tìm kiếm.');
-                return;
-            }
+		if (response.loadType === 'search' && response.tracks.length > 5) {
+			const embeds = response.tracks.map(
+				(track: Track, index: number) =>
+					`${index + 1}. [${track.info.title}](${track.info.uri}) - \`${track.info.author}\``,
+			);
+			await ctx.sendMessage({
+				embeds: [embed.setDescription(embeds.join('\n'))],
+				components: [row],
+			});
+		}
+		const collector = (ctx.channel as TextChannel).createMessageComponentCollector({
+			filter: (f: any) => f.user.id === ctx.author?.id,
+			max: 1,
+			time: 60000,
+			idle: 60000 / 2,
+		});
+		collector.on('collect', async (int: any) => {
+			const track = response.tracks[Number.parseInt(int.values[0])];
+			await int.deferUpdate();
+			if (!track) return;
+			player.queue.add(track);
+			if (!player.playing && player.queue.tracks.length > 0) await player.play({ paused: false });
+			await ctx.editMessage({
+				embeds: [
+					embed.setDescription(
+						ctx.locale('cmd.search.messages.added_to_queue', {
+							title: track.info.title,
+							uri: track.info.uri,
+						}),
+					),
+				],
+				components: [],
+			});
+			return collector.stop();
+		});
+		collector.on('end', async () => {
+			await ctx.editMessage({ components: [] });
+		});
+	}
+}
 
-            const vc = message.member?.voice.channel;
-            if (!vc) {
-                await replyWithEmbed(message, 'error', 'Bạn cần tham gia kênh thoại trước.');
-                return;
-            }
 
-            const error = canBotJoinVC(vc, message.client.user!.id);
-            if (error) {
-                await replyWithEmbed(message, 'error', error);
-                return;
-            }
-
-            setInitiator(message.guildId!, vc.id, message.author.id);
-
-            try {
-                const searchResult = await ytSearch(query);
-                const videos = searchResult.videos.slice(0, 50);
-
-                if (!videos.length) {
-                    await replyWithEmbed(message, 'warning', '⚠️ Không tìm thấy kết quả nào.');
-                    return;
-                }
-
-                const totalPages = Math.ceil(videos.length / PAGE_SIZE);
-                let currentPage = 0;
-
-                const renderPage = () => {
-                    const start = currentPage * PAGE_SIZE;
-                    const pageVideos = videos.slice(start, start + PAGE_SIZE);
-
-                    const embed = new EmbedBuilder()
-                        .setColor('#1DB954')
-                        .setTitle('🔎 Kết quả tìm kiếm')
-                        .setDescription(
-                            pageVideos
-                                .map((v, i) => `\`${start + i + 1}.\` [${v.title}](${v.url}) • ${v.timestamp} — ${v.author.name}`)
-                                .join('\n')
-                        )
-                        .setFooter({
-                            text: `Trang ${currentPage + 1}/${totalPages} • Hiển thị ${start + 1} - ${start + pageVideos.length} trong tổng ${videos.length}`,
-                        })
-                        .setTimestamp();
-
-                    if (pageVideos[0]?.image) embed.setThumbnail(pageVideos[0].image);
-
-                    const selectMenu = new StringSelectMenuBuilder()
-                        .setCustomId('search_select')
-                        .setPlaceholder('🎵 Chọn một bài hát')
-                        .addOptions(
-                            pageVideos.map((video, i) => ({
-                                label: `${start + i + 1}. ${video.title.slice(0, 100)}`,
-                                value: video.url,
-                                description: `${video.timestamp} — ${video.author.name.slice(0, 50)}`,
-                            }))
-                        );
-
-                    const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
-                    const nav = new ActionRowBuilder<ButtonBuilder>().addComponents(
-                        new ButtonBuilder()
-                            .setCustomId('prev_page')
-                            .setLabel('⬅️')
-                            .setStyle(ButtonStyle.Secondary)
-                            .setDisabled(currentPage === 0),
-                        new ButtonBuilder()
-                            .setCustomId('next_page')
-                            .setLabel('➡️')
-                            .setStyle(ButtonStyle.Secondary)
-                            .setDisabled(currentPage === totalPages - 1)
-                    );
-
-                    return { embeds: [embed], components: [row, nav] };
-                };
-
-                let messageData = renderPage();
-                const reply = await message.reply(messageData);
-
-                const collector = reply.createMessageComponentCollector({
-                    time: 45_000,
-                });
-
-                collector.on('collect', async interaction => {
-                    if (interaction.user.id !== message.author.id) {
-                        await interaction.reply({
-                            content: '⛔ Bạn không được phép sử dụng menu này.',
-                            ephemeral: true,
-                        });
-                        return;
-                    }
-
-                    if (interaction.isStringSelectMenu()) {
-                        await interaction.deferUpdate();
-                        const selectedUrl = interaction.values[0];
-
-                        try {
-                            await interaction.editReply({
-                                content: `✅ Đang phát bài hát bạn đã chọn.`,
-                                embeds: [],
-                                components: [],
-                            });
-
-                            collector.stop();
-                        } catch (err) {
-                            console.error('❌ Interaction update failed:', err);
-                            if (!interaction.replied && !interaction.deferred) {
-                                await replyWithEmbed(message, 'error',
-                                    '⛔ Quá hạn phản hồi hoặc lỗi xảy ra khi phát bài hát.',
-                                );
-                            }
-
-                            return;
-                        }
-
-                        const songOrPlaylist = await getSongOrPlaylist(distube, selectedUrl);
-
-                        if (songOrPlaylist instanceof Playlist && songOrPlaylist.songs.length === 0) {
-                            await replyWithEmbed(message, 'error', 'Không thể phát playlist này.');
-                            return;
-                        } else if (songOrPlaylist instanceof Song && songOrPlaylist.duration === 0) {
-                            await replyWithEmbed(message, 'error', 'Không thể phát bài hát này.');
-                            return;
-                        } else if (!songOrPlaylist) {
-                            await replyWithEmbed(message, 'error', 'Không tìm thấy bài hát nào phù hợp.');
-                            return;
-                        }
-
-                        if (!songOrPlaylist.url) {
-                            await replyWithEmbed(message, 'error', 'Không thể phát bài hát hoặc playlist này.');
-                            return;
-                        }
-
-                        let queue = distube.getQueue(message);
-
-                        if (!queue) {
-                            queue = await distube.queues.create(vc, message.channel as GuildTextBasedChannel)
-                        }
-
-                        queue.addToQueue(songOrPlaylist instanceof Playlist ? songOrPlaylist.songs : songOrPlaylist);
-
-                        if (!queue.playing) {
-                            queue.play();
-                        }
-                    }
-
-                    if (interaction.isButton()) {
-                        if (interaction.customId === 'prev_page' && currentPage > 0) {
-                            currentPage--;
-                        } else if (interaction.customId === 'next_page' && currentPage < totalPages - 1) {
-                            currentPage++;
-                        }
-
-                        const updated = renderPage();
-                        await interaction.update(updated);
-                    }
-                });
-
-                collector.on('end', async () => {
-                    try {
-                        await reply.edit({ components: [] });
-                    } catch {
-                        await reply.delete();
-                    }
-                });
-            } catch (err) {
-                console.error('Lỗi search:', err);
-                await replyWithEmbed(message, 'error', 'Không thể tìm kiếm bài hát.');
-            }
-        } catch (err) {
-            console.error(err);
-            // Do nothing
-        }
-    },
-};
-
-export = search;

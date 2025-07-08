@@ -1,245 +1,136 @@
-// src/commands/play.js
-/* 
-  Command: play
-  Description: Plays a song or adds it to the queue.
-  Usage: b!play <song name or URL>
-  Category: music
-  Aliases: p
-*/
+import type { ApplicationCommandOptionChoiceData, AutocompleteInteraction, VoiceChannel } from 'discord.js';
+import type { SearchResult } from 'lavalink-client';
+import { Command, type Context, type Lavamusic } from '../../structures/index';
+import {applyFairPlayToQueue} from "../../utils/functions/player";
 
-import { ExtractorPlugin, Playlist, Song } from 'distube';
-import { Command } from '../../@types/command';
-import {
-  EmbedBuilder,
-  GuildTextBasedChannel,
-  Message,
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-} from 'discord.js';
-import { replyEmbedWFooter, replyWithEmbed } from '../../utils/embedHelper';
-import { setInitiator } from '../../utils/sessionStore';
-import { getEstimatedWaitTime, getQueuePosition, getUpcomingPosition } from '../../utils/queueEstimate';
-import { QueueSessionModel } from '../../models/QueueSession';
-import { RecentTrackModel } from '../../models/RecentTrack';
-import { saveLimitedArray } from '../../utils/mongoArrayLimiter';
-import { sleep } from '../../utils/sleep';
-import { getSongOrPlaylist } from '../../utils/getSongOrPlaylist';
-import { canBotJoinVC } from '../../utils/voicePermission';
+export default class Play extends Command {
+	constructor(client: Lavamusic) {
+		super(client, {
+			name: 'play',
+			description: {
+				content: 'cmd.play.description',
+				examples: [
+					'play example',
+					'play https://www.youtube.com/watch?v=example',
+					'play https://open.spotify.com/track/example',
+					'play http://www.example.com/example.mp3',
+				],
+				usage: 'play <song>',
+			},
+			category: 'music',
+			aliases: ['p'],
+			cooldown: 3,
+			args: true,
+			vote: false,
+			player: {
+				voice: true,
+				dj: false,
+				active: false,
+				djPerm: null,
+			},
+			permissions: {
+				dev: false,
+				client: ['SendMessages', 'ReadMessageHistory', 'ViewChannel', 'EmbedLinks', 'Connect', 'Speak'],
+				user: [],
+			},
+			slashCommand: true,
+			options: [
+				{
+					name: 'song',
+					description: 'cmd.play.options.song',
+					type: 3,
+					required: true,
+					autocomplete: true,
+				},
+			],
+		});
+	}
 
-const play: Command = {
-  name: 'play',
-  description: 'Phát bài hát hoặc thêm bài hát vào hàng đợi.',
-  usage: 'b!play <song name or URL>',
-  category: 'music',
-  aliases: ['p'],
-  async execute(message: Message, args: string[], distube) {
-    try {
-      const query = args.join(' ');
-      if (!query) {
-        await replyWithEmbed(message, 'error', 'Vui lòng nhập tên bài hát hoặc đường dẫn URL.');
-        return;
-      }
+	public async run(client: Lavamusic, ctx: Context, args: string[]): Promise<any> {
+		const query = args.join(' ');
+		await ctx.sendDeferMessage(ctx.locale('cmd.play.loading'));
+		let player = client.manager.getPlayer(ctx.guild!.id);
+		const memberVoiceChannel = (ctx.member as any).voice.channel as VoiceChannel;
 
-      const vc = message.member?.voice.channel;
-      if (!vc) {
-        await replyWithEmbed(message, 'error', 'Bạn cần tham gia một kênh thoại trước.');
-        return;
-      }
+		if (!player)
+			player = client.manager.createPlayer({
+				guildId: ctx.guild!.id,
+				voiceChannelId: memberVoiceChannel.id,
+				textChannelId: ctx.channel.id,
+				selfMute: false,
+				selfDeaf: true,
+				vcRegion: memberVoiceChannel.rtcRegion!,
+			});
+		if (!player.connected) await player.connect();
 
-      const error = canBotJoinVC(vc, message.client.user!.id);
-      if (error) {
-        await replyWithEmbed(message, 'error', error);
-        return;
-      }
+		const response = (await player.search({ query: query }, ctx.author)) as SearchResult;
+		const embed = this.client.embed().setFooter({
+				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+			})
+			.setTimestamp();
 
-      setInitiator(message.guildId!, vc.id, message.author.id);
+		if (!response || response.tracks?.length === 0) {
+			console.debug(response);
+			return await ctx.editMessage({
+				content: '',
+				embeds: [embed.setColor(this.client.color.red).setDescription(ctx.locale('cmd.play.errors.search_error'))],
+			});
+		}
 
-      try {
-        const songOrPlaylist = await getSongOrPlaylist(distube, query);
+		await player.queue.add(response.loadType === 'playlist' ? response.tracks : response.tracks[0]);
 
-        if (songOrPlaylist instanceof Playlist && songOrPlaylist.songs.length === 0) {
-          await replyWithEmbed(message, 'error', 'Không thể phát playlist này.');
-          return;
-        } else if (songOrPlaylist instanceof Song && songOrPlaylist.duration === 0) {
-          await replyWithEmbed(message, 'error', 'Không thể phát bài hát này.');
-          return;
-        } else if (!songOrPlaylist) {
-          await replyWithEmbed(message, 'error', 'Không tìm thấy bài hát nào phù hợp.');
-          return;
-        }
+		const fairPlayEnabled = player.get<boolean>('fairplay');
+		if (fairPlayEnabled) {
+			await applyFairPlayToQueue(player);
+		}
 
-        if (!songOrPlaylist.url) {
-          await replyWithEmbed(message, 'error', 'Không thể phát bài hát hoặc playlist này.');
-          return;
-        }
+		if (response.loadType === 'playlist') {
+			await ctx.editMessage({
+				content: '',
+				embeds: [
+					embed
+						.setColor(this.client.color.main)
+						.setDescription(ctx.locale('cmd.play.added_playlist_to_queue', { length: response.tracks.length })),
+				],
+			});
+		} else {
+			await ctx.editMessage({
+				content: '',
+				embeds: [
+					embed.setColor(this.client.color.main).setDescription(
+						ctx.locale('cmd.play.added_to_queue', {
+							title: response.tracks[0].info.title,
+							uri: response.tracks[0].info.uri,
+						}),
+					),
+				],
+			});
+		}
+		if (!player.playing && player.queue.tracks.length > 0) await player.play({ paused: false });
+	}
+	public async autocomplete(interaction: AutocompleteInteraction): Promise<void> {
+		const focusedValue = interaction.options.getFocused(true);
 
-        // Save session
-        saveLimitedArray(QueueSessionModel, message.author.id, 'urls', songOrPlaylist.url);
+		if (!focusedValue?.value.trim()) {
+			return interaction.respond([]);
+		}
 
-        // Save recent track
-        saveLimitedArray(RecentTrackModel, message.author.id, 'tracks', songOrPlaylist.url);
+		const res = await this.client.manager.search(focusedValue.value.trim(), interaction.user);
+		const songs: ApplicationCommandOptionChoiceData[] = [];
 
-        let queue = distube.getQueue(message);
+		if (res.loadType === 'search') {
+			res.tracks.slice(0, 10).forEach(track => {
+				const name = `${track.info.title} by ${track.info.author}`;
+				songs.push({
+					name: name.length > 100 ? `${name.substring(0, 97)}...` : name,
+					value: track.info.uri,
+				});
+			});
+		}
 
-        if (!queue) {
-          queue = await distube.queues.create(vc, message.channel as GuildTextBasedChannel)
-        }
+		return await interaction.respond(songs);
+	}
+}
 
-        queue.addToQueue(songOrPlaylist instanceof Playlist ? songOrPlaylist.songs : songOrPlaylist);
 
-        if (!queue.playing) {
-          queue.play();
-        }
-
-        const embed = new EmbedBuilder()
-          .setColor(0x1DB954)
-          .addFields(
-            {
-              name: '📌 Danh sách phát',
-              value: `[${songOrPlaylist.name}](${songOrPlaylist.url})`,
-            },
-            {
-              name: '📊 Độ dài danh sách phát',
-              value: songOrPlaylist.formattedDuration,
-              inline: true,
-            },
-            {
-              name: '🎵 Danh sách',
-              value: songOrPlaylist instanceof Playlist ? `${songOrPlaylist.songs.length}` : `1`,
-              inline: true,
-            },
-            {
-              name: '⏳ Thời gian ước tính cho đến khi phát',
-              value: getEstimatedWaitTime(queue),
-              inline: false,
-            },
-            {
-              name: '📍 Số bài hát còn lại tới khi phát',
-              value: getUpcomingPosition(queue),
-              inline: true,
-            },
-            {
-              name: '📦 Vị trí trong hàng chờ',
-              value: getQueuePosition(queue),
-              inline: true,
-            },
-          );
-
-        const controlRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
-          new ButtonBuilder()
-            .setCustomId('pause')
-            .setLabel('⏯ Pause')
-            .setStyle(ButtonStyle.Secondary),
-          new ButtonBuilder()
-            .setCustomId('skip')
-            .setLabel('⏭ Skip')
-            .setStyle(ButtonStyle.Secondary),
-          new ButtonBuilder()
-            .setCustomId('stop')
-            .setLabel('⏹ Stop')
-            .setStyle(ButtonStyle.Danger),
-          new ButtonBuilder()
-            .setCustomId('loop')
-            .setLabel('🔁 Loop')
-            .setStyle(ButtonStyle.Primary),
-          new ButtonBuilder()
-            .setCustomId('shuffle')
-            .setLabel('🔀 Shuffle')
-            .setStyle(ButtonStyle.Primary),
-        );
-
-        if (songOrPlaylist instanceof Playlist) {
-          if (!queue || queue.songs.length === 0) {
-            embed.setTitle('🎶 Đang phát playlist');
-            embed.setThumbnail(songOrPlaylist.songs[0]?.thumbnail || '');
-          } else {
-            embed.setTitle('🎶 Đã thêm playlist');
-            embed.setThumbnail(songOrPlaylist.songs[0]?.thumbnail || '');
-          }
-        } else {
-          if (!queue || queue.songs.length === 0) {
-            embed.setTitle('🎶 Đang phát bài hát');
-            embed.setThumbnail(songOrPlaylist.thumbnail || '');
-          } else {
-            embed.setTitle('🎶 Đã thêm bài hát');
-            embed.setThumbnail(songOrPlaylist?.thumbnail || '');
-          }
-        }
-
-        const reply = await replyEmbedWFooter(message, embed, controlRow);
-        const collector = reply.createMessageComponentCollector({
-          time: 60_000 * 5, // 5 minutes
-        });
-
-        collector.on('collect', async (interaction) => {
-          if (interaction.user.id !== message.author.id) {
-            return interaction.reply({
-              content: '⛔ Bạn không thể điều khiển nhạc này.',
-              ephemeral: true,
-            });
-          }
-
-          const queue = distube.getQueue(message);
-          if (!queue) return interaction.reply({ content: '🚫 Không có nhạc đang phát.', ephemeral: true });
-
-          switch (interaction.customId) {
-            case 'pause':
-              if (queue.paused) {
-                queue.resume();
-                await interaction.reply({ content: '▶️ Đã tiếp tục phát.', ephemeral: true });
-              } else {
-                queue.pause();
-                await interaction.reply({ content: '⏸ Đã tạm dừng phát.', ephemeral: true });
-              }
-              break;
-
-            case 'skip':
-              if (queue && queue.songs.length > 1) {
-                queue.skip();
-                await interaction.reply({ content: '⏭ Đã chuyển bài.', ephemeral: true });
-              } else {
-                queue?.stop();
-                await interaction.reply({ content: 'Đã bỏ qua bài hát cuối cùng.', ephemeral: true });
-              }
-              break;
-
-            case 'stop':
-              if (queue) {
-                queue.voice.leave();
-                await queue.stop();
-              } else {
-                distube.voices.leave(message);
-              }
-              await interaction.reply({ content: '🛑 Đã dừng phát nhạc.', ephemeral: true });
-              break;
-
-            case 'loop':
-              const mode = queue.repeatMode === 0 ? 1 : 0;
-              queue.setRepeatMode(mode);
-              await interaction.reply({
-                content: mode ? '🔁 Đã bật lặp lại bài hát.' : '➡️ Đã tắt lặp lại.',
-                ephemeral: true,
-              });
-              break;
-            case 'shuffle':
-              queue.shuffle();
-              await interaction.reply({ content: '🔀 Đã xáo trộn hàng chờ.', ephemeral: true });
-              break;
-          }
-        });
-      } catch (err) {
-        console.error('Lỗi khi phát nhạc:', err);
-        if (err instanceof Error && err.message.includes('Unsupported URL')) await replyWithEmbed(message, 'error', 'URL không hợp lệ hoặc không được hỗ trợ.');
-        else await replyWithEmbed(message, 'error', 'Không thể phát bài hát.');
-
-        await sleep(5000);
-      }
-    } catch (err) {
-      console.error(err);
-      // Do nothing
-    }
-  },
-};
-
-export = play;

@@ -1,52 +1,65 @@
-// src/commands/skip.ts
-/* 
-    Command: skip
-    Description: Skips the current song and plays the next song in the queue.
-    Usage: b!skip
-    Category: music
-    Aliases: s, sk
-*/
+import { Command, type Context, type Lavamusic } from '../../structures/index';
 
-import { Message } from "discord.js";
-import { Command } from "../../@types/command";
-import DisTube, { Events } from "distube";
-import { replyWithEmbed } from "../../utils/embedHelper";
-import { startVotingUI } from "../../utils/startVotingUI";
+export default class Skip extends Command {
+	constructor(client: Lavamusic) {
+		super(client, {
+			name: 'skip',
+			description: {
+				content: 'cmd.skip.description',
+				examples: ['skip'],
+				usage: 'skip',
+			},
+			category: 'music',
+			aliases: ['sk'],
+			cooldown: 3,
+			args: false,
+			vote: true,
+			player: {
+				voice: true,
+				dj: true,
+				active: true,
+				djPerm: null,
+			},
+			permissions: {
+				dev: false,
+				client: ['SendMessages', 'ReadMessageHistory', 'ViewChannel', 'EmbedLinks'],
+				user: [],
+			},
+			slashCommand: true,
+			options: [],
+		});
+	}
 
-const skip: Command = {
-    name: 'skip',
-    description: 'Bỏ qua bài hát hiện tại và phát bài hát tiếp theo.',
-    usage: 'b!skip',
-    category: 'music',
-    aliases: ['s', 'sk'],
-    execute: async (message: Message, args: string[], distube: DisTube) => {
-        try {
-            await startVotingUI(message, distube, 'skip', async () => {
-                const guildId = message.guild?.id;
-                if (!guildId) return;
-
-                const vc = message.member?.voice.channel;
-                if (!vc) {
-                    await replyWithEmbed(message, 'error', 'Bạn cần vào kênh thoại.');
-                    return;
-                }
-
-                const queue = distube.getQueue(guildId);
-                if (!queue) return;
-                else if (queue && queue.songs.length > 1) {
-                    queue.skip();
-                    await replyWithEmbed(message, 'success', '⏭ Đã chuyển bài.');
-                } else {
-                    queue.stop();
-                    await replyWithEmbed(message, 'error', 'Đã bỏ qua bài hát cuối cùng.');
-                    distube.emit(Events.FINISH, queue!);
-                }
-            });
-        } catch (err) {
-            console.error(err);
-            // Do nothing
-        }
-    },
+	public async run(client: Lavamusic, ctx: Context): Promise<any> {
+		const player = client.manager.getPlayer(ctx.guild!.id);
+		const embed = this.client.embed().setFooter({
+				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+			})
+			.setTimestamp();	
+		if (!player) return await ctx.sendMessage(ctx.locale('event.message.no_music_playing'));
+		const autoplay = player.get<boolean>('autoplay');
+		if (!autoplay && player.queue.tracks.length === 0) {
+			return await ctx.sendMessage({
+				embeds: [embed.setColor(this.client.color.red).setDescription(ctx.locale('player.errors.no_song'))],
+			});
+		}
+		const currentTrack = player.queue.current?.info;
+		player.skip(0, !autoplay);
+		if (ctx.isInteraction) {
+			return await ctx.sendMessage({
+				embeds: [
+					embed.setColor(this.client.color.main).setDescription(
+						ctx.locale('cmd.skip.messages.skipped', {
+							title: currentTrack?.title,
+							uri: currentTrack?.uri,
+						}),
+					),
+				],
+			});
+		}
+		ctx.message?.react('👍');
+	}
 }
 
-export = skip;
+

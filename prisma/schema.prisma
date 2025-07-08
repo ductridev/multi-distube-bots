@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model BotConfig {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  token        String
+  prefix       String
+  clientId     String  @unique
+  status       String? @default("online")
+  activity     String? @default("Lavamusic")
+  activityType Int?    @default(0)
+  active       Boolean @default(true)
+
+  // New relation: one bot can have many prefixes in many guilds
+  guildConfigs GuildBotConfig[] @relation("BotClientConfig")
+  stays        Stay[]
+}
+
+model Bot {
+  botId         String @id @map("_id")
+  totalPlaySong Int
+}
+
+model Guild {
+  guildId  String  @id @map("_id")
+  language String? @default("Vietnamese")
+  stay     Stay?
+  dj       Dj?
+  roles    Role[]
+  setup    Setup?
+
+  // New relation: one guild can have many bot-prefix mappings
+  botConfigs GuildBotConfig[]
+}
+
+model GuildBotConfig {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  guildId      String
+  botClientId  String
+  prefix       String
+
+  Guild     Guild     @relation(fields: [guildId], references: [guildId])
+  BotConfig BotConfig @relation("BotClientConfig", fields: [botClientId], references: [clientId])
+
+  @@unique([guildId, botClientId]) // ensures one bot per guild has one prefix
+}
+
+model Stay {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  guildId     String @unique
+  botClientId String
+  textId      String
+  voiceId     String
+
+  Guild     Guild     @relation(fields: [guildId], references: [guildId])
+  BotConfig BotConfig @relation(fields: [botClientId], references: [clientId])
+
+  @@unique([guildId, botClientId])
+}
+
+model Dj {
+  guildId String  @id @map("_id")
+  mode    Boolean
+  Guild   Guild   @relation(fields: [guildId], references: [guildId])
+}
+
+model Role {
+  guildId String @id @map("_id")
+  roleId  String
+  Guild   Guild  @relation(fields: [guildId], references: [guildId])
+
+  @@unique([guildId, roleId])
+}
+
+model Playlist {
+  id     String  @id @default(uuid()) @map("_id")
+  userId String
+  name   String
+  tracks String? // Store the array of encoded tracks as a JSON string
+
+  @@unique([userId, name])
+}
+
+model Setup {
+  guildId   String @id @map("_id")
+  textId    String
+  messageId String
+  Guild     Guild  @relation(fields: [guildId], references: [guildId])
+}
+
+model PlayerState {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  guildId            String
+  botClientId        String
+  voiceChannelId     String
+  textChannelId      String
+  nodeId             String
+  volume             Int
+  applyVolumeAsFilter Boolean @default(false)
+  instaUpdateFiltersFix Boolean @default(false)
+  vcRegion           String?
+  track              String?
+  filters            String?   // JSON as string
+  lastPosition       Int
+  paused             Boolean
+  playing            Boolean
+  ping               Json
+  updatedAt          DateTime @updatedAt
+
+  @@unique([guildId, botClientId])
+}
