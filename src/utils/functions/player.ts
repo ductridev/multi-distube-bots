@@ -1,5 +1,6 @@
-import type { Player, Track } from 'lavalink-client';
+import type { Player, SearchResult, Track, UnresolvedSearchResult } from 'lavalink-client';
 import type { Requester } from '../../types';
+import { Lavamusic } from '../../structures';
 
 /**
  * Transforms a requester into a standardized requester object.
@@ -34,7 +35,7 @@ export const requesterTransformer = (requester: any): Requester => {
  * @param {Track} lastTrack The last played track.
  * @returns {Promise<void>} A promise that resolves when the function is done.
  */
-export async function autoPlayFunction(player: Player, lastTrack?: Track): Promise<void> {
+export async function autoPlayFunction(player: Player, client: Lavamusic, lastTrack?: Track): Promise<void> {
 	if (!player.get('autoplay')) return;
 	if (!lastTrack) return;
 
@@ -52,18 +53,26 @@ export async function autoPlayFunction(player: Player, lastTrack?: Track): Promi
 					},
 					lastTrack.requester,
 				)
-				.then((response: any) => {
-					response.tracks = response.tracks.filter(
-						(v: { info: { identifier: string } }) => v.info.identifier !== lastTrack.info.identifier,
+				.then((response: UnresolvedSearchResult | SearchResult) => {
+					response.tracks = (response.tracks as Track[]).filter(
+						(v) => v.info.identifier !== lastTrack.info.identifier
 					); // remove the lastPlayed track if it's in there..
 					return response;
 				})
 				.catch(console.warn);
 			if (res && res.tracks.length > 0)
 				await player.queue.add(
-					res.tracks.slice(0, 5).map((track: { pluginInfo: { clientData: any } }) => {
+					res.tracks.slice(0, 5).map((track) => {
 						// transform the track plugininfo so you can figure out if the track is from autoplay or not.
 						track.pluginInfo.clientData = { ...(track.pluginInfo.clientData || {}), fromAutoplay: true };
+						if (typeof track.requester === "object" || (typeof track.requester === "string" && track.requester === "[object Object]")) {
+							track.requester = {
+								id: client.user?.id,
+								username: client.user?.username,
+								avatarURL: client.user?.displayAvatarURL({ extension: 'png' }),
+								discriminator: client.user?.discriminator,
+							};
+						}
 						return track;
 					}),
 				);
@@ -79,18 +88,26 @@ export async function autoPlayFunction(player: Player, lastTrack?: Track): Promi
 				},
 				lastTrack.requester,
 			)
-			.then((response: any) => {
-				response.tracks = response.tracks.filter(
-					(v: { info: { identifier: string } }) => v.info.identifier !== lastTrack.info.identifier,
+			.then((response: UnresolvedSearchResult | SearchResult) => {
+				response.tracks = (response.tracks as Track[]).filter(
+					(v) => v.info.identifier !== lastTrack.info.identifier
 				); // remove the lastPlayed track if it's in there..
 				return response;
 			})
 			.catch(console.warn);
 		if (res && res.tracks.length > 0)
 			await player.queue.add(
-				res.tracks.slice(0, 5).map((track: { pluginInfo: { clientData: any } }) => {
+				res.tracks.slice(0, 5).map((track) => {
 					// transform the track plugininfo so you can figure out if the track is from autoplay or not.
 					track.pluginInfo.clientData = { ...(track.pluginInfo.clientData || {}), fromAutoplay: true };
+					if (typeof track.requester === "object" || (typeof track.requester === "string" && track.requester === "[object Object]")) {
+						track.requester = {
+							id: client.user?.id,
+							username: client.user?.username,
+							avatarURL: client.user?.displayAvatarURL({ extension: 'png' }),
+							discriminator: client.user?.discriminator,
+						};
+					}
 					return track;
 				}),
 			);
