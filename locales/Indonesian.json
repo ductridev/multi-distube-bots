@@ -36,7 +36,7 @@
 			"title": "Menu Bantuan",
 			"not_found": "command `{cmdName}` ini tidak ada.",
 			"help_cmd": "**Deskripsi:** {description}\n**Penggunaan:** {usage}\n**Contoh:** {examples}\n**Alias:** {aliases}\n**Kategori:** {category}\n**Cooldown:** {cooldown} detik\n**Izin:** {premUser}\n**Izin Bot:** {premBot}\n**Hanya Pengembang:** {dev}\n**command Slash:** {slash}\n**Argumen:** {args}\n**Player:** {player}\n**DJ:** {dj}\n**Izin DJ:** {djPerm}\n**Suara:** {voice}",
-			"footer": "Gunakan {prefix}help <command> untuk informasi lebih lanjut tentang command • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️"
+			"footer": "Gunakan {prefix}help <command> untuk informasi lebih lanjut tentang command • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️"
 		},
 		"botinfo": {
 			"description": "Informasi tentang bot",
@@ -595,7 +595,7 @@
 			"no_dj_permission": "Anda perlu memiliki role DJ untuk menggunakan command ini.",
 			"missing_arguments": "Argumen tidak lengkap",
 			"missing_arguments_description": "Harap berikan argumen yang diperlukan untuk command `{command}`.\n\nContoh:\n{examples}",
-			"syntax_footer": "Sintaks: [] = opsional, <> = wajib • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"syntax_footer": "Sintaks: [] = opsional, <> = wajib • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"cooldown": "Harap tunggu {time} detik lagi sebelum menggunakan kembali command `{command}`.",
 			"no_mention_everyone": "Anda tidak dapat menggunakan command ini dengan everyone atau here. Silakan gunakan slash command.",
 			"error": "Terjadi kesalahan: `{error}`",
@@ -611,28 +611,28 @@
 			"requested_by": "Direquest oleh <@{requester}>",
 			"no_dj_permission": "Anda perlu memiliki role DJ untuk menggunakan tombol ini.",
 			"volume_set": "Volume diatur ke {vol}%",
-			"volume_footer": "Volume: {vol}% • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"volume_footer": "Volume: {vol}% • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"paused": "Dipause",
 			"resumed": "Diresume",
 			"pause_resume": "{name} lagu.",
-			"pause_resume_footer": "{name} oleh {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"pause_resume_footer": "{name} oleh {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"no_music_to_skip": "Tidak ada lagu untuk dilewati.",
 			"skipped": "Melewati lagu.",
-			"skipped_footer": "Dilewati oleh {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"skipped_footer": "Dilewati oleh {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"stopped": "Menghentikan lagu.",
-			"stopped_footer": "Dihentikan oleh {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"stopped_footer": "Dihentikan oleh {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"nothing_playing": "Tidak ada yang diputar saat ini.",
 			"loop_set": "Loop diatur ke {loop}.",
-			"loop_footer": "Loop diatur ke {loop} oleh {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"loop_footer": "Loop diatur ke {loop} oleh {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"shuffled": "Mengacak antrean.",
 			"no_previous_track": "Tidak ada lagu sebelumnya.",
 			"playing_previous": "Memutar lagu sebelumnya.",
-			"previous_footer": "Memutar lagu sebelumnya oleh {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"previous_footer": "Memutar lagu sebelumnya oleh {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"rewinded": "Memutar mundur lagu.",
-			"rewind_footer": "Diputar mundur oleh {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"rewind_footer": "Diputar mundur oleh {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"forward_limit": "Anda tidak dapat memajukan lagu lebih dari panjang lagu.",
 			"forwarded": "Memajukan lagu.",
-			"forward_footer": "Dimajukan oleh {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"forward_footer": "Dimajukan oleh {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "Tombol ini tidak tersedia.",
 			"no_music_playing": "Tidak ada lagu yang diputar di server ini."
 		}
@@ -641,5 +641,6 @@
 	"Leave a guild": "Tinggalkan server",
 	"List all guilds the bot is in": "Daftar semua server tempat bot berada",
 	"Restart the bot": "Restart bot",
-	"The loop mode you want to set": "The loop mode you want to set"
+	"The loop mode you want to set": "The loop mode you want to set",
+	"Show current maintenance status.": "Show current maintenance status."
 }

@@ -20,7 +20,7 @@ export function sendLog(
 
 	const color = colors[type];
 	const embed = client.embed().setColor(color).setDescription(message).setFooter({
-		text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+		text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 		iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 	}).setTimestamp();
 

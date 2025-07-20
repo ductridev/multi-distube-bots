@@ -17,7 +17,7 @@ export default class PlayNext extends Command {
 				usage: 'playnext <song>',
 			},
 			category: 'music',
-			aliases: ['pn'],
+			aliases: ['insert', 'pn'],
 			cooldown: 3,
 			args: true,
 			vote: false,
@@ -65,7 +65,7 @@ export default class PlayNext extends Command {
 
 		const response = (await player.search({ query: query }, ctx.author)) as SearchResult;
 		const embed = this.client.embed().setFooter({
-				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+				text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 			})
 			.setTimestamp();

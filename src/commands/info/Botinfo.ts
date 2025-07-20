@@ -45,41 +45,53 @@ export default class Botinfo extends Command {
 		const discordJsVersion = version;
 		const commands = client.commands.size;
 
-		const promises = [
-			client.shard?.broadcastEval(client => client.guilds.cache.size),
-			client.shard?.broadcastEval(client => client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)),
-			client.shard?.broadcastEval(client => client.channels.cache.size),
-		];
-		return Promise.all(promises).then(async results => {
-			const guilds = results[0]?.reduce((acc, guildCount) => acc + guildCount, 0);
-			const users = results[1]?.reduce((acc, memberCount) => acc + memberCount, 0);
-			const channels = results[2]?.reduce((acc, channelCount) => acc + channelCount, 0);
+		let guilds = 0;
+		let users = 0;
+		let channels = 0;
 
-			const botInfo = ctx.locale('cmd.botinfo.content', {
-				osInfo,
-				osUptime,
-				osHostname,
-				cpuInfo,
-				cpuUsed,
-				memUsed,
-				memTotal,
-				nodeVersion,
-				discordJsVersion,
-				guilds,
-				channels,
-				users,
-				commands,
-			});
+		if (client.shard) {
+			const [guildCounts, memberCounts, channelCounts] = await Promise.all([
+				client.shard.broadcastEval(c => c.guilds.cache.size),
+				client.shard.broadcastEval(c => c.guilds.cache.reduce((acc, g) => acc + g.memberCount, 0)),
+				client.shard.broadcastEval(c => c.channels.cache.size),
+			]);
 
-			const embed = this.client.embed().setColor(this.client.color.main).setDescription(botInfo).setFooter({
-				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			guilds = guildCounts.reduce((acc, count) => acc + count, 0);
+			users = memberCounts.reduce((acc, count) => acc + count, 0);
+			channels = channelCounts.reduce((acc, count) => acc + count, 0);
+		} else {
+			guilds = client.guilds.cache.size;
+			users = client.guilds.cache.reduce((acc, g) => acc + g.memberCount, 0);
+			channels = client.channels.cache.size;
+		}
+
+		const botInfo = ctx.locale('cmd.botinfo.content', {
+			osInfo,
+			osUptime,
+			osHostname,
+			cpuInfo,
+			cpuUsed,
+			memUsed,
+			memTotal,
+			nodeVersion,
+			discordJsVersion,
+			guilds,
+			channels,
+			users,
+			commands,
+		});
+
+		const embed = this.client.embed()
+			.setColor(this.client.color.main)
+			.setDescription(botInfo)
+			.setFooter({
+				text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 			})
-				.setTimestamp();
+			.setTimestamp();
 
-			return await ctx.sendMessage({
-				embeds: [embed],
-			});
+		await ctx.sendMessage({
+			embeds: [embed],
 		});
 	}
 }

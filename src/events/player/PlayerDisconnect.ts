@@ -17,7 +17,7 @@ export default class PlayerDisconnect extends Event {
 		await updateSetup(this.client, guild, locale);
 
 		if (player.voiceChannelId) {
-			await this.client.utils.setVoiceStatus(this.client, player.voiceChannelId, "");
+			// await this.client.utils.setVoiceStatus(this.client, player.voiceChannelId, "");
 		}
 
 		const messageId = player.get<string | undefined>('messageId');

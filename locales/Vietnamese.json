@@ -16,6 +16,8 @@
 			"content": "Đang kiểm tra độ trễ...",
 			"bot_latency": "Độ trễ của Bot",
 			"api_latency": "Độ trễ của API",
+			"vc_latency": "Độ trễ kênh âm thanh",
+			"vc_region": "Điểm cuối của kênh âm thanh",
 			"requested_by": "Được yêu cầu bởi {author}"
 		},
 		"lavalink": {
@@ -32,11 +34,11 @@
 			"options": {
 				"command": "Lệnh bạn muốn xem thông tin"
 			},
-			"content": "Chào bạn! Tôi là {bot}, một bot phát nhạc được phát triển bởi [MultiBungoBot](https://github.com/ductridev/multi-distube-bots) và cộng đồng Discord. Bạn có thể dùng `{prefix}help <command>` để xem chi tiết về từng lệnh.",
+			"content": "Chào bạn! Tôi là {bot}. Bạn có thể dùng `{prefix}help <command>` để xem chi tiết về từng lệnh.",
 			"title": "Menu Trợ Giúp",
 			"not_found": "Không tìm thấy lệnh `{cmdName}`.",
 			"help_cmd": "**Mô tả:** {description}\n**Cách dùng:** {usage}\n**Ví dụ:** {examples}\n**Tên gọi khác:** {aliases}\n**Danh mục:** {category}\n**Thời gian chờ:** {cooldown} giây\n**Yêu cầu quyền:** {premUser}\n**Quyền của bot:** {premBot}\n**Chỉ dành cho nhà phát triển:** {dev}\n**Lệnh Slash:** {slash}\n**Tham số:** {args}\n**Trình phát:** {player}\n**DJ:** {dj}\n**Quyền DJ:** {djPerm}\n**Yêu cầu kênh thoại:** {voice}",
-			"footer": "Dùng {prefix}help <command> để biết thêm về lệnh • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️"
+			"footer": "Dùng {prefix}help <command> để biết thêm về lệnh • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️"
 		},
 		"botinfo": {
 			"description": "Xem thông tin về bot.",
@@ -262,7 +264,8 @@
 			"description": "Bật/tắt chế độ lặp lại bài hát hoặc hàng chờ",
 			"looping_song": "**Đang lặp lại bài hát hiện tại.**",
 			"looping_queue": "**Đang lặp lại toàn bộ hàng chờ.**",
-			"looping_off": "**Đã tắt chế độ lặp lại.**"
+			"looping_off": "**Đã tắt chế độ lặp lại.**",
+			"invalid_mode": "Vui lòng chọn chế độ lặp hợp lệ. (ví dụ: off, track, queue)"
 		},
 		"nowplaying": {
 			"description": "Hiển thị bài hát đang phát",
@@ -354,7 +357,8 @@
 			},
 			"messages": {
 				"added_to_queue": "Đã thêm [{title}]({uri}) vào hàng chờ."
-			}
+			},
+			"select": "Vui lòng chọn bài hát bạn muốn phát"
 		},
 		"seek": {
 			"description": "Chuyển đến một thời điểm cụ thể trong bài hát",
@@ -374,6 +378,9 @@
 			"description": "Xáo trộn hàng chờ phát nhạc",
 			"messages": {
 				"shuffled": "Đã xáo trộn hàng chờ."
+			},
+			"errors": {
+				"fairplay": "Chế độ phát công bằng đang được bật. Bạn không thể xáo trộn hàng chờ."
 			}
 		},
 		"skip": {
@@ -500,16 +507,42 @@
 			}
 		},
 		"lyrics": {
-			"description": "Lấy lời bài hát của bài đang phát"
+			"description": "Lấy lời bài hát của bài đang phát",
+			"searching": "🔍 Đang tìm lời bài hát cho **{trackTitle}** lyrics...",
+			"lyrics_track": "### Lời bài hát: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
+			"errors": {
+				"no_results": "Không tìm thấy lời bài hát cho bài hát hiện tại.",
+				"lyrics_error": "Đã xảy ra lỗi khi lấy lời bài hát."
+			}
 		},
 		"fairplay": {
-			"description": "Bật chế độ phát nhạc công bằng (Fair Play)"
+			"description": "Bật chế độ phát nhạc công bằng (Fair Play)",
+			"errors": {
+				"not_in_voice": "Bạn cần tham gia một kênh thoại để sử dụng lệnh này.",
+				"generic": "Đã xảy ra lỗi khi thực hiện lệnh này."
+			},
+			"messages": {
+				"disabled": "`✅` | Chế độ phát công bằng (Fairplay) đã được `TẮT`.",
+				"enabled": "`✅` | Chế độ phát công bằng (Fairplay) đã được `BẬT`.",
+				"errors": {
+					"empty_query": "Vui lòng đính kèm một tệp âm thanh để phát.",
+					"invalid_format": "Bạn chỉ có thể phát các tệp MP3, WAV, OGG, FLAC, AAC hoặc M4A.",
+					"no_results": "Không thể phát tệp âm thanh. Có thể tệp đã bị hỏng."
+				},
+				"added_to_queue": "Đã thêm [{title}]({url}) vào hàng chờ."
+			}
 		},
 		"playlocal": {
 			"description": "Phát tệp âm thanh từ máy tính của bạn",
 			"options": {
 				"file": "Tệp âm thanh bạn muốn phát"
-			}
+			},
+			"errors": {
+				"empty_query": "Vui lòng đính kèm một tệp âm thanh để phát.",
+				"invalid_format": "Bạn chỉ có thể phát các tệp MP3, WAV, OGG, FLAC, AAC hoặc M4A.",
+				"no_results": "Không thể phát tệp âm thanh. Có thể tệp đã bị hỏng."
+			},
+			"added_to_queue": "Đã thêm [{title}]({url}) vào hàng chờ."
 		}
 	},
 	"buttons": {
@@ -578,7 +611,9 @@
 			"no_dj_role": "Vai trò DJ chưa được thiết lập.",
 			"no_dj_permission": "Bạn cần có vai trò DJ để sử dụng lệnh này.",
 			"cooldown": "Vui lòng đợi {time} giây nữa trước khi sử dụng lệnh `{command}` này.",
-			"error": "Đã xảy ra lỗi: `{error}`"
+			"error": "Đã xảy ra lỗi: `{error}`",
+			"vote_button": "Bình chọn cho tôi!",
+			"vote_message": "Chờ chút! Bạn cần bình chọn cho bot trên top.gg để sử dụng lệnh này. Cảm ơn bạn!"
 		},
 		"message": {
 			"prefix_mention": "Xin chào! Tiền tố của tôi cho máy chủ này là `{prefix}`. Để biết thêm thông tin, hãy sử dụng `{prefix}help`.\nChúc bạn vui vẻ và an toàn!",
@@ -596,13 +631,18 @@
 			"no_dj_permission": "Bạn cần có vai trò DJ để sử dụng lệnh này.",
 			"missing_arguments": "Thiếu đối số",
 			"missing_arguments_description": "Vui lòng cung cấp đủ đối số cho lệnh `{command}`.\n\nVí dụ:\n{examples}",
-			"syntax_footer": "Cú pháp: [] = tùy chọn, <> = bắt buộc • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"syntax_footer": "Cú pháp: [] = tùy chọn, <> = bắt buộc • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"cooldown": "Vui lòng đợi {time} giây nữa trước khi sử dụng lệnh `{command}` này.",
 			"no_mention_everyone": "Bạn không thể sử dụng lệnh này với `@everyone` hoặc `@here`. Vui lòng sử dụng lệnh slash.",
 			"error": "Đã xảy ra lỗi: `{error}`",
 			"no_voice_channel_queue": "Bạn cần tham gia kênh thoại để xếp hàng bài hát.",
 			"no_permission_connect_speak": "Tôi không có đủ quyền để kết nối hoặc nói trong <#{channel}>.",
-			"different_voice_channel_queue": "Bạn cần tham gia <#{channel}> để xếp hàng bài hát."
+			"different_voice_channel_queue": "Bạn cần tham gia <#{channel}> để xếp hàng bài hát.",
+			"no_free_bots": "Hiện không có bot nào khả dụng.",
+			"vote_button": "Bình chọn cho tôi!",
+			"vote_message": "Chờ chút! Bạn cần bình chọn cho bot trên top.gg để sử dụng lệnh này. Cảm ơn bạn!",
+			"voice_channel_full": "Kênh thoại <#{channel}> đã đầy. Vui lòng chuyển sang kênh khác hoặc tăng giới hạn thành viên.",
+			"maintenance": "Bot đang được bảo trì. Vui lòng quay lại sau."
 		},
 		"setupButton": {
 			"no_voice_channel_button": "Bạn cần tham gia kênh thoại để sử dụng nút này.",
@@ -612,28 +652,28 @@
 			"requested_by": "Yêu cầu bởi <@{requester}>",
 			"no_dj_permission": "Bạn cần có vai trò DJ để sử dụng nút này.",
 			"volume_set": "Âm lượng đã được đặt thành {vol}%.",
-			"volume_footer": "Âm lượng: {vol}% • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"volume_footer": "Âm lượng: {vol}% • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"paused": "⏸ Đã tạm dừng nhạc.",
 			"resumed": "▶️ Đã tiếp tục nhạc.",
 			"pause_resume": "{name} nhạc.",
-			"pause_resume_footer": "{name} bởi {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"pause_resume_footer": "{name} bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"no_music_to_skip": "Không có bài hát nào để bỏ qua.",
 			"skipped": "⏭ Đã bỏ qua bài hát.",
-			"skipped_footer": "Bỏ qua bởi {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"skipped_footer": "Bỏ qua bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"stopped": "⏹ Đã dừng nhạc.",
-			"stopped_footer": "Dừng bởi {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"stopped_footer": "Dừng bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"nothing_playing": "Hiện tại không có gì đang phát.",
 			"loop_set": "🔁 Lặp lại đã được đặt thành {loop}.",
-			"loop_footer": "Lặp lại: {loop} • Bởi {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"loop_footer": "Lặp lại: {loop} • Bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"shuffled": "🔀 Đã xáo trộn danh sách phát.",
 			"no_previous_track": "Không có bài hát trước đó.",
 			"playing_previous": "Đang phát bài hát trước đó.",
-			"previous_footer": "Phát bài hát trước bởi {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"previous_footer": "Phát bài hát trước bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"rewinded": "⏪ Đã tua lại nhạc.",
-			"rewind_footer": "Tua lại bởi {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"rewind_footer": "Tua lại bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"forward_limit": "Bạn không thể tua tới quá thời lượng bài hát.",
 			"forwarded": "⏩ Đã tua tới nhạc.",
-			"forward_footer": "Tua tới bởi {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"forward_footer": "Tua tới bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "⛔ Nút này hiện không khả dụng.",
 			"no_music_playing": "Không có nhạc nào đang phát trong máy chủ này."
 		}
@@ -642,5 +682,33 @@
 	"Leave a guild": "Rời khỏi một máy chủ",
 	"List all guilds the bot is in": "Liệt kê tất cả các máy chủ mà bot đang tham gia",
 	"Restart the bot": "Khởi động lại bot",
-	"The loop mode you want to set": "Chế độ lặp lại bạn muốn đặt"
+	"The loop mode you want to set": "Chế độ lặp lại bạn muốn đặt",
+	"will_restart_after": "Bot sẽ khởi động lại sau {time}",
+	"will_leave": {
+		"no_listeners": "Bot sẽ rời đi sau {time} phút vì không có người nghe.",
+		"no_songs": "Bot sẽ rời đi sau {time} phút vì không có bài hát nào."
+	},
+	"leave": {
+		"no_listeners": "Bot đã rời đi vì không có người nghe.",
+		"no_songs": "Bot đã rời đi vì không có bài hát nào."
+	},
+	"Show current maintenance status.": "Hiển thị tình trạng bảo trì hiện tại.",
+	"maintenance": {
+		"title": "Chế độ bảo trì",
+		"status_title": "🛠️ Tình trạng bảo trì",
+		"status_value": "Đang được bảo trì",
+		"affected_title": "🕒 Các chức năng bị ảnh hưởng",
+		"affected_value": "Các lệnh về nhạc và hàng đợi tạm thời bị vô hiệu hóa.",
+		"enabled_title": "🛠️ Đã Bật Chế Độ Bảo Trì",
+		"disabled_title": "✅ Đã Tắt Chế Độ Bảo Trì",
+		"enabled_desc": "Bot hiện đang ở **chế độ bảo trì**. Các lệnh phát nhạc đã bị vô hiệu hóa.",
+		"disabled_desc": "Bot đã **hoạt động bình thường trở lại**.",
+		"requested_by": "Yêu cầu bởi {author}",
+		"field_title": "🔧 Bảo trì",
+		"local_field_enabled": "```diff\n+ ĐANG BẢO TRÌ\n```",
+		"local_field_disabled": "```diff\n- ĐANG HOẠT ĐỘNG BÌNH THƯỜNG\n```",
+		"global_field_value_enabled": "```diff\n+ {count}/{total} ĐANG BẢO TRÌ\n```",
+		"global_field_value_disabled": "```diff\n- Tất cả ĐANG HOẠT ĐỘNG BÌNH THƯỜNG\n```",
+		"global_field_fetch_failed": "⚠️ Không thể lấy dữ liệu."
+	}
 }

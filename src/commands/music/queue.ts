@@ -34,7 +34,7 @@ export default class Queue extends Command {
 		const player = client.manager.getPlayer(ctx.guild!.id);
 		if (!player) return await ctx.sendMessage(ctx.locale('event.message.no_music_playing'));
 		const embed = this.client.embed().setFooter({
-				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+				text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 			})
 			.setTimestamp();
@@ -87,7 +87,7 @@ export default class Queue extends Command {
 					text: ctx.locale('cmd.queue.page_info', {
 						index: index + 1,
 						total: chunks.length,
-					}) + " • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+					}) + " • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 					iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg"
 				}).setTimestamp();
 		});

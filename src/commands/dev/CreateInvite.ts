@@ -33,7 +33,7 @@ export default class CreateInvite extends Command {
 	public async run(client: Lavamusic, ctx: Context, args: string[]): Promise<any> {
 		const guild = client.guilds.cache.get(args[0]);
 		const embed = this.client.embed().setFooter({
-				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+				text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 			})
 			.setTimestamp();

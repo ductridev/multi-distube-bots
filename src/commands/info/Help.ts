@@ -39,15 +39,13 @@ export default class Help extends Command {
 
 	public async run(client: Lavamusic, ctx: Context, args: string[]): Promise<any> {
 		const embed = this.client.embed().setFooter({
-			text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 		})
 			.setTimestamp();
-		const botClientId = client.user!.id;
-		const guildId = ctx.guild!.id;
 		const commands = this.client.commands.filter(cmd => cmd.category !== 'dev');
 		const categories = [...new Set(commands.map(cmd => cmd.category))];
-		const currentPrefix = await client.db.getPrefix(guildId, botClientId);
+		const currentPrefix = client.env.GLOBAL_PREFIX;
 
 		if (args[0]) {
 			const command = this.client.commands.get(args[0].toLowerCase());
@@ -87,7 +85,7 @@ export default class Help extends Command {
 						voice: command.player.voice ? 'Yes' : 'No',
 					}),
 				).setFooter({
-					text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+					text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 					iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 				})
 				.setTimestamp();

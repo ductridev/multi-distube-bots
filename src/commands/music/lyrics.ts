@@ -43,7 +43,7 @@ export default class Lyrics extends Command {
 		const player = client.manager.getPlayer(ctx.guild!.id);
 		if (!player) return await ctx.sendMessage(ctx.locale('event.message.no_music_playing'));
 		const embed = this.client.embed().setFooter({
-			text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 		})
 			.setTimestamp();
@@ -64,7 +64,12 @@ export default class Lyrics extends Command {
 		};
 
 		try {
-			const lyrics = await getLyrics(options);
+			let lyrics = '';
+			try {
+				lyrics = await getLyrics(options);
+			} catch (e) {
+				lyrics = (await this.client.manager.getPlayer(ctx.guild!.id)!.getCurrentLyrics()).text ?? '';
+			}
 			if (lyrics) {
 				const lyricsPages = this.paginateLyrics(lyrics);
 				let currentPage = 0;

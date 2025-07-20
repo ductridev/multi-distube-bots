@@ -17,7 +17,7 @@ const LavalinkNodeSchema = z.object({
 	retryAmount: z.number().optional(),
 	retryDelay: z.number().optional(),
 	requestSignalTimeoutMS: z.number().optional(),
-	closeOnError: z.boolean().optional(),
+	closeOnError: z.preprocess(val => (val === 'true' || val === 'false' ? val === 'true' : val), z.boolean().optional()),
 	heartBeatInterval: z.number().optional(),
 	enablePingOnStatsCheck: z.preprocess(val => (val === 'true' || val === 'false' ? val === 'true' : val), z.boolean().optional()),
 });

@@ -33,7 +33,7 @@ export default class Invite extends Command {
 
 	public async run(client: Lavamusic, ctx: Context): Promise<any> {
 		const embed = this.client.embed().setFooter({
-			text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 		})
 			.setTimestamp();
@@ -47,7 +47,7 @@ export default class Invite extends Command {
 			new ButtonBuilder()
 				.setLabel(ctx.locale('buttons.support'))
 				.setStyle(ButtonStyle.Link)
-				.setURL('https://discord.gg/STXurwnZD5'),
+				.setURL('https://discord.gg/bostreamlimit'),
 		);
 		return await ctx.sendMessage({
 			embeds: [embed.setColor(this.client.color.main).setDescription(ctx.locale('cmd.invite.content'))],

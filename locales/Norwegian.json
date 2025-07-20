@@ -36,7 +36,7 @@
 			"title": "Hjelpemeny",
 			"not_found": "Kommandoen `{cmdName}` finnes ikke.",
 			"help_cmd": "**Beskrivelse:** {description}\n**Bruk:** {usage}\n**Eksempler:** {examples}\n**Aliaser:** {aliases}\n**Kategori:** {category}\n**Nedkjøling:** {cooldown} sekunder\n**Tillatelser:** {premUser}\n**Bottillatelser:** {premBot}\n**Kun for utviklere:** {dev}\n**Skråstrekkommando:** {slash}\n**Argumenter:** {args}\n**Spiller:** {player}\n**DJ:** {dj}\n**DJ-tillatelser:** {djPerm}\n**Stemme:** {voice}",
-			"footer": "Bruk {prefix}help <kommando> for mer informasjon om en kommando • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️"
+			"footer": "Bruk {prefix}help <kommando> for mer informasjon om en kommando • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️"
 		},
 		"botinfo": {
 			"description": "Informasjon om boten",
@@ -595,7 +595,7 @@
 			"no_dj_permission": "Du må ha DJ-rollen for å bruke denne kommandoen.",
 			"missing_arguments": "Mangler argumenter",
 			"missing_arguments_description": "Angi de nødvendige argumentene for `{command}`-kommandoen.\n\nEksempler:\n{examples}",
-			"syntax_footer": "Syntaks: [] = valgfri, <> = obligatorisk • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"syntax_footer": "Syntaks: [] = valgfri, <> = obligatorisk • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"cooldown": "Vent {time} sekund(er) til før du bruker `{command}`-kommandoen på nytt.",
 			"no_mention_everyone": "Du kan ikke bruke denne kommandoen med everyone eller here.",
 			"error": "En feil oppstod: `{error}`",
@@ -611,28 +611,28 @@
 			"requested_by": "Forespurt av <@{requester}>",
 			"no_dj_permission": "Du må ha DJ-rollen for å bruke denne kommandoen.",
 			"volume_set": "Volum satt til {vol}%",
-			"volume_footer": "Volum: {vol}% • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"volume_footer": "Volum: {vol}% • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"paused": "Pauset",
 			"resumed": "Gjenopptatt",
 			"pause_resume": "{name} musikken.",
-			"pause_resume_footer": "{name} av {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"pause_resume_footer": "{name} av {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"no_music_to_skip": "Det er ingen musikk å hoppe over.",
 			"skipped": "Hoppet over musikken.",
-			"skipped_footer": "Hoppet over av {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"skipped_footer": "Hoppet over av {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"stopped": "Stoppet musikken.",
-			"stopped_footer": "Stoppet av {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"stopped_footer": "Stoppet av {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"nothing_playing": "Ingen avspilling akkurat nå",
 			"loop_set": "Loop satt til {loop}.",
-			"loop_footer": "Loop satt til {loop} av {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"loop_footer": "Loop satt til {loop} av {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"shuffled": "Stokket køen.",
 			"no_previous_track": "Det er ingen forrige spor.",
 			"playing_previous": "Spiller av forrige spor.",
-			"previous_footer": "Spiller av forrige spor av {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"previous_footer": "Spiller av forrige spor av {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"rewinded": "Spolet musikken tilbake.",
-			"rewind_footer": "Spolet tilbake av {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"rewind_footer": "Spolet tilbake av {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"forward_limit": "Du kan ikke spole musikken fremover mer enn lengden på sangen.",
 			"forwarded": "Spolet musikken fremover.",
-			"forward_footer": "Spolet fremover av {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"forward_footer": "Spolet fremover av {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "Denne knappen er ikke tilgjengelig.",
 			"no_music_playing": "Det spilles ingen musikk på denne serveren."
 		}
@@ -641,5 +641,6 @@
 	"Leave a guild": "Forlat en server",
 	"List all guilds the bot is in": "List opp alle servere boten er på",
 	"Restart the bot": "Start boten på nytt",
-	"The loop mode you want to set": "The loop mode you want to set"
+	"The loop mode you want to set": "The loop mode you want to set",
+	"Show current maintenance status.": "Show current maintenance status."
 }

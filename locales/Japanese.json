@@ -36,7 +36,7 @@
 			"title": "ヘルプメニュー",
 			"not_found": "この`{cmdName}`コマンドは存在しません。",
 			"help_cmd": "**説明:** {description}\n**使用法:** {usage}\n**例:** {examples}\n**別名:** {aliases}\n**カテゴリ:** {category}\n**クールダウン:** {cooldown}秒\n**権限:** {premUser}\n**ボットの権限:** {premBot}\n**開発者専用:** {dev}\n**スラッシュコマンド:** {slash}\n**引数:** {args}\n**プレイヤー:** {player}\n**DJ:** {dj}\n**DJの権限:** {djPerm}\n**ボイス:** {voice}",
-			"footer": "コマンドの詳細を取得するには、{prefix}help <command>を使用してください • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️"
+			"footer": "コマンドの詳細を取得するには、{prefix}help <command>を使用してください • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️"
 		},
 		"botinfo": {
 			"description": "ボットに関する情報",
@@ -595,7 +595,7 @@
 			"no_dj_permission": "このコマンドを使用するにはDJロールが必要です。",
 			"missing_arguments": "引数が不足しています",
 			"missing_arguments_description": "この `{command}` コマンドのために必要な引数を提供してください。\n\n例:\n{examples}",
-			"syntax_footer": "構文: [] = 任意, <> = 必須 • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"syntax_footer": "構文: [] = 任意, <> = 必須 • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"cooldown": "この `{command}` コマンドを再度使用する前に、あと {time} 秒待ってください。",
 			"no_mention_everyone": "このコマンドを everyone または here と一緒に使用することはできません。",
 			"error": "エラーが発生しました: `{error}`",
@@ -611,28 +611,28 @@
 			"requested_by": "<@{requester}> によってリクエストされました",
 			"no_dj_permission": "このコマンドを使用するにはDJロールが必要です。",
 			"volume_set": "音量を {vol}% に設定しました。",
-			"volume_footer": "音量: {vol}% • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"volume_footer": "音量: {vol}% • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"paused": "一時停止",
 			"resumed": "再開",
 			"pause_resume": "{name} 音楽。",
-			"pause_resume_footer": "{displayName} によって {name} されました • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"pause_resume_footer": "{displayName} によって {name} されました • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"no_music_to_skip": "スキップする音楽がありません。",
 			"skipped": "音楽をスキップしました。",
-			"skipped_footer": "{displayName} によってスキップされました • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"skipped_footer": "{displayName} によってスキップされました • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"stopped": "音楽を停止しました。",
-			"stopped_footer": "{displayName} によって停止されました • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"stopped_footer": "{displayName} によって停止されました • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"nothing_playing": "現在、何も再生されていません",
 			"loop_set": "ループが {loop} に設定されました。",
-			"loop_footer": "{displayName} によって {loop} に設定されました • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"loop_footer": "{displayName} によって {loop} に設定されました • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"shuffled": "キューをシャッフルしました。",
 			"no_previous_track": "前のトラックがありません。",
 			"playing_previous": "前のトラックを再生中です。",
-			"previous_footer": "{displayName} によって前のトラックを再生中です • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"previous_footer": "{displayName} によって前のトラックを再生中です • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"rewinded": "音楽を巻き戻しました。",
-			"rewind_footer": "{displayName} によって巻き戻されました • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"rewind_footer": "{displayName} によって巻き戻されました • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"forward_limit": "曲の長さ以上に早送りすることはできません。",
 			"forwarded": "音楽を早送りしました。",
-			"forward_footer": "{displayName} によって早送りされました • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"forward_footer": "{displayName} によって早送りされました • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "このボタンは使用できません。",
 			"no_music_playing": "現在、何も再生されていません。"
 		}
@@ -641,5 +641,6 @@
 	"Leave a guild": "ギルドを離れる",
 	"List all guilds the bot is in": "ボットが所属しているすべてのギルドを一覧表示",
 	"Restart the bot": "ボットを再起動",
-	"The loop mode you want to set": "The loop mode you want to set"
+	"The loop mode you want to set": "The loop mode you want to set",
+	"Show current maintenance status.": "Show current maintenance status."
 }

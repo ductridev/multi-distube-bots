@@ -33,7 +33,7 @@ export default class Replay extends Command {
 	public async run(client: Lavamusic, ctx: Context): Promise<any> {
 		const player = client.manager.getPlayer(ctx.guild!.id);
 		const embed = this.client.embed().setFooter({
-				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+				text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 			})
 			.setTimestamp();

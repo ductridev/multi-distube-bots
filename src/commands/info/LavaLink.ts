@@ -46,7 +46,7 @@ export default class LavaLink extends Command {
 				.setColor(this.client.color.main)
 				.setThumbnail(client.user?.avatarURL()!)
 				.setFooter({
-					text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+					text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 					iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 				})
 				.setTimestamp();
@@ -80,7 +80,7 @@ export default class LavaLink extends Command {
 				text: ctx.locale('cmd.lavalink.page_info', {
 					index: index + 1,
 					total: chunks.length,
-				}) + " • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+				}) + " • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg"
 			});
 

@@ -18,6 +18,7 @@ import { T } from '../../structures/I18n';
 import { Event, type Lavamusic } from '../../structures/index';
 import type { Requester } from '../../types';
 import { trackStart } from '../../utils/SetupSystem';
+import { sessionMap } from '../..';
 
 export default class TrackStart extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -28,6 +29,12 @@ export default class TrackStart extends Event {
 
 	public async run(player: Player, track: Track | null, _payload: TrackStartEvent): Promise<void> {
 		const guild = this.client.guilds.cache.get(player.guildId);
+		// Save player
+		if (!sessionMap.has(player.guildId)) sessionMap.set(player.guildId, new Map());
+		sessionMap.get(player.guildId)!.set(player.voiceChannelId!, player);
+		// Cancel timeout
+		this.client.timeoutSongsMap.get(player.guildId)?.close();
+		this.client.timeoutSongsMap.delete(player.guildId);
 		if (!guild) return;
 		if (!player.textChannelId) return;
 		if (!track) return;
@@ -54,7 +61,7 @@ export default class TrackStart extends Event {
 			.setFooter({
 				text: T(locale, 'player.trackStart.requested_by', {
 					user: (track.requester as Requester).username,
-				}) + " • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+				}) + " • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 				iconURL: (track.requester as Requester).avatarURL,
 			})
 			.setThumbnail(track.info.artworkUrl)
@@ -71,7 +78,7 @@ export default class TrackStart extends Event {
 				},
 			)
 			.setFooter({
-				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+				text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 			})
 			.setTimestamp();
@@ -168,7 +175,7 @@ function createCollector(
 				await message.edit({
 					embeds: [
 						embed.setFooter({
-							text: text + " • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+							text: text + " • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 							iconURL: interaction.user.avatarURL({}),
 						}),
 					],
@@ -221,7 +228,11 @@ function createCollector(
 				break;
 			}
 			case 'skip':
-				if (player.queue.tracks.length > 0) {
+				const autoplay = player.get<boolean>('autoplay');
+				if (!autoplay && player.queue.tracks.length === 0) {
+					player.stopPlaying(true, false);
+					await editMessage(T(locale, 'cmd.stop.messages.stopped'));
+				} else if (player.queue.tracks.length > 0) {
 					await interaction.deferUpdate();
 					player.skip();
 					await editMessage(
@@ -230,10 +241,12 @@ function createCollector(
 						}),
 					);
 				} else {
-					await interaction.reply({
-						content: T(locale, 'player.trackStart.no_more_songs_in_queue'),
-						flags: MessageFlags.Ephemeral,
-					});
+					player.skip(0, !autoplay);
+					await editMessage(
+						T(locale, 'player.trackStart.skipped_by', {
+							user: interaction.user.tag,
+						}),
+					);
 				}
 				break;
 			case 'loop': {

@@ -37,7 +37,7 @@
 			"title": "도움말 메뉴",
 			"not_found": "`{cmdName}` 명령어는 존재하지 않아요.",
 			"help_cmd": "**설명:** {description}\n**사용 방법:** {usage}\n**예시:** {examples}\n**별칭:** {aliases}\n**카테고리:** {category}\n**쿨다운:** {cooldown}초\n**필요한 권한:** {premUser}\n**봇에게 필요한 권한:** {premBot}\n**개발자 전용:** {dev}\n**빗금 명령어 사용 가능:** {slash}\n**인수 필요:** {args}\n**노래 재생 중에만 사용 가능:** {player}\n**DJ만 사용 가능:** {dj}\n**DJ에게 필요한 권한:** {djPerm}\n**음성 채널 접속 중에만 사용 가능:** {voice}",
-			"footer": "명령어에 대한 자세한 내용을 보려면 {prefix}help <command>를 사용하세요 • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️"
+			"footer": "명령어에 대한 자세한 내용을 보려면 {prefix}help <command>를 사용하세요 • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️"
 		},
 		"botinfo": {
 			"description": "봇에 대한 정보를 표시해요",
@@ -613,7 +613,7 @@
 			"no_dj_permission": "이 명령어를 사용하려면 DJ 권한이 있어야 해요.",
 			"missing_arguments": "인수가 부족해요",
 			"missing_arguments_description": "`{command}` 명령어에 필요한 인수를 지정해주세요.\n\n예시:\n{examples}",
-			"syntax_footer": "구문: [] = 선택, <> = 필수 • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"syntax_footer": "구문: [] = 선택, <> = 필수 • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"cooldown": "`{command}` 명령어를 사용하려면 {time}초동안 기다려야 해요.",
 			"no_mention_everyone": "이 명령어는 everyone나 here 멘션으로 사용할 수 없어요. 빗금 명령어로 사용해주세요.",
 			"error": "오류: `{error}`",
@@ -631,28 +631,28 @@
 			"requested_by": "요청자: <@{requester}>",
 			"no_dj_permission": "이 버튼을 사용하려면 DJ 권한이 있어야 해요.",
 			"volume_set": "볼륨이 {vol}%로 변경되었어요.",
-			"volume_footer": "볼륨: {vol}% • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"volume_footer": "볼륨: {vol}% • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"paused": "일시정지",
 			"resumed": "재계",
 			"pause_resume": "음악이 {name}되었어요.",
-			"pause_resume_footer": "{displayName}님에 의해 {name}됨 • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"pause_resume_footer": "{displayName}님에 의해 {name}됨 • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"no_music_to_skip": "스킵할 노래가 없어요.",
 			"skipped": "노래를 스킵했어요.",
-			"skipped_footer": "{displayName}님에 의해 스킵됨 • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"skipped_footer": "{displayName}님에 의해 스킵됨 • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"stopped": "노래를 정지했어요.",
-			"stopped_footer": "{displayName}님에 의해 정지됨 • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"stopped_footer": "{displayName}님에 의해 정지됨 • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"nothing_playing": "재생 중인 노래 없음",
 			"loop_set": "반복 모드가 {loop}로 변경되었어요.",
-			"loop_footer": "{displayName}님에 의해 반복 모드가 {loop}로 설정됨 • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"loop_footer": "{displayName}님에 의해 반복 모드가 {loop}로 설정됨 • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"shuffled": "노래를 섞었어요.",
 			"no_previous_track": "이전 노래가 없어요.",
 			"playing_previous": "이전 노래를 재생할게요.",
-			"previous_footer": "{displayName}님에 의해 이전 노래 재생 중 • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"previous_footer": "{displayName}님에 의해 이전 노래 재생 중 • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"rewinded": "노래를 되감기했어요.",
-			"rewind_footer": "{displayName}님에 의해 노래 되감기됨 • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"rewind_footer": "{displayName}님에 의해 노래 되감기됨 • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"forward_limit": "더 이상 빨리감기할 수 없어요.",
 			"forwarded": "노래를 빨리감기했어요.",
-			"forward_footer": "{displayName}님에 의해 빨리감기됨 • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"forward_footer": "{displayName}님에 의해 빨리감기됨 • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "사용할 수 없는 버튼이에요.",
 			"no_music_playing": "현재 재생 중인 노래가 없어요."
 		}
@@ -661,5 +661,6 @@
 	"Leave a guild": "봇을 서버에서 퇴장시켜요",
 	"List all guilds the bot is in": "봇이 들어가 있는 서버를 확인해요",
 	"Restart the bot": "봇을 재시작해요",
-	"The loop mode you want to set": "The loop mode you want to set"
+	"The loop mode you want to set": "The loop mode you want to set",
+	"Show current maintenance status.": "Show current maintenance status."
 }

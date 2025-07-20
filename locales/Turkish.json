@@ -37,7 +37,7 @@
 			"title": "Yardım Menüsü",
 			"not_found": "Bu {cmdName} komutu mevcut değil.",
 			"help_cmd": "**Açıklama**: {description}\n**Kullanım**: {usage}\n**Örnekler**: {examples}\n**Alternatifler**: {aliases}\n**Kategori**: {category}\n**Bekleme Süresi**: {cooldown} saniye\n**İzinler**: {premUser}\n**Bot İzinleri**: {premBot}\n**Sadece Geliştirici**: {dev}\n**Slash Komut**: {slash}\n**Argümanlar**: {args}\n**Oynatıcı**: {player}\n**DJ**: {dj}\n**DJ İzinleri**: {djPerm}\n**Ses**: {voice}",
-			"footer": "Bir komut hakkında daha fazla bilgi almak için {prefix}help <command> kullanın • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️"
+			"footer": "Bir komut hakkında daha fazla bilgi almak için {prefix}help <command> kullanın • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️"
 		},
 		"botinfo": {
 			"description": "Bot hakkında bilgi verir.",
@@ -605,7 +605,7 @@
 			"no_dj_permission": "Bu komutu kullanmak için DJ rolüne sahip olmalısınız.",
 			"missing_arguments": "Missing Arguments",
 			"missing_arguments_description": "`{command}` komutu için gerekli argümanları belirtin.\n\nÖrnekler:\n{examples}",
-			"syntax_footer": "Sözdizimi: [] = isteğe bağlı, <> = zorunlu • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"syntax_footer": "Sözdizimi: [] = isteğe bağlı, <> = zorunlu • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"cooldown": "`{command}` komutunu yeniden kullanmadan önce {time} saniye bekleyin.",
 			"no_mention_everyone": "Everyone veya here kullanımıyla bu komutu kullanamazsınız. Lütfen slash komutunu kullanın.",
 			"error": "Bir hata oluştu: `{error}`",
@@ -623,28 +623,28 @@
 			"requested_by": "İsteyen: <@{requester}>",
 			"no_dj_permission": "Bu butonu kullanmak için DJ rolüne sahip olmalısınız.",
 			"volume_set": "Ses seviyesi %{vol} olarak ayarlandı.",
-			"volume_footer": "Ses: %{vol} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"volume_footer": "Ses: %{vol} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"paused": "Duraklatıldı",
 			"resumed": "Devam Ettirildi",
 			"pause_resume": "{name} the music.",
-			"pause_resume_footer": "{displayName} tarafından {name} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"pause_resume_footer": "{displayName} tarafından {name} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"no_music_to_skip": "Geçilecek müzik yok.",
 			"skipped": "Müzik geçildi.",
-			"skipped_footer": "{displayName} tarafından geçildi • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"skipped_footer": "{displayName} tarafından geçildi • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"stopped": "Müzik durduruldu.",
-			"stopped_footer": "{displayName} tarafından durduruldu • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"stopped_footer": "{displayName} tarafından durduruldu • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"nothing_playing": "Şu anda hiçbir şey çalmıyor.",
 			"loop_set": "Tekrar ayarlandı: {loop}.",
-			"loop_footer": "{displayName} tarafından tekrar ayarlandı: {loop} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"loop_footer": "{displayName} tarafından tekrar ayarlandı: {loop} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"shuffled": "Kuyruk karıştırıldı.",
 			"no_previous_track": "Önceki parça yok.",
 			"playing_previous": "Önceki parça çalıyor.",
-			"previous_footer": "{displayName} tarafından önceki parça çalıyor • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"previous_footer": "{displayName} tarafından önceki parça çalıyor • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"rewinded": "Müzik geri sarıldı",
 			"rewind_footer": "{displayName} tarafından geri sarıldı.",
-			"forward_limit": "Müzik uzunluğundan daha fazla ileriye saramazsınız • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"forward_limit": "Müzik uzunluğundan daha fazla ileriye saramazsınız • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"forwarded": "Müzik ileri sarıldı.",
-			"forward_footer": "{displayName} tarafından ileri sarıldı • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"forward_footer": "{displayName} tarafından ileri sarıldı • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "Bu buton kullanılamaz.",
 			"no_music_playing": "Bu sunucuda çalan müzik yok."
 		}
@@ -653,5 +653,6 @@
 	"Leave a guild": "Bir sunucudan çık.",
 	"List all guilds the bot is in": "Botun bulunduğu tüm sunucuları listele.",
 	"Restart the bot": "Botu yeniden başlat.",
-	"The loop mode you want to set": "The loop mode you want to set"
+	"The loop mode you want to set": "The loop mode you want to set",
+	"Show current maintenance status.": "Show current maintenance status."
 }

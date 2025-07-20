@@ -25,6 +25,7 @@ import Logger from "./Logger";
 import type { Command } from "./index";
 import { registerBot } from "..";
 import { BotConfig } from "@prisma/client";
+import { PlayerSaver } from "./PlayerSaver";
 
 export default class Lavamusic extends Client {
   public commands: Collection<string, any> = new Collection();
@@ -40,17 +41,21 @@ export default class Lavamusic extends Client {
   public utils = Utils;
   public env: typeof env = env;
   public childEnv: BotConfig = {} as BotConfig;
-  public voiceChannelMap: Map<string, string> = new Map();
   public manager!: LavalinkClient;
   public rest = new REST({ version: "10" }).setToken("");
+  public playerSaver: PlayerSaver | null = null;
+  public timeoutListenersMap: Map<string, NodeJS.Timeout> = new Map();
+  public timeoutSongsMap: Map<string, NodeJS.Timeout> = new Map();
   public embed(): EmbedBuilder {
     return new EmbedBuilder();
   }
 
   public async start(bot: BotConfig): Promise<void> {
     initI18n();
+    this.playerSaver = new PlayerSaver(bot.name);
     this.db = new ServerData(bot);
     await this.db.connect();
+    config.maintenance = await this.db.getMaintainMode();
     if (env.TOPGG) {
       this.topGG = new Api(env.TOPGG);
     } else {
@@ -66,6 +71,7 @@ export default class Lavamusic extends Client {
     loadPlugins(this);
     await this.login(bot.token);
     registerBot(this);
+    await this.deployCommands();
 
     this.on(Events.InteractionCreate, async (interaction: Interaction) => {
       if (interaction.isButton() && interaction.guildId) {
@@ -102,6 +108,28 @@ export default class Lavamusic extends Client {
         command.aliases.forEach((alias: string) => {
           this.aliases.set(alias, command.name as any);
         });
+
+        const stay = await this.db.get_247(this.childEnv.clientId);
+        if (!Array.isArray(stay)) return;
+
+        await Promise.all(
+          stay.map(async (s) => {
+            try {
+              const guild = await this.guilds.fetch(s.guildId).catch(() => null);
+              if (!guild) {
+                await this.db.delete_247(s.guildId, this.childEnv.clientId);
+                return;
+              }
+
+              const channel = await guild.channels.fetch(s.voiceId).catch(() => null);
+              if (!channel) {
+                await this.db.delete_247(s.guildId, this.childEnv.clientId);
+              }
+            } catch (error) {
+              await this.db.delete_247(s.guildId, this.childEnv.clientId);
+            }
+          })
+        );
 
         if (command.slashCommand) {
           const data: RESTPostAPIChatInputApplicationCommandsJSONBody = {
@@ -211,9 +239,15 @@ export default class Lavamusic extends Client {
   }
 
   public async deployCommands(guildId?: string): Promise<void> {
+    if (!this.application?.id) {
+      this.logger.error("Bot is not ready yet—application ID is missing.");
+      return;
+    }
+
+    const applicationId = this.application.id;
     const route = guildId
-      ? Routes.applicationGuildCommands(this.user?.id ?? "", guildId)
-      : Routes.applicationCommands(this.user?.id ?? "");
+      ? Routes.applicationGuildCommands(applicationId, guildId)
+      : Routes.applicationCommands(applicationId);
 
     try {
       await this.rest.put(route, { body: this.body });

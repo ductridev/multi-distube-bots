@@ -36,7 +36,7 @@
 			"title": "Sahayta Menu",
 			"not_found": "Yeh `{cmdName}` command maujood nahin hai.",
 			"help_cmd": "**Vivaran:** {description}\n**Prayog:** {usage}\n**Udaharan:** {examples}\n**Upnaam:** {aliases}\n**Shreni:** {category}\n**Cooldown:** {cooldown} seconds\n**Anumatiyan:** {premUser}\n**Bot Anumatiyan:** {premBot}\n**Keval Developer:** {dev}\n**Slash Command:** {slash}\n**Args:** {args}\n**Player:** {player}\n**DJ:** {dj}\n**DJ Anumatiyan:** {djPerm}\n**Voice:** {voice}",
-			"footer": "Kisi command ke baare mein adhik jankari ke liye {prefix}help <command> ka upyog karein • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️"
+			"footer": "Kisi command ke baare mein adhik jankari ke liye {prefix}help <command> ka upyog karein • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️"
 		},
 		"botinfo": {
 			"description": "Bot ke baare mein jankari",
@@ -595,7 +595,7 @@
 			"no_dj_permission": "Is command ka upyog karne ke liye aapke paas DJ role hone ki jaroorat hai.",
 			"missing_arguments": "Arguments laapata hain",
 			"missing_arguments_description": "Kripya `{command}` command ke liye jaroori arguments प्रदान करें.\n\nUdaharan:\n{examples}",
-			"syntax_footer": "Syntax: [] = optional, <> = jaroori • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"syntax_footer": "Syntax: [] = optional, <> = jaroori • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"cooldown": "`{command}` command ka fir se upyog karne se pehle kripya {time} second(s) aur प्रतीक्षा करें.",
 			"no_mention_everyone": "Aap is command ka upyog sabhi ke sath ya yahan nahin kar sakte.",
 			"error": "Ek error aaya: `{error}`",
@@ -611,28 +611,28 @@
 			"requested_by": "<@{requester}> dwara anurodh kiya गया",
 			"no_dj_permission": "Is command ka upyog karne ke liye aapke paas DJ role hone ki jaroorat hai.",
 			"volume_set": "Volume {vol}% par set कर दिया गया है",
-			"volume_footer": "Volume: {vol}% • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"volume_footer": "Volume: {vol}% • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"paused": "Pause",
 			"resumed": "Resume",
 			"pause_resume": "Music ko {name} karein.",
-			"pause_resume_footer": "{displayName} dwara {name} kiya गया • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"pause_resume_footer": "{displayName} dwara {name} kiya गया • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"no_music_to_skip": "Skip karne ke liye koi music nahin hai.",
 			"skipped": "Music ko skip kar diya गया है.",
-			"skipped_footer": "{displayName} dwara skip kiya गया • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"skipped_footer": "{displayName} dwara skip kiya गया • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"stopped": "Music ko band कर diya गया है.",
-			"stopped_footer": "{displayName} dwara band kiya गया • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"stopped_footer": "{displayName} dwara band kiya गया • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"nothing_playing": "Abhi kuchh bhi play nahin ho raha hai",
 			"loop_set": "Loop {loop} par set कर दिया गया है.",
-			"loop_footer": "{displayName} dwara loop {loop} par set kiya गया • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"loop_footer": "{displayName} dwara loop {loop} par set kiya गया • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"shuffled": "Queue ko shuffle कर diya गया है.",
 			"no_previous_track": "Koi pichhla track nahin hai.",
 			"playing_previous": "Pichhla track play कर रहा हूँ.",
-			"previous_footer": "{displayName} dwara pichhla track play kiya जा रहा है • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"previous_footer": "{displayName} dwara pichhla track play kiya जा रहा है • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"rewinded": "Music ko rewind कर diya गया है.",
-			"rewind_footer": "{displayName} dwara rewind kiya गया • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"rewind_footer": "{displayName} dwara rewind kiya गया • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"forward_limit": "Aap music ko song ki lambai se zyada forward nahin kar sakte.",
 			"forwarded": "Music ko forward कर diya गया है.",
-			"forward_footer": "{displayName} dwara forward kiya गया • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"forward_footer": "{displayName} dwara forward kiya गया • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "Yeh button uplabdh nahin hai.",
 			"no_music_playing": "Abhi kuchh bhi play nahin ho raha hai."
 		}
@@ -641,5 +641,6 @@
 	"Leave a guild": "Leave a guild",
 	"List all guilds the bot is in": "List all guilds the bot is in",
 	"Restart the bot": "Restart the bot",
-	"The loop mode you want to set": "The loop mode you want to set"
+	"The loop mode you want to set": "The loop mode you want to set",
+	"Show current maintenance status.": "Show current maintenance status."
 }

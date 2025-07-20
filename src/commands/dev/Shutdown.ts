@@ -41,7 +41,7 @@ export default class Shutdown extends Command {
 			.setColor(this.client.color.red)
 			.setDescription(`**Are you sure you want to shutdown the bot **\`${client.user?.username}\`?`)
 			.setFooter({
-				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+				text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 			})
 			.setTimestamp();

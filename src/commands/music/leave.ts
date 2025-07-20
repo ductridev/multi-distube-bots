@@ -1,3 +1,5 @@
+import { VoiceChannel } from 'discord.js';
+import { sessionMap, voiceChannelMap } from '../..';
 import { Command, type Context, type Lavamusic } from '../../structures/index';
 
 export default class Leave extends Command {
@@ -31,11 +33,14 @@ export default class Leave extends Command {
 	}
 
 	public async run(client: Lavamusic, ctx: Context): Promise<any> {
-		const player = client.manager.getPlayer(ctx.guild!.id);
+		if(!ctx.guild) return;
+		const memberVoiceChannel = (ctx.member as any).voice.channel as VoiceChannel;
+		const guildId = ctx.guild.id;
+		const player = client.manager.getPlayer(guildId);
 		const embed = this.client.embed().setFooter({
-				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
-				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
-			})
+			text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
+			iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+		})
 			.setTimestamp();
 
 		if (player) {
@@ -44,6 +49,34 @@ export default class Leave extends Command {
 			return await ctx.sendMessage({
 				embeds: [embed.setColor(this.client.color.main).setDescription(ctx.locale('cmd.leave.left', { channelId }))],
 			});
+		} else {
+			const guildMap = voiceChannelMap.get(guildId);
+
+			if (guildMap) {
+				if (memberVoiceChannel.id) {
+					// Remove specific VC mapping
+					guildMap.delete(memberVoiceChannel.id);
+				} else {
+					// VoiceChannelId is null → Clear any entry where this bot is still mapped
+					for (const [vcId, botId] of guildMap.entries()) {
+						if (botId === this.client.childEnv.clientId) {
+							guildMap.delete(vcId);
+						}
+					}
+				}
+			}
+
+			const guildSessionMap = sessionMap.get(guildId);
+
+			if (guildSessionMap) {
+				if (memberVoiceChannel.id) {
+					// Remove specific VC mapping
+					guildSessionMap.delete(memberVoiceChannel.id);
+				}
+			}
+
+			this.client.playerSaver!.delPlayer(guildId);
+			await this.client.db.deleteSavedPlayerData(guildId, this.client.childEnv.clientId);
 		}
 		return await ctx.sendMessage({
 			embeds: [embed.setColor(this.client.color.red).setDescription(ctx.locale('cmd.leave.not_in_channel'))],

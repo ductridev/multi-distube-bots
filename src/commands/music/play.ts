@@ -52,6 +52,8 @@ export default class Play extends Command {
 		let player = client.manager.getPlayer(ctx.guild!.id);
 		const memberVoiceChannel = (ctx.member as any).voice.channel as VoiceChannel;
 
+		if(!query) return;
+
 		if (!player)
 			player = client.manager.createPlayer({
 				guildId: ctx.guild!.id,
@@ -63,9 +65,12 @@ export default class Play extends Command {
 			});
 		if (!player.connected) await player.connect();
 
+		const autoplay: boolean = player.get<boolean>('autoplay') || false;
+		player.set('autoplay', autoplay);
+
 		const response = (await player.search({ query: query }, ctx.author)) as SearchResult;
 		const embed = this.client.embed().setFooter({
-				text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+				text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 			})
 			.setTimestamp();

@@ -1,2 +1,2 @@
 #!/bin/bash
-npm run start
+npm run db:push && npm run start

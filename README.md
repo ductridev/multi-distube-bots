@@ -1,4 +1,4 @@
-<center><img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=200&section=header&text=Lavamusic&fontSize=80&fontAlignY=35&animation=twinkling&fontColor=gradient" /></center>
+<center><img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=200&section=header&text=BuNgo%20Music%20Bot&fontSize=80&fontAlignY=35&animation=twinkling&fontColor=gradient" /></center>
 
 [![Version][version-shield]](version-url)
 [![Contributors][contributors-shield]][contributors-url]
@@ -14,14 +14,14 @@
 <br />
 <p align="center">
   <a href="https://github.com/ductridev/multi-distube-bots">
-    <img src="https://cdn.discordapp.com/avatars/875635121770889257/adc4fd956872a72814b70448d1fddd40.webp?size=512" alt="lavamusic" width="200" height="200">
+    <img src="https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg" alt="multi-distube-bots" width="200" height="200">
   </a>
 
-  <h1 align="center">Lavamusic</h1>
-  <p align="center">Lavamusic is a Discord music bot that uses Discord.js, lavalink-client, and TypeScript.
+  <h1 align="center">BuNgo Music Bot</h1>
+  <p align="center">BuNgo Music Bot is a Discord music bot that uses Discord.js, lavalink-client, and TypeScript.
     <br />
     <br />
-    <a href="https://discord.com/oauth2/authorize?client_id=1343814433134346241&permissions=279209954560&response_type=code&redirect_uri=https%3A%2F%2Fdiscord.gg%2Fkhfw8z6gg9&integration_type=0&scope=bot+guilds+applications.commands">Invite Lavamusic</a>
+    <a href="https://discord.com/oauth2/authorize?client_id=1343814433134346241&permissions=279209954560&response_type=code&redirect_uri=https%3A%2F%2Fdiscord.gg%2Fkhfw8z6gg9&integration_type=0&scope=bot+guilds+applications.commands">Invite BuNgo Music Bot</a>
     ·
     <a href="https://github.com/appujet/c0ders-io/issues">Report Bug & Request Feature</a>
   </p>
@@ -100,16 +100,16 @@ Before starting with the installation, you need to have the following:
 
 ## 🚀 Installation from source
 
-1. Clone the Lavamusic repository:
+1. Clone the BuNgo Music repository:
 
 ```bash
-git clone https://github.com/appujet/lavamusic.git
+git clone https://github.com/ductridev/multi-distube-bots
 ```
 
-2. Change to the Lavamusic directory:
+2. Change to the BuNgo Music directory:
 
 ```bash
-cd lavamusic
+cd multi-distube-bots
 ```
 
 3. Install the required packages:
@@ -156,7 +156,7 @@ Generate an invite link for your bot and invite it to your server using the [Dis
 
 11. (Optional) Deploy Slash Commands
 
-Make sure that your User ID is listed under `OWNER_IDS` in `.env`. In the Discord server with Lavamusic, run
+Make sure that your User ID is listed under `OWNER_IDS` in `.env`. In the Discord server with BuNgo Music Bot, run
 ```
 !deploy
 ```
@@ -222,18 +222,18 @@ A tutorial has been uploaded on YouTube. Watch it by [clicking here](https://you
 
 ## 📜 Contributing
 
-Thank you for your interest in contributing to Lavamusic! Here are some guidelines to follow when contributing:
+Thank you for your interest in contributing to BuNgo Music Bot! Here are some guidelines to follow when contributing:
 
 1. Fork the repository and create a new branch for your feature or bug fix.
 2. Write clean and concise code that follows the established coding style.
 3. Create detailed and thorough documentation for any new features or changes.
 4. Write and run tests for your code.
 5. Submit a pull request with your changes.
-Your contribution will be reviewed by the project maintainers, and any necessary feedback or changes will be discussed with you. We appreciate your help in making Lavamusic better!
+Your contribution will be reviewed by the project maintainers, and any necessary feedback or changes will be discussed with you. We appreciate your help in making BuNgo Music Bot better!
 
 ## 🔐 License
 
-Distributed under the GPL-3.0 license. See [![LICENSE](https://img.shields.io/github/license/appujet/lavamusic?style=social)](https://github.com/ductridev/multi-distube-bots/blob/main/LICENSE) for more information [READ](https://discord.com/channels/942117923001098260/942120006219624469/1278087961774129314).
+Distributed under the GPL-3.0 license. See [![LICENSE](https://img.shields.io/github/license/ductridev/multi-distube-bots?style=social)](https://github.com/ductridev/multi-distube-bots/blob/main/LICENSE) for more information [READ](https://discord.com/channels/942117923001098260/942120006219624469/1278087961774129314).
 
 ## ☕ Donate
 

@@ -83,7 +83,7 @@ export default class SetupButtons extends Event {
 							text: T(locale, 'event.setupButton.volume_footer', {
 								vol,
 								displayName: interaction.member.displayName,
-							}) + " • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+							}) + " • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 							iconURL: interaction.member.displayAvatarURL({}),
 						}),
 					],
@@ -107,7 +107,7 @@ export default class SetupButtons extends Event {
 							embed.setFooter({
 								text: T(locale, 'event.setupButton.previous_footer', {
 									displayName: interaction.member.displayName,
-								}) + " • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+								}) + " • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 								iconURL: interaction.member.displayAvatarURL({}),
 							}),
 						],
@@ -127,7 +127,7 @@ export default class SetupButtons extends Event {
 							embed.setFooter({
 								text: T(locale, 'event.setupButton.rewind_footer', {
 									displayName: interaction.member.displayName,
-								}) + " • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+								}) + " • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 								iconURL: interaction.member.displayAvatarURL({}),
 							}),
 						],
@@ -148,7 +148,7 @@ export default class SetupButtons extends Event {
 								text: T(locale, 'event.setupButton.pause_resume_footer', {
 									name,
 									displayName: interaction.member.displayName,
-								}) + " • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+								}) + " • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 								iconURL: interaction.member.displayAvatarURL({}),
 							}),
 						],
@@ -168,7 +168,7 @@ export default class SetupButtons extends Event {
 							embed.setFooter({
 								text: T(locale, 'event.setupButton.forward_footer', {
 									displayName: interaction.member.displayName,
-								}) + " • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+								}) + " • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 								iconURL: interaction.member.displayAvatarURL({}),
 							}),
 						],
@@ -228,7 +228,7 @@ export default class SetupButtons extends Event {
 								text: T(locale, 'event.setupButton.loop_footer', {
 									loop: newLoop,
 									displayName: interaction.member.displayName,
-								}) + " • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+								}) + " • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 								iconURL: interaction.member.displayAvatarURL({}),
 							}),
 						],
@@ -244,7 +244,7 @@ export default class SetupButtons extends Event {
 								.setFooter({
 									text: T(locale, 'event.setupButton.stopped_footer', {
 										displayName: interaction.member.displayName,
-									}) + " • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+									}) + " • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 									iconURL: interaction.member.displayAvatarURL({}),
 								})
 								.setDescription(T(locale, 'event.setupButton.nothing_playing'))

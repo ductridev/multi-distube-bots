@@ -47,5 +47,5 @@ const clientOptions: ClientOptions = {
 
 export async function shardStart(_logger: Logger, bot: BotConfig) {
 	const client = new Lavamusic(clientOptions);
-	client.start(bot);
+	await client.start(bot);
 };

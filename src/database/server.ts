@@ -1,9 +1,12 @@
 import { BotConfig, type Dj, type Guild, type Playlist, PrismaClient, type Role, type Setup, type Stay } from '@prisma/client';
 import { env } from '../env';
+import Logger from '../structures/Logger';
+import { PlayerJson } from 'lavalink-client/dist/types';
 
 export default class ServerData {
 	private prisma: PrismaClient;
 	private childEnv: BotConfig = {} as BotConfig;
+	public logger: Logger = new Logger();
 
 	constructor(bot: BotConfig) {
 		this.prisma = new PrismaClient();
@@ -12,14 +15,31 @@ export default class ServerData {
 
 	public async connect() {
 		await this.prisma.$connect();
-		console.log(`[Database] Connected for bot ${this.childEnv.clientId}`);
+		this.logger.info(`[Database] Connected for bot ${this.childEnv.clientId}`);
 	}
 
 	public async get(guildId: string): Promise<Guild> {
 		return await this.prisma.guild.upsert({
 			where: { guildId },
-			update: {}, // Nothing to update if exists
-			create: { guildId }, // Creates if not exists
+			update: {}, // No update needed
+			create: { guildId }, // Create if not exists
+		});
+	}
+
+	public async getMaintainMode(): Promise<boolean> {
+		const config = await this.prisma.globalConfig.findUnique({
+			where: { id: "global" },
+		});
+
+		// Default to false if not set
+		return config?.maintenanceMode ?? false;
+	}
+
+	public async updateMaintainMode(mode: boolean): Promise<void> {
+		await this.prisma.globalConfig.upsert({
+			where: { id: "global" },
+			update: { maintenanceMode: mode },
+			create: { id: "global", maintenanceMode: mode },
 		});
 	}
 
@@ -38,6 +58,27 @@ export default class ServerData {
 			where: { guildId_botClientId: { guildId, botClientId } },
 		});
 		return config?.prefix ?? this.childEnv.prefix;
+	}
+
+	// Get all prefixes
+	public async getAllPrefixes(guildId: string): Promise<string[]> {
+		const guildConfigs = await this.prisma.guildBotConfig.findMany({
+			where: { guildId },
+			select: { prefix: true },
+		});
+
+		const defaultConfigs = await this.prisma.botConfig.findMany({
+			select: { prefix: true },
+		});
+
+		const prefixes = [
+			...guildConfigs.map(c => c.prefix),
+			...defaultConfigs.map(c => c.prefix),
+		]
+			.filter(p => !!p) // Remove null/undefined/empty
+			.filter((v, i, a) => a.indexOf(v) === i); // Remove duplicates
+
+		return prefixes;
 	}
 
 	public async updateLanguage(guildId: string, language: string): Promise<void> {
@@ -89,6 +130,10 @@ export default class ServerData {
 				where: { guildId_botClientId: { guildId, botClientId } },
 			});
 			return stay ?? null;
+		} else if (botClientId) {
+			return await this.prisma.stay.findMany({
+				where: { botClientId },
+			});
 		}
 
 		// Return all Stay configs (e.g., for admin stats or bot dashboards)
@@ -283,57 +328,37 @@ export default class ServerData {
 		});
 	}
 
-	public async setSavedPlayerData(data: any, botClientId: string) {
+	public async setSavedPlayerData(data: PlayerJson, botClientId: string) {
 		const {
 			guildId,
 			voiceChannelId,
 			textChannelId,
 			nodeId,
-			volume,
-			applyVolumeAsFilter,
-			instaUpdateFiltersFix,
-			vcRegion,
-			track,
-			filters,
-			lastPosition,
-			paused,
-			playing,
-			ping,
 		} = data;
 
 		await this.prisma.playerState.upsert({
 			where: { guildId_botClientId: { guildId, botClientId } },
 			update: {
 				voiceChannelId,
-				textChannelId,
-				nodeId,
-				volume,
-				applyVolumeAsFilter: !!applyVolumeAsFilter,
-				instaUpdateFiltersFix: !!instaUpdateFiltersFix,
-				vcRegion,
-				track,
-				filters: filters ? JSON.stringify(filters) : null,
-				lastPosition,
-				paused,
-				playing,
-				ping: ping ?? { lavalink: 0, ws: 0 },
+				textChannelId: textChannelId ?? "",
+				nodeId: nodeId ?? "",
+				selfDeaf: data.options.selfDeaf ?? true,
+				selfMute: data.options.selfMute ?? false,
+				applyVolumeAsFilter: data.options.applyVolumeAsFilter,
+				instaUpdateFiltersFix: data.options.instaUpdateFiltersFix,
+				vcRegion: data.options.vcRegion ?? "",
 			},
 			create: {
 				guildId,
 				botClientId,
 				voiceChannelId,
-				textChannelId,
-				nodeId,
-				volume,
-				applyVolumeAsFilter: !!applyVolumeAsFilter,
-				instaUpdateFiltersFix: !!instaUpdateFiltersFix,
-				vcRegion,
-				track,
-				filters: filters ? JSON.stringify(filters) : null,
-				lastPosition,
-				paused,
-				playing,
-				ping: ping ?? { lavalink: 0, ws: 0 },
+				textChannelId: textChannelId ?? "",
+				nodeId: nodeId ?? "",
+				selfDeaf: data.options.selfDeaf ?? true,
+				selfMute: data.options.selfMute ?? false,
+				applyVolumeAsFilter: data.options.applyVolumeAsFilter,
+				instaUpdateFiltersFix: data.options.instaUpdateFiltersFix,
+				vcRegion: data.options.vcRegion ?? "",
 			},
 		});
 	}

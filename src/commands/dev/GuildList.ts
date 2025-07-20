@@ -30,12 +30,18 @@ export default class GuildList extends Command {
 	}
 
 	public async run(client: Lavamusic, ctx: Context): Promise<any> {
-		const guilds = await client.shard?.broadcastEval(c =>
-			c.guilds.cache.map(guild => ({ name: guild.name, id: guild.id })),
-		);
-		const allGuilds = guilds?.reduce((acc, val) => acc.concat(val), []);
+		let allGuilds: { name: string; id: string }[] = [];
 
-		const guildList = allGuilds?.map(guild => `- **${guild.name}** - ${guild.id}`);
+		if (client.shard) {
+			const guilds = await client.shard.broadcastEval(c =>
+				c.guilds.cache.map(guild => ({ name: guild.name, id: guild.id }))
+			);
+			allGuilds = guilds.flat();
+		} else {
+			allGuilds = client.guilds.cache.map(guild => ({ name: guild.name, id: guild.id }));
+		}
+
+		const guildList = allGuilds.map(guild => `- **${guild.name}** - ${guild.id}`);
 		const chunks = client.utils.chunk(guildList!, 10) || [[]];
 		const pages = chunks.map((chunk, index) => {
 			return this.client
@@ -43,7 +49,7 @@ export default class GuildList extends Command {
 				.setColor(this.client.color.main)
 				.setDescription(chunk.join('\n'))
 				.setFooter({
-					text: `Page ${index + 1} of ${chunks.length} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️`,
+					text: `Page ${index + 1} of ${chunks.length} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️`,
 					iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg"
 				});
 		});

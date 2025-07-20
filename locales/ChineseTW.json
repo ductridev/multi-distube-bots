@@ -36,7 +36,7 @@
 			"title": "幫助選單",
 			"not_found": "此 `{cmdName}` 指令不存在。",
 			"help_cmd": "**描述:** {description}\n**用法:** {usage}\n**示例:** {examples}\n**別名:** {aliases}\n**類別:** {category}\n**冷卻時間:** {cooldown} 秒\n**權限:** {premUser}\n**機器人權限:** {premBot}\n**僅限開發者:** {dev}\n**斜線指令:** {slash}\n**參數:** {args}\n**播放器:** {player}\n**DJ:** {dj}\n**DJ 權限:** {djPerm}\n**語音:** {voice}",
-			"footer": "使用 {prefix}help <command> 取得有關指令的更多資訊 • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️"
+			"footer": "使用 {prefix}help <command> 取得有關指令的更多資訊 • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️"
 		},
 		"botinfo": {
 			"description": "關於機器人的資訊",
@@ -595,7 +595,7 @@
 			"no_dj_permission": "您需要擁有 DJ 身份組才能使用此指令。",
 			"missing_arguments": "缺少參數",
 			"missing_arguments_description": "請為 `{command}` 指令提供所需的 參數。\n\n示例:\n{examples}",
-			"syntax_footer": "語法: [] = 可選，<> = 必需 • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"syntax_footer": "語法: [] = 可選，<> = 必需 • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"cooldown": "請等待 {time} 秒後再使用 `{command}` 指令。",
 			"no_mention_everyone": "您不能對所有人或此處使用此指令。",
 			"error": "發生錯誤: `{error}`",
@@ -611,28 +611,28 @@
 			"requested_by": "由 <@{requester}> 請求",
 			"no_dj_permission": "您需要擁有 DJ 身份組才能使用此指令。",
 			"volume_set": "音量已設定為 {vol}%",
-			"volume_footer": "音量: {vol}% • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"volume_footer": "音量: {vol}% • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"paused": "已暫停",
 			"resumed": "已恢復",
 			"pause_resume": "{name} 音樂。",
-			"pause_resume_footer": "由 {displayName} {name} • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"pause_resume_footer": "由 {displayName} {name} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"no_music_to_skip": "沒有可跳過的音樂。",
 			"skipped": "已跳過音樂。",
-			"skipped_footer": "由 {displayName} 跳過 • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"skipped_footer": "由 {displayName} 跳過 • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"stopped": "已停止音樂。",
-			"stopped_footer": "由 {displayName} 停止 • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"stopped_footer": "由 {displayName} 停止 • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"nothing_playing": "現在沒有播放任何內容",
 			"loop_set": "循環已設定為 {loop}。",
-			"loop_footer": "由 {displayName} 將循環設定為 {loop} • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"loop_footer": "由 {displayName} 將循環設定為 {loop} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"shuffled": "已隨機播放佇列。",
 			"no_previous_track": "沒有上一首曲目。",
 			"playing_previous": "正在播放上一首曲目。",
-			"previous_footer": "由 {displayName} 播放上一首曲目 • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"previous_footer": "由 {displayName} 播放上一首曲目 • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"rewinded": "已倒帶音樂。",
-			"rewind_footer": "由 {displayName} 資訊 • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"rewind_footer": "由 {displayName} 資訊 • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"forward_limit": "您不能將音樂快轉到超過歌曲長度的位置。",
 			"forwarded": "已快轉音樂。",
-			"forward_footer": "由 {displayName} 快轉 • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"forward_footer": "由 {displayName} 快轉 • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"button_not_available": "此按鈕不可用。",
 			"no_music_playing": "此伺服器中沒有正在播放的音樂。"
 		}
@@ -641,5 +641,6 @@
 	"Leave a guild": "離開伺服器",
 	"List all guilds the bot is in": "列出機器人所在的所有伺服器",
 	"Restart the bot": "重啟機器人",
-	"The loop mode you want to set": "The loop mode you want to set"
+	"The loop mode you want to set": "The loop mode you want to set",
+	"Show current maintenance status.": "Show current maintenance status."
 }

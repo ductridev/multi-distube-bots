@@ -2,16 +2,21 @@ import * as fs from 'node:fs';
 import { PrismaClient } from '@prisma/client';
 import { shardStart } from './shard';
 import Logger from './structures/Logger';
-import { ThemeSelector } from './utils/ThemeSelector';
 import { type Lavamusic } from './structures';
+import AsyncLock from './structures/AsyncLock';
+import { Player } from 'lavalink-client/dist/types';
 
 const logger = new Logger();
-
-const theme = new ThemeSelector();
 
 const prisma = new PrismaClient();
 
 export const activeBots: Lavamusic[] = [];
+
+export const voiceChannelMap: Map<string, Map<string, string>> = new Map();
+
+export const sessionMap: Map<string, Map<string, Player>> = new Map();
+
+export const vcLocks = new AsyncLock();
 
 export function registerBot(botInstance: Lavamusic) {
 	activeBots.push(botInstance);
@@ -34,8 +39,6 @@ try {
 	// console.clear();
 	// Set a custom title for the console window
 	setConsoleTitle('Lavamusic');
-	const logFile = fs.readFileSync('./src/utils/LavaLogo.txt', 'utf-8');
-	console.log(theme.purpleNeon(logFile));
 	prisma.botConfig.findMany({ where: { active: true } }).then(async bots => {
 		if (!bots.length) {
 			logger.error('[LAUNCH] No bot configurations found.');
@@ -46,9 +49,7 @@ try {
 		// shardStart(logger, bots[2]);
 		// shardStart(logger, bots[3]);
 		for (const bot of bots) {
-			// Wait for 5 seconds before starting the shards
-			await new Promise(resolve => setTimeout(resolve, 5000));
-			shardStart(logger, bot);
+			await shardStart(logger, bot);
 		}
 	});
 } catch (err) {

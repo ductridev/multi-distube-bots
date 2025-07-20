@@ -14,6 +14,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model GlobalConfig {
+  id              String   @id @default("global") @map("_id")
+  maintenanceMode Boolean  @default(false)
+  updatedAt       DateTime @updatedAt
+}
+
 model BotConfig {
   id           String @id @default(auto()) @map("_id") @db.ObjectId
   name         String
@@ -103,23 +109,18 @@ model Setup {
 }
 
 model PlayerState {
-  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
-  guildId            String
-  botClientId        String
-  voiceChannelId     String
-  textChannelId      String
-  nodeId             String
-  volume             Int
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  guildId         String
+  botClientId     String
+  voiceChannelId  String
+  textChannelId   String
+  nodeId          String
+  selfDeaf        Boolean
+  selfMute        Boolean
   applyVolumeAsFilter Boolean @default(false)
   instaUpdateFiltersFix Boolean @default(false)
-  vcRegion           String?
-  track              String?
-  filters            String?   // JSON as string
-  lastPosition       Int
-  paused             Boolean
-  playing            Boolean
-  ping               Json
-  updatedAt          DateTime @updatedAt
+  vcRegion           String
+  updatedAt       DateTime  @updatedAt
 
   @@unique([guildId, botClientId])
 }

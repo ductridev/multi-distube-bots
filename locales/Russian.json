@@ -36,7 +36,7 @@
 			"title": "Меню справки",
 			"not_found": "Команда `{cmdName}` не существует.",
 			"help_cmd": "**Описание:** {description}\n**Использование:** {usage}\n**Примеры:** {examples}\n**Псевдонимы:** {aliases}\n**Категория:** {category}\n**Охлаждение:** {cooldown} секунд\n**Разрешения:** {premUser}\n**Разрешения бота:** {premBot}\n**Только для разработчиков:** {dev}\n**Команда Slash:** {slash}\n**Args:** {args}\n**Проигрыватель:** {player}\n**DJ:** {dj}\n**Разрешения DJ:** {djPerm}\n**Голос:** {voice}",
-			"footer": "Используйте {prefix}help <command>, чтобы получить больше информации о команде • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️"
+			"footer": "Используйте {prefix}help <command>, чтобы получить больше информации о команде • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️"
 		},
 		"botinfo": {
 			"description": "Информация о боте",
@@ -595,7 +595,7 @@
 			"no_dj_permission": "Вам нужна роль DJ, чтобы использовать эту команду.",
 			"missing_arguments": "Отсутствующие аргументы",
 			"missing_arguments_description": "Пожалуйста, укажите необходимые аргументы для команды `{command}`.\n\nПримеры:\n{examples}",
-			"syntax_footer": "Синтаксис: [] = необязательно, <> = обязательно • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"syntax_footer": "Синтаксис: [] = необязательно, <> = обязательно • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"cooldown": "Пожалуйста, подождите {time} секунд, прежде чем использовать команду `{command}` снова.",
 			"no_mention_everyone": "Вы не можете использовать эту команду с @everyone или @here.",
 			"error": "Произошла ошибка: `{error}`",
@@ -611,28 +611,28 @@
 			"requested_by": "Запрошено <@{requester}>",
 			"no_dj_permission": "Вам нужна роль DJ, чтобы использовать эту команду.",
 			"volume_set": "Громкость установлена на {vol}%",
-			"volume_footer": "Громкость: {vol}% • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"volume_footer": "Громкость: {vol}% • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"paused": "Пауза",
 			"resumed": "Возобновлено",
 			"pause_resume": "{name} музыку.",
-			"pause_resume_footer": "{name} {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"pause_resume_footer": "{name} {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"no_music_to_skip": "Нет музыки для пропуска.",
 			"skipped": "Музыка пропущена.",
-			"skipped_footer": "Пропущено {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"skipped_footer": "Пропущено {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"stopped": "Музыка остановлена.",
-			"stopped_footer": "Остановлено {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"stopped_footer": "Остановлено {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"nothing_playing": "Сейчас ничего не играет",
 			"loop_set": "Цикл установлен на {loop}.",
-			"loop_footer": "Цикл установлен на {loop} {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"loop_footer": "Цикл установлен на {loop} {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"shuffled": "Очередь перемешана.",
 			"no_previous_track": "Нет предыдущей дорожки.",
 			"playing_previous": "Проигрывается предыдущая дорожка.",
-			"previous_footer": "Проигрывается предыдущая дорожка {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"previous_footer": "Проигрывается предыдущая дорожка {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"rewinded": "Музыка перемотана назад.",
-			"rewind_footer": "Перемотано назад {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"rewind_footer": "Перемотано назад {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"forward_limit": "Вы не можете перемотать музыку вперед больше, чем длина песни.",
 			"forwarded": "Музыка перемотана вперед.",
-			"forward_footer": "Перемотано вперед {displayName} • BuNgo Music Bot 🎵 • Made by Tổ Rắm Độc with ♥️",
+			"forward_footer": "Перемотано вперед {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "Эта кнопка недоступна.",
 			"no_music_playing": "Сейчас ничего не играет."
 		}
@@ -641,5 +641,6 @@
 	"Leave a guild": "Leave a guild",
 	"List all guilds the bot is in": "List all guilds the bot is in",
 	"Restart the bot": "Restart the bot",
-	"The loop mode you want to set": "The loop mode you want to set"
+	"The loop mode you want to set": "The loop mode you want to set",
+	"Show current maintenance status.": "Show current maintenance status."
 }

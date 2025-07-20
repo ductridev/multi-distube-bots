@@ -132,9 +132,64 @@ export default class InteractionCreate extends Event {
 			}
 			if (command.player) {
 				if (command.player.voice) {
-					if (!(interaction.member as GuildMember).voice.channel) {
+					const isDev = this.client.env.OWNER_IDS!.includes(interaction.user.id);
+					if (this.client.config.maintenance && !isDev) {
+						const embed = this.client.embed()
+							.setAuthor({
+								name: T(locale, 'maintenance.title'),
+								iconURL: this.client.user?.displayAvatarURL(),
+							})
+							.setColor(this.client.color.main)
+							.setDescription(T(locale, 'event.message.maintenance') || 'The bot is currently under maintenance. Some commands may not work properly.')
+							.addFields([
+								{
+									name: T(locale, 'maintenance.status_title'), // 🔒 Status
+									value: `\`\`\`diff\n- ${T(locale, 'maintenance.status_value')}\n\`\`\``, // - MAINTENANCE ENABLED
+									inline: true,
+								},
+								{
+									name: T(locale, 'maintenance.affected_title'), // 🕒 Affected Features
+									value: `\`\`\`${T(locale, 'maintenance.affected_value')}\`\`\``, // All music playback and queue commands are temporarily disabled.
+									inline: true,
+								},
+							])
+							.setFooter({
+								text: 'BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️',
+								iconURL: 'https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg',
+							})
+							.setTimestamp();
+
+						return await interaction.reply({ embeds: [embed], ephemeral: true });
+					}
+
+					const member = interaction.member as GuildMember;
+					const voiceChannel = member.voice.channel;
+
+					if (!voiceChannel) {
 						return await interaction.reply({
 							content: T(locale, 'event.interaction.no_voice_channel', { command: command.name }),
+							ephemeral: true,
+						});
+					}
+
+					if (voiceChannel.userLimit > 0 && voiceChannel.members.size >= voiceChannel.userLimit && !voiceChannel.members.has(clientMember.id)) {
+						return await interaction.reply({
+							content: T(locale, 'event.interaction.voice_channel_full', { command: command.name, channel: voiceChannel.id }),
+							ephemeral: true,
+						});
+					}
+
+					if (!voiceChannel.permissionsFor(this.client.user!)?.has(PermissionFlagsBits.Connect)) {
+						return await interaction.reply({
+							content: T(locale, 'event.interaction.no_connect_permission', { command: command.name }),
+							ephemeral: true,
+						});
+					}
+
+					if (!voiceChannel.permissionsFor(this.client.user!)?.has(PermissionFlagsBits.Speak)) {
+						return await interaction.reply({
+							content: T(locale, 'event.interaction.no_speak_permission', { command: command.name }),
+							ephemeral: true,
 						});
 					}
 
@@ -252,7 +307,7 @@ export default class InteractionCreate extends Event {
 							{ name: 'Guild', value: `${interaction.guild.name} (\`${interaction.guild.id}\`)`, inline: true },
 						)
 						.setFooter({
-							text: "BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+							text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 							iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 						})
 						.setTimestamp();

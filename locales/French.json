@@ -36,7 +36,7 @@
 			"title": "Menu d'aide",
 			"not_found": "La commande `{cmdName}` n'existe pas.",
 			"help_cmd": "**Description:** {description}\n**Utilisation:** {usage}\n**Exemples:** {examples}\n**Alias:** {aliases}\n**Catégorie:** {category}\n**Refroidissement:** {cooldown} secondes\n**Permissions de l'utilisateur:** {premUser}\n**Permissions du bot:** {premBot}\n**Développeur uniquement:** {dev}\n**Commande Slash:** {slash}\n**Args:** {args}\n**Lecteur:** {player}\n**DJ:** {dj}\n**Permissions DJ:** {djPerm}\n**Voix:** {voice}",
-			"footer": "Utilisez {prefix}help <command> pour plus d'informations sur une commande • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️"
+			"footer": "Utilisez {prefix}help <command> pour plus d'informations sur une commande • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️"
 		},
 		"botinfo": {
 			"description": "Informations sur le bot",
@@ -595,7 +595,7 @@
 			"no_dj_permission": "Vous devez avoir le rôle DJ pour utiliser cette commande.",
 			"missing_arguments": "Arguments manquants",
 			"missing_arguments_description": "Veuillez fournir les arguments requis pour la commande `{command}`.\n\nExemples:\n{examples}",
-			"syntax_footer": "Syntaxe: [] = facultatif, <> = requis • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"syntax_footer": "Syntaxe: [] = facultatif, <> = requis • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"cooldown": "Veuillez attendre {time} seconde(s) de plus avant de réutiliser la commande `{command}`.",
 			"no_mention_everyone": "Vous ne pouvez pas utiliser cette commande avec tout le monde ou ici.",
 			"error": "Une erreur s'est produite : `{error}`",
@@ -611,28 +611,28 @@
 			"requested_by": "Demandé par <@{requester}>",
 			"no_dj_permission": "Vous devez avoir le rôle DJ pour utiliser cette commande.",
 			"volume_set": "Volume défini sur {vol}%",
-			"volume_footer": "Volume: {vol}% • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"volume_footer": "Volume: {vol}% • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"paused": "Mis en pause",
 			"resumed": "Repris",
 			"pause_resume": "{name} la musique.",
-			"pause_resume_footer": "{name} par {displayName} • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"pause_resume_footer": "{name} par {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"no_music_to_skip": "Il n'y a pas de musique à passer.",
 			"skipped": "Musique passée.",
-			"skipped_footer": "Passé par {displayName} • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"skipped_footer": "Passé par {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"stopped": "Musique arrêtée.",
-			"stopped_footer": "Arrêté par {displayName} • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"stopped_footer": "Arrêté par {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"nothing_playing": "Rien ne joue en ce moment",
 			"loop_set": "Boucle définie sur {loop}.",
-			"loop_footer": "Boucle définie sur {loop} par {displayName} • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"loop_footer": "Boucle définie sur {loop} par {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"shuffled": "File d'attente mélangée.",
 			"no_previous_track": "Il n'y a pas de piste précédente.",
 			"playing_previous": "Lecture de la piste précédente.",
-			"previous_footer": "Lecture de la piste précédente par {displayName} • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"previous_footer": "Lecture de la piste précédente par {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"rewinded": "Rembobinage de la musique.",
-			"rewind_footer": "Rembobiné par {displayName} • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"rewind_footer": "Rembobiné par {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"forward_limit": "Vous ne pouvez pas avancer la musique plus que la longueur de la chanson.",
 			"forwarded": "Musique avancée.",
-			"forward_footer": "Avancé par {displayName} • BuNgo Music Bot 🎵 • Maded by Tổ Rắm Độc with ♥️",
+			"forward_footer": "Avancé par {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"button_not_available": "Ce bouton n'est pas disponible.",
 			"no_music_playing": "Rien ne joue en ce moment."
 		}
@@ -641,5 +641,6 @@
 	"Leave a guild": "Leave a guild",
 	"List all guilds the bot is in": "List all guilds the bot is in",
 	"Restart the bot": "Restart the bot",
-	"The loop mode you want to set": "The loop mode you want to set"
+	"The loop mode you want to set": "The loop mode you want to set",
+	"Show current maintenance status.": "Show current maintenance status."
 }
