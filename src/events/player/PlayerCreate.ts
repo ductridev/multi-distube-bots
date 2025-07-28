@@ -1,6 +1,6 @@
 import type { Player } from 'lavalink-client';
 import { Event, type Lavamusic } from '../../structures/index';
-import { voiceChannelMap } from '../..';
+import { sessionMap, voiceChannelMap } from '../..';
 
 export default class PlayerCreate extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -12,6 +12,12 @@ export default class PlayerCreate extends Event {
 	public async run(player: Player, _reason: string): Promise<void> {
 		if (!voiceChannelMap.has(player.guildId)) voiceChannelMap.set(player.guildId, new Map());
 		voiceChannelMap.get(player.guildId)!.set(player.voiceChannelId!, this.client.childEnv.clientId);
+
+		if(player.options.customData) player.options.customData.botClientId = this.client.childEnv.clientId
+
+		// Save player
+		if (!sessionMap.has(player.guildId)) sessionMap.set(player.guildId, new Map());
+		sessionMap.get(player.guildId)!.set(player.voiceChannelId!, player);
 
 		this.client.playerSaver!.set(player.guildId, JSON.stringify(player.toJSON()));
 		await this.client.db.setSavedPlayerData(player.toJSON(), this.client.childEnv.clientId);

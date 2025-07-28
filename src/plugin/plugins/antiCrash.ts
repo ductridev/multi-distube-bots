@@ -1,4 +1,5 @@
 import type { Lavamusic } from '../../structures/index';
+import { saveSessions } from '../../utils/functions/saveSessionsOnExit';
 import type { BotPlugin } from '../index';
 
 const antiCrash: BotPlugin = {
@@ -8,6 +9,7 @@ const antiCrash: BotPlugin = {
 	initialize: (client: Lavamusic) => {
 		const handleExit = async (): Promise<void> => {
 			if (client) {
+				saveSessions();
 				client.logger.star('Disconnecting from Discord...');
 				await client.destroy();
 				client.logger.success('Successfully disconnected from Discord!');

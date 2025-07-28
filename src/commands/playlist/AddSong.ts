@@ -46,7 +46,7 @@ export default class AddSong extends Command {
 	}
 
 	public async run(client: Lavamusic, ctx: Context, args: string[]): Promise<any> {
-		const playlist = args.shift();
+		const playlist = args.shift()?.replaceAll('_', ' ');
 		const song = args.join(' ');
 
 		if (!playlist) {

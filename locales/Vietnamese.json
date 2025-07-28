@@ -23,7 +23,8 @@
 		"lavalink": {
 			"description": "Hiển thị thông tin hiện tại của Lavalink.",
 			"title": "Thông tin Lavalink",
-			"content": "Số trình phát: {players}\nĐang phát: {playingPlayers}\nThời gian hoạt động: {uptime}\nSố lõi CPU: {cores}\nBộ nhớ sử dụng: {used} / {reservable}\nTải hệ thống: {systemLoad}%\nTải Lavalink: {lavalinkLoad}%"
+			"content": "Số trình phát: {players}\nĐang phát: {playingPlayers}\nThời gian hoạt động: {uptime}\nSố lõi CPU: {cores}\nBộ nhớ sử dụng: {used} / {reservable}\nTải hệ thống: {systemLoad}%\nTải Lavalink: {lavalinkLoad}%\nPlugins: {plugins}",
+			"page_info": "Trang {index} / {total}"
 		},
 		"invite": {
 			"description": "Lấy liên kết mời bot.",
@@ -543,6 +544,25 @@
 				"no_results": "Không thể phát tệp âm thanh. Có thể tệp đã bị hỏng."
 			},
 			"added_to_queue": "Đã thêm [{title}]({url}) vào hàng chờ."
+		},
+		"announce": {
+			"messages": {
+				"default_content": "Bot đang được bảo trì, và chúng tôi có thể khởi động lại bot. Vì vậy, hãy sử dụng lệnh bresumesesssion sau khi bảo trì hoàn tất để tiếp tục nghe."
+			}
+		},
+		"resume_session": {
+			"no_session_found": "Không tìm thấy phiên cuối cùng.",
+			"resumed": "Khôi phục phiên thành công.",
+			"resume_failed": "Đã xảy ra lỗi. Không thể khôi phục phiên."
+		},
+		"save_session": {
+			"saved": "Đã lưu thành công {saved} phiên. Không thể lưu {failed} phiên."
+		},
+		"loop_current": {
+			"description": "Bật/tắt chế độ lặp lại bài hát."
+		},
+		"loop_queue": {
+			"description": "Bật/tắt chế độ lặp lại hàng chờ."
 		}
 	},
 	"buttons": {
@@ -676,6 +696,10 @@
 			"forward_footer": "Tua tới bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "⛔ Nút này hiện không khả dụng.",
 			"no_music_playing": "Không có nhạc nào đang phát trong máy chủ này."
+		},
+		"voice_state_update": {
+			"kicked": "Bot đã bị ngắt kết nối khỏi kênh thoại <#{channelId}>.",
+			"moved": "Bot đã di chuyển sang kênh <#{channelId}>."
 		}
 	},
 	"Evaluate code": "Đánh giá mã",

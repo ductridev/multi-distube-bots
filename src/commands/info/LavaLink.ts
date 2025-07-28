@@ -39,7 +39,7 @@ export default class LavaLink extends Command {
 
 		if (chunks.length === 0) chunks.push(nodeArray);
 
-		const pages = chunks.map((chunk, index) => {
+		const pages = chunks.map(async (chunk, index) => {
 			const embed = this.client
 				.embed()
 				.setTitle(ctx.locale('cmd.lavalink.title'))
@@ -51,30 +51,43 @@ export default class LavaLink extends Command {
 				})
 				.setTimestamp();
 
-			chunk.forEach(node => {
-				const statusEmoji = node.stats ? '🟢' : '🔴';
-				const stats = node.stats || {
-					players: 0,
-					playingPlayers: 0,
-					uptime: 0,
-					cpu: { cores: 0, systemLoad: 0, lavalinkLoad: 0 },
-					memory: { used: 0, reservable: 0 },
-				};
+			for (const node of chunk) {
+				try {
+					const statusEmoji = node.stats ? '🟢' : '🔴';
+					const stats = node.stats || {
+						players: 0,
+						playingPlayers: 0,
+						uptime: 0,
+						cpu: { cores: 0, systemLoad: 0, lavalinkLoad: 0 },
+						memory: { used: 0, reservable: 0 },
+					};
 
-				embed.addFields({
-					name: `${node.id} (${statusEmoji})`,
-					value: `\`\`\`yaml\n${ctx.locale('cmd.lavalink.content', {
-						players: stats.players,
-						playingPlayers: stats.playingPlayers,
-						uptime: client.utils.formatTime(stats.uptime),
-						cores: stats.cpu.cores,
-						used: client.utils.formatBytes(stats.memory.used),
-						reservable: client.utils.formatBytes(stats.memory.reservable),
-						systemLoad: (stats.cpu.systemLoad * 100).toFixed(2),
-						lavalinkLoad: (stats.cpu.lavalinkLoad * 100).toFixed(2),
-					})}\n\`\`\``,
-				});
-			});
+					const nodeInfo = await node.fetchInfo();
+					const plugin = nodeInfo.plugins;
+
+					embed.addFields({
+						name: `${node.id} (${statusEmoji})`,
+						value: `\`\`\`yaml\n${ctx.locale('cmd.lavalink.content', {
+							players: stats.players,
+							playingPlayers: stats.playingPlayers,
+							uptime: client.utils.formatTime(stats.uptime),
+							cores: stats.cpu.cores,
+							used: client.utils.formatBytes(stats.memory.used),
+							reservable: client.utils.formatBytes(stats.memory.reservable),
+							systemLoad: (stats.cpu.systemLoad * 100).toFixed(2),
+							lavalinkLoad: (stats.cpu.lavalinkLoad * 100).toFixed(2),
+							plugins: Array.isArray(plugin)
+								? plugin
+									.filter(p => p && typeof p.name === 'string' && typeof p.version === 'string')
+									.map(p => `${p.name} v${p.version}`)
+									.join(', ')
+								: 'No plugins',
+						})}\n\`\`\``,
+					});
+				} catch (e) {
+					client.logger.error(e);
+				}
+			}
 
 			embed.setFooter({
 				text: ctx.locale('cmd.lavalink.page_info', {
@@ -86,7 +99,8 @@ export default class LavaLink extends Command {
 
 			return embed;
 		});
-		return await client.utils.paginate(client, ctx, pages);
+		const finishedPages = await Promise.all(pages);
+		return await client.utils.paginate(client, ctx, finishedPages);
 	}
 }
 

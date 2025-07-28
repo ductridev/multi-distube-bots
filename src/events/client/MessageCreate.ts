@@ -55,7 +55,7 @@ export default class MessageCreate extends Event {
 		const prefixPatterns = allPrefixes.map(p => `(${escapeRegex(p)})`);
 		const combinedPrefixRegex = new RegExp(`^(${prefixPatterns.join('|')})\\s*`);
 
-		const match = message.content.match(combinedPrefixRegex);
+		const match = message.content.toLocaleLowerCase().match(combinedPrefixRegex);
 		if (!match) return;
 		const [matchedPrefix] = match;
 		const args = message.content.slice(matchedPrefix.length).trim().split(/ +/g);
@@ -68,29 +68,29 @@ export default class MessageCreate extends Event {
 		let chosenBot: typeof this.client = allBots[0];
 		let valid = true;
 
-		await vcLocks.acquire(`${guildId}-${userVCId}`, async () => {
-			const guildMap = voiceChannelMap.get(guildId) ?? new Map<string, string>();
-			const activeClientIds = new Set(guildMap.values());
+		if (userVCId) {
+			await vcLocks.acquire(`${guildId}-${userVCId}`, async () => {
+				const guildMap = voiceChannelMap.get(guildId) ?? new Map<string, string>();
+				const activeClientIds = new Set(guildMap.values());
 
-			const botMeta = await Promise.all(
-				allBots.map(async bot => {
-					const [prefix, is247] = await Promise.all([
-						bot.db.getPrefix(guildId, bot.childEnv.clientId),
-						bot.db.get_247(bot.childEnv.clientId, guildId)
-					]);
-					return {
-						bot,
-						clientId: bot.childEnv.clientId,
-						prefix,
-						is247: is247 as Stay,
-						isInAnyVC: activeClientIds.has(bot.childEnv.clientId)
-					};
-				})
-			);
+				const botMeta = await Promise.all(
+					allBots.map(async bot => {
+						const [prefix, is247] = await Promise.all([
+							bot.db.getPrefix(guildId, bot.childEnv.clientId),
+							bot.db.get_247(bot.childEnv.clientId, guildId)
+						]);
+						return {
+							bot,
+							clientId: bot.childEnv.clientId,
+							prefix,
+							is247: is247 as Stay,
+							isInAnyVC: activeClientIds.has(bot.childEnv.clientId)
+						};
+					})
+				);
 
-			// Check: Is this bot supposed to handle this message?
+				// Check: Is this bot supposed to handle this message?
 
-			if (command.player.voice && userVCId) {
 				const botInSameVC = guildMap.get(userVCId);
 
 				// Check: Bot already in user's VC
@@ -103,7 +103,8 @@ export default class MessageCreate extends Event {
 
 				// Matching prefix & idle
 				const matchingFreeBot = botMeta.find(entry =>
-					(entry.prefix === matchedPrefix && !entry.is247) ||
+					(entry.prefix === matchedPrefix && !entry.is247 &&
+						!entry.isInAnyVC) ||
 					(entry.is247 && entry.is247.voiceId === userVCId)
 				);
 				if (matchingFreeBot) {
@@ -122,8 +123,8 @@ export default class MessageCreate extends Event {
 
 				// No bot available
 				valid = false;
-			}
-		});
+			});
+		}
 
 		if (this.client.user!.id !== chosenBot!.user!.id) return;
 

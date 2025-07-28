@@ -38,8 +38,6 @@ export default class Nowplaying extends Command {
 		const duration = track.info.duration;
 		const bar = client.utils.progressBar(position, duration, 20);
 
-		console.log(track.requester)
-
 		const embed = this.client
 			.embed()
 			.setColor(this.client.color.main)

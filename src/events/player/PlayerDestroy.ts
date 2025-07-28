@@ -16,7 +16,7 @@ export default class PlayerDestroy extends Event {
 		const guildMap = voiceChannelMap.get(player.guildId);
 
 		if (guildMap) {
-			if (player.options.voiceChannelId) {
+			if (player.options.voiceChannelId && guildMap.has(player.options.voiceChannelId)) {
 				// Remove specific VC mapping
 				guildMap.delete(player.options.voiceChannelId);
 			} else {

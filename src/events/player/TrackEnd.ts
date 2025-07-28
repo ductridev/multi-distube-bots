@@ -12,6 +12,9 @@ export default class TrackEnd extends Event {
 	}
 
 	public async run(player: Player, _track: Track | null, _payload: TrackStartEvent): Promise<void> {
+		// Prevent this event from running if repeat mode is track
+		if (player.repeatMode === 'track') return
+
 		const guild = this.client.guilds.cache.get(player.guildId);
 		if (!guild) return;
 
@@ -29,9 +32,10 @@ export default class TrackEnd extends Event {
 		});
 		if (!message) return;
 
-		message.delete().catch(() => {
-			null;
-		});
+		if (message.deletable)
+			message.delete().catch(() => {
+				null;
+			});
 
 		const is247 = await this.client.db.get_247(this.client.childEnv.clientId, player.guildId);
 		const vc = guild.channels.cache.get(player.voiceChannelId!) as VoiceBasedChannel;

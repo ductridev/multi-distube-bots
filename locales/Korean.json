@@ -527,6 +527,12 @@
 		},
 		"fairplay": {
 			"description": "Set the bot to play music fairly"
+		},
+		"loop_current": {
+			"description": "cmd.loop_current.description"
+		},
+		"loop_queue": {
+			"description": "cmd.loop_queue.description"
 		}
 	},
 	"buttons": {

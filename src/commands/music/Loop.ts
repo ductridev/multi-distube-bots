@@ -12,7 +12,7 @@ export default class Loop extends Command {
 			category: 'general',
 			aliases: ['loop'],
 			cooldown: 3,
-			args: true,
+			args: false,
 			vote: false,
 			player: {
 				voice: true,

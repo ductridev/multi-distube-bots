@@ -9,7 +9,7 @@ import { Lavamusic } from '../../structures';
  *                        the keys `id`, `username`, and `avatarURL`.
  * @returns {Requester} The transformed requester object.
  */
-export const requesterTransformer = (requester: any): Requester => {
+export const requesterTransformer = (requester: any, client: Lavamusic): Requester => {
 	// if it's already the transformed requester
 	if (typeof requester === 'object' && 'avatar' in requester && Object.keys(requester).length === 3)
 		return requester as Requester;
@@ -23,7 +23,12 @@ export const requesterTransformer = (requester: any): Requester => {
 			discriminator: requester.discriminator,
 		};
 	}
-	return { id: requester!.toString(), username: 'unknown' };
+	return {
+		id: client.user?.id ?? '',
+		username: client.user?.username ?? '',
+		avatarURL: client.user?.displayAvatarURL({ extension: 'png' }),
+		discriminator: client.user?.discriminator,
+	};
 };
 
 /**
@@ -35,7 +40,7 @@ export const requesterTransformer = (requester: any): Requester => {
  * @param {Track} lastTrack The last played track.
  * @returns {Promise<void>} A promise that resolves when the function is done.
  */
-export async function autoPlayFunction(player: Player, client: Lavamusic, lastTrack?: Track): Promise<void> {
+export async function autoPlayFunction(player: Player, lastTrack?: Track): Promise<void> {
 	if (!player.get('autoplay')) return;
 	if (!lastTrack) return;
 
@@ -65,14 +70,6 @@ export async function autoPlayFunction(player: Player, client: Lavamusic, lastTr
 					res.tracks.slice(0, 5).map((track) => {
 						// transform the track plugininfo so you can figure out if the track is from autoplay or not.
 						track.pluginInfo.clientData = { ...(track.pluginInfo.clientData || {}), fromAutoplay: true };
-						if (typeof track.requester === "object" || (typeof track.requester === "string" && track.requester === "[object Object]")) {
-							track.requester = {
-								id: client.user?.id,
-								username: client.user?.username,
-								avatarURL: client.user?.displayAvatarURL({ extension: 'png' }),
-								discriminator: client.user?.discriminator,
-							};
-						}
 						return track;
 					}),
 				);
@@ -100,14 +97,6 @@ export async function autoPlayFunction(player: Player, client: Lavamusic, lastTr
 				res.tracks.slice(0, 5).map((track) => {
 					// transform the track plugininfo so you can figure out if the track is from autoplay or not.
 					track.pluginInfo.clientData = { ...(track.pluginInfo.clientData || {}), fromAutoplay: true };
-					if (typeof track.requester === "object" || (typeof track.requester === "string" && track.requester === "[object Object]")) {
-						track.requester = {
-							id: client.user?.id,
-							username: client.user?.username,
-							avatarURL: client.user?.displayAvatarURL({ extension: 'png' }),
-							discriminator: client.user?.discriminator,
-						};
-					}
 					return track;
 				}),
 			);

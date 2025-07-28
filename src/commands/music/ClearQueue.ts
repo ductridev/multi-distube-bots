@@ -10,7 +10,7 @@ export default class ClearQueue extends Command {
 				usage: 'clearqueue',
 			},
 			category: 'music',
-			aliases: ['c', 'cq'],
+			aliases: ['c', 'clq', 'cq', 'clearq', 'clear'],
 			cooldown: 3,
 			args: false,
 			vote: false,

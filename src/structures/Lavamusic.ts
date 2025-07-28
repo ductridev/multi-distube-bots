@@ -109,28 +109,6 @@ export default class Lavamusic extends Client {
           this.aliases.set(alias, command.name as any);
         });
 
-        const stay = await this.db.get_247(this.childEnv.clientId);
-        if (!Array.isArray(stay)) return;
-
-        await Promise.all(
-          stay.map(async (s) => {
-            try {
-              const guild = await this.guilds.fetch(s.guildId).catch(() => null);
-              if (!guild) {
-                await this.db.delete_247(s.guildId, this.childEnv.clientId);
-                return;
-              }
-
-              const channel = await guild.channels.fetch(s.voiceId).catch(() => null);
-              if (!channel) {
-                await this.db.delete_247(s.guildId, this.childEnv.clientId);
-              }
-            } catch (error) {
-              await this.db.delete_247(s.guildId, this.childEnv.clientId);
-            }
-          })
-        );
-
         if (command.slashCommand) {
           const data: RESTPostAPIChatInputApplicationCommandsJSONBody = {
             name: command.name,
@@ -234,6 +212,28 @@ export default class Lavamusic extends Client {
           }
           this.body.push(data);
         }
+
+        const stay = await this.db.get_247(this.childEnv.clientId);
+        if (!Array.isArray(stay)) return;
+
+        await Promise.all(
+          stay.map(async (s) => {
+            try {
+              const guild = await this.guilds.fetch(s.guildId).catch(() => null);
+              if (!guild) {
+                await this.db.delete_247(s.guildId, this.childEnv.clientId);
+                return;
+              }
+
+              const channel = await guild.channels.fetch(s.voiceId).catch(() => null);
+              if (!channel) {
+                await this.db.delete_247(s.guildId, this.childEnv.clientId);
+              }
+            } catch (error) {
+              await this.db.delete_247(s.guildId, this.childEnv.clientId);
+            }
+          })
+        );
       }
     }
   }

@@ -66,6 +66,7 @@ export default class Join extends Command {
 			selfDeaf: true,
 			vcRegion: memberVoiceChannel.rtcRegion!,
 		});
+		player.options.voiceChannelId = memberVoiceChannel.id;
 		if (!player.connected) await player.connect();
 		return await ctx.sendMessage({
 			embeds: [

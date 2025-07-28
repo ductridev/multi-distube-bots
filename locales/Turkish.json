@@ -519,6 +519,12 @@
 			"options": {
 				"file": "The audio file you want to play"
 			}
+		},
+		"loop_current": {
+			"description": "cmd.loop_current.description"
+		},
+		"loop_queue": {
+			"description": "cmd.loop_queue.description"
 		}
 	},
 	"buttons": {

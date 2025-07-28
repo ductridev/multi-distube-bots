@@ -38,9 +38,9 @@ export class Utils {
 	}
 
 	public static async setVoiceStatus(client: Lavamusic, channelId: string, message: string): Promise<void> {
-		await client.rest.put(`/channels/${channelId}/voice-status`, { body: { status: message } }).catch(() => {});
+		await client.rest.put(`/channels/${channelId}/voice-status`, { body: { status: message } }).catch(() => { });
 	}
-	
+
 	public static chunk(array: any[], size: number) {
 		const chunked_arr: any[][] = [];
 		for (let index = 0; index < array.length; index += size) {
@@ -78,11 +78,15 @@ export class Utils {
 	}
 
 	public static progressBar(current: number, total: number, size = 20): string {
-		const percent = Math.round((current / total) * 100);
-		const filledSize = Math.round((size * current) / total);
-		const filledBar = '▓'.repeat(filledSize);
-		const emptyBar = '░'.repeat(size - filledSize);
-		return `${filledBar}${emptyBar} ${percent}%`;
+		try {
+			const percent = Math.round((current / total) * 100);
+			const filledSize = Math.round((size * current) / total);
+			const filledBar = '▓'.repeat(filledSize);
+			const emptyBar = '░'.repeat(size - filledSize);
+			return `${filledBar}${emptyBar} ${percent}%`;
+		} catch {
+			return '0%';
+		}
 	}
 
 	public static async paginate(client: Lavamusic, ctx: Context, embed: any[]): Promise<void> {
@@ -179,7 +183,7 @@ export class Utils {
 					collector.stop();
 					try {
 						await msg.edit({ components: [] });
-					} catch {}
+					} catch { }
 					return;
 			}
 
@@ -190,7 +194,7 @@ export class Utils {
 			if (stoppedManually) return;
 			try {
 				await msg.edit({ embeds: [embed[page]], components: [] });
-			} catch {}
+			} catch { }
 		});
 	}
 }

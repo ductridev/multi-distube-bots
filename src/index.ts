@@ -5,6 +5,7 @@ import Logger from './structures/Logger';
 import { type Lavamusic } from './structures';
 import AsyncLock from './structures/AsyncLock';
 import { Player } from 'lavalink-client/dist/types';
+import { restoreSessions } from './utils/functions/loadSessionsOnStartup';
 
 const logger = new Logger();
 
@@ -14,7 +15,7 @@ export const activeBots: Lavamusic[] = [];
 
 export const voiceChannelMap: Map<string, Map<string, string>> = new Map();
 
-export const sessionMap: Map<string, Map<string, Player>> = new Map();
+export const sessionMap: Map<string, Map<string, Player | string>> = new Map();
 
 export const vcLocks = new AsyncLock();
 
@@ -44,6 +45,7 @@ try {
 			logger.error('[LAUNCH] No bot configurations found.');
 			process.exit(1);
 		}
+		await restoreSessions();
 		// shardStart(logger, bots[0]);
 		// shardStart(logger, bots[1]);
 		// shardStart(logger, bots[2]);

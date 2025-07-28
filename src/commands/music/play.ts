@@ -19,7 +19,7 @@ export default class Play extends Command {
 			},
 			category: 'music',
 			aliases: ['p'],
-			cooldown: 3,
+			cooldown: 0,
 			args: true,
 			vote: false,
 			player: {

@@ -12,6 +12,8 @@ import {
 	type StringSelectMenuInteraction,
 	type TextChannel,
 	type UserSelectMenuInteraction,
+	Message,
+	ComponentType,
 } from 'discord.js';
 import type { Player, Track, TrackStartEvent } from 'lavalink-client';
 import { T } from '../../structures/I18n';
@@ -28,7 +30,11 @@ export default class TrackStart extends Event {
 	}
 
 	public async run(player: Player, track: Track | null, _payload: TrackStartEvent): Promise<void> {
+		// Prevent this event from running if repeat mode is track
+		if (player.repeatMode === 'track') return
+
 		const guild = this.client.guilds.cache.get(player.guildId);
+		if (player.options.customData) player.options.customData.botClientId = this.client.childEnv.clientId
 		// Save player
 		if (!sessionMap.has(player.guildId)) sessionMap.set(player.guildId, new Map());
 		sessionMap.get(player.guildId)!.set(player.voiceChannelId!, player);
@@ -138,7 +144,7 @@ function createButtonRow(player: Player, client: Lavamusic): ActionRowBuilder<Bu
 }
 
 function createCollector(
-	message: any,
+	message: Message<true>,
 	player: Player,
 	_track: Track,
 	embed: any,
@@ -147,6 +153,7 @@ function createCollector(
 ): void {
 	const collector = message.createMessageComponentCollector({
 		filter: async (b: ButtonInteraction) => {
+			if (!b.isButton()) return false;
 			if (b.member instanceof GuildMember) {
 				const isSameVoiceChannel = b.guild?.members.me?.voice.channelId === b.member.voice.channelId;
 				if (isSameVoiceChannel) return true;
@@ -159,6 +166,7 @@ function createCollector(
 			});
 			return false;
 		},
+		componentType: ComponentType.Button,
 	});
 
 	collector.on('collect', async (interaction: ButtonInteraction<'cached'>) => {
@@ -171,7 +179,7 @@ function createCollector(
 		}
 
 		const editMessage = async (text: string): Promise<void> => {
-			if (message) {
+			if (message && message.editable) {
 				await message.edit({
 					embeds: [
 						embed.setFooter({
