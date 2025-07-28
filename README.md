@@ -5,7 +5,7 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![Support Server][support-shield]][support-server]
+<!-- [![Support Server][support-shield]][support-server] -->
 [![MIT License][license-shield]][license-url]
 [![Run on Repl.it](https://repl.it/badge/github/ductridev/multi-distube-bots)](https://repl.it/github/ductridev/multi-distube-bots)
 [![Remix on Glitch](https://cdn.glitch.com/2703baf2-b643-4da7-ab91-7ee2a2d00b5b%2Fremix-button.svg)](https://glitch.com/edit/#!/import/github/ductridev/multi-distube-bots)
