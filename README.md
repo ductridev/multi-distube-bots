@@ -5,7 +5,7 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![Support Server][support-shield]][support-server]
+<!-- [![Support Server][support-shield]][support-server] -->
 [![MIT License][license-shield]][license-url]
 [![Run on Repl.it](https://repl.it/badge/github/ductridev/multi-distube-bots)](https://repl.it/github/ductridev/multi-distube-bots)
 [![Remix on Glitch](https://cdn.glitch.com/2703baf2-b643-4da7-ab91-7ee2a2d00b5b%2Fremix-button.svg)](https://glitch.com/edit/#!/import/github/ductridev/multi-distube-bots)
@@ -23,7 +23,7 @@
     <br />
     <a href="https://discord.com/oauth2/authorize?client_id=1343814433134346241&permissions=279209954560&response_type=code&redirect_uri=https%3A%2F%2Fdiscord.gg%2Fkhfw8z6gg9&integration_type=0&scope=bot+guilds+applications.commands">Invite BuNgo Music Bot</a>
     ·
-    <a href="https://github.com/appujet/c0ders-io/issues">Report Bug & Request Feature</a>
+    <a href="https://github.com/ductridev/multi-distube-bots/issues">Report Bug & Request Feature</a>
   </p>
 </p>
 
@@ -238,7 +238,10 @@ Distributed under the GPL-3.0 license. See [![LICENSE](https://img.shields.io/gi
 ## ☕ Donate
 
 Do you like this project? Support it by donating!
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/H2H7LKT9L)
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/ductridev) <a href="https://www.paypal.com/paypalme/trihd2104" title="ductridev">
+  <img src="https://img.shields.io/badge/PayPal-282C34?logo=paypal&logoColor=7952B3" alt="Paypal logo" title="Paypal" height="25" />
+</a>
 
 ## 👥 Contributors
 
@@ -258,5 +261,5 @@ Thanks go to these wonderful people:
 [issues-url]: https://github.com/ductridev/multi-distube-bots/issues
 [license-shield]: https://img.shields.io/github/license/ductridev/multi-distube-bots.svg?style=for-the-badge
 [license-url]: https://github.com/ductridev/multi-distube-bots/blob/master/LICENSE
-[support-server]: https://discord.gg/YQsGbTwPBx
+[support-server]: https://discord.gg/bostreamlimit
 [support-shield]: https://img.shields.io/discord/942117923001098260.svg?style=for-the-badge&logo=discord&colorB=7289DA
