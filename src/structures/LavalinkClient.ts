@@ -12,7 +12,7 @@ export default class LavalinkClient extends LavalinkManager {
 			}),
 			sendToShard: async (guildId, payload) => (await client.guilds.fetch(guildId)).shard.send(payload),
 			queueOptions: {
-				maxPreviousTracks: 25,
+				maxPreviousTracks: 1000,
 			},
 			playerOptions: {
 				defaultSearchPlatform: client.env.SEARCH_ENGINE,
