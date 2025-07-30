@@ -23,8 +23,8 @@ export class Utils {
 
 	public static updateStatus(client: Lavamusic, guildId?: string): void {
 		const { user } = client;
-		if (user && client.env.GUILD_ID && guildId === client.env.GUILD_ID) {
-			const player = client.manager.getPlayer(client.env.GUILD_ID);
+		if (user && guildId && client.env.GUILD_IDS && client.env.GUILD_IDS.find(id => id === guildId)) {
+			const player = client.manager.getPlayer(guildId);
 			user.setPresence({
 				activities: [
 					{
