@@ -39,7 +39,7 @@ export default class PlayerDestroy extends Event {
 		}
 
 		this.client.playerSaver!.delPlayer(player.guildId);
-		await this.client.db.deleteSavedPlayerData(player.guildId, this.client.childEnv.clientId);
+		// await this.client.db.deleteSavedPlayerData(player.guildId, this.client.childEnv.clientId);
 
 		if (!guild) return;
 		const locale = await this.client.db.getLanguage(player.guildId);

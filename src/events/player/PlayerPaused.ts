@@ -12,7 +12,9 @@ export default class PlayerPaused extends Event {
         if (!player || !track) return;
 
         if (player.voiceChannelId) {
-            await this.client.db.setSavedPlayerData(player.toJSON(), this.client.childEnv.clientId);
+            const newPlayerData = player.toJSON();
+            this.client.playerSaver!.set(newPlayerData.guildId, JSON.stringify(newPlayerData));
+            // await this.client.db.setSavedPlayerData(player.toJSON(), this.client.childEnv.clientId);
             // await this.client.utils.setVoiceStatus(this.client, player.voiceChannelId, `⏸️ ${track.info.title}`);
         }
     }

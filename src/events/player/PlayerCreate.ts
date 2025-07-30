@@ -20,7 +20,7 @@ export default class PlayerCreate extends Event {
 		sessionMap.get(player.guildId)!.set(player.voiceChannelId!, player);
 
 		this.client.playerSaver!.set(player.guildId, JSON.stringify(player.toJSON()));
-		await this.client.db.setSavedPlayerData(player.toJSON(), this.client.childEnv.clientId);
+		// await this.client.db.setSavedPlayerData(player.toJSON(), this.client.childEnv.clientId);
 	}
 }
 
