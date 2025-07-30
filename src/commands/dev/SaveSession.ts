@@ -1,6 +1,7 @@
 import { Player } from 'lavalink-client';
 import { sessionMap } from '../..';
 import { Command, type Context, type Lavamusic } from '../../structures/index';
+import { saveSessions } from '../../utils/functions/saveSessionsOnExit';
 
 export default class SaveSession extends Command {
     constructor(client: Lavamusic) {
@@ -51,6 +52,8 @@ export default class SaveSession extends Command {
                 }
             }
         }
+
+        saveSessions();
 
         return await ctx.sendMessage({
             embeds: [embed.setColor(this.client.color.blue).setDescription(ctx.locale('cmd.save_session.saved', { saved, failed }))],
