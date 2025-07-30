@@ -1,5 +1,4 @@
 import { AutoPoster } from 'topgg-autoposter';
-import { env } from '../../env';
 import { Event, type Lavamusic } from '../../structures/index';
 
 export default class Ready extends Event {
@@ -22,13 +21,13 @@ export default class Ready extends Event {
 			status: this.client.childEnv.status as any,
 		});
 
-		if (env.TOPGG) {
-			const autoPoster = AutoPoster(env.TOPGG, this.client);
+		if (this.client.env.TOPGG) {
+			const autoPoster = AutoPoster(this.client.env.TOPGG, this.client);
 			setInterval(() => {
 				autoPoster.on('posted', _stats => {
 					null;
 				});
-			}, 86400000); // 24 hours in milliseconds
+			}, 24 * 60 * 60e3); // 24 hours in milliseconds
 		} else {
 			this.client.logger.warn('Top.gg token not found. Skipping auto poster.');
 		}

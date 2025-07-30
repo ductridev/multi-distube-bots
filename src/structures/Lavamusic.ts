@@ -56,8 +56,9 @@ export default class Lavamusic extends Client {
     this.db = new ServerData(bot);
     await this.db.connect();
     config.maintenance = await this.db.getMaintainMode();
-    if (env.TOPGG) {
-      this.topGG = new Api(env.TOPGG);
+    this.logger.scope(bot.name);
+    if (this.env.TOPGG) {
+      this.topGG = new Api(this.env.TOPGG);
     } else {
       this.logger.warn("Top.gg token not found!");
     }

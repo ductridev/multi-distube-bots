@@ -179,8 +179,14 @@ export default class MessageCreate extends Event {
 
 			if (command.permissions?.user) {
 				if (!(isDev || (message.member as GuildMember).permissions.has(command.permissions.user))) {
+					const missingUserPermissions = Array.isArray(command.permissions.user)
+						? command.permissions.user
+						: [command.permissions.user];
+
 					return await message.reply({
-						content: T(locale, 'event.message.no_user_permission'),
+						content: T(locale, 'event.message.no_user_permission', {
+							permissions: missingUserPermissions.map((perm: string) => `\`${perm}\``).join(', '),
+						}),
 					});
 				}
 			}
@@ -190,13 +196,16 @@ export default class MessageCreate extends Event {
 			}
 		}
 
-		if (command.vote && this.client.env.TOPGG) {
+		if (command.vote
+			&& this.client.env.TOPGG
+			&& (!this.client.env.SKIP_VOTES_GUILDS || !this.client.env.SKIP_VOTES_GUILDS.find(id => id === message.guildId))
+		) {
 			const voted = await this.client.topGG.hasVoted(message.author.id);
 			if (!(isDev || voted)) {
 				const voteBtn = new ActionRowBuilder<ButtonBuilder>().addComponents(
 					new ButtonBuilder()
 						.setLabel(T(locale, 'event.message.vote_button'))
-						.setURL(`https://top.gg/bot/${this.client.user?.id}/vote`)
+						.setURL(`https://top.gg/bot/${this.client.env.TOPGG_CLIENT_ID ?? '1385166515099275346'}/vote`)
 						.setStyle(ButtonStyle.Link),
 				);
 
