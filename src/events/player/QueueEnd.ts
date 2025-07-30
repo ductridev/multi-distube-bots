@@ -14,6 +14,10 @@ export default class QueueEnd extends Event {
 	public async run(player: Player, _track: Track | null, _payload: TrackStartEvent): Promise<void> {
 		const guild = this.client.guilds.cache.get(player.guildId);
 		if (!guild) return;
+
+		// Save player queue
+		await player.queue.utils.save();
+
 		const locale = await this.client.db.getLanguage(player.guildId);
 		await updateSetup(this.client, guild, locale);
 

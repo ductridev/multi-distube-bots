@@ -15,6 +15,9 @@ export default class TrackEnd extends Event {
 		// Prevent this event from running if repeat mode is track
 		if (player.repeatMode === 'track') return
 
+		// Save player queue
+		await player.queue.utils.save();
+
 		const guild = this.client.guilds.cache.get(player.guildId);
 		if (!guild) return;
 

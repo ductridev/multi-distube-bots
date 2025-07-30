@@ -47,6 +47,9 @@ export default class TrackStart extends Event {
 		const channel = guild.channels.cache.get(player.textChannelId) as TextChannel;
 		if (!channel) return;
 
+		// Save player queue
+		await player.queue.utils.save();
+
 		this.client.utils.updateStatus(this.client, guild.id);
 
 		const locale = await this.client.db.getLanguage(guild.id);
@@ -91,7 +94,7 @@ export default class TrackStart extends Event {
 
 		const setup = await this.client.db.getSetup(guild.id);
 
-		if (setup?.textId) {
+		if (setup && setup.textId) {
 			const textChannel = guild.channels.cache.get(setup.textId) as TextChannel;
 			if (textChannel) {
 				await trackStart(setup.messageId, textChannel, player, track, this.client, locale);
