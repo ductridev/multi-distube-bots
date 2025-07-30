@@ -4,8 +4,8 @@ import { shardStart } from './shard';
 import Logger from './structures/Logger';
 import { type Lavamusic } from './structures';
 import AsyncLock from './structures/AsyncLock';
-import { Player } from 'lavalink-client/dist/types';
 import { restoreSessions } from './utils/functions/loadSessionsOnStartup';
+import { Player } from 'lavalink-client';
 
 const logger = new Logger();
 
@@ -16,6 +16,8 @@ export const activeBots: Lavamusic[] = [];
 export const voiceChannelMap: Map<string, Map<string, string>> = new Map();
 
 export const sessionMap: Map<string, Map<string, Player | string>> = new Map();
+
+export const updateSession: Map<string, NodeJS.Timeout> = new Map();
 
 export const vcLocks = new AsyncLock();
 
@@ -51,7 +53,7 @@ try {
 		// shardStart(logger, bots[2]);
 		// shardStart(logger, bots[3]);
 		for (const bot of bots) {
-			await shardStart(logger, bot);
+			shardStart(logger, bot);
 		}
 	});
 } catch (err) {
