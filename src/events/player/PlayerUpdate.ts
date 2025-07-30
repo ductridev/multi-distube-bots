@@ -24,11 +24,14 @@ export default class PlayerUpdate extends Event {
 			newPlayerData.options.applyVolumeAsFilter ||
 			oldPlayer.options.instaUpdateFiltersFix !==
 			newPlayerData.options.instaUpdateFiltersFix ||
-			oldPlayer.options.vcRegion !== newPlayerData.options.vcRegion;
+			oldPlayer.options.vcRegion !== newPlayerData.options.vcRegion ||
+			oldPlayer.queue !== newPlayerData.queue;
 
 		if (shouldSave) {
+			// Save player queue
+			await newPlayer.queue.utils.save();
 			this.client.playerSaver!.set(newPlayerData.guildId, JSON.stringify(newPlayerData));
-			await this.client.db.setSavedPlayerData(newPlayerData, this.client.childEnv.clientId);
+			// await this.client.db.setSavedPlayerData(newPlayerData, this.client.childEnv.clientId);
 		}
 	}
 }
