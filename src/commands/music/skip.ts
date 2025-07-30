@@ -11,7 +11,7 @@ export default class Skip extends Command {
 			},
 			category: 'music',
 			aliases: ['s', 'sk'],
-			cooldown: 3,
+			cooldown: 0,
 			args: false,
 			vote: true,
 			player: {

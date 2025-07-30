@@ -11,7 +11,7 @@ export default class Remove extends Command {
 			},
 			category: 'music',
 			aliases: ['rm'],
-			cooldown: 3,
+			cooldown: 0,
 			args: true,
 			vote: false,
 			player: {

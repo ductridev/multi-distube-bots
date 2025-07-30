@@ -18,7 +18,7 @@ export default class PlayNext extends Command {
 			},
 			category: 'music',
 			aliases: ['insert', 'pn'],
-			cooldown: 3,
+			cooldown: 0,
 			args: true,
 			vote: false,
 			player: {
