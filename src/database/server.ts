@@ -1,7 +1,7 @@
 import { BotConfig, type Dj, type Guild, type Playlist, PrismaClient, type Role, type Setup, type Stay } from '@prisma/client';
 import { env } from '../env';
 import Logger from '../structures/Logger';
-import { PlayerJson } from 'lavalink-client/dist/types';
+import { PlayerJson } from 'lavalink-client';
 
 export default class ServerData {
 	private prisma: PrismaClient;
