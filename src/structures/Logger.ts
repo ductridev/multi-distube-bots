@@ -51,8 +51,11 @@ const options: SignaleOptions = {
 };
 
 export default class Logger extends Signale {
-	constructor() {
-		super(options);
+	constructor(botName: string) {
+		super({
+			...options,
+			scope: botName,
+		});
 	}
 }
 

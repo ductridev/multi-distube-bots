@@ -6,11 +6,12 @@ import { PlayerJson } from 'lavalink-client';
 export default class ServerData {
 	private prisma: PrismaClient;
 	private childEnv: BotConfig = {} as BotConfig;
-	public logger: Logger = new Logger();
+	public logger: Logger;
 
 	constructor(bot: BotConfig) {
 		this.prisma = new PrismaClient();
 		this.childEnv = bot;
+		this.logger = new Logger(bot.name);
 	}
 
 	public async connect() {

@@ -1,13 +1,10 @@
 import * as fs from 'node:fs';
 import { PrismaClient } from '@prisma/client';
 import { shardStart } from './shard';
-import Logger from './structures/Logger';
 import { type Lavamusic } from './structures';
 import AsyncLock from './structures/AsyncLock';
 import { restoreSessions } from './utils/functions/loadSessionsOnStartup';
 import { Player } from 'lavalink-client';
-
-const logger = new Logger();
 
 const prisma = new PrismaClient();
 
@@ -36,7 +33,7 @@ function setConsoleTitle(title: string): void {
 
 try {
 	if (!fs.existsSync('./src/utils/LavaLogo.txt')) {
-		logger.error('LavaLogo.txt file is missing');
+		console.error('LavaLogo.txt file is missing');
 		process.exit(1);
 	}
 	// console.clear();
@@ -44,7 +41,7 @@ try {
 	setConsoleTitle('Lavamusic');
 	prisma.botConfig.findMany({ where: { active: true } }).then(async bots => {
 		if (!bots.length) {
-			logger.error('[LAUNCH] No bot configurations found.');
+			console.error('[LAUNCH] No bot configurations found.');
 			process.exit(1);
 		}
 		await restoreSessions();
@@ -53,9 +50,9 @@ try {
 		// shardStart(logger, bots[2]);
 		// shardStart(logger, bots[3]);
 		for (const bot of bots) {
-			shardStart(logger, bot);
+			shardStart(bot);
 		}
 	});
 } catch (err) {
-	logger.error('[CLIENT] An error has occurred:', err);
+	console.error('[CLIENT] An error has occurred:', err);
 }

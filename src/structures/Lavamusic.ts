@@ -4,6 +4,7 @@ import { Api } from "@top-gg/sdk";
 import {
   ApplicationCommandType,
   Client,
+  ClientOptions,
   Collection,
   EmbedBuilder,
   Events,
@@ -33,7 +34,6 @@ export default class Lavamusic extends Client {
   public db = new ServerData({} as BotConfig);
   public cooldown: Collection<string, any> = new Collection();
   public config = config;
-  public logger: Logger = new Logger();
   public readonly emoji = config.emoji;
   public readonly color = config.color;
   private body: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
@@ -46,23 +46,27 @@ export default class Lavamusic extends Client {
   public playerSaver: PlayerSaver | null = null;
   public timeoutListenersMap: Map<string, NodeJS.Timeout> = new Map();
   public timeoutSongsMap: Map<string, NodeJS.Timeout> = new Map();
+  public logger: Logger;
+  constructor(clientOptions: ClientOptions, bot: BotConfig) {
+    super(clientOptions);
+    this.logger = new Logger(bot.name);
+    this.childEnv = bot;
+  }
   public embed(): EmbedBuilder {
     return new EmbedBuilder();
   }
 
-  public async start(bot: BotConfig): Promise<void> {
-    initI18n();
-    this.playerSaver = new PlayerSaver(bot.name);
-    this.db = new ServerData(bot);
+  public async start(): Promise<void> {
+    initI18n(this.logger);
+    this.playerSaver = new PlayerSaver(this.childEnv.name);
+    this.db = new ServerData(this.childEnv);
     await this.db.connect();
     config.maintenance = await this.db.getMaintainMode();
-    this.logger.scope(bot.name);
     if (this.env.TOPGG) {
       this.topGG = new Api(this.env.TOPGG);
     } else {
       this.logger.warn("Top.gg token not found!");
     }
-    this.childEnv = bot;
     this.rest = new REST({ version: "10" }).setToken(this.childEnv.token ?? "");
     this.manager = new LavalinkClient(this);
     await this.loadCommands();
@@ -70,7 +74,7 @@ export default class Lavamusic extends Client {
     await this.loadEvents();
     this.logger.info("Successfully loaded events!");
     loadPlugins(this);
-    await this.login(bot.token);
+    await this.login(this.childEnv.token);
     registerBot(this);
     await this.deployCommands();
 

@@ -36,7 +36,6 @@
 import { type ClientOptions, GatewayIntentBits } from 'discord.js';
 import Lavamusic from './structures/Lavamusic';
 import { BotConfig } from '@prisma/client';
-import Logger from './structures/Logger';
 
 const { GuildMembers, MessageContent, GuildVoiceStates, GuildMessages, Guilds, GuildMessageTyping } = GatewayIntentBits;
 
@@ -45,7 +44,7 @@ const clientOptions: ClientOptions = {
 	allowedMentions: { parse: ['users', 'roles'], repliedUser: false },
 };
 
-export async function shardStart(_logger: Logger, bot: BotConfig) {
-	const client = new Lavamusic(clientOptions);
-	await client.start(bot);
+export async function shardStart(bot: BotConfig) {
+	const client = new Lavamusic(clientOptions, bot);
+	await client.start();
 };

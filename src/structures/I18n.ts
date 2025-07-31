@@ -5,9 +5,7 @@ import defaultLanguage from '../config';
 import { Language } from '../types';
 import Logger from './Logger';
 
-const logger = new Logger();
-
-export function initI18n() {
+export function initI18n(logger: Logger) {
 	i18n.configure({
 		locales: Object.keys(Language),
 		defaultLocale: typeof defaultLanguage === 'string' ? defaultLanguage : 'Vietnamese',
