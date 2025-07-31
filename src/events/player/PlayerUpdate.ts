@@ -9,6 +9,8 @@ export default class PlayerUpdate extends Event {
 	}
 
 	public async run(oldPlayer: Player, newPlayer: Player): Promise<void> {
+		if (!newPlayer.options.customData) newPlayer.options.customData = {};
+		newPlayer.options.customData.botClientId = this.client.childEnv.clientId;
 		const newPlayerData = newPlayer.toJSON();
 
 		const shouldSave =

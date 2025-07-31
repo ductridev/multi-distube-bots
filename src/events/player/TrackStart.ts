@@ -34,7 +34,8 @@ export default class TrackStart extends Event {
 		if (player.repeatMode === 'track') return
 
 		const guild = this.client.guilds.cache.get(player.guildId);
-		if (player.options.customData) player.options.customData.botClientId = this.client.childEnv.clientId
+		if (!player.options.customData) player.options.customData = {};
+		player.options.customData.botClientId = this.client.childEnv.clientId
 		// Save player
 		if (!sessionMap.has(player.guildId)) sessionMap.set(player.guildId, new Map());
 		sessionMap.get(player.guildId)!.set(player.voiceChannelId!, player);

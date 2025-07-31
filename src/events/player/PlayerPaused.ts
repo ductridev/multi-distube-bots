@@ -12,6 +12,9 @@ export default class PlayerPaused extends Event {
         if (!player || !track) return;
 
         if (player.voiceChannelId) {
+            if (!player.options.customData) player.options.customData = {};
+            player.options.customData.botClientId = this.client.childEnv.clientId;
+
             const newPlayerData = player.toJSON();
             this.client.playerSaver!.set(newPlayerData.guildId, JSON.stringify(newPlayerData));
             // await this.client.db.setSavedPlayerData(player.toJSON(), this.client.childEnv.clientId);
