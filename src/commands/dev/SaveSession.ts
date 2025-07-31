@@ -1,4 +1,3 @@
-import { Player } from 'lavalink-client';
 import { sessionMap } from '../..';
 import { Command, type Context, type Lavamusic } from '../../structures/index';
 import { saveSessions } from '../../utils/functions/saveSessionsOnExit';
@@ -43,11 +42,16 @@ export default class SaveSession extends Command {
 
         for (const guildMap of sessionMap.values()) {
             for (const player of guildMap.values()) {
+                if (typeof player === "string") continue;
+
+                if (!player.options.customData) player.options.customData = {};
+                player.options.customData.botClientId = this.client.childEnv.clientId;
+
                 try {
-                    await client.playerSaver!.set((player as Player).guildId, JSON.stringify((player as Player).toJSON()));
+                    await client.playerSaver!.set(player.guildId, JSON.stringify(player.toJSON()));
                     saved++;
                 } catch (e) {
-                    console.warn(`Failed to save player for guild ${(player as Player).guildId}`, e);
+                    console.warn(`Failed to save player for guild ${player.guildId}`, e);
                     failed++;
                 }
             }
