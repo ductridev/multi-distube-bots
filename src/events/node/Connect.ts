@@ -2,10 +2,11 @@
 import type { LavalinkNode, LavalinkPlayer } from 'lavalink-client';
 import { Event, type Lavamusic } from '../../structures/index';
 import { sendLog } from '../../utils/BotLog';
-import { sessionMap, voiceChannelMap } from '../..';
+import { sessionMap, updateSession, voiceChannelMap } from '../..';
+import { TextBasedChannel, VoiceBasedChannel } from 'discord.js';
 
 export default class Connect extends Event {
-	// private didResume = false;
+	private didResume = false;
 	constructor(client: Lavamusic, file: string) {
 		super(client, file, {
 			name: 'connect',
@@ -15,9 +16,14 @@ export default class Connect extends Event {
 	}
 
 	public async run(node: LavalinkNode): Promise<void> {
+		this.didResume = false;
 		this.client.logger.success(`Node ${node.id} is ready!`);
 
-		await node.updateSession(true, 60 * 60e3); // 1 hour
+		const interval = setInterval(async () => {
+			await node.updateSession(true, 15 * 60e3); // 15 minutes
+		}, 10 * 60e3);
+
+		updateSession.set(`${node.id}-${this.client.childEnv.clientId}`, interval);
 
 		let data = await this.client.db.get_247(this.client.childEnv.clientId);
 		if (!data) return;
@@ -33,11 +39,12 @@ export default class Connect extends Event {
 				const guild = this.client.guilds.cache.get(main.guildId);
 				if (!guild) return;
 
-				const channel = guild.channels.cache.get(main.textId);
-				const vc = guild.channels.cache.get(main.voiceId);
+				const channel = guild.channels.cache.get(main.textId) as TextBasedChannel | undefined;
+				const vc = guild.channels.cache.get(main.voiceId) as VoiceBasedChannel | undefined;
 
 				if (channel && vc) {
 					try {
+						// if (vc.rtcRegion === null) await vc.setRTCRegion('singapore');
 						const player = this.client.manager.createPlayer({
 							guildId: guild.id,
 							voiceChannelId: vc.id,
@@ -66,28 +73,27 @@ export default class Connect extends Event {
 
 		sendLog(this.client, `Node ${node.id} is ready!`, 'success');
 
-		// setTimeout(async () => {
-		// 	if (!this.didResume) {
-		// 		this.client.logger.warn(`[RESUME FALLBACK] Resume event did not fire, handling manually.`);
-		// 		await this.handleResumeFallback(node);
-		// 	}
-		// }, 7000);
+		setTimeout(async () => {
+			if (!this.didResume) {
+				this.client.logger.warn(`[RESUME FALLBACK] Resume event did not fire, handling manually.`);
+				await this.handleResumeFallback(node);
+			}
+		}, 7000);
 	}
 
 	private async resume(): Promise<void> {
 		this.client.manager.nodeManager.on("resumed", async (node, _payload, fetchedPlayers) => {
-			// this.didResume = true;
+			this.didResume = true;
 			this.client.logger.info(`Node ${node.id} is resuming players`);
 			// create players:
 			for (const fetchedPlayer of (fetchedPlayers as LavalinkPlayer[])) {
 				// fetchedPlayer is the live data from lavalink
 				const savedPlayerData = this.client.playerSaver?.getPlayer(fetchedPlayer.guildId);
 				const is247 = await this.client.db.get_247(this.client.childEnv.clientId, fetchedPlayer.guildId);
-				this.client.logger.info(`Node ${node.id} is resuming player`);
-				if (savedPlayerData === null) continue;
+				if (!savedPlayerData) continue;
 
 				// if lavalink says the bot got disconnected, we can skip the resuming, or force reconnect whatever you want!, here we choose to not do anything and thus delete the saved player data
-				if (!fetchedPlayer.state.connected && !is247) {
+				if (!fetchedPlayer.state.connected && !this.client.channels.cache.has(savedPlayerData.voiceChannelId) && !is247) {
 					this.client.logger.info(`Node ${node.id} is skipping resuming player, because it already disconnected`);
 					await this.client.playerSaver?.delPlayer(fetchedPlayer.guildId);
 					continue;
@@ -96,8 +102,8 @@ export default class Connect extends Event {
 				// now you can create the player based on the live and saved data
 				const player = this.client.manager.createPlayer({
 					guildId: fetchedPlayer.guildId,
-					voiceChannelId: savedPlayerData!.voiceChannelId,
-					textChannelId: savedPlayerData!.textChannelId,
+					voiceChannelId: savedPlayerData.voiceChannelId,
+					textChannelId: savedPlayerData.textChannelId,
 					node: node.id,
 					// you need to update the volume of the player by the volume of lavalink which might got decremented by the volume decrementer
 					volume: this.client.manager.options.playerOptions?.volumeDecrementer
@@ -106,20 +112,19 @@ export default class Connect extends Event {
 					// all of the following options can either be saved too, or you can use pre-defined defaults
 					selfDeaf: true,
 					selfMute: false,
-					applyVolumeAsFilter: savedPlayerData!.options.applyVolumeAsFilter,
-					instaUpdateFiltersFix: savedPlayerData!.options.instaUpdateFiltersFix,
-					vcRegion: savedPlayerData!.options.vcRegion,
+					applyVolumeAsFilter: savedPlayerData.options.applyVolumeAsFilter,
+					instaUpdateFiltersFix: savedPlayerData.options.instaUpdateFiltersFix,
+					vcRegion: savedPlayerData.options.vcRegion,
 				});
-
-				this.client.logger.info(`Node ${node.id} is resuming player for guild ${fetchedPlayer.guildId}`);
 
 				// normally just player.voice is enough, but if you restart the entire bot, you need to create a new connection, thus call player.connect();
 				await player.connect();
 
+				player.setRepeatMode(savedPlayerData.repeatMode);
+				player.set('autoplay', savedPlayerData.data['autoplay'] === 'true' ? true : false);
+
 				sessionMap.get(player.guildId)!.set(player.voiceChannelId!, player);
 				voiceChannelMap.get(player.guildId)!.set(player.voiceChannelId!, this.client.childEnv.clientId);
-
-				this.client.logger.info(`Node ${node.id} has resumed player for guild ${fetchedPlayer.guildId}`);
 
 				player.filterManager.data = fetchedPlayer.filters; // override the filters data
 				try {
@@ -131,17 +136,16 @@ export default class Connect extends Event {
 				}
 
 				// override the current track with the data from lavalink
-				if (fetchedPlayer.track && fetchedPlayer.state.connected) player.queue.add(this.client.manager.utils.buildTrack(fetchedPlayer.track, player.queue.current?.requester || this.client.user));
-				else if (fetchedPlayer.track) player.queue.add(this.client.manager.utils.buildTrack(fetchedPlayer.track, player.queue.current?.requester || this.client.user));
+				if (fetchedPlayer.track) player.queue.add(this.client.manager.utils.buildTrack(fetchedPlayer.track, player.queue.current?.requester || this.client.user));
 
 				this.client.logger.info(`Trying restore queue for guild ${fetchedPlayer.guildId} on node ${node.id} with saved session`);
-				const playingIdx = savedPlayerData!.queue?.tracks.findIndex((track) => track === savedPlayerData!.queue?.current);
+				const playingIdx = savedPlayerData.queue?.tracks.findIndex((track) => track === savedPlayerData.queue?.current);
 				this.client.logger.info(`Restoring queue for guild ${fetchedPlayer.guildId} on node ${node.id} with saved session`);
 				// Get all tracks after the current track
 				if (playingIdx !== -1)
-					savedPlayerData!.queue?.tracks.slice(playingIdx).forEach((track) => player.queue.add(track));
-
-				this.client.logger.info(`Node ${node.id} has synced current track for guild ${fetchedPlayer.guildId}`);
+					savedPlayerData.queue?.tracks.slice(playingIdx).forEach((track) => player.queue.add(track));
+				else
+					savedPlayerData.queue?.tracks.forEach((track) => player.queue.add(track));
 
 				// override the position of the player
 				player.lastPosition = fetchedPlayer.state.position;
@@ -170,38 +174,106 @@ export default class Connect extends Event {
 		})
 	}
 
-	// private async handleResumeFallback(_node: LavalinkNode): Promise<void> {
-	// 	// Fallback logic if "resumed" event never fired
-	// 	sessionMap.forEach((vcMap, _guildId) => {
-	// 		vcMap.forEach(async (player, vcId) => {
-	// 			if (typeof player === 'string') return;
-	// 			if (!player.options.customData) return;
+	private async handleResumeFallback(node: LavalinkNode): Promise<void> {
+		// Fallback logic if "resumed" event never fired
+		this.client.logger.info(`Node ${node.id} is resuming players`);
+		sessionMap.forEach(async (vcMap, guildId) => {
+			vcMap.forEach(async (oldPlayer, vcId) => {
+				// Skip player if invalid
+				if (typeof oldPlayer === "string"
+					|| !oldPlayer.voiceChannelId
+					|| !oldPlayer.textChannelId
+					|| oldPlayer.options.customData?.botClientId !== this.client.childEnv.clientId) return;
 
-	// 			const json: PlayerJson = player.toJSON();
+				// Reconnect player only if channel still there
+				if (this.client.channels.cache.has(vcId)) {
+					const is247 = await this.client.db.get_247(this.client.childEnv.clientId, guildId);
 
-	// 			if (this.client.childEnv.clientId === player.options.customData.botClientId) {
-	// 				const player = this.client.manager.createPlayer({
-	// 					...json,
-	// 				});
+					// if lavalink says the bot got disconnected, we can skip the resuming, or force reconnect whatever you want!, here we choose to not do anything and thus delete the saved player data
+					if (
+						!this.client.channels.cache.has(oldPlayer.voiceChannelId)
+						&& !(this.client.channels.cache.get(oldPlayer.voiceChannelId) as VoiceBasedChannel).members.has(this.client.user!.id)
+						&& !is247) {
+						this.client.logger.info(`Node ${node.id} is skipping resuming player, because it already disconnected`);
+						await this.client.playerSaver?.delPlayer(guildId);
+						return;
+					}
 
-	// 				player.connect();
-	// 				if (json.queue?.current) player.queue.add(json.queue.current);
+					// now you can create the player based on the live and saved data
+					const player = this.client.manager.createPlayer({
+						guildId: guildId,
+						voiceChannelId: oldPlayer.voiceChannelId,
+						textChannelId: oldPlayer.textChannelId,
+						node: node.id,
+						// you need to update the volume of the player by the volume of lavalink which might got decremented by the volume decrementer
+						volume: this.client.manager.options.playerOptions?.volumeDecrementer
+							? Math.round(oldPlayer.volume / this.client.manager.options.playerOptions.volumeDecrementer)
+							: oldPlayer.volume,
+						// all of the following options can either be saved too, or you can use pre-defined defaults
+						selfDeaf: true,
+						selfMute: false,
+						applyVolumeAsFilter: oldPlayer.options.applyVolumeAsFilter,
+						instaUpdateFiltersFix: oldPlayer.options.instaUpdateFiltersFix,
+						vcRegion: oldPlayer.options.vcRegion,
+					});
 
-	// 				const playingIdx = json.queue?.tracks.findIndex((track) => track === json.queue?.current);
-	// 				// Get all tracks after the current track
-	// 				if (playingIdx !== -1)
-	// 					json.queue?.tracks.slice(playingIdx).forEach((track) => player.queue.add(track));
+					// normally just player.voice is enough, but if you restart the entire bot, you need to create a new connection, thus call player.connect();
+					await player.connect();
 
-	// 				vcMap.set(vcId, player);
+					player.setRepeatMode(oldPlayer.repeatMode);
+					player.set('autoplay', oldPlayer.get('autoplay') === 'true' ? true : false);
 
-	// 				player.paused = json.paused;
-	// 				if (!player.paused && player.queue.tracks.length > 0) player.play();
+					sessionMap.get(player.guildId)!.set(player.voiceChannelId!, player);
+					voiceChannelMap.get(player.guildId)!.set(player.voiceChannelId!, this.client.childEnv.clientId);
 
-	// 				if (player.queue.tracks.length > 0) this.client.logger.info(`Node ${_node.id} has resumed player for guild ${player.guildId} at ${vcId}`);
-	// 			}
-	// 		})
-	// 	})
-	// }
+					player.filterManager = oldPlayer.filterManager; // override the filters data
+					try {
+						await player.queue.utils.sync(true, false); // get the queue data including the current track (for the requester)
+
+						this.client.logger.info(`Node ${node.id} has synced queue for guild ${guildId}`);
+					} catch (error) {
+						this.client.logger.warn(error);
+					}
+
+					// override the current track with the data from lavalink
+					if (oldPlayer.queue?.current) player.queue.add(this.client.manager.utils.buildTrack(oldPlayer.queue.current, player.queue.current?.requester || this.client.user));
+
+					this.client.logger.info(`Trying restore queue for guild ${guildId} on node ${node.id} with saved session`);
+					const playingIdx = oldPlayer.queue?.tracks.findIndex((track) => track === oldPlayer.queue?.current);
+					this.client.logger.info(`Restoring queue for guild ${guildId} on node ${node.id} with saved session`);
+					// Get all tracks after the current track
+					if (playingIdx !== -1)
+						oldPlayer.queue?.tracks.slice(playingIdx).forEach((track) => player.queue.add(track));
+					else
+						oldPlayer.queue?.tracks.forEach((track) => player.queue.add(track));
+
+					// override the position of the player
+					player.lastPosition = oldPlayer.lastPosition;
+					player.lastPositionChange = Date.now();
+
+					this.client.logger.info(`Node ${node.id} has synced position for guild ${guildId}`);
+
+					// you can also override the ping of the player, or wait about 30s till it's done automatically
+					player.ping = oldPlayer.ping;
+
+					// important to have skipping work correctly later
+					player.paused = oldPlayer.paused;
+					if (!player.paused && player.queue.tracks.length > 0) player.play();
+
+					this.client.logger.info(`Node ${node.id} has resumed player for guild ${guildId}`);
+					this.client.logger.info("Track:", player.queue.current);
+					this.client.logger.info("Paused:", player.paused);
+					this.client.logger.info("Connected:", player.connected);
+					this.client.logger.info("Voice Channel:", player.voiceChannelId);
+					this.client.logger.info("Text Channel:", player.textChannelId);
+					this.client.logger.info("Volume:", player.volume);
+					this.client.logger.info("Voice Event Present:", player.voice);
+				}
+			})
+		});
+
+		this.client.logger.info(`Node ${node.id} has resumed all players`);
+	}
 }
 
 
