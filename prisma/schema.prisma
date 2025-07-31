@@ -44,7 +44,7 @@ model Bot {
 model Guild {
   guildId  String  @id @map("_id")
   language String? @default("Vietnamese")
-  stay     Stay?
+  stay     Stay[]
   dj       Dj?
   roles    Role[]
   setup    Setup?
@@ -67,7 +67,7 @@ model GuildBotConfig {
 
 model Stay {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
-  guildId     String @unique
+  guildId     String
   botClientId String
   textId      String
   voiceId     String
