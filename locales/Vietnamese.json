@@ -12,6 +12,12 @@
 		"support": "Máy Chủ Hỗ Trợ"
 	},
 	"cmd": {
+		"messages": {
+			"no_user": "Không tìm thấy người dùng.",
+			"no_voice_channel": "Bạn cần tham gia một kênh thoại để sử dụng lệnh này.",
+			"not_in_voice": "Bot không có trong kênh thoại.",
+			"already_voted": "Bạn đã bỏ phiếu rồi."
+		},
 		"247": {
 			"description": "Giữ bot luôn ở trong kênh thoại",
 			"errors": {
@@ -511,7 +517,11 @@
 		"skip": {
 			"description": "Bỏ qua bài hát hiện tại",
 			"messages": {
-				"skipped": "Đã bỏ qua [{title}]({uri})."
+				"skipped": "Đã bỏ qua [{title}]({uri}).",
+				"vote_embed": "Bỏ phiếu để bỏ qua bài hát này: **{votes}/{needed}** phiếu cần thiết.",
+				"button_skip": "Bỏ Qua",
+				"button_keep": "Giữ Lại",
+				"already_voted": "Bạn đã bỏ phiếu rồi."
 			}
 		},
 		"skipto": {
@@ -553,7 +563,11 @@
 		"stop": {
 			"description": "Dừng phát nhạc và xóa toàn bộ hàng chờ",
 			"messages": {
-				"stopped": "Đã dừng phát nhạc và xóa hàng chờ."
+				"stopped": "Đã dừng phát nhạc và xóa hàng chờ.",
+				"vote_embed": "Bỏ phiếu để dừng phát nhạc: **{votes}/{needed}** phiếu cần thiết.",
+				"button_stop": "Dừng",
+				"button_keep": "Tiếp tục phát",
+				"already_voted": "Bạn đã bỏ phiếu rồi."
 			}
 		},
 		"tremolo": {

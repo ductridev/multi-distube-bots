@@ -13,6 +13,7 @@ import {
 	PermissionFlagsBits,
 	type TextChannel,
 	ChatInputCommandInteraction,
+	ButtonInteraction,
 } from 'discord.js';
 import { T } from '../../structures/I18n';
 import { Context, Event, type Lavamusic } from '../../structures/index';
@@ -24,7 +25,7 @@ export default class InteractionCreate extends Event {
 		});
 	}
 
-	public async run(interaction: CommandInteraction | AutocompleteInteraction): Promise<any> {
+	public async run(interaction: CommandInteraction | AutocompleteInteraction | ButtonInteraction): Promise<any> {
 		if (!(interaction.guild && interaction.guildId)) return;
 
 		if (interaction instanceof CommandInteraction && interaction.isCommand()) {
@@ -320,7 +321,7 @@ export default class InteractionCreate extends Event {
 						})
 						.setTimestamp();
 
-					await (logs as TextChannel).send({ embeds: [embed] });
+					await (logs as TextChannel).send({ embeds: [embed], flags: 4096 });
 				}
 			} catch (error) {
 				this.client.logger.error(error);
@@ -337,6 +338,127 @@ export default class InteractionCreate extends Event {
 			} catch (error) {
 				this.client.logger.error(error);
 			}
+		} else if (interaction.type === InteractionType.MessageComponent && interaction.isButton()) {
+			// --- Skip/Keep Vote Button Handler ---
+			if ('isButton' in interaction && typeof interaction.isButton === 'function' && interaction.isButton()) {
+				const button = interaction as import('discord.js').ButtonInteraction;
+				const { guild, user, customId, message } = button;
+				if (!guild) return;
+
+				// --- Skip Vote ---
+				if (customId === 'skip_vote_yes' || customId === 'skip_vote_no') {
+					const player = this.client.manager.getPlayer(guild.id);
+					if (!player) return button.reply({ content: 'No player found.', ephemeral: true });
+					if (!player.get('skipVotes')) player.set('skipVotes', new Set());
+					if (!player.get('keepVotes')) player.set('keepVotes', new Set());
+					const skipVotes = player.get('skipVotes') as Set<string>;
+					const keepVotes = player.get('keepVotes') as Set<string>;
+					skipVotes.delete(user.id);
+					keepVotes.delete(user.id);
+					const member = guild.members.cache.get(user.id);
+					const channel = member?.voice?.channel;
+					let listeners = 0;
+					if (channel && channel.members) {
+						listeners = channel.members.filter((m: any) => !m.user.bot).size;
+					} else {
+						listeners = 1;
+					}
+					const needed = Math.ceil(listeners / 2);
+					if (customId === 'skip_vote_yes') {
+						skipVotes.add(user.id);
+					} else {
+						keepVotes.add(user.id);
+					}
+					player.set('skipVotes', skipVotes);
+					player.set('keepVotes', keepVotes);
+					const locale = await this.client.db.getLanguage(guild.id);
+					const embed = new EmbedBuilder()
+						.setColor(0x00bfff)
+						.setDescription(T(locale, 'cmd.skip.messages.vote_embed', { votes: skipVotes.size, needed }))
+						.setFooter({
+							text: 'BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️',
+							iconURL: 'https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg',
+						})
+						.setTimestamp();
+					if (skipVotes.size >= needed) {
+						player.skip(0, true);
+						skipVotes.clear();
+						keepVotes.clear();
+						player.set('skipVotes', skipVotes);
+						player.set('keepVotes', keepVotes);
+						const currentTrack = player.queue.current?.info;
+						embed.setDescription(T(locale, 'cmd.skip.messages.skipped', {
+							title: currentTrack?.title,
+							uri: currentTrack?.uri,
+						}));
+						embed.setColor(0x43b581);
+						return await button.update({
+							embeds: [embed],
+							components: [],
+						});
+					} else {
+						return await button.update({
+							embeds: [embed],
+							components: message.components,
+						});
+					}
+				}
+				// --- Stop Vote ---
+				if (customId === 'stop_vote_yes' || customId === 'stop_vote_no') {
+					const player = this.client.manager.getPlayer(guild.id);
+					if (!player) return button.reply({ content: 'No player found.', ephemeral: true });
+					if (!player.get('stopVotes')) player.set('stopVotes', new Set());
+					if (!player.get('keepVotes')) player.set('keepVotes', new Set());
+					const stopVotes = player.get('stopVotes') as Set<string>;
+					const keepVotes = player.get('keepVotes') as Set<string>;
+					stopVotes.delete(user.id);
+					keepVotes.delete(user.id);
+					const member = guild.members.cache.get(user.id);
+					const channel = member?.voice?.channel;
+					let listeners = 0;
+					if (channel && channel.members) {
+						listeners = channel.members.filter((m: any) => !m.user.bot).size;
+					} else {
+						listeners = 1;
+					}
+					const needed = Math.ceil(listeners / 2);
+					if (customId === 'stop_vote_yes') {
+						stopVotes.add(user.id);
+					} else {
+						keepVotes.add(user.id);
+					}
+					player.set('stopVotes', stopVotes);
+					player.set('keepVotes', keepVotes);
+					const locale = await this.client.db.getLanguage(guild.id);
+					const embed = new EmbedBuilder()
+						.setColor(0x00bfff)
+						.setDescription(T(locale, 'cmd.stop.messages.vote_embed', { votes: stopVotes.size, needed }))
+						.setFooter({
+							text: 'BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️',
+							iconURL: 'https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg',
+						})
+						.setTimestamp();
+					if (stopVotes.size >= needed) {
+						player.stopPlaying(true, false);
+						stopVotes.clear();
+						keepVotes.clear();
+						player.set('stopVotes', stopVotes);
+						player.set('keepVotes', keepVotes);
+						embed.setDescription(T(locale, 'cmd.stop.messages.stopped'));
+						embed.setColor(0x43b581);
+						return await button.update({
+							embeds: [embed],
+							components: [],
+						});
+					} else {
+						return await button.update({
+							embeds: [embed],
+							components: message.components,
+						});
+					}
+				}
+			}
+			// --- End Skip/Keep/Stop Vote Button Handler ---
 		}
 	}
 }

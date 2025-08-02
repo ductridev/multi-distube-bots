@@ -420,7 +420,11 @@
 		"skip": {
 			"description": "Skips the current song",
 			"messages": {
-				"skipped": "Skipped [{title}]({uri})."
+				"skipped": "Skipped [{title}]({uri}).",
+				"vote_embed": "Vote to skip: **{votes}/{needed}**\n👍 to skip, 👎 to keep playing.",
+				"button_skip": "👍 Skip",
+				"button_keep": "👎 Keep",
+				"already_voted": "You have already voted."
 			}
 		},
 		"skipto": {
