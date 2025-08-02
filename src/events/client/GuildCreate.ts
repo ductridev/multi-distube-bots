@@ -68,7 +68,7 @@ export default class GuildCreate extends Event {
 				return;
 			}
 
-			await channel.send({ embeds: [embed] });
+			await channel.send({ embeds: [embed], flags: 4096 });
 		} catch (error) {
 			this.client.logger.error(`Error sending message to log channel ${logChannelId}: ${error}`);
 		}
