@@ -45,35 +45,37 @@ export async function autoPlayFunction(player: Player, lastTrack?: Track): Promi
 	if (!lastTrack) return;
 
 	if (lastTrack.info.sourceName === 'spotify') {
-		const filtered = player.queue.previous.filter(v => v.info.sourceName === 'spotify').slice(0, 5);
-		const ids = filtered.map(
-			v => v.info.identifier || v.info.uri.split('/')?.reverse()?.[0] || v.info.uri.split('/')?.reverse()?.[1],
-		);
-		if (ids.length >= 2) {
-			const res = await player
-				.search(
-					{
-						query: `seed_tracks=${ids.join(',')}`, //`seed_artists=${artistIds.join(",")}&seed_genres=${genre.join(",")}&seed_tracks=${trackIds.join(",")}`;
-						source: 'sprec',
-					},
-					lastTrack.requester,
-				)
-				.then((response: UnresolvedSearchResult | SearchResult) => {
-					response.tracks = (response.tracks as Track[]).filter(
-						(v) => v.info.identifier !== lastTrack.info.identifier
-					); // remove the lastPlayed track if it's in there..
-					return response;
-				})
-				.catch(console.warn);
-			if (res && res.tracks.length > 0)
-				await player.queue.add(
-					res.tracks.slice(0, 5).map((track) => {
-						// transform the track plugininfo so you can figure out if the track is from autoplay or not.
-						track.pluginInfo.clientData = { ...(track.pluginInfo.clientData || {}), fromAutoplay: true };
-						return track;
-					}),
-				);
-		}
+		const author = lastTrack.info.author;
+		const title = lastTrack.info.title;
+		const findQuery = 'directSearch=ytsearch:' + [author, title].filter((x) => !!x).join(' - ');
+		const preRes = await player.search(findQuery, { requester: lastTrack.requester });
+		if (preRes.tracks.length === 0) return;
+
+		const identifier = preRes.tracks[0].info.identifier;
+
+		const res = await player
+			.search(
+				{
+					query: `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`,
+					source: 'youtube',
+				},
+				lastTrack.requester,
+			)
+			.then((response: UnresolvedSearchResult | SearchResult) => {
+				response.tracks = (response.tracks as Track[]).filter(
+					(v) => v.info.identifier !== lastTrack.info.identifier
+				); // remove the lastPlayed track if it's in there..
+				return response;
+			})
+			.catch(console.warn);
+		if (res && res.tracks.length > 0)
+			await player.queue.add(
+				res.tracks.slice(0, 5).map((track) => {
+					// transform the track plugininfo so you can figure out if the track is from autoplay or not.
+					track.pluginInfo.clientData = { ...(track.pluginInfo.clientData || {}), fromAutoplay: true };
+					return track;
+				}),
+			);
 		return;
 	}
 	if (lastTrack.info.sourceName === 'youtube' || lastTrack.info.sourceName === 'youtubemusic') {
