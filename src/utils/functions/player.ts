@@ -47,8 +47,10 @@ export async function autoPlayFunction(player: Player, lastTrack?: Track): Promi
 	if (lastTrack.info.sourceName === 'spotify') {
 		const author = lastTrack.info.author;
 		const title = lastTrack.info.title;
-		const findQuery = 'directSearch=ytsearch:' + [author, title].filter((x) => !!x).join(' - ');
-		const preRes = await player.search(findQuery, { requester: lastTrack.requester });
+		const preRes = await player.search({
+			query: `${author} - ${title}`,
+			source: 'ytsearch',
+		}, { requester: lastTrack.requester });
 		if (preRes.tracks.length === 0) return;
 
 		const identifier = preRes.tracks[0].info.identifier;
