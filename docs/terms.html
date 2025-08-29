@@ -6,12 +6,16 @@
     <title>Redirecting... 🤖</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script>
-        const userLang = navigator.language || navigator.userLanguage;
-        if (userLang.startsWith("vi")) {
-            window.location.replace("./vi/terms.html");
-        } else {
-            window.location.replace("./en/terms.html");
-        }
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                const userLang = navigator.language || navigator.userLanguage;
+                if (userLang.startsWith("vi")) {
+                    window.location.replace("./vi/terms.html");
+                } else {
+                    window.location.replace("./en/terms.html");
+                }
+            }, 5000);
+        });
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
