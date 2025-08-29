@@ -50,7 +50,9 @@ export default class Skip extends Command {
 		const userId = ctx.author?.id;
 
 		// If the user is the requester, skip immediately
-		if (requesterId && userId && requesterId === userId) {
+		// If the user is summoner, skip immediately
+		// If the requester is bot so it's from autoplay mode, skip immediately
+		if (requesterId && userId && (requesterId === userId || player.get('summonUserId') === userId || ctx.guild.members.cache.find(m => m.id === requesterId)?.client.user.bot)) {
 			player.skip(0, !autoplay);
 			if (ctx.isInteraction) {
 				return await ctx.sendMessage({
@@ -68,7 +70,7 @@ export default class Skip extends Command {
 			return;
 		}
 
-		// If the user is not the requester, check for skip votes
+		// If the user is not the requester or summoner, check for skip votes
 		if (!userId) {
 			return await ctx.sendMessage({
 				embeds: [embed.setColor(this.client.color.red).setDescription(ctx.locale('cmd.messages.no_user'))],

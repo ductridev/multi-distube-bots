@@ -75,9 +75,14 @@ export default class Skipto extends Command {
 			listeners = 1;
 		}
 
+		const autoplay = player.get<boolean>('autoplay');
+
 		// If there are only 2 listeners, skip voting
-		if (listeners <= 2 || (requesterId && userId && requesterId === userId)) {
-			player.skip(num);
+		// If the user is the requester, skip immediately
+		// If the user is summoner, skip immediately
+		// If the requester is bot so it's from autoplay mode, skip immediately
+		if (listeners <= 2 || (requesterId && userId && (requesterId === userId || player.get('summonUserId') === userId || ctx.guild.members.cache.find(m => m.id === requesterId)?.client.user.bot))) {
+			player.skip(num, !autoplay);
 			skipVotes.clear();
 			keepVotes.clear();
 			player.set('skipVotes', skipVotes);
@@ -162,7 +167,7 @@ export default class Skipto extends Command {
 
 		// If enough votes, skip
 		if (skipVotes.size >= needed) {
-			player.skip(num);
+			player.skip(num, !autoplay);
 			skipVotes.clear();
 			keepVotes.clear();
 			player.set('skipVotes', skipVotes);
