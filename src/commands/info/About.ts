@@ -56,17 +56,17 @@ export default class About extends Command {
 			.addFields(
 				{
 					name: ctx.locale('cmd.about.fields.creator'),
-					value: '[appujet](https://github.com/appujet)',
+					value: '[ductridev](https://github.com/ductridev)',
 					inline: true,
 				},
 				{
 					name: ctx.locale('cmd.about.fields.repository'),
-					value: '[Here](https://github.com/appujet/lavamusic)',
+					value: '[Here](https://github.com/ductridev/multi-distube-bots)',
 					inline: true,
 				},
 				{
 					name: ctx.locale('cmd.about.fields.support'),
-					value: '[Here](https://discord.gg/YQsGbTwPBx)',
+					value: '[Here](https://discord.gg/bostreamlimit)',
 					inline: true,
 				},
 				{
