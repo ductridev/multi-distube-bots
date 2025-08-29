@@ -17,6 +17,8 @@ import {
 } from 'discord.js';
 import { T } from '../../structures/I18n';
 import { Context, Event, type Lavamusic } from '../../structures/index';
+import { activeBots, vcLocks, voiceChannelMap } from '../..';
+import { Stay } from '@prisma/client';
 
 export default class InteractionCreate extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -34,6 +36,9 @@ export default class InteractionCreate extends Event {
 			const commandInSetup = this.client.commands.get(interaction.commandName);
 			const locale = await this.client.db.getLanguage(interaction.guildId);
 
+			const guildId = interaction.guildId;
+			const userVCId = (interaction.member as GuildMember | null)?.voice?.channelId ?? null;
+
 			if (
 				setup &&
 				interaction.channelId === setup.textId &&
@@ -45,11 +50,82 @@ export default class InteractionCreate extends Event {
 				});
 			}
 
+			const matchedPrefix = interaction.applicationId;
+
 			const { commandName } = interaction;
 			await this.client.db.get(interaction.guildId);
 
 			const command = this.client.commands.get(commandName);
 			if (!command) return;
+
+			const allBots = activeBots;
+			let chosenBot: typeof this.client = allBots[0];
+			let valid = true;
+	
+			if (userVCId) {
+				await vcLocks.acquire(`${guildId}-${userVCId}`, async () => {
+					const guildMap = voiceChannelMap.get(guildId) ?? new Map<string, string>();
+					const activeClientIds = new Set(guildMap.values());
+	
+					const botMeta = await Promise.all(
+						allBots.map(async bot => {
+							const [prefix, is247] = await Promise.all([
+								bot.db.getPrefix(guildId, bot.childEnv.clientId),
+								bot.db.get_247(bot.childEnv.clientId, guildId)
+							]);
+							return {
+								bot,
+								clientId: bot.childEnv.clientId,
+								prefix,
+								is247: is247 as Stay,
+								isInAnyVC: activeClientIds.has(bot.childEnv.clientId)
+							};
+						})
+					);
+	
+					// Check: Is this bot supposed to handle this message?
+	
+					const botInSameVC = guildMap.get(userVCId);
+	
+					// Check: Bot already in user's VC
+					const sameVCBot = botMeta.find(entry => botInSameVC === entry.clientId);
+					if (sameVCBot) {
+						chosenBot = sameVCBot.bot;
+						valid = true;
+						return;
+					}
+	
+					// Matching prefix & idle
+					const matchingFreeBot = botMeta.find(entry =>
+						entry.clientId === matchedPrefix && !entry.isInAnyVC
+					);
+					if (matchingFreeBot) {
+						chosenBot = matchingFreeBot.bot;
+						valid = true;
+						return;
+					}
+	
+					// Any idle bot
+					const idleBot = botMeta.find(entry => !entry.isInAnyVC);
+					if (idleBot) {
+						chosenBot = idleBot.bot;
+						valid = true;
+						return;
+					}
+	
+					// No bot available
+					valid = false;
+				});
+			}
+	
+			if (this.client.user!.id !== chosenBot!.user!.id) return;
+	
+			if (!valid) {
+				await interaction.reply({
+					content: T(locale, 'event.message.no_free_bots'),
+				});
+				return;
+			}
 
 			const ctx = new Context(interaction as any, (interaction as ChatInputCommandInteraction).options.data as any);
 			ctx.setArgs((interaction as ChatInputCommandInteraction).options.data as any);
@@ -380,8 +456,10 @@ export default class InteractionCreate extends Event {
 							iconURL: 'https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg',
 						})
 						.setTimestamp();
+					
+					const autoplay = player.get<boolean>('autoplay');
 					if (skipVotes.size >= needed) {
-						player.skip(0, true);
+						player.skip(0, !autoplay);
 						skipVotes.clear();
 						keepVotes.clear();
 						player.set('skipVotes', skipVotes);

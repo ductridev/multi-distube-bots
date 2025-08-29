@@ -103,9 +103,7 @@ export default class MessageCreate extends Event {
 
 				// Matching prefix & idle
 				const matchingFreeBot = botMeta.find(entry =>
-					(entry.prefix === matchedPrefix && !entry.is247 &&
-						!entry.isInAnyVC) ||
-					(entry.is247 && entry.is247.voiceId === userVCId)
+					entry.prefix === matchedPrefix && !entry.isInAnyVC
 				);
 				if (matchingFreeBot) {
 					chosenBot = matchingFreeBot.bot;
@@ -114,7 +112,7 @@ export default class MessageCreate extends Event {
 				}
 
 				// Any idle bot
-				const idleBot = botMeta.find(entry => !entry.isInAnyVC && !entry.is247);
+				const idleBot = botMeta.find(entry => !entry.isInAnyVC);
 				if (idleBot) {
 					chosenBot = idleBot.bot;
 					valid = true;
