@@ -1,7 +1,7 @@
 import type { ApplicationCommandOptionChoiceData, AutocompleteInteraction, VoiceChannel } from 'discord.js';
 import type { SearchResult } from 'lavalink-client';
 import { Command, type Context, type Lavamusic } from '../../structures/index';
-import {applyFairPlayToQueue} from "../../utils/functions/player";
+import { applyFairPlayToQueue } from "../../utils/functions/player";
 
 export default class Play extends Command {
 	constructor(client: Lavamusic) {
@@ -52,9 +52,9 @@ export default class Play extends Command {
 		let player = client.manager.getPlayer(ctx.guild!.id);
 		const memberVoiceChannel = (ctx.member as any).voice.channel as VoiceChannel;
 
-		if(!query) return;
+		if (!query) return;
 
-		if (!player)
+		if (!player) {
 			player = client.manager.createPlayer({
 				guildId: ctx.guild!.id,
 				voiceChannelId: memberVoiceChannel.id,
@@ -63,6 +63,8 @@ export default class Play extends Command {
 				selfDeaf: true,
 				vcRegion: memberVoiceChannel.rtcRegion!,
 			});
+			player.set('summonUserId', ctx.author!.id);
+		}
 		if (!player.connected) await player.connect();
 
 		const autoplay: boolean = player.get<boolean>('autoplay') || false;
@@ -70,9 +72,9 @@ export default class Play extends Command {
 
 		const response = (await player.search({ query: query }, ctx.author)) as SearchResult;
 		const embed = this.client.embed().setFooter({
-				text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
-				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
-			})
+			text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
+			iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+		})
 			.setTimestamp();
 
 		if (!response || response.tracks?.length === 0) {

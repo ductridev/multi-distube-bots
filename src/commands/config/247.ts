@@ -24,7 +24,7 @@ export default class _247 extends Command {
 			permissions: {
 				dev: false,
 				client: ['SendMessages', 'ReadMessageHistory', 'ViewChannel', 'EmbedLinks'],
-				user: ['ManageGuild'],
+				user: [],
 			},
 			slashCommand: true,
 			options: [],
@@ -62,6 +62,7 @@ export default class _247 extends Command {
 					selfDeaf: true,
 					vcRegion: member.voice.channel.rtcRegion!,
 				});
+				player.set('summonUserId', ctx.author!.id);
 			}
 			if (!player.connected) await player.connect();
 			return await ctx.sendMessage({

@@ -49,7 +49,7 @@ export default class Search extends Command {
 		const query = args.join(' ');
 		const memberVoiceChannel = (ctx.member as any).voice.channel as VoiceChannel;
 
-		if (!player)
+		if (!player){
 			player = client.manager.createPlayer({
 				guildId: ctx.guild!.id,
 				voiceChannelId: memberVoiceChannel.id,
@@ -58,6 +58,8 @@ export default class Search extends Command {
 				selfDeaf: true,
 				vcRegion: memberVoiceChannel.rtcRegion!,
 			});
+			player.set('summonUserId', ctx.author!.id);
+		}
 		if (!player.connected) await player.connect();
 		const response = (await player.search({ query: query }, ctx.author)) as SearchResult;
 		if (!response || response.tracks?.length === 0) {

@@ -122,6 +122,7 @@ export default class Connect extends Event {
 
 				player.setRepeatMode(savedPlayerData.repeatMode);
 				player.set('autoplay', savedPlayerData.data['autoplay'] === 'true' ? true : false);
+				player.set('summonUserId', savedPlayerData.data['summonUserId']);
 
 				sessionMap.get(player.guildId)!.set(player.voiceChannelId!, player);
 				voiceChannelMap.get(player.guildId)!.set(player.voiceChannelId!, this.client.childEnv.clientId);
@@ -133,25 +134,43 @@ export default class Connect extends Event {
 					this.client.logger.info(`Node ${node.id} has synced queue for guild ${fetchedPlayer.guildId}`);
 				} catch (error) {
 					this.client.logger.warn(error);
+
+					// override the previous tracks
+					// if (savedPlayerData.queue?.previous && savedPlayerData.queue?.previous.length > 0)
+					// 	savedPlayerData.queue.previous.forEach((track) => {
+					// 		player.queue.add(this.client.manager.utils.buildTrack(track, player.queue.current?.requester || this.client.user));
+					// 	});
+
+					// override the current track with the data from lavalink
+					if (fetchedPlayer.track) player.queue.add(this.client.manager.utils.buildTrack(fetchedPlayer.track, player.queue.current?.requester || this.client.user));
+
+					this.client.logger.info(`Trying restore queue for guild ${fetchedPlayer.guildId} on node ${node.id} with saved session`);
+					const playingIdx = savedPlayerData.queue?.tracks.findIndex((track) => track === savedPlayerData.queue?.current);
+					this.client.logger.info(`Restoring queue for guild ${fetchedPlayer.guildId} on node ${node.id} with saved session`);
+					// Get all tracks after the current track
+					if (playingIdx !== -1)
+						savedPlayerData.queue?.tracks.slice(playingIdx).forEach((track) => player.queue.add(track));
+					else
+						savedPlayerData.queue?.tracks.forEach((track) => player.queue.add(track));
+
+					// override the position of the player
+					player.lastPosition = fetchedPlayer.state.position;
+					player.lastPositionChange = Date.now();
+
+					this.client.logger.info(`Node ${node.id} has synced position for guild ${fetchedPlayer.guildId}`);
 				}
 
-				// override the current track with the data from lavalink
-				if (fetchedPlayer.track) player.queue.add(this.client.manager.utils.buildTrack(fetchedPlayer.track, player.queue.current?.requester || this.client.user));
+				// const messageId: string | undefined = savedPlayerData.data["messageId"];
+				// if (messageId) {
+				// 	const message = await (this.client.channels.cache.get(player.textChannelId!) as TextBasedChannel).messages.fetch(messageId).catch(() => {
+				// 		null;
+				// 	});
 
-				this.client.logger.info(`Trying restore queue for guild ${fetchedPlayer.guildId} on node ${node.id} with saved session`);
-				const playingIdx = savedPlayerData.queue?.tracks.findIndex((track) => track === savedPlayerData.queue?.current);
-				this.client.logger.info(`Restoring queue for guild ${fetchedPlayer.guildId} on node ${node.id} with saved session`);
-				// Get all tracks after the current track
-				if (playingIdx !== -1)
-					savedPlayerData.queue?.tracks.slice(playingIdx).forEach((track) => player.queue.add(track));
-				else
-					savedPlayerData.queue?.tracks.forEach((track) => player.queue.add(track));
-
-				// override the position of the player
-				player.lastPosition = fetchedPlayer.state.position;
-				player.lastPositionChange = Date.now();
-
-				this.client.logger.info(`Node ${node.id} has synced position for guild ${fetchedPlayer.guildId}`);
+				// 	if (message && message.deletable)
+				// 		message.delete().catch(() => {
+				// 			null;
+				// 		});
+				// }
 
 				// you can also override the ping of the player, or wait about 30s till it's done automatically
 				player.ping.lavalink = fetchedPlayer.state.ping;
@@ -161,13 +180,13 @@ export default class Connect extends Event {
 				if (!player.paused && player.queue.tracks.length > 0) player.play();
 
 				this.client.logger.info(`Node ${node.id} has resumed player for guild ${fetchedPlayer.guildId}`);
+				this.client.logger.info("Previous Track:", player.queue.previous.length);
 				this.client.logger.info("Track:", player.queue.current);
+				this.client.logger.info("Queue Length:", player.queue.tracks.length);
 				this.client.logger.info("Paused:", player.paused);
 				this.client.logger.info("Connected:", player.connected);
 				this.client.logger.info("Voice Channel:", player.voiceChannelId);
 				this.client.logger.info("Text Channel:", player.textChannelId);
-				this.client.logger.info("Volume:", player.volume);
-				this.client.logger.info("Voice Event Present:", player.voice);
 			}
 
 			this.client.logger.info(`Node ${node.id} has resumed all players`);
@@ -222,6 +241,7 @@ export default class Connect extends Event {
 
 					player.setRepeatMode(oldPlayer.repeatMode);
 					player.set('autoplay', oldPlayer.get('autoplay') === 'true' ? true : false);
+					player.set('summonUserId', oldPlayer.get('summonUserId'));
 
 					sessionMap.get(player.guildId)!.set(player.voiceChannelId!, player);
 					voiceChannelMap.get(player.guildId)!.set(player.voiceChannelId!, this.client.childEnv.clientId);
@@ -233,25 +253,44 @@ export default class Connect extends Event {
 						this.client.logger.info(`Node ${node.id} has synced queue for guild ${guildId}`);
 					} catch (error) {
 						this.client.logger.warn(error);
+
+						// override the previous tracks
+						// if (oldPlayer.queue?.previous && oldPlayer.queue?.previous.length > 0)
+						// 	oldPlayer.queue.previous.forEach((track) => {
+						// 		player.queue.add(this.client.manager.utils.buildTrack(track, player.queue.current?.requester || this.client.user));
+						// 	});
+
+						// override the current track with the data from lavalink
+						if (oldPlayer.queue?.current) player.queue.add(this.client.manager.utils.buildTrack(oldPlayer.queue.current, player.queue.current?.requester || this.client.user));
+
+						this.client.logger.info(`Trying restore queue for guild ${guildId} on node ${node.id} with saved session`);
+						const playingIdx = oldPlayer.queue?.tracks.findIndex((track) => track === oldPlayer.queue?.current);
+						this.client.logger.info(`Restoring queue for guild ${guildId} on node ${node.id} with saved session`);
+						// Get all tracks after the current track
+						if (playingIdx !== -1)
+							oldPlayer.queue?.tracks.slice(playingIdx).forEach((track) => player.queue.add(track));
+						else
+							oldPlayer.queue?.tracks.forEach((track) => player.queue.add(track));
+
+						// override the position of the player
+						player.lastPosition = oldPlayer.lastPosition;
+						player.lastPositionChange = Date.now();
+
+						this.client.logger.info(`Node ${node.id} has synced position for guild ${guildId}`);
 					}
 
-					// override the current track with the data from lavalink
-					if (oldPlayer.queue?.current) player.queue.add(this.client.manager.utils.buildTrack(oldPlayer.queue.current, player.queue.current?.requester || this.client.user));
+					// const messageId = oldPlayer.get<string | undefined>('messageId');
 
-					this.client.logger.info(`Trying restore queue for guild ${guildId} on node ${node.id} with saved session`);
-					const playingIdx = oldPlayer.queue?.tracks.findIndex((track) => track === oldPlayer.queue?.current);
-					this.client.logger.info(`Restoring queue for guild ${guildId} on node ${node.id} with saved session`);
-					// Get all tracks after the current track
-					if (playingIdx !== -1)
-						oldPlayer.queue?.tracks.slice(playingIdx).forEach((track) => player.queue.add(track));
-					else
-						oldPlayer.queue?.tracks.forEach((track) => player.queue.add(track));
+					// if (messageId) {
+					// 	const message = await (this.client.channels.cache.get(player.textChannelId!) as TextBasedChannel).messages.fetch(messageId).catch(() => {
+					// 		null;
+					// 	});
 
-					// override the position of the player
-					player.lastPosition = oldPlayer.lastPosition;
-					player.lastPositionChange = Date.now();
-
-					this.client.logger.info(`Node ${node.id} has synced position for guild ${guildId}`);
+					// 	if (message && message.deletable)
+					// 		message.delete().catch(() => {
+					// 			null;
+					// 		});
+					// }
 
 					// you can also override the ping of the player, or wait about 30s till it's done automatically
 					player.ping = oldPlayer.ping;
@@ -261,13 +300,13 @@ export default class Connect extends Event {
 					if (!player.paused && player.queue.tracks.length > 0) player.play();
 
 					this.client.logger.info(`Node ${node.id} has resumed player for guild ${guildId}`);
+					this.client.logger.info("Previous Track:", player.queue.previous.length);
 					this.client.logger.info("Track:", player.queue.current);
+					this.client.logger.info("Queue Length:", player.queue.tracks.length);
 					this.client.logger.info("Paused:", player.paused);
 					this.client.logger.info("Connected:", player.connected);
 					this.client.logger.info("Voice Channel:", player.voiceChannelId);
 					this.client.logger.info("Text Channel:", player.textChannelId);
-					this.client.logger.info("Volume:", player.volume);
-					this.client.logger.info("Voice Event Present:", player.voice);
 				}
 			})
 		});

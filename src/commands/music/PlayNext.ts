@@ -50,7 +50,7 @@ export default class PlayNext extends Command {
 		let player = client.manager.getPlayer(ctx.guild!.id);
 		const memberVoiceChannel = (ctx.member as any).voice.channel as VoiceChannel;
 
-		if (!player)
+		if (!player) {
 			player = client.manager.createPlayer({
 				guildId: ctx.guild!.id,
 				voiceChannelId: memberVoiceChannel.id,
@@ -59,15 +59,17 @@ export default class PlayNext extends Command {
 				selfDeaf: true,
 				vcRegion: memberVoiceChannel.rtcRegion!,
 			});
+			player.set('summonUserId', ctx.author!.id);
+		}
 		if (!player.connected) await player.connect();
 
 		await ctx.sendDeferMessage(ctx.locale('cmd.playnext.loading'));
 
 		const response = (await player.search({ query: query }, ctx.author)) as SearchResult;
 		const embed = this.client.embed().setFooter({
-				text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
-				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
-			})
+			text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
+			iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+		})
 			.setTimestamp();
 
 		if (!response || response.tracks?.length === 0) {

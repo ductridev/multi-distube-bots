@@ -60,8 +60,10 @@ export default class SetupSystem extends Event {
 				selfDeaf: true,
 				vcRegion: voiceChannel.rtcRegion!,
 			});
-			if (!player.connected) await player.connect();
+			player.set('summonUserId', message.author!.id);
 		}
+
+		if (!player.connected) await player.connect();
 
 		await setupStart(this.client, message.content, player, message);
 		await message.delete().catch(() => {

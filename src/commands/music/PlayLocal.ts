@@ -88,6 +88,7 @@ export default class PlayLocal extends Command {
         selfDeaf: true,
         vcRegion: memberVoiceChannel.rtcRegion!,
       });
+      player.set('summonUserId', ctx.author!.id);
     }
 
     if (!player.connected) await player.connect();

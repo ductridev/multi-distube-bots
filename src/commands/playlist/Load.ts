@@ -76,8 +76,10 @@ export default class LoadPlaylist extends Command {
 				selfDeaf: true,
 				vcRegion: member.voice.channel?.rtcRegion!,
 			});
-			if (!player.connected) await player.connect();
+			player.set('summonUserId', ctx.author!.id);
 		}
+
+		if (!player.connected) await player.connect();
 
 		const nodes = client.manager.nodeManager.leastUsedNodes();
 		const node = nodes[Math.floor(Math.random() * nodes.length)];
