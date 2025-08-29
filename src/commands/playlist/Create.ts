@@ -6,7 +6,7 @@ export default class CreatePlaylist extends Command {
 			name: 'create',
 			description: {
 				content: 'cmd.create.description',
-				examples: ['create <name>'],
+				examples: ['create test abc'],
 				usage: 'create <name>',
 			},
 			category: 'playlist',

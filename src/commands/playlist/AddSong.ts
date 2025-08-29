@@ -7,7 +7,7 @@ export default class AddSong extends Command {
 			name: 'addsong',
 			description: {
 				content: 'cmd.addsong.description',
-				examples: ['addsong test exemple', 'addsong exemple https://www.youtube.com/watch?v=example'],
+				examples: ['addsong test_abc https://www.youtube.com/watch?v=example', 'addsong example https://www.youtube.com/watch?v=example'],
 				usage: 'addsong <playlist> <song>',
 			},
 			category: 'playlist',
