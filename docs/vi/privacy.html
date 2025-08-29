@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chính sách quyền riêng tư | BuNgo Music Bot 🎵 | Dự án của Gúp Bu Ngô</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/ductridev/multi-distube-bots/master/assets/img/bot-avatar-1.jpg">
+  <meta name="description"
+    content="Chính sách quyền riêng tư cho BuNgo Music Bot 🎵 | Dự án của Gúp Bu Ngô website và các bot nhạc Discord." />
+  <meta property="og:image"
+        content="https://raw.githubusercontent.com/ductridev/multi-distube-bots/master/assets/img/bot-avatar-1.jpg" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <style type="text/tailwindcss">
+        @variant dark (&:where(.dark, .dark *));
+    </style>
+
+    <script>
+        window.tailwind = window.tailwind || {};
+        window.tailwind.config = {
+            darkMode: 'class',
+        };
+    </script>
+
+    <script>
+        const theme = localStorage.getItem("theme");
+        if (
+            theme === "dark" ||
+            (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+            document.documentElement.classList.add("dark");
+        }
+    </script>
+</head>
+
+<body class="transition-colors duration-300 bg-white text-black dark:bg-gray-900 dark:text-white">
+  <!-- YouTube IFrame (autoplay) -->
+  <div id="player-container" class="hidden"></div>
+
+  <div id="header"></div>
+
+  <main class="max-w-5xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <aside class="lg:col-span-1 space-y-6">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <h2 class="font-semibold mb-2">Nội dung trang</h2>
+        <ol class="list-decimal list-inside text-sm space-y-1">
+          <li><a href="#intro" class="text-indigo-600 dark:text-indigo-400 hover:underline">Giới thiệu</a></li>
+          <li><a href="#data-we-collect" class="text-indigo-600 dark:text-indigo-400 hover:underline">Dữ liệu chúng tôi thu thập</a></li>
+          <li><a href="#how-we-use" class="text-indigo-600 dark:text-indigo-400 hover:underline">Cách chúng tôi sử dụng dữ liệu</a></li>
+          <li><a href="#data-sharing" class="text-indigo-600 dark:text-indigo-400 hover:underline">Chia sẻ dữ liệu</a></li>
+          <li><a href="#data-retention" class="text-indigo-600 dark:text-indigo-400 hover:underline">Lưu trữ dữ liệu</a></li>
+          <li><a href="#security" class="text-indigo-600 dark:text-indigo-400 hover:underline">Bảo mật</a></li>
+          <li><a href="#children" class="text-indigo-600 dark:text-indigo-400 hover:underline">Quyền riêng tư của trẻ em</a></li>
+          <li><a href="#your-rights" class="text-indigo-600 dark:text-indigo-400 hover:underline">Quyền của bạn</a></li>
+          <li><a href="#third-party" class="text-indigo-600 dark:text-indigo-400 hover:underline">Dịch vụ bên thứ ba</a></li>
+          <li><a href="#changes" class="text-indigo-600 dark:text-indigo-400 hover:underline">Thay đổi chính sách</a></li>
+          <li><a href="#contact" class="text-indigo-600 dark:text-indigo-400 hover:underline">Liên hệ</a></li>
+        </ol>
+      </div>
+      <div class="bg-blue-50 dark:bg-blue-900 border-l-4 border-blue-500 p-4 rounded">
+        <p class="text-sm"><strong>Tóm tắt:</strong> Chúng tôi chỉ thu thập dữ liệu vận hành tối thiểu để chạy Bot, không bán dữ liệu cá nhân và bạn có thể yêu cầu xóa hoặc chỉnh sửa bất cứ lúc nào.</p>
+      </div>
+    </aside>
+
+    <article
+      class="lg:col-span-3 space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow p-6 prose prose-sm sm:prose lg:prose-lg dark:prose-invert max-w-none">
+
+      <section id="intro">
+        <h2>1) Giới thiệu</h2>
+        <p>Chính sách quyền riêng tư này giải thích cách <em>BuNgo Music Bot 🎵 | Dự án của Gúp Bu Ngô</em> ("Dịch vụ") thu thập, sử dụng và bảo vệ thông tin của bạn khi bạn sử dụng website hoặc các bot Discord ("Bot").</p>
+      </section>
+
+      <section id="data-we-collect">
+        <h2>2) Dữ liệu chúng tôi thu thập</h2>
+        <ul>
+          <li><strong>Dữ liệu vận hành:</strong> ID máy chủ/guild, ID kênh, lệnh nhập và trạng thái hàng đợi/phiên.</li>
+          <li><strong>Nhật ký:</strong> Nhật ký lỗi và chẩn đoán để khắc phục sự cố và cải thiện Bot.</li>
+          <li><strong>Không thu thập dữ liệu cá nhân:</strong> Chúng tôi không yêu cầu hoặc lưu trữ thông tin cá nhân như tên, email hoặc mật khẩu trừ khi bạn chủ động liên hệ với chúng tôi.</li>
+        </ul>
+      </section>
+
+      <section id="how-we-use">
+        <h2>3) Cách chúng tôi sử dụng dữ liệu</h2>
+        <ul>
+          <li>Để cung cấp và cải thiện Bot và Trang web.</li>
+          <li>Để giám sát hiệu suất, phát hiện lạm dụng và đảm bảo sử dụng hợp lý.</li>
+          <li>Để tuân thủ nghĩa vụ pháp lý hoặc quy định khi cần thiết.</li>
+        </ul>
+      </section>
+
+      <section id="data-sharing">
+        <h2>4) Chia sẻ dữ liệu</h2>
+        <p>Chúng tôi không bán dữ liệu của bạn. Dữ liệu giới hạn có thể được chia sẻ với các nhà cung cấp bên thứ ba đáng tin cậy (ví dụ: dịch vụ lưu trữ hoặc API) chỉ phục vụ mục đích vận hành.</p>
+      </section>
+
+      <section id="data-retention">
+        <h2>5) Lưu trữ dữ liệu</h2>
+        <p>Dữ liệu tạm thời (ví dụ: hàng đợi nhạc) chỉ được lưu khi cần cho phiên hoạt động. Nhật ký có thể được lưu lâu hơn để bảo mật và sửa lỗi, nhưng sẽ được xóa định kỳ.</p>
+      </section>
+
+      <section id="security">
+        <h2>6) Bảo mật</h2>
+        <p>Chúng tôi sử dụng các biện pháp kỹ thuật và tổ chức hợp lý để bảo vệ thông tin của bạn. Tuy nhiên, không hệ thống nào an toàn tuyệt đối và chúng tôi không thể đảm bảo bảo mật tuyệt đối.</p>
+      </section>
+
+      <section id="children">
+        <h2>7) Quyền riêng tư của trẻ em</h2>
+        <p>Dịch vụ dành cho người dùng từ 13 tuổi trở lên hoặc độ tuổi tối thiểu theo luật địa phương để sử dụng Discord. Chúng tôi không cố ý thu thập thông tin cá nhân từ trẻ em.</p>
+      </section>
+
+      <section id="your-rights">
+        <h2>8) Quyền của bạn</h2>
+        <ul>
+          <li>Yêu cầu truy cập dữ liệu mà chúng tôi có thể lưu về bạn.</li>
+          <li>Yêu cầu chỉnh sửa hoặc xóa dữ liệu của bạn.</li>
+          <li>Ngừng sử dụng bằng cách xóa Bot khỏi máy chủ của bạn bất cứ lúc nào.</li>
+        </ul>
+      </section>
+
+      <section id="third-party">
+        <h2>9) Dịch vụ bên thứ ba</h2>
+        <p>Bot có thể dựa vào API, thư viện hoặc nhà cung cấp lưu trữ của bên thứ ba. Việc sử dụng các dịch vụ này tuân theo chính sách quyền riêng tư riêng của họ mà chúng tôi không kiểm soát.</p>
+      </section>
+
+      <section id="changes">
+        <h2>10) Thay đổi chính sách</h2>
+        <p>Chúng tôi có thể cập nhật Chính sách quyền riêng tư này theo thời gian. Thay đổi quan trọng sẽ được thông báo qua Trang web hoặc thông báo Bot, và ngày hiệu lực sẽ được cập nhật ở trên.</p>
+      </section>
+
+      <section id="contact">
+        <h2>11) Liên hệ</h2>
+        <p>Nếu bạn có câu hỏi hoặc yêu cầu liên quan đến Chính sách quyền riêng tư này, vui lòng liên hệ với chúng tôi qua: <a
+            href="mailto:ductridevdn@gmail.com" class="text-indigo-600 hover:underline">ductridevdn@gmail.com</a>.</p>
+      </section>
+
+      <hr />
+      <p class="text-sm text-gray-600 dark:text-gray-400">Phiên bản tài liệu 1.0 • Được tạo cho dự án BuNgo Music Bot 🎵.</p>
+    </article>
+  </main>
+
+  <!-- Language & Volume Controls Column -->
+  <div class="fixed bottom-4 right-4 flex flex-col items-end gap-2 z-50">
+    <button id="lang-switch" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
+      English
+    </button>
+    <div class="relative group">
+      <button class="text-white text-xl">🔊</button>
+      <div
+        class="absolute bottom-0 right-full translate-x-1 flex items-center space-x-2 px-2 py-1 opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto"
+        style="margin-right: 0.25rem;">
+        <div class="bg-gray-800 p-2 rounded-lg flex items-center group-hover:opacity-100">
+          <input id="volume-slider" type="range" min="10" max="100" value="50"
+            class="h-2 w-36 bg-gray-300 rounded-lg appearance-none cursor-pointer" />
+          <span id="volume-value" class="text-sm text-white ml-2">50%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YouTube iFrame API & Scripts -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    let player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player-container', {
+        height: '0', width: '0',
+        videoId: 'mVnyDzloXa4',
+        playerVars: {
+          autoplay: 1,
+          loop: 1,
+          listType: 'playlist',
+          list: 'PLdaKx2L6ax9n_1nXpe23-2DbAOIwYOiWr',
+          controls: 0,
+          modestbranding: 1
+        },
+        events: {
+          onReady: e => {
+            e.target.playVideo();
+            setVolume(50);
+          }
+        }
+      });
+    }
+    const slider = document.getElementById('volume-slider');
+    const label = document.getElementById('volume-value');
+    function setVolume(v) {
+      const vol = Math.max(v, 10);
+      if (player && player.setVolume) player.setVolume(vol);
+      label.textContent = vol + '%';
+    }
+    slider.addEventListener('input', e => setVolume(e.target.value));
+    document.getElementById('lang-switch').onclick = () => location.href = '../en/privacy.html';
+  </script>
+
+  <div id="footer"></div>
+
+  <script>
+    async function loadComponent(id, file) {
+      const resp = await fetch(file);
+      document.getElementById(id).innerHTML = await resp.text();
+
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      const themeToggle = document.getElementById("theme-toggle");
+      const themeIcon = document.getElementById("theme-icon");
+
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const savedTheme = localStorage.getItem("theme");
+
+      const applyTheme = (isDark) => {
+        const root = document.documentElement;
+        root.classList.toggle("dark", isDark);
+        themeToggle.checked = isDark;
+        themeIcon.textContent = isDark ? "🌙" : "🌞";
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      };
+
+      const isDark = savedTheme ? savedTheme === "dark" : prefersDark;
+      applyTheme(isDark);
+
+      themeToggle.addEventListener("change", () => {
+        applyTheme(themeToggle.checked);
+      });
+    }
+    loadComponent("header", "shared/header.html");
+    loadComponent("footer", "shared/footer.html");
+  </script>
+</body>
+
+</html>

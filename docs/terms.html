@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gradient-to-br from-purple-600 via-pink-500 to-yellow-400 text-white">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Redirecting... 🤖</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+        const userLang = navigator.language || navigator.userLanguage;
+        if (userLang.startsWith("vi")) {
+            window.location.replace("./vi/terms.html");
+        } else {
+            window.location.replace("./en/terms.html");
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .flip-card {
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            transform-style: preserve-3d;
+            animation: flip 2s infinite alternate ease-in-out;
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            backface-visibility: hidden;
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        @keyframes flip {
+            0% {
+                transform: rotateY(0deg);
+            }
+
+            100% {
+                transform: rotateY(180deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center h-full">
+    <div class="text-center space-y-6">
+        <div class="flip-card w-72 h-72 mx-auto">
+            <div class="flip-card-inner w-full h-full relative">
+                <!-- Front -->
+                <div
+                    class="flip-card-front absolute w-full h-full bg-white rounded-2xl shadow-2xl text-black flex flex-col items-center justify-center space-y-3 p-4">
+                    <img src="https://cdn.jsdelivr.net/npm/@tabler/icons/icons/robot.svg" class="w-16 h-16 opacity-80"
+                        alt="Robot Icon">
+                    <h2 class="text-xl font-bold">Redirecting...</h2>
+                    <p class="text-sm">We’re asking the robots where to send you 🤖</p>
+                </div>
+                <!-- Back -->
+                <div
+                    class="flip-card-back absolute w-full h-full bg-black text-white rounded-2xl shadow-2xl flex flex-col items-center justify-center space-y-3 p-4">
+                    <h2 class="text-xl font-bold">Hang tight! ⏳</h2>
+                    <p class="text-sm">Spinning the language wheel...</p>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-lg font-semibold animate-pulse">Choosing your language path... 🌍</p>
+        <noscript>
+            <p class="bg-red-500 px-4 py-2 rounded shadow text-white">
+                Oops! JavaScript is disabled. Please enable it to redirect.
+            </p>
+        </noscript>
+    </div>
+</body>
+
+</html>

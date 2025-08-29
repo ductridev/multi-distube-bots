@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Terms of Service | BuNgo Music Bot 🎵 | Project of Gúp Bu Ngô</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/ductridev/multi-distube-bots/master/assets/img/bot-avatar-1.jpg">
+  <meta name="description"
+    content="Terms of Service for the BuNgo Music Bot 🎵 | Project of Gúp Bu Ngô website and Discord music bots." />
+  <meta property="og:image"
+        content="https://raw.githubusercontent.com/ductridev/multi-distube-bots/master/assets/img/bot-avatar-1.jpg" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <style type="text/tailwindcss">
+    @variant dark (&:where(.dark, .dark *));
+    </style>
+
+  <script>
+    window.tailwind = window.tailwind || {};
+    window.tailwind.config = {
+      darkMode: 'class',
+    };
+  </script>
+
+  <script>
+    const theme = localStorage.getItem("theme");
+    if (
+      theme === "dark" ||
+      (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
+</head>
+
+<body class="transition-colors duration-300 bg-white text-black dark:bg-gray-900 dark:text-white">
+  <!-- YouTube IFrame (autoplay) -->
+  <div id="player-container" class="hidden"></div>
+
+  <div id="header"></div>
+
+  <main class="max-w-5xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <aside class="lg:col-span-1 space-y-6">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <h2 class="font-semibold mb-2">On this page</h2>
+        <ol class="list-decimal list-inside text-sm space-y-1">
+          <li><a href="#acceptance" class="text-indigo-600 dark:text-indigo-400 hover:underline">Acceptance</a></li>
+          <li><a href="#eligibility" class="text-indigo-600 dark:text-indigo-400 hover:underline">Eligibility &
+              Accounts</a></li>
+          <li><a href="#scope" class="text-indigo-600 dark:text-indigo-400 hover:underline">Scope & Relationship to
+              Discord</a></li>
+          <li><a href="#usage" class="text-indigo-600 dark:text-indigo-400 hover:underline">Bot Usage & Fair Use</a>
+          </li>
+          <li><a href="#content" class="text-indigo-600 dark:text-indigo-400 hover:underline">Content Handling</a></li>
+          <li><a href="#third-party" class="text-indigo-600 dark:text-indigo-400 hover:underline">Third‑Party
+              Services</a></li>
+          <li><a href="#availability" class="text-indigo-600 dark:text-indigo-400 hover:underline">Availability &
+              Changes</a></li>
+          <li><a href="#conduct" class="text-indigo-600 dark:text-indigo-400 hover:underline">Prohibited Conduct</a>
+          </li>
+          <li><a href="#ip" class="text-indigo-600 dark:text-indigo-400 hover:underline">Intellectual Property</a></li>
+          <li><a href="#dmca" class="text-indigo-600 dark:text-indigo-400 hover:underline">Copyright/DMCA</a></li>
+          <li><a href="#privacy" class="text-indigo-600 dark:text-indigo-400 hover:underline">Privacy & Data</a></li>
+          <li><a href="#disclaimers" class="text-indigo-600 dark:text-indigo-400 hover:underline">Disclaimers</a></li>
+          <li><a href="#liability" class="text-indigo-600 dark:text-indigo-400 hover:underline">Limitation of
+              Liability</a></li>
+          <li><a href="#indemnity" class="text-indigo-600 dark:text-indigo-400 hover:underline">Indemnity</a></li>
+          <li><a href="#termination" class="text-indigo-600 dark:text-indigo-400 hover:underline">Suspension &
+              Termination</a></li>
+          <li><a href="#governing-law" class="text-indigo-600 dark:text-indigo-400 hover:underline">Governing Law</a>
+          </li>
+          <li><a href="#changes" class="text-indigo-600 dark:text-indigo-400 hover:underline">Changes to These Terms</a>
+          </li>
+          <li><a href="#contact" class="text-indigo-600 dark:text-indigo-400 hover:underline">Contact</a></li>
+        </ol>
+      </div>
+      <div class="bg-yellow-50 dark:bg-yellow-900 border-l-4 border-yellow-500 p-4 rounded">
+        <p class="text-sm"><strong>Summary:</strong> Use the Bots responsibly, respect copyright, rate limits, and
+          Discord's rules. We don't guarantee uptime. We store minimal operational logs. You can remove the Bot from
+          your server at any time.</p>
+      </div>
+    </aside>
+
+    <article
+      class="lg:col-span-3 space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow p-6 prose prose-sm sm:prose lg:prose-lg dark:prose-invert max-w-none">
+      <!-- Sections remain the same -->
+      <!-- I'll keep the sections as you provided, just styled -->
+      <section id="acceptance">
+        <h2>1) Acceptance</h2>
+        <p>By accessing <em>BuNgo Music Bot 🎵 | Project of Gúp Bu Ngô</em> (the "Site") or inviting/using any
+          associated Discord music bot (collectively, the "Service"), you agree to these Terms of Service (the "Terms").
+          If you do not agree, do not use the Service.</p>
+      </section>
+
+      <section id="eligibility">
+        <h2>2) Eligibility & Accounts</h2>
+        <ul>
+          <li>You must comply with <a href="https://discord.com/terms" target="_blank" rel="noopener">Discord's Terms of
+              Service</a> and <a href="https://discord.com/guidelines" target="_blank" rel="noopener">Community
+              Guidelines</a>.</li>
+          <li>If you are administering a Discord server, you represent that you have permission to invite and manage
+            bots in that server.</li>
+          <li>The Service is provided "as‑is" for users aged 13+ or the minimum age required by your local law for using
+            Discord.</li>
+        </ul>
+      </section>
+
+      <section id="scope">
+        <h2>3) Scope & Relationship to Discord</h2>
+        <p>The Service uses the Discord API but is not endorsed by or affiliated with Discord. Your use of Discord
+          remains governed by Discord's terms. The Bots act only within the permissions you grant when inviting them to
+          your server.</p>
+      </section>
+
+      <section id="usage">
+        <h2>4) Bot Usage & Fair Use</h2>
+        <ul>
+          <li><strong>Fair Use & Rate Limits.</strong> Do not attempt to bypass command cooldowns, shard limits, or
+            platform rate limits. Excessive or abusive usage may result in temporary or permanent restrictions.</li>
+          <li><strong>Non‑commercial.</strong> Unless otherwise stated, the Service is offered for non‑commercial use.
+            Separate terms may apply for sponsored or premium features if introduced.</li>
+          <li><strong>Server Configuration.</strong> You are responsible for configuring permissions, channels, and
+            roles to control who can use music commands on your server.</li>
+          <li><strong>Backups.</strong> Play queues and sessions are transient and may reset during updates, outages, or
+            restarts.</li>
+        </ul>
+      </section>
+
+      <section id="content">
+        <h2>5) Content Handling</h2>
+        <ul>
+          <li><strong>User‑provided Content.</strong> When you request playback (e.g., via links, search queries), you
+            represent you have the rights to access and play that content in your context. You must respect copyright
+            and licensing restrictions applicable in your jurisdiction.</li>
+          <li><strong>Streaming Sources.</strong> The Bots may resolve audio from supported platforms via lawful APIs or
+            libraries. We do not host or permanently store copyrighted audio.</li>
+          <li><strong>Moderation.</strong> We may remove features or block sources we believe violate rights or platform
+            rules.</li>
+        </ul>
+      </section>
+
+      <section id="third-party">
+        <h2>6) Third‑Party Services</h2>
+        <p>The Service may rely on third‑party libraries, nodes, or APIs (e.g., audio extraction/resolution services).
+          Access to such services may be subject to their own terms and availability, which we do not control.</p>
+      </section>
+
+      <section id="availability">
+        <h2>7) Availability, Updates & Support</h2>
+        <ul>
+          <li><strong>Uptime.</strong> The Service may be unavailable due to maintenance, rate limits, failures, or
+            changes by Discord or third parties. No uptime guarantees are provided.</li>
+          <li><strong>Updates.</strong> We may add, modify, or remove features at any time, including breaking changes
+            for performance, security, or compliance.</li>
+          <li><strong>Support.</strong> Support is offered on a best‑effort basis via the contact methods below;
+            response times are not guaranteed.</li>
+        </ul>
+      </section>
+
+      <section id="conduct">
+        <h2>8) Prohibited Conduct</h2>
+        <ul>
+          <li>Violating laws, regulations, or the rights of others.</li>
+          <li>Harassment, hate speech, or facilitating abusive content.</li>
+          <li>Bypassing security or rate limits, reverse engineering, or interfering with the Service.</li>
+          <li>Using the Service to infringe copyright or facilitate unauthorized distribution of content.</li>
+          <li>Automating interactions in a way that violates Discord policies or the policies of content sources.</li>
+        </ul>
+      </section>
+
+      <section id="ip">
+        <h2>9) Intellectual Property</h2>
+        <p>All code, branding, and materials on the Site and in the Service are owned by us or our licensors and are
+          protected by applicable intellectual property laws. You receive a limited, revocable, non‑exclusive,
+          non‑transferable license to use the Service subject to these Terms.</p>
+      </section>
+
+      <section id="dmca">
+        <h2>10) Copyright Complaints (DMCA/Notice)</h2>
+        <p>If you believe content accessed via the Service infringes your copyright, please send a notice including: (a)
+          identification of the work, (b) identification of the allegedly infringing material or link, (c) your contact
+          information, (d) a good‑faith statement of unauthorized use, and (e) a statement under penalty of perjury that
+          the information is accurate and you are authorized to act. See contact details below.</p>
+      </section>
+
+      <section id="privacy">
+        <h2>11) Privacy & Data</h2>
+        <p>This section summarizes key practices (a separate Privacy Policy may provide more detail):</p>
+        <ul>
+          <li><strong>Operational Data.</strong> We may process minimal data necessary to run the Bots (e.g.,
+            guild/server IDs, channel IDs, command inputs, queue/session state, and error logs). We do not sell personal
+            data.</li>
+          <li><strong>Retention.</strong> Transient data (e.g., queues, recent tracks) may be kept briefly; diagnostic
+            logs may be retained longer for security and debugging and then periodically deleted.</li>
+          <li><strong>Your Rights.</strong> Where applicable (e.g., GDPR/CCPA), you may have rights to access, correct,
+            or delete personal data. Contact us to exercise these rights.</li>
+          <li><strong>Security.</strong> We use reasonable measures to protect data but cannot guarantee absolute
+            security.</li>
+        </ul>
+      </section>
+
+      <section id="disclaimers">
+        <h2>12) Disclaimers</h2>
+        <p>The Service is provided on an <strong>"AS IS" and "AS AVAILABLE"</strong> basis without warranties of any
+          kind, express or implied, including but not limited to implied warranties of merchantability, fitness for a
+          particular purpose, and non‑infringement. We do not warrant uninterrupted or error‑free operation, or
+          compatibility with all platforms, regions, or content sources.</p>
+      </section>
+
+      <section id="liability">
+        <h2>13) Limitation of Liability</h2>
+        <p>To the maximum extent permitted by law, we shall not be liable for any indirect, incidental, special,
+          consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or
+          indirectly, or any loss of data, use, or goodwill, resulting from (a) your access to or use of or inability to
+          access or use the Service; (b) any conduct or content of any third party; (c) unauthorized access, use, or
+          alteration of your transmissions or content.</p>
+      </section>
+
+      <section id="indemnity">
+        <h2>14) Indemnity</h2>
+        <p>You agree to defend, indemnify, and hold harmless the Service operators from and against any claims,
+          liabilities, damages, losses, and expenses (including reasonable attorney fees) arising out of or in any way
+          connected with your use of the Service or violation of these Terms.</p>
+      </section>
+
+      <section id="termination">
+        <h2>15) Suspension & Termination</h2>
+        <p>We may suspend or terminate access to the Service at any time, with or without notice, for any reason,
+          including breach of these Terms, legal compliance, or platform policy requirements. You may stop using the
+          Service at any time by removing the Bot from your server.</p>
+      </section>
+
+      <section id="governing-law">
+        <h2>16) Governing Law & Dispute Resolution</h2>
+        <p>These Terms are governed by the laws of Vietnam, without regard to conflict‑of‑law principles. Any disputes
+          shall be subject to the exclusive jurisdiction of the courts located in Da Nang, Vietnam, unless applicable
+          law requires a different forum.</p>
+      </section>
+
+      <section id="changes">
+        <h2>17) Changes to These Terms</h2>
+        <p>We may update these Terms from time to time. Material changes will be indicated by updating the <span
+            class="updated">"Effective"</span> date above and, where feasible, reasonable notice via the Site or Bot
+          status messages. Your continued use after changes take effect constitutes acceptance of the updated Terms.</p>
+      </section>
+
+      <section id="contact">
+        <h2>18) Contact</h2>
+        <p>Questions or requests (including data requests or copyright notices) can be sent to: <a
+            href="mailto:ductridevdn@gmail.com" class="text-indigo-600 hover:underline">ductridevdn@gmail.com</a>.
+          Please include your Discord server ID and relevant details so we can investigate.</p>
+      </section>
+
+      <hr />
+      <p class="text-sm text-gray-600 dark:text-gray-400">Document version 1.0 • Generated for the BuNgo Music Bot 🎵
+        project.</p>
+    </article>
+  </main>
+
+  <!-- Language & Volume Controls Column -->
+  <div class="fixed bottom-4 right-4 flex flex-col items-end gap-2 z-50">
+    <button id="lang-switch" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
+      Tiếng Việt
+    </button>
+    <div class="relative group">
+      <button class="text-white text-xl">🔊</button>
+      <div
+        class="absolute bottom-0 right-full translate-x-1 flex items-center space-x-2 px-2 py-1 opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto"
+        style="margin-right: 0.25rem;">
+        <div class="bg-gray-800 p-2 rounded-lg flex items-center group-hover:opacity-100">
+          <input id="volume-slider" type="range" min="10" max="100" value="50"
+            class="h-2 w-36 bg-gray-300 rounded-lg appearance-none cursor-pointer" />
+          <span id="volume-value" class="text-sm text-white ml-2">50%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YouTube iFrame API & Scripts -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    let player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player-container', {
+        height: '0', width: '0',
+        videoId: 'mVnyDzloXa4',
+        playerVars: {
+          autoplay: 1,
+          loop: 1,
+          listType: 'playlist',
+          list: 'PLdaKx2L6ax9n_1nXpe23-2DbAOIwYOiWr',
+          controls: 0,
+          modestbranding: 1
+        },
+        events: {
+          onReady: e => {
+            e.target.playVideo();
+            setVolume(50);
+          }
+        }
+      });
+    }
+    const slider = document.getElementById('volume-slider');
+    const label = document.getElementById('volume-value');
+    function setVolume(v) {
+      const vol = Math.max(v, 10);
+      if (player && player.setVolume) player.setVolume(vol);
+      label.textContent = vol + '%';
+    }
+    slider.addEventListener('input', e => setVolume(e.target.value));
+    document.getElementById('lang-switch').onclick = () => location.href = '../vi/terms.html';
+  </script>
+
+  <div id="footer"></div>
+
+  <script>
+    async function loadComponent(id, file) {
+      const resp = await fetch(file);
+      document.getElementById(id).innerHTML = await resp.text();
+
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      const themeToggle = document.getElementById("theme-toggle");
+      const themeIcon = document.getElementById("theme-icon");
+
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const savedTheme = localStorage.getItem("theme");
+
+      const applyTheme = (isDark) => {
+        const root = document.documentElement;
+        root.classList.toggle("dark", isDark);
+        themeToggle.checked = isDark;
+        themeIcon.textContent = isDark ? "🌙" : "🌞";
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      };
+
+      const isDark = savedTheme ? savedTheme === "dark" : prefersDark;
+      applyTheme(isDark);
+
+      themeToggle.addEventListener("change", () => {
+        applyTheme(themeToggle.checked);
+      });
+    }
+    loadComponent("header", "shared/header.html");
+    loadComponent("footer", "shared/footer.html");
+  </script>
+</body>
+
+</html>

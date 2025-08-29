@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Điều khoản dịch vụ | BuNgo Music Bot 🎵 | Dự án của Gúp Bu Ngô</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/ductridev/multi-distube-bots/master/assets/img/bot-avatar-1.jpg">
+  <meta name="description"
+    content="Điều khoản dịch vụ cho BuNgo Music Bot 🎵 | Dự án của Gúp Bu Ngô website và các bot nhạc Discord." />
+  <meta property="og:image"
+        content="https://raw.githubusercontent.com/ductridev/multi-distube-bots/master/assets/img/bot-avatar-1.jpg" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <style type="text/tailwindcss">
+    @variant dark (&:where(.dark, .dark *));
+    </style>
+
+  <script>
+    window.tailwind = window.tailwind || {};
+    window.tailwind.config = {
+      darkMode: 'class',
+    };
+  </script>
+
+  <script>
+    const theme = localStorage.getItem("theme");
+    if (
+      theme === "dark" ||
+      (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
+</head>
+
+<body class="transition-colors duration-300 bg-white text-black dark:bg-gray-900 dark:text-white">
+  <!-- YouTube IFrame (autoplay) -->
+  <div id="player-container" class="hidden"></div>
+
+  <div id="header"></div>
+
+  <main class="max-w-5xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <aside class="lg:col-span-1 space-y-6">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <h2 class="font-semibold mb-2">Nội dung trang</h2>
+        <ol class="list-decimal list-inside text-sm space-y-1">
+          <li><a href="#acceptance" class="text-indigo-600 dark:text-indigo-400 hover:underline">Chấp nhận</a></li>
+          <li><a href="#eligibility" class="text-indigo-600 dark:text-indigo-400 hover:underline">Điều kiện & Tài khoản</a></li>
+          <li><a href="#scope" class="text-indigo-600 dark:text-indigo-400 hover:underline">Phạm vi & Mối quan hệ với Discord</a></li>
+          <li><a href="#usage" class="text-indigo-600 dark:text-indigo-400 hover:underline">Sử dụng Bot & Sử dụng hợp lý</a></li>
+          <li><a href="#content" class="text-indigo-600 dark:text-indigo-400 hover:underline">Xử lý nội dung</a></li>
+          <li><a href="#third-party" class="text-indigo-600 dark:text-indigo-400 hover:underline">Dịch vụ bên thứ ba</a></li>
+          <li><a href="#availability" class="text-indigo-600 dark:text-indigo-400 hover:underline">Khả dụng & Thay đổi</a></li>
+          <li><a href="#conduct" class="text-indigo-600 dark:text-indigo-400 hover:underline">Hành vi bị cấm</a></li>
+          <li><a href="#ip" class="text-indigo-600 dark:text-indigo-400 hover:underline">Sở hữu trí tuệ</a></li>
+          <li><a href="#dmca" class="text-indigo-600 dark:text-indigo-400 hover:underline">Bản quyền/DMCA</a></li>
+          <li><a href="#privacy" class="text-indigo-600 dark:text-indigo-400 hover:underline">Quyền riêng tư & Dữ liệu</a></li>
+          <li><a href="#disclaimers" class="text-indigo-600 dark:text-indigo-400 hover:underline">Miễn trừ trách nhiệm</a></li>
+          <li><a href="#liability" class="text-indigo-600 dark:text-indigo-400 hover:underline">Giới hạn trách nhiệm</a></li>
+          <li><a href="#indemnity" class="text-indigo-600 dark:text-indigo-400 hover:underline">Bồi thường</a></li>
+          <li><a href="#termination" class="text-indigo-600 dark:text-indigo-400 hover:underline">Tạm ngưng & Chấm dứt</a></li>
+          <li><a href="#governing-law" class="text-indigo-600 dark:text-indigo-400 hover:underline">Luật áp dụng</a></li>
+          <li><a href="#changes" class="text-indigo-600 dark:text-indigo-400 hover:underline">Thay đổi điều khoản</a></li>
+          <li><a href="#contact" class="text-indigo-600 dark:text-indigo-400 hover:underline">Liên hệ</a></li>
+        </ol>
+      </div>
+      <div class="bg-yellow-50 dark:bg-yellow-900 border-l-4 border-yellow-500 p-4 rounded">
+        <p class="text-sm"><strong>Tóm tắt:</strong> Sử dụng Bot một cách có trách nhiệm, tôn trọng bản quyền, giới hạn tốc độ và quy tắc của Discord. Chúng tôi không đảm bảo thời gian hoạt động liên tục. Chúng tôi chỉ lưu trữ nhật ký hoạt động tối thiểu. Bạn có thể xóa Bot khỏi máy chủ của mình bất cứ lúc nào.</p>
+      </div>
+    </aside>
+
+    <article
+      class="lg:col-span-3 space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow p-6 prose prose-sm sm:prose lg:prose-lg dark:prose-invert max-w-none">
+      <!-- Sections remain the same -->
+      <section id="acceptance">
+        <h2>1) Chấp nhận</h2>
+        <p>Bằng việc truy cập <em>BuNgo Music Bot 🎵 | Dự án của Gúp Bu Ngô</em> (gọi là "Trang web") hoặc mời/sử dụng bất kỳ bot nhạc Discord liên quan nào (gọi chung là "Dịch vụ"), bạn đồng ý với các Điều khoản dịch vụ này ("Điều khoản"). Nếu bạn không đồng ý, vui lòng không sử dụng Dịch vụ.</p>
+      </section>
+
+      <section id="eligibility">
+        <h2>2) Điều kiện & Tài khoản</h2>
+        <ul>
+          <li>Bạn phải tuân thủ <a href="https://discord.com/terms" target="_blank" rel="noopener">Điều khoản dịch vụ của Discord</a> và <a href="https://discord.com/guidelines" target="_blank" rel="noopener">Hướng dẫn cộng đồng</a>.</li>
+          <li>Nếu bạn là quản trị viên máy chủ Discord, bạn xác nhận rằng bạn có quyền mời và quản lý bot trong máy chủ đó.</li>
+          <li>Dịch vụ được cung cấp "nguyên trạng" cho người dùng từ 13 tuổi trở lên hoặc độ tuổi tối thiểu theo luật địa phương để sử dụng Discord.</li>
+        </ul>
+      </section>
+
+      <section id="scope">
+        <h2>3) Phạm vi & Mối quan hệ với Discord</h2>
+        <p>Dịch vụ sử dụng API của Discord nhưng không được Discord xác nhận hoặc liên kết. Việc bạn sử dụng Discord vẫn tuân theo các điều khoản của Discord. Bot chỉ hoạt động trong phạm vi quyền bạn cấp khi mời vào máy chủ.</p>
+      </section>
+
+      <section id="usage">
+        <h2>4) Sử dụng Bot & Sử dụng hợp lý</h2>
+        <ul>
+          <li><strong>Sử dụng hợp lý & Giới hạn tốc độ.</strong> Không cố gắng vượt qua thời gian chờ lệnh, giới hạn shard hoặc giới hạn tốc độ nền tảng. Việc sử dụng quá mức hoặc lạm dụng có thể dẫn đến hạn chế tạm thời hoặc vĩnh viễn.</li>
+          <li><strong>Phi thương mại.</strong> Trừ khi có thông báo khác, Dịch vụ được cung cấp cho mục đích phi thương mại. Các điều khoản riêng có thể áp dụng cho các tính năng tài trợ hoặc cao cấp nếu được giới thiệu.</li>
+          <li><strong>Cấu hình máy chủ.</strong> Bạn chịu trách nhiệm cấu hình quyền, kênh và vai trò để kiểm soát ai có thể sử dụng lệnh nhạc trên máy chủ của mình.</li>
+          <li><strong>Sao lưu.</strong> Hàng đợi phát và phiên làm việc là tạm thời và có thể bị đặt lại khi cập nhật, sự cố hoặc khởi động lại.</li>
+        </ul>
+      </section>
+
+      <section id="content">
+        <h2>5) Xử lý nội dung</h2>
+        <ul>
+          <li><strong>Nội dung do người dùng cung cấp.</strong> Khi bạn yêu cầu phát nhạc (ví dụ: qua liên kết, truy vấn tìm kiếm), bạn xác nhận rằng bạn có quyền truy cập và phát nội dung đó trong bối cảnh của mình. Bạn phải tôn trọng bản quyền và các quy định về cấp phép tại nơi bạn sinh sống.</li>
+          <li><strong>Nguồn phát trực tuyến.</strong> Bot có thể lấy âm thanh từ các nền tảng hỗ trợ thông qua API hoặc thư viện hợp pháp. Chúng tôi không lưu trữ hoặc lưu giữ vĩnh viễn âm thanh có bản quyền.</li>
+          <li><strong>Kiểm duyệt.</strong> Chúng tôi có thể xóa tính năng hoặc chặn nguồn mà chúng tôi cho rằng vi phạm quyền hoặc quy tắc nền tảng.</li>
+        </ul>
+      </section>
+
+      <section id="third-party">
+        <h2>6) Dịch vụ bên thứ ba</h2>
+        <p>Dịch vụ có thể dựa vào thư viện, node hoặc API của bên thứ ba (ví dụ: dịch vụ trích xuất/giải mã âm thanh). Việc truy cập các dịch vụ này có thể tuân theo điều khoản và khả năng hoạt động riêng mà chúng tôi không kiểm soát.</p>
+      </section>
+
+      <section id="availability">
+        <h2>7) Khả dụng, Cập nhật & Hỗ trợ</h2>
+        <ul>
+          <li><strong>Thời gian hoạt động.</strong> Dịch vụ có thể không khả dụng do bảo trì, giới hạn tốc độ, sự cố hoặc thay đổi từ Discord hoặc bên thứ ba. Chúng tôi không đảm bảo thời gian hoạt động liên tục.</li>
+          <li><strong>Cập nhật.</strong> Chúng tôi có thể thêm, sửa đổi hoặc xóa tính năng bất cứ lúc nào, bao gồm cả thay đổi lớn vì lý do hiệu suất, bảo mật hoặc tuân thủ.</li>
+          <li><strong>Hỗ trợ.</strong> Hỗ trợ được cung cấp theo khả năng qua các phương thức liên hệ bên dưới; không đảm bảo thời gian phản hồi.</li>
+        </ul>
+      </section>
+
+      <section id="conduct">
+        <h2>8) Hành vi bị cấm</h2>
+        <ul>
+          <li>Vi phạm pháp luật, quy định hoặc quyền của người khác.</li>
+          <li>Quấy rối, phát ngôn thù ghét hoặc tạo điều kiện cho nội dung lạm dụng.</li>
+          <li>Vượt qua bảo mật hoặc giới hạn tốc độ, đảo ngược mã nguồn hoặc can thiệp vào Dịch vụ.</li>
+          <li>Sử dụng Dịch vụ để vi phạm bản quyền hoặc phát tán nội dung trái phép.</li>
+          <li>Tự động hóa tương tác vi phạm chính sách của Discord hoặc nguồn nội dung.</li>
+        </ul>
+      </section>
+
+      <section id="ip">
+        <h2>9) Sở hữu trí tuệ</h2>
+        <p>Tất cả mã nguồn, thương hiệu và tài liệu trên Trang web và trong Dịch vụ đều thuộc sở hữu của chúng tôi hoặc nhà cấp phép và được bảo vệ bởi luật sở hữu trí tuệ hiện hành. Bạn nhận được giấy phép sử dụng Dịch vụ có giới hạn, có thể thu hồi, không độc quyền, không chuyển nhượng, tuân theo các Điều khoản này.</p>
+      </section>
+
+      <section id="dmca">
+        <h2>10) Khiếu nại bản quyền (DMCA/Thông báo)</h2>
+        <p>Nếu bạn cho rằng nội dung truy cập qua Dịch vụ vi phạm bản quyền của mình, vui lòng gửi thông báo bao gồm: (a) xác định tác phẩm, (b) xác định tài liệu hoặc liên kết bị cho là vi phạm, (c) thông tin liên hệ của bạn, (d) tuyên bố thiện chí về việc sử dụng trái phép, và (e) tuyên bố chịu trách nhiệm pháp lý rằng thông tin là chính xác và bạn có quyền hành động. Xem chi tiết liên hệ bên dưới.</p>
+      </section>
+
+      <section id="privacy">
+        <h2>11) Quyền riêng tư & Dữ liệu</h2>
+        <p>Phần này tóm tắt các thực tiễn chính (Chính sách quyền riêng tư riêng có thể cung cấp chi tiết hơn):</p>
+        <ul>
+          <li><strong>Dữ liệu vận hành.</strong> Chúng tôi có thể xử lý dữ liệu tối thiểu cần thiết để vận hành Bot (ví dụ: ID máy chủ/guild, ID kênh, lệnh nhập, trạng thái hàng đợi/phiên và nhật ký lỗi). Chúng tôi không bán dữ liệu cá nhân.</li>
+          <li><strong>Lưu trữ.</strong> Dữ liệu tạm thời (ví dụ: hàng đợi, bài hát gần đây) có thể được giữ lại ngắn hạn; nhật ký chẩn đoán có thể được lưu lâu hơn để bảo mật và sửa lỗi, sau đó sẽ được xóa định kỳ.</li>
+          <li><strong>Quyền của bạn.</strong> Nếu áp dụng (ví dụ: GDPR/CCPA), bạn có quyền truy cập, chỉnh sửa hoặc xóa dữ liệu cá nhân. Liên hệ với chúng tôi để thực hiện quyền này.</li>
+          <li><strong>Bảo mật.</strong> Chúng tôi sử dụng các biện pháp hợp lý để bảo vệ dữ liệu nhưng không thể đảm bảo an toàn tuyệt đối.</li>
+        </ul>
+      </section>
+
+      <section id="disclaimers">
+        <h2>12) Miễn trừ trách nhiệm</h2>
+        <p>Dịch vụ được cung cấp <strong>"NGUYÊN TRẠNG" và "KHI CÓ SẴN"</strong> mà không có bất kỳ đảm bảo nào, dù rõ ràng hay ngụ ý, bao gồm nhưng không giới hạn các đảm bảo ngụ ý về khả năng thương mại, phù hợp với mục đích cụ thể và không vi phạm. Chúng tôi không đảm bảo hoạt động liên tục hoặc không có lỗi, hoặc tương thích với mọi nền tảng, khu vực hoặc nguồn nội dung.</p>
+      </section>
+
+      <section id="liability">
+        <h2>13) Giới hạn trách nhiệm</h2>
+        <p>Trong phạm vi tối đa được pháp luật cho phép, chúng tôi không chịu trách nhiệm đối với bất kỳ thiệt hại gián tiếp, ngẫu nhiên, đặc biệt, hệ quả hoặc phạt nào, hoặc bất kỳ mất mát lợi nhuận hoặc doanh thu nào, dù phát sinh trực tiếp hay gián tiếp, hoặc bất kỳ mất mát dữ liệu, sử dụng hoặc uy tín nào, do (a) bạn truy cập hoặc sử dụng hoặc không thể truy cập hoặc sử dụng Dịch vụ; (b) bất kỳ hành vi hoặc nội dung của bên thứ ba; (c) truy cập, sử dụng hoặc thay đổi trái phép truyền tải hoặc nội dung của bạn.</p>
+      </section>
+
+      <section id="indemnity">
+        <h2>14) Bồi thường</h2>
+        <p>Bạn đồng ý bảo vệ, bồi thường và giữ cho nhà vận hành Dịch vụ không bị ảnh hưởng bởi bất kỳ khiếu nại, trách nhiệm, thiệt hại, tổn thất và chi phí nào (bao gồm phí luật sư hợp lý) phát sinh từ hoặc liên quan đến việc bạn sử dụng Dịch vụ hoặc vi phạm các Điều khoản này.</p>
+      </section>
+
+      <section id="termination">
+        <h2>15) Tạm ngưng & Chấm dứt</h2>
+        <p>Chúng tôi có thể tạm ngưng hoặc chấm dứt quyền truy cập Dịch vụ bất cứ lúc nào, có hoặc không thông báo, vì bất kỳ lý do nào, bao gồm vi phạm Điều khoản này, tuân thủ pháp luật hoặc yêu cầu chính sách nền tảng. Bạn có thể ngừng sử dụng Dịch vụ bất cứ lúc nào bằng cách xóa Bot khỏi máy chủ của mình.</p>
+      </section>
+
+      <section id="governing-law">
+        <h2>16) Luật áp dụng & Giải quyết tranh chấp</h2>
+        <p>Các Điều khoản này được điều chỉnh bởi pháp luật Việt Nam, không xét đến nguyên tắc xung đột pháp luật. Mọi tranh chấp sẽ thuộc thẩm quyền riêng của tòa án tại Đà Nẵng, Việt Nam, trừ khi pháp luật áp dụng yêu cầu nơi khác.</p>
+      </section>
+
+      <section id="changes">
+        <h2>17) Thay đổi điều khoản</h2>
+        <p>Chúng tôi có thể cập nhật các Điều khoản này theo thời gian. Thay đổi quan trọng sẽ được thông báo bằng cách cập nhật ngày <span class="updated">"Hiệu lực"</span> ở trên và, nếu có thể, thông báo hợp lý qua Trang web hoặc tin nhắn trạng thái Bot. Việc bạn tiếp tục sử dụng sau khi thay đổi có hiệu lực đồng nghĩa với việc chấp nhận Điều khoản mới.</p>
+      </section>
+
+      <section id="contact">
+        <h2>18) Liên hệ</h2>
+        <p>Câu hỏi hoặc yêu cầu (bao gồm yêu cầu dữ liệu hoặc thông báo bản quyền) có thể gửi đến: <a
+            href="mailto:ductridevdn@gmail.com" class="text-indigo-600 hover:underline">ductridevdn@gmail.com</a>.
+          Vui lòng cung cấp ID máy chủ Discord và thông tin liên quan để chúng tôi kiểm tra.</p>
+      </section>
+
+      <hr />
+      <p class="text-sm text-gray-600 dark:text-gray-400">Phiên bản tài liệu 1.0 • Được tạo cho dự án BuNgo Music Bot 🎵.</p>
+    </article>
+  </main>
+
+  <!-- Language & Volume Controls Column -->
+  <div class="fixed bottom-4 right-4 flex flex-col items-end gap-2 z-50">
+    <button id="lang-switch" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition">
+      English
+    </button>
+    <div class="relative group">
+      <button class="text-white text-xl">🔊</button>
+      <div
+        class="absolute bottom-0 right-full translate-x-1 flex items-center space-x-2 px-2 py-1 opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto"
+        style="margin-right: 0.25rem;">
+        <div class="bg-gray-800 p-2 rounded-lg flex items-center group-hover:opacity-100">
+          <input id="volume-slider" type="range" min="10" max="100" value="50"
+            class="h-2 w-36 bg-gray-300 rounded-lg appearance-none cursor-pointer" />
+          <span id="volume-value" class="text-sm text-white ml-2">50%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YouTube iFrame API & Scripts -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    let player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player-container', {
+        height: '0', width: '0',
+        videoId: 'mVnyDzloXa4',
+        playerVars: {
+          autoplay: 1,
+          loop: 1,
+          listType: 'playlist',
+          list: 'PLdaKx2L6ax9n_1nXpe23-2DbAOIwYOiWr',
+          controls: 0,
+          modestbranding: 1
+        },
+        events: {
+          onReady: e => {
+            e.target.playVideo();
+            setVolume(50);
+          }
+        }
+      });
+    }
+    const slider = document.getElementById('volume-slider');
+    const label = document.getElementById('volume-value');
+    function setVolume(v) {
+      const vol = Math.max(v, 10);
+      if (player && player.setVolume) player.setVolume(vol);
+      label.textContent = vol + '%';
+    }
+    slider.addEventListener('input', e => setVolume(e.target.value));
+    document.getElementById('lang-switch').onclick = () => location.href = '../en/terms.html';
+  </script>
+
+  <div id="footer"></div>
+
+  <script>
+    async function loadComponent(id, file) {
+      const resp = await fetch(file);
+      document.getElementById(id).innerHTML = await resp.text();
+
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      const themeToggle = document.getElementById("theme-toggle");
+      const themeIcon = document.getElementById("theme-icon");
+
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const savedTheme = localStorage.getItem("theme");
+
+      const applyTheme = (isDark) => {
+        const root = document.documentElement;
+        root.classList.toggle("dark", isDark);
+        themeToggle.checked = isDark;
+        themeIcon.textContent = isDark ? "🌙" : "🌞";
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      };
+
+      const isDark = savedTheme ? savedTheme === "dark" : prefersDark;
+      applyTheme(isDark);
+
+      themeToggle.addEventListener("change", () => {
+        applyTheme(themeToggle.checked);
+      });
+    }
+    loadComponent("header", "shared/header.html");
+    loadComponent("footer", "shared/footer.html");
+  </script>
+</body>
+
+</html>
