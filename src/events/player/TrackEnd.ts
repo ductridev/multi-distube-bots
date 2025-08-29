@@ -63,9 +63,7 @@ export default class TrackEnd extends Event {
 				const timeout = setTimeout(async () => {
 					if (!player?.voiceChannelId) return;
 
-					if (!is247) {
-						player.destroy();
-					}
+					player.destroy();
 				}, time * 60_000);
 				this.client.timeoutListenersMap.set(player.guildId, timeout);
 			}

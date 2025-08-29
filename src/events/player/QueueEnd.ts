@@ -45,7 +45,7 @@ export default class QueueEnd extends Event {
 		const is247 = await this.client.db.get_247(this.client.childEnv.clientId, player.guildId);
 
 		if (player.queue.tracks.length <= 0) {
-			if (!this.client.timeoutListenersMap.has(player.guildId) && !this.client.timeoutSongsMap.has(player.guildId) && !is247 && !player.get('autoplay')) {
+			if (!this.client.timeoutListenersMap.has(player.guildId) && !this.client.timeoutSongsMap.has(player.guildId) && !is247) {
 				const channel = this.client.channels.cache.get(player.textChannelId!);
 				const locale = await this.client.db.getLanguage(player.guildId);
 				const embed = this.client.embed().setFooter({
@@ -63,9 +63,7 @@ export default class QueueEnd extends Event {
 				const timeout = setTimeout(async () => {
 					if (!player?.voiceChannelId) return;
 
-					if (!is247) {
-						player.destroy();
-					}
+					player.destroy();
 				}, time * 60_000);
 				this.client.timeoutSongsMap.set(player.guildId, timeout);
 			}
