@@ -14,14 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <!-- Google Analytics -->
-    <script>
-      // Load shared analytics
-      fetch('../shared/analytics.html')
-        .then(response => response.text())
-        .then(html => {
-          document.head.insertAdjacentHTML('beforeend', html);
-        });
-    </script>
+    <script src="../shared/analytics.js"></script>
 
     <style type="text/tailwindcss">
         /* Enable class-based dark mode for Tailwind v4+ */
@@ -226,11 +219,9 @@
         slider.addEventListener('input', e => setVolume(e.target.value));
         document.getElementById('lang-switch').onclick = () => {
             // Track language switch
-            setTimeout(() => {
-                if (typeof trackLanguageSwitch !== 'undefined') {
-                    trackLanguageSwitch('Vietnamese', 'English', '../en/');
-                }
-            }, 100);
+            if (typeof trackLanguageSwitch !== 'undefined') {
+                trackLanguageSwitch('Vietnamese', 'English', '../en/');
+            }
             location.href = '../en/';
         };
     </script>
