@@ -3,12 +3,12 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>BuNgo Music Bot 🎵 | Dự án của Gúp Bu Ngô</title>
+    <title>BuNgo Discord Music Bots 🎵 | Nhiều Bot của Gúp Bu Ngô</title>
     <link rel="icon"
         href="https://raw.githubusercontent.com/ductridev/multi-distube-bots/master/assets/img/bot-avatar-1.jpg">
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="description"
-        content="Music bot phát nhạc từ YouTube, Spotify, SoundCloud - hoạt động như Jockie Bot." />
+        content="Nhiều bot nhạc Discord phát nhạc từ YouTube, Spotify, SoundCloud - như có nhiều Jockie Bot." />
     <meta property="og:image"
         content="https://raw.githubusercontent.com/ductridev/multi-distube-bots/master/assets/img/bot-avatar-1.jpg" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -19,6 +19,34 @@
     <style type="text/tailwindcss">
         /* Enable class-based dark mode for Tailwind v4+ */
         @variant dark (&:where(.dark, .dark *));
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(168, 85, 247, 0.8);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .animate-pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
     </style>
 
     <script>
@@ -42,13 +70,39 @@
 </head>
 
 <body class="transition-colors duration-300 bg-white text-black dark:bg-gray-900 dark:text-white">
-    <!-- YouTube IFrame (autoplay) -->
+    <!-- Start Screen Overlay -->
+    <div id="start-screen" class="fixed inset-0 z-50 bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
+        <div class="text-center space-y-8 p-8 bg-black/30 rounded-2xl backdrop-blur-sm border border-white/20 animate-fade-in-up">
+            <div class="space-y-4">
+                <img src="https://raw.githubusercontent.com/ductridev/multi-distube-bots/master/assets/img/bot-avatar-1.jpg"
+                    alt="Bot Avatar" class="w-24 h-24 rounded-full mx-auto shadow-2xl animate-pulse-glow">
+                <h1 class="text-4xl font-bold text-white">BuNgo Discord Music Bots</h1>
+                <p class="text-xl text-purple-200">Trải nghiệm nhiều bot nhạc Discord hoạt động</p>
+            </div>
+            
+            <div class="space-y-4">
+                <button id="start-experience" 
+                    class="px-10 py-5 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold text-xl rounded-full shadow-lg hover:from-purple-600 hover:to-pink-600 transform hover:scale-105 transition-all duration-300 flex items-center gap-3 mx-auto">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                    BẮT ĐẦU
+                </button>
+            </div>
+            
+            <p class="text-sm text-white/60 max-w-md mx-auto">
+                Nhấn để khám phá nhiều bot nhạc Discord với hơn 7 bots, hỗ trợ YouTube, Spotify và SoundCloud. Tận hưởng trải nghiệm âm nhạc phong phú với các tính năng nâng cao và tùy chọn tùy chỉnh.
+            </p>
+        </div>
+    </div>
+
+    <!-- YouTube IFrame (user-initiated) -->
     <div id="player-container" class="hidden"></div>
 
     <header class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white pb-12">
         <div class="container mx-auto flex justify-between items-center py-4 px-6">
             <a href="index.html" class="text-xl font-bold text-white">
-                BuNgo Music Bot 🎵
+                BuNgo Discord Bots 🎵
             </a>
             <nav class="flex space-x-6">
                 <a href="index.html">Trang chủ</a>
@@ -60,8 +114,8 @@
         <div class="max-w-4xl mx-auto px-4 text-center">
             <img src="https://raw.githubusercontent.com/ductridev/multi-distube-bots/master/assets/img/bot-avatar-1.jpg"
                 alt="Avatar bot" class="w-28 h-28 rounded-full mx-auto mb-4 shadow-md">
-            <h1 class="text-4xl font-bold">BuNgo Music Bot</h1>
-            <p class="mt-3 text-lg">YouTube · Spotify · SoundCloud · Multi-Bot như Jockie 🎶</p>
+            <h1 class="text-4xl font-bold">BuNgo Discord Music Bots</h1>
+            <p class="mt-3 text-lg">Nhiều Bot Discord · YouTube · Spotify · SoundCloud 🎶</p>
             <div class="mt-5 flex flex-wrap justify-center gap-3">
                 <a href="https://github.com/ductridev/multi-distube-bots" target="_blank"
                     class="px-4 py-2 bg-white text-purple-700 font-semibold rounded shadow hover:bg-gray-400 dark:bg-gray-800 dark:text-white">
@@ -189,7 +243,13 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         let player;
+        let musicEnabled = false;
+        
         function onYouTubeIframeAPIReady() {
+            // Player will be initialized only after user interaction
+        }
+        
+        function initializePlayer() {
             player = new YT.Player('player-container', {
                 height: '0', width: '0',
                 videoId: 'mVnyDzloXa4',
@@ -203,12 +263,46 @@
                 },
                 events: {
                     onReady: e => {
-                        e.target.playVideo();
-                        setVolume(50);
+                        if (musicEnabled) {
+                            e.target.playVideo();
+                            setVolume(50);
+                        }
                     }
                 }
             });
         }
+        
+        // Start screen functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const startScreen = document.getElementById('start-screen');
+            const startButton = document.getElementById('start-experience');
+            
+            startButton.addEventListener('click', () => {
+                musicEnabled = true;
+                hideStartScreen();
+                initializePlayer();
+                
+                // Track user interaction
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'user_interaction', {
+                        event_category: 'Start Screen',
+                        event_label: 'Music Started',
+                        custom_parameter_1: 'music_forced'
+                    });
+                }
+            });
+            
+            function hideStartScreen() {
+                startScreen.style.opacity = '0';
+                startScreen.style.transform = 'scale(0.95)';
+                startScreen.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                
+                setTimeout(() => {
+                    startScreen.style.display = 'none';
+                }, 500);
+            }
+        });
+        
         const slider = document.getElementById('volume-slider');
         const label = document.getElementById('volume-value');
         function setVolume(v) {
