@@ -5,12 +5,25 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Điều khoản dịch vụ | BuNgo Music Bot 🎵 | Dự án của Gúp Bu Ngô</title>
-  <link rel="icon" href="https://raw.githubusercontent.com/ductridev/multi-distube-bots/master/assets/img/bot-avatar-1.jpg">
+  <link rel="icon" href="https://raw.githubusercontent.com/ductridev      themeToggle.addEventListener("change", () => {
+        applyTheme(themeToggle.checked);
+      });
+    }master/assets/img/bot-avatar-1.jpg">
   <meta name="description"
     content="Điều khoản dịch vụ cho BuNgo Music Bot 🎵 | Dự án của Gúp Bu Ngô website và các bot nhạc Discord." />
   <meta property="og:image"
         content="https://raw.githubusercontent.com/ductridev/multi-distube-bots/master/assets/img/bot-avatar-1.jpg" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- Google Analytics -->
+  <script>
+    // Load shared analytics
+    fetch('../shared/analytics.html')
+      .then(response => response.text())
+      .then(html => {
+        document.head.insertAdjacentHTML('beforeend', html);
+      });
+  </script>
 
   <style type="text/tailwindcss">
     @variant dark (&:where(.dark, .dark *));
@@ -274,6 +287,11 @@
         themeToggle.checked = isDark;
         themeIcon.textContent = isDark ? "🌙" : "🌞";
         localStorage.setItem("theme", isDark ? "dark" : "light");
+        
+        // Track theme change
+        if (typeof gtag !== 'undefined') {
+          trackThemeChange(isDark ? "dark" : "light");
+        }
       };
 
       const isDark = savedTheme ? savedTheme === "dark" : prefersDark;
@@ -281,6 +299,22 @@
 
       themeToggle.addEventListener("change", () => {
         applyTheme(themeToggle.checked);
+      });
+
+      // Track external link clicks
+      document.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A' && e.target.href) {
+          const isExternal = !e.target.href.includes(window.location.hostname);
+          if (isExternal && typeof gtag !== 'undefined') {
+            gtag('event', 'click', {
+              event_category: 'External Link',
+              event_label: e.target.href,
+              language: 'vi',
+              page_type: 'terms',
+              transport_type: 'beacon'
+            });
+          }
+        }
       });
     }
     loadComponent("header", "shared/header.html");

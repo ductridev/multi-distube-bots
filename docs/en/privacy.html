@@ -13,6 +13,16 @@
     content="https://raw.githubusercontent.com/ductridev/multi-distube-bots/master/assets/img/bot-avatar-1.jpg" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
+  <!-- Google Analytics -->
+  <script>
+    // Load shared analytics
+    fetch('../shared/analytics.html')
+      .then(response => response.text())
+      .then(html => {
+        document.head.insertAdjacentHTML('beforeend', html);
+      });
+  </script>
+
   <style type="text/tailwindcss">
     @variant dark (&:where(.dark, .dark *));
     </style>
@@ -232,6 +242,11 @@
         themeToggle.checked = isDark;
         themeIcon.textContent = isDark ? "🌙" : "🌞";
         localStorage.setItem("theme", isDark ? "dark" : "light");
+        
+        // Track theme change
+        if (typeof gtag !== 'undefined') {
+          trackThemeChange(isDark ? "dark" : "light");
+        }
       };
 
       const isDark = savedTheme ? savedTheme === "dark" : prefersDark;

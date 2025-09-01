@@ -9,15 +9,56 @@
         document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
                 const userLang = navigator.language || navigator.userLanguage;
+                
+                // Track the user's detected language (gtag will be available after analytics loads)
+                setTimeout(() => {
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'language_detection', {
+                            event_category: 'User Preference',
+                            event_label: userLang,
+                            custom_parameter_1: userLang
+                        });
+                    }
+                }, 500);
+                
                 if (userLang.startsWith("vi")) {
+                    setTimeout(() => {
+                        if (typeof gtag !== 'undefined') {
+                            gtag('event', 'redirect', {
+                                event_category: 'Navigation',
+                                event_label: 'Vietnamese Privacy',
+                                destination: './vi/privacy.html'
+                            });
+                        }
+                    }, 500);
                     window.location.replace("./vi/privacy.html");
                 } else {
+                    setTimeout(() => {
+                        if (typeof gtag !== 'undefined') {
+                            gtag('event', 'redirect', {
+                                event_category: 'Navigation',
+                                event_label: 'English Privacy',
+                                destination: './en/privacy.html'
+                            });
+                        }
+                    }, 500);
                     window.location.replace("./en/privacy.html");
                 }
             }, 5000);
         });
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Analytics -->
+    <script>
+      // Load shared analytics
+      fetch('./shared/analytics.html')
+        .then(response => response.text())
+        .then(html => {
+          document.head.insertAdjacentHTML('beforeend', html);
+        });
+    </script>
+    
     <style>
         .flip-card {
             perspective: 1000px;
