@@ -28,6 +28,7 @@ const envSchema = z.object({
 	OWNER_IDS: z.preprocess(val => (typeof val === 'string' ? JSON.parse(val) : val), z.string().array().optional()),
 	GUILD_IDS: z.preprocess(val => (typeof val === 'string' ? JSON.parse(val) : val), z.string().array().optional()),
 	SKIP_VOTES_GUILDS: z.preprocess(val => (typeof val === 'string' ? JSON.parse(val) : val), z.string().array().optional()),
+	SKIP_VOTES_USERS: z.preprocess(val => (typeof val === 'string' ? JSON.parse(val) : val), z.string().array().optional()),
 	TOPGG: z.string().optional(),
 	TOPGG_CLIENT_ID: z.string().optional(),
 	KEEP_ALIVE: z.preprocess(val => val === 'true', z.boolean().default(false)),

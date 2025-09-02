@@ -198,9 +198,11 @@ export default class InteractionCreate extends Event {
 			if (command.vote
 				&& this.client.env.TOPGG
 				&& (!this.client.env.SKIP_VOTES_GUILDS || !this.client.env.SKIP_VOTES_GUILDS.find(id => id === interaction.guildId))
+				&& (!this.client.env.SKIP_VOTES_USERS || !this.client.env.SKIP_VOTES_USERS.find(id => id === interaction.user.id))
 			) {
+				const isDev = this.client.env.OWNER_IDS?.includes(interaction.user.id);
 				const voted = await this.client.topGG.hasVoted(interaction.user.id);
-				if (!voted) {
+				if (!(isDev || voted)) {
 					const voteBtn = new ActionRowBuilder<ButtonBuilder>().addComponents(
 						new ButtonBuilder()
 							.setLabel(T(locale, 'event.interaction.vote_button'))

@@ -197,6 +197,7 @@ export default class MessageCreate extends Event {
 		if (command.vote
 			&& this.client.env.TOPGG
 			&& (!this.client.env.SKIP_VOTES_GUILDS || !this.client.env.SKIP_VOTES_GUILDS.find(id => id === message.guildId))
+			&& (!this.client.env.SKIP_VOTES_USERS || !this.client.env.SKIP_VOTES_USERS.find(id => id === message.author.id))
 		) {
 			const voted = await this.client.topGG.hasVoted(message.author.id);
 			if (!(isDev || voted)) {
