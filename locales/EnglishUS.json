@@ -677,6 +677,10 @@
 			"forward_footer": "Forwarded by {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"button_not_available": "This button is not available.",
 			"no_music_playing": "There is no music playing in this server."
+		},
+		"voice_state_update": {
+			"kicked": "Bot has been kicked from the voice channel <#{channelId}>.",
+			"moved": "Bot has been moved to <#{channelId}>."
 		}
 	},
 	"Evaluate code": "Evaluate code",

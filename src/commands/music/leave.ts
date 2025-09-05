@@ -42,6 +42,18 @@ export default class Leave extends Command {
 
 		if (player) {
 			const channelId = player.voiceChannelId;
+			
+			// Check if 247 mode is enabled and disable it when leaving
+			const is247 = await client.db.get_247(client.childEnv.clientId, guildId);
+			if (is247) {
+				try {
+					await client.db.delete_247(guildId, client.childEnv.clientId);
+					client.logger.info(`Disabled 247 mode for guild ${guildId} due to leave command`);
+				} catch (error) {
+					client.logger.error('Error disabling 247 mode on leave:', error);
+				}
+			}
+			
 			player.destroy();
 			return await ctx.sendMessage({
 				embeds: [embed.setColor(this.client.color.main).setDescription(ctx.locale('cmd.leave.left', { channelId }))],

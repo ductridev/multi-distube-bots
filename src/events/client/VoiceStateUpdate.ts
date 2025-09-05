@@ -22,8 +22,11 @@ export default class VoiceStateUpdate extends Event {
 		if (!(vc && vc.members instanceof Map)) return;
 
 		const is247 = await this.client.db.get_247(this.client.childEnv.clientId, guildId);
+		const botVoiceState = newState.guild.members.cache.get(this.client.user!.id)?.voice;
 
-		if (!(newState.guild.members.cache.get(this.client.user!.id)?.voice.channelId || !is247) && player) {
+		// Only destroy player if bot is not in any voice channel AND 247 mode is not enabled
+		// This allows bot to join other channels even when 247 mode is enabled
+		if (!botVoiceState?.channelId && !is247 && player) {
 			return player.destroy();
 		}
 
@@ -106,13 +109,26 @@ export default class VoiceStateUpdate extends Event {
 				})
 					.setTimestamp();
 
+				// Always disable 247 mode when bot leaves/gets kicked from voice channel
+				if (is247) {
+					try {
+						await client.db.delete_247(newState.guild.id, client.childEnv.clientId);
+						client.logger.info(`Disabled 247 mode for guild ${newState.guild.id} due to bot being kicked/leaving voice channel`);
+					} catch (error) {
+						client.logger.error('Error disabling 247 mode on voice leave:', error);
+					}
+				}
+
+				// Send kick message - this handles both kicks and manual disconnects
 				if (channel && channel.isTextBased()) {
 					await (channel as TextChannel).send({
-						embeds: [embed.setColor(client.color.main).setDescription(T(locale, 'event.voice_state_update.kicked', { channelId: player.voiceChannelId }))],
+						embeds: [embed.setColor(client.color.red).setDescription(T(locale, 'event.voice_state_update.kicked', { channelId: player.voiceChannelId }))],
 					});
 				}
 
+				// Destroy player - bot won't rejoin after being kicked
 				player.destroy();
+				return; // Exit early to prevent any rejoin logic
 			}
 
 			if (vc.members instanceof Map && [...vc.members.values()].filter((x: GuildMember) => !x.user.bot).length <= 0) {

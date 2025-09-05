@@ -63,6 +63,17 @@ export default class _247 extends Command {
 					vcRegion: member.voice.channel.rtcRegion!,
 				});
 				player.set('summonUserId', ctx.author!.id);
+			} else {
+				// If player exists but is in a different channel, move it to the new channel
+				if (player.voiceChannelId !== member.voice.channel.id) {
+					try {
+						player.options.voiceChannelId = member.voice.channel.id;
+						await player.connect();
+						client.logger.info(`Moved 247 mode player to new voice channel ${member.voice.channel.id} in guild ${ctx.guild!.id}`);
+					} catch (error) {
+						client.logger.error('Error moving player to new voice channel:', error);
+					}
+				}
 			}
 			if (!player.connected) await player.connect();
 			return await ctx.sendMessage({

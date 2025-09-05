@@ -62,11 +62,25 @@ export default class Connect extends Event {
 						sessionMap.get(player.guildId)!.set(player.voiceChannelId!, player);
 					} catch (error) {
 						this.client.logger.error(`Failed to create queue for guild ${guild.id}: ${error}`);
+						// If failed to connect, disable 247 mode for this guild
+						try {
+							await this.client.db.delete_247(guild.id, this.client.childEnv.clientId);
+							this.client.logger.info(`Disabled 247 mode for guild ${guild.id} due to connection failure`);
+						} catch (dbError) {
+							this.client.logger.error(`Failed to disable 247 mode for guild ${guild.id}:`, dbError);
+						}
 					}
 				} else {
 					this.client.logger.warn(
 						`Missing channels for guild ${guild.id}. Text channel: ${main.textId}, Voice channel: ${main.voiceId}`,
 					);
+					// Clean up invalid 247 mode data
+					try {
+						await this.client.db.delete_247(guild.id, this.client.childEnv.clientId);
+						this.client.logger.info(`Cleaned up invalid 247 mode data for guild ${guild.id}`);
+					} catch (error) {
+						this.client.logger.error(`Failed to clean up 247 mode data for guild ${guild.id}:`, error);
+					}
 				}
 			}, index * 1000);
 		});

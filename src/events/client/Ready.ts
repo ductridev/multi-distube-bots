@@ -32,6 +32,76 @@ export default class Ready extends Event {
 			this.client.logger.warn('Top.gg token not found. Skipping auto poster.');
 		}
 		await this.client.manager.init({ ...this.client.user!, shards: 'auto' });
+
+		// Handle 247 mode reconnection
+		await this.handle247Reconnection();
+	}
+
+	private async handle247Reconnection(): Promise<void> {
+		try {
+			const stay247Data = await this.client.db.get_247(this.client.childEnv.clientId);
+			if (!stay247Data) return;
+
+			const dataArray = Array.isArray(stay247Data) ? stay247Data : [stay247Data];
+
+			for (const data of dataArray) {
+				try {
+					const guild = this.client.guilds.cache.get(data.guildId);
+					if (!guild) {
+						// Guild not found, remove 247 mode
+						await this.client.db.delete_247(data.guildId, this.client.childEnv.clientId);
+						continue;
+					}
+
+					const voiceChannel = guild.channels.cache.get(data.voiceId);
+					const textChannel = guild.channels.cache.get(data.textId);
+
+					if (!voiceChannel || !textChannel) {
+						// Channels not found, remove 247 mode
+						await this.client.db.delete_247(data.guildId, this.client.childEnv.clientId);
+						this.client.logger.info(`Removed invalid 247 mode data for guild ${data.guildId} - channels not found`);
+						continue;
+					}
+
+					// Check if bot is already connected to this voice channel
+					const botVoiceState = guild.members.cache.get(this.client.user!.id)?.voice;
+					if (botVoiceState?.channelId === data.voiceId) {
+						this.client.logger.info(`Already connected to 247 voice channel in guild ${data.guildId}`);
+						continue;
+					}
+
+					// Check if there's already a player for this guild
+					let player = this.client.manager.getPlayer(data.guildId);
+					if (!player) {
+						// No player exists, this will be handled by node connect event
+						this.client.logger.info(`247 mode enabled for guild ${data.guildId}, waiting for node connection to create player`);
+						continue;
+					}
+
+					// Player exists but not connected to the right channel
+					if (player.voiceChannelId !== data.voiceId) {
+						try {
+							player.options.voiceChannelId = data.voiceId;
+							await player.connect();
+							this.client.logger.info(`Reconnected 247 mode player to voice channel ${data.voiceId} in guild ${data.guildId}`);
+						} catch (error) {
+							this.client.logger.error(`Failed to reconnect 247 mode player in guild ${data.guildId}:`, error);
+							// If connection fails, disable 247 mode
+							await this.client.db.delete_247(data.guildId, this.client.childEnv.clientId);
+						}
+					}
+				} catch (error) {
+					this.client.logger.error(`Error handling 247 reconnection for guild ${data.guildId}:`, error);
+					try {
+						await this.client.db.delete_247(data.guildId, this.client.childEnv.clientId);
+					} catch (dbError) {
+						this.client.logger.error(`Failed to cleanup 247 mode for guild ${data.guildId}:`, dbError);
+					}
+				}
+			}
+		} catch (error) {
+			this.client.logger.error('Error in 247 mode reconnection handler:', error);
+		}
 	}
 }
 
