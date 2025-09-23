@@ -17,7 +17,7 @@ import {
 } from 'discord.js';
 import { T } from '../../structures/I18n';
 import { Context, Event, type Lavamusic } from '../../structures/index';
-import { activeBots, vcLocks, voiceChannelMap } from '../..';
+import { vcLocks, voiceChannelMap, getBotsForGuild } from '../..';
 import { Stay } from '@prisma/client';
 
 export default class InteractionCreate extends Event {
@@ -58,7 +58,17 @@ export default class InteractionCreate extends Event {
 			const command = this.client.commands.get(commandName);
 			if (!command) return;
 
-			const allBots = activeBots;
+			const allBots = getBotsForGuild(guildId);
+			
+			// Check if no bots are configured for this guild
+			if (allBots.length === 0) {
+				await interaction.reply({
+					content: T(locale, 'event.message.no_bots_configured'),
+					ephemeral: true
+				});
+				return;
+			}
+			
 			let chosenBot: typeof this.client = allBots[0];
 			let valid = true;
 	

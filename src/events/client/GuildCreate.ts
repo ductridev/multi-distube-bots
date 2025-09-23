@@ -1,5 +1,6 @@
 import { EmbedBuilder, type Guild, type GuildMember, type TextChannel } from 'discord.js';
 import { Event, type Lavamusic } from '../../structures/index';
+import { addBotToGuild } from '../..';
 
 export default class GuildCreate extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -9,6 +10,14 @@ export default class GuildCreate extends Event {
 	}
 
 	public async run(guild: Guild): Promise<void> {
+		// Automatically add this bot to the guild's preferences
+		try {
+			await addBotToGuild(guild.id, this.client.childEnv.clientId);
+			this.client.logger.info(`Auto-added bot ${this.client.childEnv.clientId} to guild ${guild.id} (${guild.name}) preferences`);
+		} catch (error) {
+			this.client.logger.error(`Failed to auto-add bot to guild ${guild.id} preferences:`, error);
+		}
+
 		let owner: GuildMember | undefined;
 		try {
 			owner = await guild.members.fetch(guild.ownerId);

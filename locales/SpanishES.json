@@ -607,7 +607,9 @@
 			"error": "Se ha producido un error: `{error}`",
 			"no_voice_channel_queue": "No estás conectado a un canal de voz para poner canciones en cola.",
 			"no_permission_connect_speak": "No tengo suficientes permisos para conectarme/hablar en <#{channel}>.",
-			"different_voice_channel_queue": "No estás conectado a <#{channel}> para poner canciones en cola."
+			"different_voice_channel_queue": "No estás conectado a <#{channel}> para poner canciones en cola.",
+			"no_free_bots": "No hay bots disponibles en este momento. Es posible que desees agregar más bots a este servidor.",
+			"no_bots_configured": "Aún no se han agregado bots de música a este servidor. ¡Por favor invita un bot primero!"
 		},
 		"setupButton": {
 			"no_voice_channel_button": "No estás conectado a un canal de voz para usar este botón.",

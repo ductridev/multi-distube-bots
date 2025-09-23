@@ -13,7 +13,7 @@ import {
 import { T } from '../../structures/I18n';
 import { Context, Event, type Lavamusic } from '../../structures/index';
 import { env } from '../../env';
-import { activeBots, vcLocks, voiceChannelMap } from '../..';
+import { vcLocks, voiceChannelMap, getBotsForGuild } from '../..';
 import { Stay } from '@prisma/client';
 
 export default class MessageCreate extends Event {
@@ -64,7 +64,16 @@ export default class MessageCreate extends Event {
 		const command = this.client.commands.get(cmd) || this.client.commands.get(this.client.aliases.get(cmd) as string);
 		if (!command) return;
 
-		const allBots = activeBots;
+		const allBots = getBotsForGuild(guildId);
+		
+		// Check if no bots are configured for this guild
+		if (allBots.length === 0) {
+			await message.reply({
+				content: T(locale, 'event.message.no_bots_configured')
+			});
+			return;
+		}
+		
 		let chosenBot: typeof this.client = allBots[0];
 		let valid = true;
 

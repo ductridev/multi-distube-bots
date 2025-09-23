@@ -1,5 +1,6 @@
 import { EmbedBuilder, type Guild, type GuildMember, type TextChannel } from 'discord.js';
 import { Event, type Lavamusic } from '../../structures/index';
+import { removeBotFromGuild } from '../..';
 
 export default class GuildDelete extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -10,6 +11,15 @@ export default class GuildDelete extends Event {
 
 	public async run(guild: Guild): Promise<void> {
 		if (!guild) return;
+
+		// Automatically remove this bot from the guild's preferences
+		try {
+			await removeBotFromGuild(guild.id, this.client.childEnv.clientId);
+			this.client.logger.info(`Auto-removed bot ${this.client.childEnv.clientId} from guild ${guild.id} (${guild.name || 'Unknown'}) preferences`);
+		} catch (error) {
+			this.client.logger.error(`Failed to auto-remove bot from guild ${guild.id} preferences:`, error);
+		}
+
 		let owner: GuildMember | undefined;
 		try {
 			owner = await guild.members.fetch(guild.ownerId);

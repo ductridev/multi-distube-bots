@@ -124,3 +124,9 @@ model PlayerState {
 
   @@unique([guildId, botClientId])
 }
+
+model GuildBotPreferences {
+  guildId      String   @id @map("_id")
+  botClientIds String[]
+  updatedAt    DateTime @updatedAt
+}

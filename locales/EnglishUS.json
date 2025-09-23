@@ -643,7 +643,9 @@
 			"no_permission_connect_speak": "I don't have enough permission to connect/speak in <#{channel}>.",
 			"different_voice_channel_queue": "You are not connected to <#{channel}> to queue songs.",
 			"vote_button": "Vote for me!",
-			"vote_message": "Wait! You need to vote on top.gg to use this command. Thanks."
+			"vote_message": "Wait! You need to vote on top.gg to use this command. Thanks.",
+			"no_free_bots": "No bots are available right now. You may want to add more bots to this server.",
+			"no_bots_configured": "No music bots have been added to this server yet. Please invite a bot first!"
 		},
 		"setupButton": {
 			"no_voice_channel_button": "You are not connected to a voice channel to use this button.",
