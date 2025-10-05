@@ -100,66 +100,140 @@ Before starting with the installation, you need to have the following:
 
 ## 🚀 Installation from source
 
-1. Clone the BuNgo Music repository:
+### Step 1: Clone the Repository
 
 ```bash
 git clone https://github.com/ductridev/multi-distube-bots
-```
-
-2. Change to the BuNgo Music directory:
-
-```bash
 cd multi-distube-bots
 ```
 
-3. Install the required packages:
+### Step 2: Install Dependencies
 
 ```bash
-npm i
+npm install
 ```
 
-4. Compile:
+### Step 3: Configure Environment Variables
 
+1. Copy the environment file:
+```bash
+cp .env.example .env
 ```
-npm run build
+
+2. Edit `.env` and fill in all required values:
+```bash
+# Bot Configuration
+GLOBAL_PREFIX="b!"                    # Global prefix for commands
+DEFAULT_LANGUAGE="EnglishUS"          # Default language
+OWNER_IDS=["YOUR_DISCORD_ID"]         # Your Discord user ID(s)
+GUILD_ID=""                           # Optional: Server ID for single-server use
+
+# Database (MongoDB recommended)
+DATABASE_URL="mongodb://localhost:27017/bungo-music"
+
+# Lavalink Configuration (Use your hosted Lavalink server details)
+NODES=[{"id":"Hosted Node","host":"your-lavalink-host.com","port":443,"authorization":"your-password","retryAmount":5,"retryDelay":60000,"secure":"true"}]
+
+# Optional Services
+TOPGG=""                              # Top.gg API key for bot statistics
+GENIUS_API=""                         # Genius API for lyrics
+LOG_CHANNEL_ID=""                     # Channel for logs
+LOG_COMMANDS_ID=""                    # Channel for command logs
+SEARCH_ENGINE="YouTubeMusic"          # Default search engine
 ```
 
-5. Copy the `.env.example` file to `.env` and fill in all required values:
+### Step 4: Configure Bot Instances
 
-6. Copy the `example.<The data source you want to use>.schema.prisma` file to `schema.prisma` in `prisma` folder
-Note: If you want to use sqlite, skip this step.
-If you are using a different data source, don't forget to fill in the `DATABASE_URL` value in `.env`.
+1. Create your bot configuration file:
+```bash
+cp prisma/bots.json.example prisma/bots.json
+```
 
-7. Generate the Prisma client:
+2. Edit `prisma/bots.json` with your bot details:
+```json
+{
+    "bots": [
+        {
+            "name": "My Music Bot",
+            "clientId": "YOUR_BOT_CLIENT_ID",
+            "token": "YOUR_BOT_TOKEN",
+            "prefix": "!",
+            "enabled": true,
+            "displayName": "My Music Bot",
+            "avatarURL": "https://example.com/avatar.png",
+            "ownerId": "YOUR_DISCORD_ID",
+            "bio": "A Discord music bot",
+            "presence": "Playing music",
+            "status": "online"
+        }
+    ]
+}
+```
 
+> **⚠️ Security Warning**: Never commit real bot tokens to version control. The `bots.json` file should contain your actual bot tokens and is excluded from git.
+
+### Step 5: Set Up Database
+
+1. Push the Prisma schema to your database:
 ```bash
 npm run db:push
 ```
 
-8. Run the migrations (Only if you want to migrate your database):
-
+2. Seed the database with your bot configurations:
 ```bash
-npm run db:migrate
+npm run db:seed
 ```
 
-9. Run the bot:
+This will create the bot instances in your database based on your `prisma/bots.json` file.
 
-Note: You can also run `run.bat` to easily run the bot on Windows.
+### Step 6: Build and Start the Bot
 
+1. Compile TypeScript:
+```bash
+npm run build
+```
+
+2. Start the bot:
 ```bash
 npm start
 ```
 
-10. Invite the bot to your server:
+For development with auto-reload:
+```bash
+npm run dev
+```
 
-Generate an invite link for your bot and invite it to your server using the [Discord Developer Portal](https://discord.com/developers/applications) or [Permissions Calculator](https://discordapi.com/permissions.html).
+### Step 7: Invite Bots to Your Server
 
-11. (Optional) Deploy Slash Commands
+1. Generate invite links for each bot using the [Discord Developer Portal](https://discord.com/developers/applications)
+2. Required permissions: `Send Messages`, `Read Message History`, `View Channel`, `Embed Links`, `Connect`, `Speak`, `Use Slash Commands`
+3. Invite each bot to your Discord server
 
-Make sure that your User ID is listed under `OWNER_IDS` in `.env`. In the Discord server with BuNgo Music Bot, run
+### Step 8: Deploy Commands (Optional)
+
+To register slash commands globally:
+1. Ensure your Discord ID is in `OWNER_IDS`
+2. In your Discord server, run:
 ```
 !deploy
 ```
+
+## 🔧 Additional Configuration
+
+### Database Migration (Optional)
+If you need to run database migrations:
+```bash
+npm run db:migrate
+```
+
+### Multiple Database Support
+The project supports MongoDB (default), PostgreSQL, and SQLite. Edit `prisma/schema.prisma` to change providers and update your `DATABASE_URL` accordingly.
+
+### Production Deployment
+- Use environment variables for sensitive data
+- Set up proper logging channels
+- Configure auto-restart with PM2 or similar
+- Monitor Lavalink node health
 
 ## 🚀 Installation using Docker Compose
 
