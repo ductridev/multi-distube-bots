@@ -21,6 +21,14 @@ export default class Ready extends Event {
 			status: this.client.childEnv.status as any,
 		});
 
+		// Sync slash commands globally for this bot
+		try {
+			await this.client.deployCommands();
+			this.client.logger.info('Slash commands synced successfully!');
+		} catch (error) {
+			this.client.logger.error('Failed to sync slash commands:', error);
+		}
+
 		if (this.client.env.TOPGG) {
 			const autoPoster = AutoPoster(this.client.env.TOPGG, this.client);
 			setInterval(() => {

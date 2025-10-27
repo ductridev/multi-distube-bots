@@ -42,7 +42,7 @@ export default class Lavamusic extends Client {
   public env: typeof env = env;
   public childEnv: BotConfig = {} as BotConfig;
   public manager!: LavalinkClient;
-  public rest = new REST({ version: "10" }).setToken("");
+  public rest = new REST().setToken("");
   public playerSaver: PlayerSaver | null = null;
   public timeoutListenersMap: Map<string, NodeJS.Timeout> = new Map();
   public timeoutSongsMap: Map<string, NodeJS.Timeout> = new Map();
@@ -67,7 +67,7 @@ export default class Lavamusic extends Client {
     } else {
       this.logger.warn("Top.gg token not found!");
     }
-    this.rest = new REST({ version: "10" }).setToken(this.childEnv.token ?? "");
+    this.rest = new REST().setToken(this.childEnv.token ?? "");
     this.manager = new LavalinkClient(this);
     await this.loadCommands();
     this.logger.info("Successfully loaded commands!");
@@ -76,7 +76,6 @@ export default class Lavamusic extends Client {
     loadPlugins(this);
     await this.login(this.childEnv.token);
     registerBot(this);
-    await this.deployCommands();
 
     this.on(Events.InteractionCreate, async (interaction: Interaction) => {
       if (interaction.isButton() && interaction.guildId) {
