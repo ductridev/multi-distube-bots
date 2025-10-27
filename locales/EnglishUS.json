@@ -682,8 +682,14 @@
 		},
 		"voice_state_update": {
 			"kicked": "Bot has been kicked from the voice channel <#{channelId}>.",
-			"moved": "Bot has been moved to <#{channelId}>."
+			"moved": "Bot has been moved to <#{channelId}>.",
+			"left_due_to_timeout_no_listeners": "Bot has left the voice channel <#{channelId}> due to inactivity (no listeners).",
+			"left_due_to_timeout_no_songs": "Bot has left the voice channel <#{channelId}> due to inactivity (no songs)."
 		}
+	},
+	"will_leave": {
+		"no_listeners": "Bot will leave in {time} minutes due to no listeners.",
+		"no_songs": "Bot will leave in {time} minutes due to no songs."
 	},
 	"Evaluate code": "Evaluate code",
 	"Leave a guild": "Leave a guild",

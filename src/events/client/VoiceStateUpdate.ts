@@ -158,6 +158,21 @@ export default class VoiceStateUpdate extends Event {
 							[...playerVoiceChannel.members.values()].filter((x: GuildMember) => !x.user.bot).length <= 0
 						) {
 							if (!is247) {
+								const channel = client.channels.cache.get(player.textChannelId!);
+								const locale = await client.db.getLanguage(player.guildId);
+								const embed = client.embed()
+									.setFooter({
+										text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
+										iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+									})
+									.setTimestamp();
+
+								if (channel && channel.isTextBased()) {
+									await (channel as TextChannel).send({
+										embeds: [embed.setColor(client.color.red).setDescription(T(locale, 'event.voice_state_update.left_due_to_timeout_no_listeners', { channelId: player.voiceChannelId }))],
+									});
+								}
+
 								player.destroy();
 							}
 						}
@@ -235,6 +250,21 @@ export default class VoiceStateUpdate extends Event {
 							[...playerVoiceChannel.members.values()].filter((x: GuildMember) => !x.user.bot).length <= 0
 						) {
 							if (!is247) {
+								const channel = client.channels.cache.get(player.textChannelId!);
+								const locale = await client.db.getLanguage(player.guildId);
+								const embed = client.embed()
+									.setFooter({
+										text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
+										iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+									})
+									.setTimestamp();
+
+								if (channel && channel.isTextBased()) {
+									await (channel as TextChannel).send({
+										embeds: [embed.setColor(client.color.red).setDescription(T(locale, 'event.voice_state_update.left_due_to_timeout_no_listeners', { channelId: player.voiceChannelId }))],
+									});
+								}
+
 								player.destroy();
 							}
 						}

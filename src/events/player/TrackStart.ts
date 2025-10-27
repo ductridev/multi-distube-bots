@@ -30,9 +30,6 @@ export default class TrackStart extends Event {
 	}
 
 	public async run(player: Player, track: Track | null, _payload: TrackStartEvent): Promise<void> {
-		// Prevent this event from running if repeat mode is track
-		if (player.playing && player.repeatMode === 'track') return;
-
 		const guild = this.client.guilds.cache.get(player.guildId);
 		if (!player.options.customData) player.options.customData = {};
 		player.options.customData.botClientId = this.client.childEnv.clientId

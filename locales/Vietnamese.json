@@ -683,14 +683,12 @@
 		},
 		"voice_state_update": {
 			"kicked": "Bot đã bị ngắt kết nối khỏi kênh thoại <#{channelId}>.",
-			"moved": "Bot đã di chuyển sang kênh <#{channelId}>."
+			"moved": "Bot đã di chuyển sang kênh <#{channelId}>.",
+			"left_due_to_timeout_no_listeners": "Bot đã rời khỏi kênh thoại <#{channelId}> do không hoạt động (không có người nghe).",
+			"left_due_to_timeout_no_songs": "Bot đã rời khỏi kênh thoại <#{channelId}> do không có bài hát nào."
 		}
 	},
 	"Leave a guild": "Rời khỏi một máy chủ",
-	"leave": {
-		"no_listeners": "Bot đã rời đi vì không có người nghe.",
-		"no_songs": "Bot đã rời đi vì không có bài hát nào."
-	},
 	"List all guilds the bot is in": "Liệt kê tất cả các máy chủ mà bot đang tham gia",
 	"maintenance": {
 		"affected_title": "🕒 Các chức năng bị ảnh hưởng",

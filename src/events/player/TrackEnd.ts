@@ -63,6 +63,21 @@ export default class TrackEnd extends Event {
 				const timeout = setTimeout(async () => {
 					if (!player?.voiceChannelId) return;
 
+					const channel = this.client.channels.cache.get(player.textChannelId!);
+					const locale = await this.client.db.getLanguage(player.guildId);
+					const embed = this.client.embed()
+						.setFooter({
+							text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
+							iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+						})
+						.setTimestamp();
+
+					if (channel && channel.isTextBased()) {
+						await (channel as TextChannel).send({
+							embeds: [embed.setColor(this.client.color.red).setDescription(T(locale, 'event.voice_state_update.left_due_to_timeout_no_listeners', { channelId: player.voiceChannelId }))],
+						});
+					}
+
 					player.destroy();
 				}, time * 60_000);
 				this.client.timeoutListenersMap.set(player.guildId, timeout);
