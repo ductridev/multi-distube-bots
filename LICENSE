@@ -1,26 +1,148 @@
-LAVAMUSIC LICENSE  
-Version 1.0  
+BUNGO MULTI-DISCORD BOTS - CUSTOM LICENSE
+Version 1.0, January 2025
 
-Copyright (C) 2025 ductridev
+Copyright (c) 2025 ductridev
+All rights reserved.
 
-1. Free Use (Allowed):
-   - Use in private, non-commercial, non-public Discord servers.
-   - Personal modifications (if not redistributed or made public).
+================================================================================
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+================================================================================
 
-2. Paid License Required:
-   - Use in public Discord servers (public bots).
-   - Commercial use (e.g., monetization, paid access, advertising).
-   - Redistribution (e.g., hosting, sharing with others).
+1. DEFINITIONS
 
-3. Prohibited Without License:
-   - Using this bot in public servers without permission.
-   - Selling, distributing, or modifying the bot for profit without a license.
+   "License" shall mean the terms and conditions for use, reproduction, and
+   distribution as defined by Sections 1 through 9 of this document.
 
-4. Enforcement:
-   - Unauthorized public or commercial use will result in legal action and/or DMCA takedown.
-   - Public bots must visibly show proof of license (e.g., via bot command or message).
+   "Licensor" shall mean the copyright owner or entity authorized by the
+   copyright owner that is granting the License.
 
-5. Licensing Contact:
-   - To obtain a paid license, contact: ductridevdn@gmail.com
+   "You" (or "Your") shall mean an individual or Legal Entity exercising
+   permissions granted by this License.
 
-DISCLAIMER: THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+   "Source" form shall mean the preferred form for making modifications,
+   including but not limited to software source code, documentation source,
+   and configuration files.
+
+   "Work" shall mean the work of authorship, whether in Source or Object form,
+   made available under the License.
+
+   "Public Bot" shall mean any instance of the Work that is accessible by
+   users outside of a single private organization or personal server.
+
+   "Commercial Use" shall mean use of the Work for commercial advantage or
+   monetary compensation.
+
+2. GRANT OF LICENSE - PRIVATE USE
+
+   Subject to the terms and conditions of this License, the Licensor hereby
+   grants You a worldwide, non-exclusive, non-transferable, revocable license
+   to use the Work for private, non-commercial purposes, including:
+
+   a) Installation and operation in private, non-public Discord servers for
+      personal or internal organizational use.
+
+   b) Modification of the Source code for personal use, provided such
+      modifications are not distributed or made publicly available.
+
+   c) Study and examination of the Source code for educational purposes.
+
+3. RESTRICTIONS - PUBLIC AND COMMERCIAL USE
+
+   The following uses are STRICTLY PROHIBITED without obtaining a separate
+   Commercial License from the Licensor:
+
+   a) Operating the Work as a Public Bot accessible to users outside of Your
+      private organization or personal server.
+
+   b) Any Commercial Use of the Work, including but not limited to:
+      - Offering the Work as a service for monetary compensation
+      - Using the Work in connection with advertising or sponsorships
+      - Charging fees for access to servers running the Work
+      - Any other use that generates revenue directly or indirectly
+
+   c) Distribution, redistribution, or making available the Work or modified
+      versions thereof to third parties through any means, including but not
+      limited to:
+      - Public repositories (unless explicitly permitted by Licensor)
+      - Hosting services
+      - File sharing platforms
+      - Any form of public or private distribution channels
+
+   d) Sublicensing the Work to any third party.
+
+4. COMMERCIAL LICENSE REQUIREMENT
+
+   To engage in any use described in Section 3, You must:
+
+   a) Contact the Licensor at: <ductridevdn@gmail.com>
+
+   b) Obtain a written Commercial License agreement
+
+   c) Comply with all terms and conditions specified in such Commercial License
+
+   d) Display proof of licensing in any Public Bot instance through a visible
+      command (e.g., /license or /about) or startup message
+
+5. INTELLECTUAL PROPERTY RIGHTS
+
+   This License does not grant permission to use the trade names, trademarks,
+   service marks, or product names of the Licensor, except as required for
+   reasonable and customary use in describing the origin of the Work.
+
+6. ATTRIBUTION
+
+   You must retain, in the Source form of any modifications You create, all
+   copyright, patent, trademark, and attribution notices from the Source form
+   of the Work.
+
+7. TERMINATION
+
+   a) This License and the rights granted hereunder will terminate automatically
+      upon any breach by You of the terms of this License.
+
+   b) Upon termination, You must immediately cease all use of the Work and
+      destroy all copies in Your possession or control.
+
+   c) The Licensor reserves the right to terminate this License at any time
+      for Public Bot or Commercial Use violations.
+
+8. ENFORCEMENT
+
+   a) Unauthorized Public Bot deployment or Commercial Use will result in:
+      - Immediate License termination
+      - DMCA takedown notices
+      - Legal action to recover damages
+      - Injunctive relief to prevent continued unauthorized use
+
+   b) The Licensor may monitor public Discord bot lists and repositories to
+      identify unauthorized use.
+
+   c) Any person or entity found in violation may be liable for statutory
+      damages, actual damages, and attorney's fees.
+
+9. DISCLAIMER OF WARRANTY
+
+   THE WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+   THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+   FROM, OUT OF OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER DEALINGS
+   IN THE WORK.
+
+10. LIMITATION OF LIABILITY
+
+    IN NO EVENT SHALL THE LICENSOR BE LIABLE FOR ANY SPECIAL, INCIDENTAL,
+    INDIRECT, OR CONSEQUENTIAL DAMAGES WHATSOEVER (INCLUDING, WITHOUT
+    LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION,
+    LOSS OF BUSINESS INFORMATION, OR ANY OTHER PECUNIARY LOSS) ARISING OUT
+    OF THE USE OF OR INABILITY TO USE THE WORK, EVEN IF THE LICENSOR HAS
+    BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+================================================================================
+END OF TERMS AND CONDITIONS
+================================================================================
+
+For licensing inquiries and commercial use permissions:
+Email: <ductridevdn@gmail.com>
+Repository: <https://github.com/ductridev/multi-distube-bots>
