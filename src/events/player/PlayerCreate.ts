@@ -1,6 +1,6 @@
 import type { Player } from 'lavalink-client';
 import { Event, type Lavamusic } from '../../structures/index';
-import { sessionMap, voiceChannelMap } from '../..';
+import { VoiceStateHelper } from '../../utils/VoiceStateHelper';
 // import { VoiceBasedChannel } from 'discord.js';
 
 export default class PlayerCreate extends Event {
@@ -11,8 +11,26 @@ export default class PlayerCreate extends Event {
 	}
 
 	public async run(player: Player, _reason: string): Promise<void> {
-		if (!voiceChannelMap.has(player.guildId)) voiceChannelMap.set(player.guildId, new Map());
-		voiceChannelMap.get(player.guildId)!.set(player.voiceChannelId!, this.client.childEnv.clientId);
+		// Clear any existing timeouts for this guild (cleanup from previous session)
+		const listenerTimeout = this.client.timeoutListenersMap.get(player.guildId);
+		if (listenerTimeout) {
+			clearTimeout(listenerTimeout);
+			this.client.timeoutListenersMap.delete(player.guildId);
+		}
+		
+		const songTimeout = this.client.timeoutSongsMap.get(player.guildId);
+		if (songTimeout) {
+			clearTimeout(songTimeout);
+			this.client.timeoutSongsMap.delete(player.guildId);
+		}
+
+		// Update voice channel mapping across shards
+		await VoiceStateHelper.setVoiceChannel(
+			this.client,
+			player.guildId,
+			player.voiceChannelId!,
+			this.client.childEnv.clientId
+		);
 
 		if (!player.options.customData) player.options.customData = {};
 		player.options.customData.botClientId = this.client.childEnv.clientId;
@@ -22,9 +40,13 @@ export default class PlayerCreate extends Event {
 		// Change to Singapore RTC
 		// if (vc.rtcRegion === null) vc.setRTCRegion('singapore');
 
-		// Save player
-		if (!sessionMap.has(player.guildId)) sessionMap.set(player.guildId, new Map());
-		sessionMap.get(player.guildId)!.set(player.voiceChannelId!, player);
+		// Save player session across shards
+		await VoiceStateHelper.saveSession(
+			this.client,
+			player.guildId,
+			player.voiceChannelId!,
+			player
+		);
 
 		this.client.playerSaver!.set(player.guildId, JSON.stringify(player.toJSON()));
 		// await this.client.db.setSavedPlayerData(player.toJSON(), this.client.childEnv.clientId);

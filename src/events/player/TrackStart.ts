@@ -20,7 +20,7 @@ import { T } from '../../structures/I18n';
 import { Event, type Lavamusic } from '../../structures/index';
 import type { Requester } from '../../types';
 import { trackStart } from '../../utils/SetupSystem';
-import { sessionMap } from '../..';
+import { VoiceStateHelper } from '../../utils/VoiceStateHelper';
 
 export default class TrackStart extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -33,12 +33,21 @@ export default class TrackStart extends Event {
 		const guild = this.client.guilds.cache.get(player.guildId);
 		if (!player.options.customData) player.options.customData = {};
 		player.options.customData.botClientId = this.client.childEnv.clientId
-		// Save player
-		if (!sessionMap.has(player.guildId)) sessionMap.set(player.guildId, new Map());
-		sessionMap.get(player.guildId)!.set(player.voiceChannelId!, player);
+		
+		// Save player session across shards
+		await VoiceStateHelper.saveSession(
+			this.client,
+			player.guildId,
+			player.voiceChannelId!,
+			player
+		);
+		
 		// Cancel timeout
-		this.client.timeoutSongsMap.get(player.guildId)?.close();
-		this.client.timeoutSongsMap.delete(player.guildId);
+		const timeout = this.client.timeoutSongsMap.get(player.guildId);
+		if (timeout) {
+			clearTimeout(timeout);
+			this.client.timeoutSongsMap.delete(player.guildId);
+		}
 		if (!guild) return;
 		if (!player.textChannelId) return;
 		if (!track) return;

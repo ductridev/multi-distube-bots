@@ -1,7 +1,7 @@
 import type { ApplicationCommandOptionChoiceData, AutocompleteInteraction, VoiceChannel } from 'discord.js';
 import type { SearchResult } from 'lavalink-client';
 import { Command, type Context, type Lavamusic } from '../../structures/index';
-import { applyFairPlayToQueue } from "../../utils/functions/player";
+import { applyFairPlayToQueue, safeCreatePlayer } from "../../utils/functions/player";
 
 export default class Play extends Command {
 	constructor(client: Lavamusic) {
@@ -55,17 +55,39 @@ export default class Play extends Command {
 		if (!query) return;
 
 		if (!player) {
-			player = client.manager.createPlayer({
-				guildId: ctx.guild!.id,
-				voiceChannelId: memberVoiceChannel.id,
-				textChannelId: ctx.channel.id,
-				selfMute: false,
-				selfDeaf: true,
-				vcRegion: memberVoiceChannel.rtcRegion!,
-			});
-			player.set('summonUserId', ctx.author!.id);
+			// Use safe player creation to prevent multiple bots joining simultaneously
+			const createdPlayer = await safeCreatePlayer(
+				client,
+				ctx.guild!.id,
+				memberVoiceChannel.id,
+				ctx.channel.id,
+				{
+					selfMute: false,
+					selfDeaf: true,
+					vcRegion: memberVoiceChannel.rtcRegion!,
+					summonUserId: ctx.author!.id,
+				}
+			);
+
+			// If player creation failed (another bot is in the channel), notify user
+			if (!createdPlayer) {
+				const embed = this.client.embed()
+					.setColor(this.client.color.red)
+					.setDescription(ctx.locale('event.message.bot_already_in_channel'))
+					.setFooter({
+						text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
+						iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+					})
+					.setTimestamp();
+				
+				return await ctx.editMessage({
+					content: '',
+					embeds: [embed],
+				});
+			}
+			
+			player = createdPlayer;
 		}
-		if (!player.connected) await player.connect();
 
 		const autoplay: boolean = player.get<boolean>('autoplay') || false;
 		player.set('autoplay', autoplay);

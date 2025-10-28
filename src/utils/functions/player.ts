@@ -1,6 +1,7 @@
 import type { Player, SearchResult, Track, UnresolvedSearchResult } from 'lavalink-client';
 import type { Requester } from '../../types';
 import { Lavamusic } from '../../structures';
+import { vcLocks, voiceChannelMap, sessionMap, getStateManager } from '../..';
 
 /**
  * Transforms a requester into a standardized requester object.
@@ -156,4 +157,100 @@ export async function applyFairPlayToQueue(player: Player): Promise<Track[]> {
 	return fairQueue;
 }
 
+/**
+ * Safely creates or gets a player with proper voice channel locking to prevent
+ * multiple bots from joining the same voice channel simultaneously.
+ * 
+ * @param {Lavamusic} client The client instance
+ * @param {string} guildId The guild ID
+ * @param {string} voiceChannelId The voice channel ID
+ * @param {string} textChannelId The text channel ID
+ * @param {any} options Additional player options
+ * @returns {Promise<Player | null>} The player instance or null if another bot is already in the channel
+ */
+export async function safeCreatePlayer(
+	client: Lavamusic,
+	guildId: string,
+	voiceChannelId: string,
+	textChannelId: string,
+	options: {
+		selfMute?: boolean;
+		selfDeaf?: boolean;
+		vcRegion?: string;
+		summonUserId?: string;
+	} = {}
+): Promise<Player | null> {
+	// Use lock to prevent race conditions
+	return await vcLocks.acquire(`${guildId}-${voiceChannelId}`, async () => {
+		// Check if player already exists
+		let player = client.manager.getPlayer(guildId);
+		if (player) {
+			// Player exists, check if it's connected to the same voice channel
+			if (player.voiceChannelId === voiceChannelId) {
+				return player;
+			}
+			// Player exists but in different channel - don't create new one
+			return null;
+		}
 
+		// Check if another bot is already in this voice channel
+		const stateManager = getStateManager(client);
+		let existingBotId: string | null = null;
+
+		if (stateManager) {
+			// Sharded mode: use ShardStateManager
+			existingBotId = await stateManager.getBotInVoiceChannel(guildId, voiceChannelId);
+		} else {
+			// Non-sharded mode: use in-memory map
+			const guildMap = voiceChannelMap.get(guildId);
+			if (guildMap) {
+				existingBotId = guildMap.get(voiceChannelId) || null;
+			}
+		}
+
+		// If another bot is already in the channel, don't create player
+		if (existingBotId && existingBotId !== client.user!.id) {
+			return null;
+		}
+
+		// Safe to create player
+		player = client.manager.createPlayer({
+			guildId,
+			voiceChannelId,
+			textChannelId,
+			selfMute: options.selfMute ?? false,
+			selfDeaf: options.selfDeaf ?? true,
+			vcRegion: options.vcRegion,
+			customData: {
+				botClientId: client.user!.id
+			}
+		});
+
+		if (options.summonUserId) {
+			player.set('summonUserId', options.summonUserId);
+		}
+
+		// Connect the player
+		if (!player.connected) {
+			await player.connect();
+		}
+
+		// Update voice channel mapping
+		if (stateManager) {
+			await stateManager.setVoiceChannelMapping(guildId, voiceChannelId, client.user!.id);
+		} else {
+			if (!voiceChannelMap.has(guildId)) {
+				voiceChannelMap.set(guildId, new Map());
+			}
+			voiceChannelMap.get(guildId)!.set(voiceChannelId, client.user!.id);
+		}
+
+		// Update session map
+		if (!sessionMap.has(guildId)) {
+			sessionMap.set(guildId, new Map());
+		}
+		sessionMap.get(guildId)!.set(voiceChannelId, player);
+
+		return player;
+	});
+}

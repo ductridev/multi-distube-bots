@@ -2,7 +2,7 @@ import type { TextChannel } from 'discord.js';
 import type { Player } from 'lavalink-client';
 import { Event, type Lavamusic } from '../../structures/index';
 import { updateSetup } from '../../utils/SetupSystem';
-import { sessionMap, voiceChannelMap } from '../..';
+import { VoiceStateHelper } from '../../utils/VoiceStateHelper';
 
 export default class PlayerDestroy extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -13,29 +13,43 @@ export default class PlayerDestroy extends Event {
 
 	public async run(player: Player, _reason: string): Promise<void> {
 		const guild = this.client.guilds.cache.get(player.guildId);
-		const guildMap = voiceChannelMap.get(player.guildId);
 
-		if (guildMap) {
-			if (player.options.voiceChannelId && guildMap.has(player.options.voiceChannelId)) {
-				// Remove specific VC mapping
-				guildMap.delete(player.options.voiceChannelId);
-			} else {
-				// VoiceChannelId is null → Clear any entry where this bot is still mapped
-				for (const [vcId, botId] of guildMap.entries()) {
-					if (botId === this.client.childEnv.clientId) {
-						guildMap.delete(vcId);
-					}
-				}
-			}
+		// Clear any pending timeouts for this guild
+		const listenerTimeout = this.client.timeoutListenersMap.get(player.guildId);
+		if (listenerTimeout) {
+			clearTimeout(listenerTimeout);
+			this.client.timeoutListenersMap.delete(player.guildId);
+		}
+		
+		const songTimeout = this.client.timeoutSongsMap.get(player.guildId);
+		if (songTimeout) {
+			clearTimeout(songTimeout);
+			this.client.timeoutSongsMap.delete(player.guildId);
 		}
 
-		const guildSessionMap = sessionMap.get(player.guildId);
+		// Remove voice channel mapping across shards
+		if (player.options.voiceChannelId) {
+			await VoiceStateHelper.removeVoiceChannel(
+				this.client,
+				player.guildId,
+				player.options.voiceChannelId
+			);
+		} else {
+			// VoiceChannelId is null → Clear any entry where this bot is still mapped
+			await VoiceStateHelper.removeBotFromGuild(
+				this.client,
+				player.guildId,
+				this.client.childEnv.clientId
+			);
+		}
 
-		if (guildSessionMap) {
-			if (player.options.voiceChannelId) {
-				// Remove specific VC mapping
-				guildSessionMap.delete(player.options.voiceChannelId);
-			}
+		// Remove player session across shards
+		if (player.options.voiceChannelId) {
+			await VoiceStateHelper.removeSession(
+				this.client,
+				player.guildId,
+				player.options.voiceChannelId
+			);
 		}
 
 		this.client.playerSaver!.delPlayer(player.guildId);

@@ -272,8 +272,11 @@ export default class VoiceStateUpdate extends Event {
 					client.timeoutListenersMap.set(player.guildId, timeout);
 				}
 			} else if (vc.members instanceof Map && [...vc.members.values()].filter((x: GuildMember) => !x.user.bot).length > 0) {
-				client.timeoutListenersMap.get(player.guildId)?.close();
-				client.timeoutListenersMap.delete(player.guildId);
+				const timeout = client.timeoutListenersMap.get(player.guildId);
+				if (timeout) {
+					clearTimeout(timeout);
+					client.timeoutListenersMap.delete(player.guildId);
+				}
 			}
 		},
 	};

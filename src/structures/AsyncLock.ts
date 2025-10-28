@@ -1,7 +1,7 @@
 export default class AsyncLock {
     private locks: Map<string, Promise<void>> = new Map();
 
-    async acquire(key: string, fn: () => Promise<void>): Promise<void> {
+    async acquire<T>(key: string, fn: () => Promise<T>): Promise<T> {
         const previous = this.locks.get(key) ?? Promise.resolve();
 
         let release: () => void;
@@ -11,7 +11,7 @@ export default class AsyncLock {
 
         try {
             await previous;  // Wait for previous lock to finish
-            await fn();      // Run actual function
+            return await fn();      // Run actual function and return result
         } finally {
             release!();      // Unlock
             if (this.locks.get(key) === current) {

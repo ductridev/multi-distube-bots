@@ -13,8 +13,8 @@ import {
   REST,
   type RESTPostAPIChatInputApplicationCommandsJSONBody,
   Routes,
+  Locale
 } from "discord.js";
-import { Locale } from "discord.js";
 import config from "../config";
 import ServerData from "../database/server";
 import { env } from "../env";
@@ -27,6 +27,7 @@ import type { Command } from "./index";
 import { registerBot } from "..";
 import { BotConfig } from "@prisma/client";
 import { PlayerSaver } from "./PlayerSaver";
+import { ShardStateManager } from "./ShardStateManager";
 
 export default class Lavamusic extends Client {
   public commands: Collection<string, any> = new Collection();
@@ -47,6 +48,7 @@ export default class Lavamusic extends Client {
   public timeoutListenersMap: Map<string, NodeJS.Timeout> = new Map();
   public timeoutSongsMap: Map<string, NodeJS.Timeout> = new Map();
   public logger: Logger;
+  public shardStateManager: ShardStateManager | null = null;
   constructor(clientOptions: ClientOptions, bot: BotConfig) {
     super(clientOptions);
     this.logger = new Logger(bot.name);
@@ -62,6 +64,11 @@ export default class Lavamusic extends Client {
     this.db = new ServerData(this.childEnv);
     await this.db.connect();
     config.maintenance = await this.db.getMaintainMode();
+    
+    // Initialize ShardStateManager for cross-shard communication
+    this.shardStateManager = new ShardStateManager(this);
+    this.logger.info("ShardStateManager initialized");
+    
     if (this.env.TOPGG) {
       this.topGG = new Api(this.env.TOPGG);
     } else {
@@ -254,7 +261,21 @@ export default class Lavamusic extends Client {
       : Routes.applicationCommands(applicationId);
 
     try {
-      await this.rest.put(route, { body: this.body });
+      // Fetch existing commands to preserve Entry Point commands
+      const existingCommands = await this.rest.get(route) as any[];
+      const entryPointCommands = existingCommands.filter((cmd: any) => 
+        cmd.integration_types?.includes(1) || cmd.contexts?.includes(1)
+      );
+      
+      // Merge our commands with existing Entry Point commands
+      const commandsToUpdate = [
+        ...this.body,
+        ...entryPointCommands.filter((epc: any) => 
+          !this.body.some((cmd: any) => cmd.name === epc.name)
+        )
+      ];
+      
+      await this.rest.put(route, { body: commandsToUpdate });
       this.logger.info("Successfully deployed slash commands!");
     } catch (error) {
       this.logger.error(error);

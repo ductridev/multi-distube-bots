@@ -5,6 +5,7 @@ import { type Lavamusic } from './structures';
 import AsyncLock from './structures/AsyncLock';
 import { restoreSessions } from './utils/functions/loadSessionsOnStartup';
 import { Player } from 'lavalink-client';
+import { ShardStateManager } from './structures/ShardStateManager';
 
 const prisma = new PrismaClient();
 
@@ -13,6 +14,8 @@ export const activeBots: Lavamusic[] = [];
 // Guild-specific bot preferences (guildId -> clientId[])
 export const guildBotPreferences: Map<string, string[]> = new Map();
 
+// Legacy in-memory maps - still used for non-sharded mode
+// When sharded, use client.shardStateManager instead
 export const voiceChannelMap: Map<string, Map<string, string>> = new Map();
 
 export const sessionMap: Map<string, Map<string, Player | string>> = new Map();
@@ -20,6 +23,17 @@ export const sessionMap: Map<string, Map<string, Player | string>> = new Map();
 export const updateSession: Map<string, NodeJS.Timeout> = new Map();
 
 export const vcLocks = new AsyncLock();
+
+/**
+ * Get the appropriate state manager based on whether the client is sharded
+ */
+export function getStateManager(client: Lavamusic): ShardStateManager | null {
+	// If client has shardStateManager, use it
+	if ((client as any).shardStateManager) {
+		return (client as any).shardStateManager;
+	}
+	return null;
+}
 
 export function registerBot(botInstance: Lavamusic) {
 	activeBots.push(botInstance);

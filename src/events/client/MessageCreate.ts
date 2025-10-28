@@ -13,8 +13,9 @@ import {
 import { T } from '../../structures/I18n';
 import { Context, Event, type Lavamusic } from '../../structures/index';
 import { env } from '../../env';
-import { vcLocks, voiceChannelMap, getBotsForGuild } from '../..';
+import { vcLocks, getBotsForGuild } from '../..';
 import { Stay } from '@prisma/client';
+import { VoiceStateHelper } from '../../utils/VoiceStateHelper';
 
 export default class MessageCreate extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -79,8 +80,8 @@ export default class MessageCreate extends Event {
 
 		if (userVCId) {
 			await vcLocks.acquire(`${guildId}-${userVCId}`, async () => {
-				const guildMap = voiceChannelMap.get(guildId) ?? new Map<string, string>();
-				const activeClientIds = new Set(guildMap.values());
+				const guildMap = await VoiceStateHelper.getVoiceChannelMapping(this.client, guildId);
+				const activeClientIds = await VoiceStateHelper.getActiveBotIds(this.client, guildId);
 
 				const botMeta = await Promise.all(
 					allBots.map(async bot => {
