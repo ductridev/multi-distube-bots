@@ -6,7 +6,7 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 <!-- [![Support Server][support-shield]][support-server] -->
-[![MIT License][license-shield]][license-url]
+[![Custom License][license-shield]][license-url]
 [![Run on Repl.it](https://repl.it/badge/github/ductridev/multi-distube-bots)](https://repl.it/github/ductridev/multi-distube-bots)
 [![Remix on Glitch](https://cdn.glitch.com/2703baf2-b643-4da7-ab91-7ee2a2d00b5b%2Fremix-button.svg)](https://glitch.com/edit/#!/import/github/ductridev/multi-distube-bots)
 
@@ -307,7 +307,19 @@ Your contribution will be reviewed by the project maintainers, and any necessary
 
 ## 🔐 License
 
-Distributed under the GPL-3.0 license. See [![LICENSE](https://img.shields.io/github/license/ductridev/multi-distube-bots?style=social)](https://github.com/ductridev/multi-distube-bots/blob/main/LICENSE) for more information [READ](https://discord.com/channels/942117923001098260/942120006219624469/1278087961774129314).
+This project is licensed under a **Custom Proprietary License** with the following terms:
+
+- ✅ **Free for Private Use**: You can use this bot for free in private, non-commercial Discord servers
+- ❌ **Paid License Required for**:
+  - Public Discord bots (accessible by users outside your organization)
+  - Commercial use (monetization, advertising, paid services)
+  - Distribution or reselling
+
+**SPDX-License-Identifier**: `LicenseRef-BungoMusic-1.0`
+
+See the [LICENSE](LICENSE) file for complete terms and conditions.
+
+📧 **Commercial License Inquiries**: Contact [ductridevdn@gmail.com](mailto:ductridevdn@gmail.com)
 
 ## ☕ Donate
 
