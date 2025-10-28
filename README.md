@@ -345,7 +345,7 @@ Thanks go to these wonderful people:
 [stars-url]: https://github.com/ductridev/multi-distube-bots/stargazers
 [issues-shield]: https://img.shields.io/github/issues/ductridev/multi-distube-bots.svg?style=for-the-badge
 [issues-url]: https://github.com/ductridev/multi-distube-bots/issues
-[license-shield]: https://img.shields.io/github/license/ductridev/multi-distube-bots.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/badge/License-Custom%20Proprietary-red.svg?style=for-the-badge
 [license-url]: https://github.com/ductridev/multi-distube-bots/blob/master/LICENSE
 [support-server]: https://discord.gg/bostreamlimit
 [support-shield]: https://img.shields.io/discord/942117923001098260.svg?style=for-the-badge&logo=discord&colorB=7289DA
