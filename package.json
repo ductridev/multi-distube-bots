@@ -1,6 +1,6 @@
 {
   "name": "bungo-music",
-  "version": "1.0.0-beta",
+  "version": "1.0.0",
   "description": "BuNgo-music is a music bot for Discord, written in JavaScript using the Discord.js, Typescript, lavalink-client (Lavalink) library.",
   "main": "dist/index.js",
   "scripts": {
