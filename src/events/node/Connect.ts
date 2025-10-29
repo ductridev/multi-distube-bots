@@ -138,6 +138,10 @@ export default class Connect extends Event {
 				player.set('autoplay', savedPlayerData.data['autoplay'] === 'true' ? true : false);
 				player.set('summonUserId', savedPlayerData.data['summonUserId']);
 
+				// Initialize maps if they don't exist
+				if (!sessionMap.has(player.guildId)) sessionMap.set(player.guildId, new Map());
+				if (!voiceChannelMap.has(player.guildId)) voiceChannelMap.set(player.guildId, new Map());
+				
 				sessionMap.get(player.guildId)!.set(player.voiceChannelId!, player);
 				voiceChannelMap.get(player.guildId)!.set(player.voiceChannelId!, this.client.childEnv.clientId);
 
