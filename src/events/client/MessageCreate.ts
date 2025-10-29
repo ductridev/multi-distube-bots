@@ -13,9 +13,8 @@ import {
 import { T } from '../../structures/I18n';
 import { Context, Event, type Lavamusic } from '../../structures/index';
 import { env } from '../../env';
-import { vcLocks, getBotsForGuild } from '../..';
+import { getBotsForGuild } from '../..';
 import { Stay } from '@prisma/client';
-import { VoiceStateHelper } from '../../utils/VoiceStateHelper';
 
 export default class MessageCreate extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -69,72 +68,120 @@ export default class MessageCreate extends Event {
 		
 		// Check if no bots are configured for this guild
 		if (allBots.length === 0) {
-			await message.reply({
-				content: T(locale, 'event.message.no_bots_configured')
-			});
+			// Only one bot should reply to avoid spam
+			if (this.client.childEnv.id === this.client.childEnv.id) {
+				await message.reply({
+					content: T(locale, 'event.message.no_bots_configured')
+				});
+			}
 			return;
 		}
 		
-		let chosenBot: typeof this.client = allBots[0];
+		// Early return: If this bot is not configured for this guild, skip processing
+		if (!allBots.some(bot => bot.user?.id === this.client.user?.id)) {
+			return;
+		}
+		
+		let chosenBot: typeof this.client | null = null;
 		let valid = true;
 
+		// CRITICAL FIX: Use a shared state across ALL bot instances
+		// We need to check ACTUAL voice state from Discord, not from local memory
+		// because each bot instance might have different in-memory state
+		const voiceStates = message.guild!.voiceStates.cache;
+		const botClientIds = allBots.map(b => b.user!.id);
+		
+		// Build REAL voice channel mapping from Discord's actual state
+		const realGuildMap = new Map<string, string>();
+		const realActiveClientIds = new Set<string>();
+		
+		for (const [, voiceState] of voiceStates) {
+			if (voiceState.channelId && botClientIds.includes(voiceState.member!.user.id)) {
+				realGuildMap.set(voiceState.channelId, voiceState.member!.user.id);
+				realActiveClientIds.add(voiceState.member!.user.id);
+			}
+		}
+
+		const botMeta = await Promise.all(
+			allBots.map(async bot => {
+				const [prefix, is247] = await Promise.all([
+					bot.db.getPrefix(guildId, bot.childEnv.clientId),
+					bot.db.get_247(bot.childEnv.clientId, guildId)
+				]);
+				return {
+					bot,
+					clientId: bot.childEnv.clientId,
+					name: bot.childEnv.name,
+					prefix,
+					is247: is247 as Stay,
+					isInAnyVC: realActiveClientIds.has(bot.user!.id) // Use REAL state
+				};
+			})
+		);
+
+		// Deterministic bot selection (same result across all bot instances)
 		if (userVCId) {
-			await vcLocks.acquire(`${guildId}-${userVCId}`, async () => {
-				const guildMap = await VoiceStateHelper.getVoiceChannelMapping(this.client, guildId);
-				const activeClientIds = await VoiceStateHelper.getActiveBotIds(this.client, guildId);
+			const botInSameVC = realGuildMap.get(userVCId);
 
-				const botMeta = await Promise.all(
-					allBots.map(async bot => {
-						const [prefix, is247] = await Promise.all([
-							bot.db.getPrefix(guildId, bot.childEnv.clientId),
-							bot.db.get_247(bot.childEnv.clientId, guildId)
-						]);
-						return {
-							bot,
-							clientId: bot.childEnv.clientId,
-							prefix,
-							is247: is247 as Stay,
-							isInAnyVC: activeClientIds.has(bot.childEnv.clientId)
-						};
-					})
-				);
-
-				// Check: Is this bot supposed to handle this message?
-
-				const botInSameVC = guildMap.get(userVCId);
-
-				// Check: Bot already in user's VC
-				const sameVCBot = botMeta.find(entry => botInSameVC === entry.clientId);
-				if (sameVCBot) {
-					chosenBot = sameVCBot.bot;
-					valid = true;
-					return;
-				}
-
-				// Matching prefix & idle
+			// Priority 1: Bot already in user's VC
+			const sameVCBot = botMeta.find(entry => botInSameVC === entry.bot.user!.id);
+			if (sameVCBot) {
+				chosenBot = sameVCBot.bot;
+				valid = true;
+			}
+			// Priority 2: Bot with matching prefix that is idle
+			else {
 				const matchingFreeBot = botMeta.find(entry =>
-					entry.prefix === matchedPrefix && !entry.isInAnyVC
+					entry.prefix === matchedPrefix.trim() && !entry.isInAnyVC
 				);
 				if (matchingFreeBot) {
 					chosenBot = matchingFreeBot.bot;
 					valid = true;
-					return;
 				}
-
-				// Any idle bot
-				const idleBot = botMeta.find(entry => !entry.isInAnyVC);
-				if (idleBot) {
-					chosenBot = idleBot.bot;
-					valid = true;
-					return;
+				// Priority 3: Any idle bot (deterministic: use first idle bot found)
+				else {
+					const idleBot = botMeta.find(entry => !entry.isInAnyVC);
+					if (idleBot) {
+						chosenBot = idleBot.bot;
+						valid = true;
+					}
+					// Priority 4: If using global prefix and all bots busy, use message ID hash
+					else if (matchedPrefix.trim() === env.GLOBAL_PREFIX) {
+						// All bots are busy, but user still wants to queue
+						// Use deterministic distribution based on message ID
+						const botIndex = parseInt(message.id.slice(-4), 16) % allBots.length;
+						chosenBot = allBots[botIndex];
+						valid = true;
+					}
+					// No bot available - all bots are busy in other VCs
+					else {
+						chosenBot = null;
+						valid = false;
+					}
 				}
-
-				// No bot available
-				valid = false;
-			});
+			}
+		} else {
+			// User not in voice channel - select bot based on prefix match or distribution
+			// First try to match the prefix
+			const matchingPrefixBot = botMeta.find(entry => entry.prefix === matchedPrefix.trim());
+			if (matchingPrefixBot) {
+				chosenBot = matchingPrefixBot.bot;
+			}
+			// Otherwise, use round-robin or first bot that matches
+			// If using global prefix, distribute commands across all available bots
+			else if (matchedPrefix.trim() === env.GLOBAL_PREFIX) {
+				// Simple distribution: use hash of message ID to pick a bot
+				const botIndex = parseInt(message.id.slice(-4), 16) % allBots.length;
+				chosenBot = allBots[botIndex];
+			}
+			// Fallback to first available bot
+			else {
+				chosenBot = allBots[0];
+			}
 		}
 
-		if (this.client.user!.id !== chosenBot!.user!.id) return;
+		// Only the chosen bot should continue processing
+		if (!chosenBot || this.client.user!.id !== chosenBot.user!.id) return;
 
 		if (!valid) {
 			await message.reply({
