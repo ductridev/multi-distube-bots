@@ -254,3 +254,17 @@ export async function safeCreatePlayer(
 		return player;
 	});
 }
+
+/**
+ * Updates the player's text channel ID if the command is being used in a different channel.
+ * This ensures announcements and player messages are sent to the most recent channel.
+ *
+ * @param {Player} player The player instance.
+ * @param {string} newTextChannelId The new text channel ID from the current command context.
+ * @returns {void}
+ */
+export function updatePlayerTextChannel(player: Player, newTextChannelId: string): void {
+	if (player.textChannelId !== newTextChannelId) {
+		player.textChannelId = newTextChannelId;
+	}
+}
