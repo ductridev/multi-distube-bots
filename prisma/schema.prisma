@@ -130,3 +130,104 @@ model GuildBotPreferences {
   botClientIds String[]
   updatedAt    DateTime @updatedAt
 }
+
+model DashboardUser {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  discordId   String   @unique
+  username    String
+  avatar      String?
+  role        String   @default("user") // owner, admin, moderator, user
+  createdAt   DateTime @default(now())
+  lastLogin   DateTime @updatedAt
+
+  // Permissions
+  managedBots String[] // clientIds user can manage
+  sessions    DashboardSession[]
+  auditLogs   AuditLog[]
+  apiKeys     ApiKey[]
+  blockedTracks BlockedTrack[]
+}
+
+model DashboardSession {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+
+  user      DashboardUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AuditLog {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  action    String   // bot.create, bot.delete, player.skip, etc.
+  target    String   // clientId, guildId, etc.
+  metadata  Json?    // Additional context
+  timestamp DateTime @default(now())
+
+  user      DashboardUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model BotStats {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  clientId    String
+  timestamp   DateTime @default(now())
+  guildCount  Int
+  playerCount Int
+  totalPlays  Int
+  uptime      Int      // seconds
+  memory      Float    // MB
+  cpu         Float    // percentage
+  latency     Int      // ms
+
+  @@index([clientId, timestamp])
+}
+
+model PlayerHistory {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  guildId   String
+  clientId  String
+  trackUrl  String
+  trackTitle String
+  author    String   // User who requested
+  playedAt  DateTime @default(now())
+  duration  Int      // Track duration in ms
+
+  @@index([guildId, playedAt])
+  @@index([clientId, playedAt])
+}
+
+model ApiKey {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  key         String   @unique
+  name        String
+  userId      String   @db.ObjectId
+  permissions String[] // Array of permission strings
+  rateLimit   Int      @default(100) // requests per minute
+  expiresAt   DateTime?
+  createdAt   DateTime @default(now())
+  lastUsed    DateTime?
+  usageCount  Int      @default(0)
+
+  user        DashboardUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model BlockedTrack {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  uri       String
+  title     String?
+  reason    String
+  blockedBy String   @db.ObjectId // User ID who blocked it
+  blockedAt DateTime @default(now())
+  scope     String   // "global", "guild", or "bot"
+  scopeId   String?  // Guild ID or Bot Client ID
+
+  user      DashboardUser @relation(fields: [blockedBy], references: [id], onDelete: Cascade)
+
+  @@unique([uri, scope, scopeId])
+  @@index([scope, scopeId])
+}
