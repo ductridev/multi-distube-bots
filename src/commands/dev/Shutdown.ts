@@ -66,6 +66,10 @@ export default class Shutdown extends Command {
 				components: [],
 			});
 
+			// Set shutdown flag to preserve player state
+			client.isShuttingDown = true;
+			client.logger.info('Shutdown initiated - preserving player state...');
+			
 			await client.destroy();
 			process.exit(0);
 		});

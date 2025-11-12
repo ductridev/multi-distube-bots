@@ -68,6 +68,10 @@ export default class Restart extends Command {
 			});
 
 			try {
+				// Set shutdown flag to preserve player state during restart
+				client.isShuttingDown = true;
+				client.logger.info('Restart initiated - preserving player state...');
+				
 				// Destroy client connection
 				await client.destroy();
 

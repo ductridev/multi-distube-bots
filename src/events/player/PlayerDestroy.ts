@@ -52,8 +52,14 @@ export default class PlayerDestroy extends Event {
 			);
 		}
 
-		this.client.playerSaver!.delPlayer(player.guildId);
-		// await this.client.db.deleteSavedPlayerData(player.guildId, this.client.childEnv.clientId);
+		// Only delete player data if NOT in graceful shutdown mode
+		// During graceful shutdown, we want to preserve player state for resume
+		if (!this.client.isShuttingDown) {
+			this.client.playerSaver!.delPlayer(player.guildId);
+			// await this.client.db.deleteSavedPlayerData(player.guildId, this.client.childEnv.clientId);
+		} else {
+			this.client.logger.info(`Preserving player data for guild ${player.guildId} during shutdown`);
+		}
 
 		if (!guild) return;
 		const locale = await this.client.db.getLanguage(player.guildId);

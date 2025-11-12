@@ -49,6 +49,7 @@ export default class Lavamusic extends Client {
   public timeoutSongsMap: Map<string, NodeJS.Timeout> = new Map();
   public logger: Logger;
   public shardStateManager: ShardStateManager | null = null;
+  public isShuttingDown: boolean = false;
   constructor(clientOptions: ClientOptions, bot: BotConfig) {
     super(clientOptions);
     this.logger = new Logger(bot.name);

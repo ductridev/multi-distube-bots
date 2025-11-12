@@ -9,6 +9,9 @@ const antiCrash: BotPlugin = {
 	initialize: (client: Lavamusic) => {
 		const handleExit = async (): Promise<void> => {
 			if (client) {
+				// Set shutdown flag to prevent player data deletion
+				client.isShuttingDown = true;
+				client.logger.info('Graceful shutdown initiated - preserving player state...');
 				saveSessions();
 				client.logger.star('Disconnecting from Discord...');
 				await client.destroy();
