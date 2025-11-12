@@ -6,6 +6,7 @@ import AsyncLock from './structures/AsyncLock';
 import { restoreSessions } from './utils/functions/loadSessionsOnStartup';
 import { Player } from 'lavalink-client';
 import { ShardStateManager } from './structures/ShardStateManager';
+import { startApiServer } from './api/server';
 
 const prisma = new PrismaClient();
 
@@ -37,7 +38,7 @@ export function getStateManager(client: Lavamusic): ShardStateManager | null {
 
 export function registerBot(botInstance: Lavamusic) {
 	activeBots.push(botInstance);
-	
+
 	// Set up auto-sync when the bot is ready
 	botInstance.once('ready', async () => {
 		try {
@@ -52,7 +53,7 @@ export function registerBot(botInstance: Lavamusic) {
 async function syncBotWithGuilds(botInstance: Lavamusic) {
 	const guilds = botInstance.guilds.cache;
 	let syncedCount = 0;
-	
+
 	for (const [guildId, guild] of guilds) {
 		try {
 			await addBotToGuild(guildId, botInstance.childEnv.clientId);
@@ -61,7 +62,7 @@ async function syncBotWithGuilds(botInstance: Lavamusic) {
 			console.error(`Failed to sync bot ${botInstance.childEnv.clientId} with guild ${guildId} (${guild.name}):`, error);
 		}
 	}
-	
+
 	console.log(`Bot ${botInstance.childEnv.clientId} synced with ${syncedCount}/${guilds.size} guilds`);
 }
 
@@ -97,17 +98,17 @@ export function getGuildBotPreferences(guildId: string): string[] {
 
 export function getBotsForGuild(guildId: string): Lavamusic[] {
 	const preferredClientIds = guildBotPreferences.get(guildId);
-	
+
 	if (!preferredClientIds || preferredClientIds.length === 0) {
 		// No bots added to this guild, return empty array
 		return [];
 	}
-	
+
 	// Only return bots that are specifically configured for this guild
-	const guildBots = activeBots.filter(bot => 
+	const guildBots = activeBots.filter(bot =>
 		preferredClientIds.includes(bot.childEnv.clientId)
 	);
-	
+
 	return guildBots;
 }
 
@@ -150,7 +151,7 @@ export async function loadBotPreferencesFromDB() {
 export async function syncAllBotsWithGuilds() {
 	console.log('Starting manual sync of all bots with their guilds...');
 	let totalSynced = 0;
-	
+
 	for (const bot of activeBots) {
 		if (bot.isReady()) {
 			try {
@@ -161,7 +162,7 @@ export async function syncAllBotsWithGuilds() {
 			}
 		}
 	}
-	
+
 	console.log(`Manual sync completed: ${totalSynced}/${activeBots.length} bots synced`);
 }
 
@@ -196,6 +197,15 @@ try {
 		for (const bot of bots) {
 			shardStart(bot);
 		}
+
+		// Start API server after bots are initialized
+		setTimeout(async () => {
+			try {
+				await startApiServer(activeBots);
+			} catch (error) {
+				console.error('[API] Failed to start API server:', error);
+			}
+		}, 5000); // Wait 5 seconds for bots to initialize
 	});
 } catch (err) {
 	console.error('[CLIENT] An error has occurred:', err);

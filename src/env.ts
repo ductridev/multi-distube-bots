@@ -48,6 +48,13 @@ const envSchema = z.object({
 	),
 	NODES: z.preprocess(val => (typeof val === 'string' ? JSON.parse(val) : val), z.array(LavalinkNodeSchema)),
 	GENIUS_API: z.string().optional(),
+	// Dashboard
+	API_PORT: z.string().default('3002'),
+	DASHBOARD_URL: z.string().default('http://localhost:3000'),
+	JWT_SECRET: z.string().optional(),
+	DISCORD_CLIENT_ID: z.string().optional(),
+	DISCORD_CLIENT_SECRET: z.string().optional(),
+	SESSION_COOKIE_NAME: z.string().default('dashboard_session'),
 });
 
 type Env = z.infer<typeof envSchema>;
