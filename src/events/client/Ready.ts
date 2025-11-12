@@ -1,5 +1,6 @@
 import { AutoPoster } from 'topgg-autoposter';
 import { Event, type Lavamusic } from '../../structures/index';
+import { dashboardSocket } from '../../api/websocket/DashboardSocket';
 
 export default class Ready extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -19,6 +20,14 @@ export default class Ready extends Event {
 				},
 			],
 			status: this.client.childEnv.status as any,
+		});
+		
+		// Emit WebSocket event for dashboard
+		dashboardSocket.emitBotStatus({
+			clientId: this.client.childEnv.clientId,
+			status: 'online',
+			guilds: this.client.guilds.cache.size,
+			players: this.client.manager?.players.size || 0,
 		});
 
 		// Sync slash commands globally for this bot

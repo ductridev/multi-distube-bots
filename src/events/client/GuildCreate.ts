@@ -1,6 +1,7 @@
 import { EmbedBuilder, type Guild, type GuildMember, type TextChannel } from 'discord.js';
 import { Event, type Lavamusic } from '../../structures/index';
 import { addBotToGuild } from '../..';
+import { dashboardSocket } from '../../api/websocket/DashboardSocket';
 
 export default class GuildCreate extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -17,6 +18,14 @@ export default class GuildCreate extends Event {
 		} catch (error) {
 			this.client.logger.error(`Failed to auto-add bot to guild ${guild.id} preferences:`, error);
 		}
+		
+		// Emit WebSocket event for dashboard
+		dashboardSocket.emitGuildJoin({
+			guildId: guild.id,
+			clientId: this.client.childEnv.clientId,
+			name: guild.name,
+			memberCount: guild.memberCount,
+		});
 
 		let owner: GuildMember | undefined;
 		try {

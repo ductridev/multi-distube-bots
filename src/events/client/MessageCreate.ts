@@ -444,6 +444,15 @@ export default class MessageCreate extends Event {
 		}
 
 		try {
+			// Update player text channel if a player exists and command is music-related
+			const musicCategories = ['music', 'filters', 'playlist'];
+			if (musicCategories.includes(command.category)) {
+				const player = this.client.manager.getPlayer(message.guildId);
+				if (player && player.textChannelId !== message.channelId) {
+					player.textChannelId = message.channelId;
+				}
+			}
+
 			return command.run(this.client, ctx, ctx.args);
 		} catch (error: any) {
 			this.client.logger.error(error);

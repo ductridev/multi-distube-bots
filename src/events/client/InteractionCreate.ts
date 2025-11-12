@@ -383,6 +383,15 @@ export default class InteractionCreate extends Event {
 			}
 
 			try {
+				// Update player text channel if a player exists and command is music-related
+				const musicCategories = ['music', 'filters', 'playlist'];
+				if (musicCategories.includes(command.category)) {
+					const player = this.client.manager.getPlayer(interaction.guildId);
+					if (player && player.textChannelId !== interaction.channelId) {
+						player.textChannelId = interaction.channelId;
+					}
+				}
+
 				await command.run(this.client, ctx, ctx.args);
 				if (setup && interaction.channelId === setup.textId && allowedCategories.includes(command.category)) {
 					setTimeout(() => {
@@ -430,122 +439,18 @@ export default class InteractionCreate extends Event {
 			// --- Skip/Keep Vote Button Handler ---
 			if ('isButton' in interaction && typeof interaction.isButton === 'function' && interaction.isButton()) {
 				const button = interaction as import('discord.js').ButtonInteraction;
-				const { guild, user, customId, message } = button;
-				if (!guild) return;
+				const { customId } = button;
 
-				// --- Skip Vote ---
-				if (customId === 'skip_vote_yes' || customId === 'skip_vote_no') {
-					const player = this.client.manager.getPlayer(guild.id);
-					if (!player) return button.reply({ content: 'No player found.', ephemeral: true });
-					if (!player.get('skipVotes')) player.set('skipVotes', new Set());
-					if (!player.get('keepVotes')) player.set('keepVotes', new Set());
-					const skipVotes = player.get('skipVotes') as Set<string>;
-					const keepVotes = player.get('keepVotes') as Set<string>;
-					skipVotes.delete(user.id);
-					keepVotes.delete(user.id);
-					const member = guild.members.cache.get(user.id);
-					const channel = member?.voice?.channel;
-					let listeners = 0;
-					if (channel && channel.members) {
-						listeners = channel.members.filter((m: any) => !m.user.bot).size;
-					} else {
-						listeners = 1;
-					}
-					const needed = Math.ceil(listeners / 2);
-					if (customId === 'skip_vote_yes') {
-						skipVotes.add(user.id);
-					} else {
-						keepVotes.add(user.id);
-					}
-					player.set('skipVotes', skipVotes);
-					player.set('keepVotes', keepVotes);
-					const locale = await this.client.db.getLanguage(guild.id);
-					const embed = new EmbedBuilder()
-						.setColor(0x00bfff)
-						.setDescription(T(locale, 'cmd.skip.messages.vote_embed', { votes: skipVotes.size, needed }))
-						.setFooter({
-							text: 'BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️',
-							iconURL: 'https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg',
-						})
-						.setTimestamp();
+				// Import VotingSystem for handling votes
+				const { VotingSystem } = await import('../../utils/VotingSystem');
+
+				// Handle voting buttons
+				if (customId.endsWith('_vote_yes') || customId.endsWith('_vote_no')) {
+					const action = customId.replace('_vote_yes', '').replace('_vote_no', '');
+					const voteType = customId.endsWith('_vote_yes') ? 'yes' : 'no';
 					
-					const autoplay = player.get<boolean>('autoplay');
-					if (skipVotes.size >= needed) {
-						player.skip(0, !autoplay);
-						skipVotes.clear();
-						keepVotes.clear();
-						player.set('skipVotes', skipVotes);
-						player.set('keepVotes', keepVotes);
-						const currentTrack = player.queue.current?.info;
-						embed.setDescription(T(locale, 'cmd.skip.messages.skipped', {
-							title: currentTrack?.title,
-							uri: currentTrack?.uri,
-						}));
-						embed.setColor(0x43b581);
-						return await button.update({
-							embeds: [embed],
-							components: [],
-						});
-					} else {
-						return await button.update({
-							embeds: [embed],
-							components: message.components,
-						});
-					}
-				}
-				// --- Stop Vote ---
-				if (customId === 'stop_vote_yes' || customId === 'stop_vote_no') {
-					const player = this.client.manager.getPlayer(guild.id);
-					if (!player) return button.reply({ content: 'No player found.', ephemeral: true });
-					if (!player.get('stopVotes')) player.set('stopVotes', new Set());
-					if (!player.get('keepVotes')) player.set('keepVotes', new Set());
-					const stopVotes = player.get('stopVotes') as Set<string>;
-					const keepVotes = player.get('keepVotes') as Set<string>;
-					stopVotes.delete(user.id);
-					keepVotes.delete(user.id);
-					const member = guild.members.cache.get(user.id);
-					const channel = member?.voice?.channel;
-					let listeners = 0;
-					if (channel && channel.members) {
-						listeners = channel.members.filter((m: any) => !m.user.bot).size;
-					} else {
-						listeners = 1;
-					}
-					const needed = Math.ceil(listeners / 2);
-					if (customId === 'stop_vote_yes') {
-						stopVotes.add(user.id);
-					} else {
-						keepVotes.add(user.id);
-					}
-					player.set('stopVotes', stopVotes);
-					player.set('keepVotes', keepVotes);
-					const locale = await this.client.db.getLanguage(guild.id);
-					const embed = new EmbedBuilder()
-						.setColor(0x00bfff)
-						.setDescription(T(locale, 'cmd.stop.messages.vote_embed', { votes: stopVotes.size, needed }))
-						.setFooter({
-							text: 'BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️',
-							iconURL: 'https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg',
-						})
-						.setTimestamp();
-					if (stopVotes.size >= needed) {
-						player.stopPlaying(true, false);
-						stopVotes.clear();
-						keepVotes.clear();
-						player.set('stopVotes', stopVotes);
-						player.set('keepVotes', keepVotes);
-						embed.setDescription(T(locale, 'cmd.stop.messages.stopped'));
-						embed.setColor(0x43b581);
-						return await button.update({
-							embeds: [embed],
-							components: [],
-						});
-					} else {
-						return await button.update({
-							embeds: [embed],
-							components: message.components,
-						});
-					}
+					await VotingSystem.handleVoteButton(this.client, button, action, voteType);
+					return;
 				}
 			}
 			// --- End Skip/Keep/Stop Vote Button Handler ---

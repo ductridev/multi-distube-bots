@@ -1,6 +1,7 @@
 import { EmbedBuilder, type Guild, type GuildMember, type TextChannel } from 'discord.js';
 import { Event, type Lavamusic } from '../../structures/index';
 import { removeBotFromGuild } from '../..';
+import { dashboardSocket } from '../../api/websocket/DashboardSocket';
 
 export default class GuildDelete extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -11,6 +12,13 @@ export default class GuildDelete extends Event {
 
 	public async run(guild: Guild): Promise<void> {
 		if (!guild) return;
+
+		// Emit guild:leave event to dashboard
+		dashboardSocket.emitGuildLeave({
+			guildId: guild.id,
+			clientId: this.client.childEnv.clientId,
+			name: guild.name,
+		});
 
 		// Automatically remove this bot from the guild's preferences
 		try {

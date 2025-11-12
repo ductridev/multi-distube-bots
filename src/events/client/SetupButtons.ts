@@ -236,6 +236,8 @@ export default class SetupButtons extends Event {
 					break;
 				}
 				case 'STOP_BUT': {
+					// Clear the messageId before stopping to ensure new messages are created for future tracks
+					player.set('messageId', undefined);
 					player.stopPlaying(true, false);
 					await buttonReply(interaction, T(locale, 'event.setupButton.stopped'), this.client.color.main);
 					await message.edit({

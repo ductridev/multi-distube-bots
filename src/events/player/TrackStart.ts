@@ -21,6 +21,10 @@ import { Event, type Lavamusic } from '../../structures/index';
 import type { Requester } from '../../types';
 import { trackStart } from '../../utils/SetupSystem';
 import { VoiceStateHelper } from '../../utils/VoiceStateHelper';
+import { dashboardSocket } from '../../api/websocket/DashboardSocket';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export default class TrackStart extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -51,6 +55,36 @@ export default class TrackStart extends Event {
 		if (!guild) return;
 		if (!player.textChannelId) return;
 		if (!track) return;
+		
+		// Emit WebSocket event for dashboard
+		dashboardSocket.emitPlayerStart({
+			guildId: player.guildId,
+			clientId: this.client.childEnv.clientId,
+			track: {
+				title: track.info.title,
+				author: track.info.author,
+				duration: track.info.duration,
+				uri: track.info.uri,
+			},
+			requestedBy: (track.requester as Requester).username,
+		});
+		
+		// Record to player history
+		try {
+			await prisma.playerHistory.create({
+				data: {
+					guildId: player.guildId,
+					clientId: this.client.childEnv.clientId,
+					trackUrl: track.info.uri,
+					trackTitle: track.info.title,
+					author: (track.requester as Requester).username,
+					duration: track.info.duration,
+				},
+			});
+		} catch (error) {
+			this.client.logger.error('Failed to record player history:', error);
+		}
+		
 		const channel = guild.channels.cache.get(player.textChannelId) as TextChannel;
 		if (!channel) return;
 
@@ -241,6 +275,8 @@ function createCollector(
 				}
 				break;
 			case 'stop': {
+				// Clear the messageId before stopping to ensure new messages are created for future tracks
+				player.set('messageId', undefined);
 				player.stopPlaying(true, false);
 				await interaction.deferUpdate();
 				break;
@@ -248,6 +284,8 @@ function createCollector(
 			case 'skip':
 				const autoplay = player.get<boolean>('autoplay');
 				if (!autoplay && player.queue.tracks.length === 0) {
+					// Clear the messageId before stopping to ensure new messages are created for future tracks
+					player.set('messageId', undefined);
 					player.stopPlaying(true, false);
 					await editMessage(T(locale, 'cmd.stop.messages.stopped'));
 				} else if (player.queue.tracks.length > 0) {

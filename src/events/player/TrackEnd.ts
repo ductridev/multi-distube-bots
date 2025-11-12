@@ -3,6 +3,7 @@ import type { Player, Track, TrackStartEvent } from 'lavalink-client';
 import { Event, type Lavamusic } from '../../structures/index';
 import { updateSetup } from '../../utils/SetupSystem';
 import { T } from '../../structures/I18n';
+import { dashboardSocket } from '../../api/websocket/DashboardSocket';
 
 export default class TrackEnd extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -12,6 +13,12 @@ export default class TrackEnd extends Event {
 	}
 
 	public async run(player: Player, _track: Track | null, _payload: TrackStartEvent): Promise<void> {
+		// Emit player:end event to dashboard
+		dashboardSocket.emitPlayerEnd({
+			guildId: player.guildId,
+			clientId: this.client.childEnv.clientId,
+		});
+
 		// Prevent this event from running if repeat mode is track
 		if (player.repeatMode === 'track') return
 

@@ -32,7 +32,7 @@ export default class PlayerUpdate extends Event {
 		if (shouldSave) {
 			// Save player queue
 			await newPlayer.queue.utils.save();
-			this.client.playerSaver!.set(newPlayerData.guildId, JSON.stringify(newPlayerData));
+			await this.client.playerSaver!.set(newPlayerData.guildId, JSON.stringify(newPlayerData));
 			// await this.client.db.setSavedPlayerData(newPlayerData, this.client.childEnv.clientId);
 		}
 	}
