@@ -79,13 +79,13 @@ export default class Play extends Command {
 						iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
 					})
 					.setTimestamp();
-				
+
 				return await ctx.editMessage({
 					content: '',
 					embeds: [embed],
 				});
 			}
-			
+
 			player = createdPlayer;
 		}
 
@@ -104,6 +104,24 @@ export default class Play extends Command {
 			return await ctx.editMessage({
 				content: '',
 				embeds: [embed.setColor(this.client.color.red).setDescription(ctx.locale('cmd.play.errors.search_error'))],
+			});
+		}
+
+		const isExistLongtrack = response.tracks.some(track => track.info.isStream === false && track.info.duration >= 30 * 60 * 1000); // 30 minutes
+
+		if (isExistLongtrack) {
+			const embed = this.client.embed()
+				.setColor(this.client.color.yellow)
+				.setDescription(ctx.locale('cmd.play.warnings.longtrack_warning'))
+				.setFooter({
+					text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
+					iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
+				})
+				.setTimestamp();
+
+			ctx.editMessage({
+				content: '',
+				embeds: [embed],
 			});
 		}
 
