@@ -1,8 +1,8 @@
 diff --git a/node_modules/lavalink-client/dist/index.d.ts b/node_modules/lavalink-client/dist/index.d.ts
-index 6557ad3..68bae5a 100644
+index 8b81c01..1110205 100644
 --- a/node_modules/lavalink-client/dist/index.d.ts
 +++ b/node_modules/lavalink-client/dist/index.d.ts
-@@ -1074,6 +1074,10 @@ interface PlayerJson {
+@@ -1328,6 +1328,10 @@ interface PlayerJson {
      nodeSessionId?: string;
      /** The stored queue */
      queue?: StoredQueue;
@@ -14,10 +14,10 @@ index 6557ad3..68bae5a 100644
  type RepeatMode = "queue" | "track" | "off";
  interface PlayerOptions {
 diff --git a/node_modules/lavalink-client/dist/index.js b/node_modules/lavalink-client/dist/index.js
-index 565c89d..c89b38a 100644
+index 6f28f5e..65fc8a5 100644
 --- a/node_modules/lavalink-client/dist/index.js
 +++ b/node_modules/lavalink-client/dist/index.js
-@@ -4393,7 +4393,8 @@ var Player = class {
+@@ -4575,7 +4575,8 @@ var Player = class {
        nodeId: this.node?.id,
        nodeSessionId: this.node?.sessionId,
        ping: this.ping,
