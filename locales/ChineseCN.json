@@ -16,12 +16,15 @@
 			"content": "正在测试延迟...",
 			"bot_latency": "机器人延迟",
 			"api_latency": "API 延迟",
+			"vc_latency": "语音频道延迟",
+			"vc_region": "语音频道区域",
 			"requested_by": "由 {author} 请求"
 		},
 		"lavalink": {
 			"description": "显示当前 Lavalink 状态。",
 			"title": "Lavalink 状态",
-			"content": "播放器: {players}\n正在播放的播放器: {playingPlayers}\n正常运行时间: {uptime}\n核心: {cores} 个核心\n内存使用量: {used} / {reservable}\n系统负载: {systemLoad}%\nLavalink 负载: {lavalinkLoad}%"
+			"content": "播放器: {players}\n正在播放的播放器: {playingPlayers}\n正常运行时间: {uptime}\n核心: {cores} 个核心\n内存使用量: {used} / {reservable}\n系统负载: {systemLoad}%\nLavalink 负载: {lavalinkLoad}%\n插件: {plugins}",
+			"page_info": "第 {index} 页，共 {total} 页"
 		},
 		"invite": {
 			"description": "获取机器人邀请链接。",
@@ -133,10 +136,14 @@
 			"description": "启用/关闭低音增强滤镜",
 			"messages": {
 				"filter_enabled": "`✅` | 低音增强滤镜已`启用`。\n**请注意，音量过大会损害您的听力！**",
-				"filter_disabled": "`✅` | 低音增强滤镜已`禁用`。"
+				"filter_disabled": "`✅` | 低音增强滤镜已`禁用`。",
+				"high": "`✅` | 高低音增强滤镜已`启用`。",
+				"low": "`✅` | 低低音增强滤镜已`启用`。",
+				"medium": "`✅` | 中低音增强滤镜已`启用`。",
+				"off": "`✅` | 低音增强滤镜已`禁用`。"
 			},
 			"options": {
-				"level": "The bassboost level you want to set"
+				"level": "您要设置的低音增强级别"
 			}
 		},
 		"distortion": {
@@ -228,6 +235,11 @@
 				"disabled": "`✅` | 震音滤镜已`禁用`。"
 			}
 		},
+		"announce": {
+			"messages": {
+				"default_content": "机器人正在维护中，我们可能会重启机器人。因此，请在维护完成后使用 bresumesesssion 命令继续收听。"
+			}
+		},
 		"autoplay": {
 			"description": "切换自动播放",
 			"messages": {
@@ -243,9 +255,10 @@
 		},
 		"grab": {
 			"description": "获取您 DM 上当前播放的歌曲",
+			"loading": "正在加载...",
 			"content": "**时长:** {length}\n**请求者:** <@{requester}>\n**链接:** [点击此处]({uri})",
 			"check_dm": "请查看您的私信。",
-			"dm_failed": "我无法向您发送私信。"
+			"dm_failed": "我无法向您发送私信。请确保已打开允许接收直接消息。"
 		},
 		"join": {
 			"description": "加入语音频道",
@@ -271,7 +284,13 @@
 		},
 		"pause": {
 			"description": "暂停当前歌曲",
-			"successfully_paused": "已成功暂停歌曲。"
+			"successfully_paused": "已成功暂停歌曲。",
+			"messages": {
+				"vote_embed": "投票暂停: **{votes}/{needed}**\n✅ 暂停，❌ 继续播放。",
+				"button_yes": "✅ 暂停",
+				"button_no": "❌ 继续",
+				"already_voted": "您已经投过票了。"
+			}
 		},
 		"play": {
 			"description": "播放来自 YouTube、Spotify 或 http 的歌曲",
@@ -279,6 +298,9 @@
 				"song": "您要播放的歌曲"
 			},
 			"loading": "正在加载...",
+			"warnings": {
+				"longtrack_warning": "⚠️ **警告:** 搜索结果中的一首或多首曲目时长超过 30 分钟。请确保您想要播放这些长曲目，因为它们可能会影响您的听歌体验。"
+			},
 			"errors": {
 				"search_error": "搜索时出错。",
 				"no_results": "未找到结果。",
@@ -309,7 +331,8 @@
 			"live": "直播",
 			"track_info": "{index}. [{title}]({uri}) - 请求者: <@{requester}> - 时长: `{duration}`",
 			"title": "队列",
-			"page_info": "第 {index} 页，共 {total} 页"
+			"page_info": "第 {index} 页，共 {total} 页",
+			"duration": "队列时长: `{totalDuration}`"
 		},
 		"remove": {
 			"description": "从队列中删除歌曲",
@@ -339,7 +362,11 @@
 				"not_paused": "播放器未暂停。"
 			},
 			"messages": {
-				"resumed": "已恢复播放器。"
+				"resumed": "已恢复播放器。",
+				"vote_embed": "投票恢复: **{votes}/{needed}**\n✅ 恢复，❌ 保持暂停。",
+				"button_yes": "✅ 恢复",
+				"button_no": "❌ 保持暂停",
+				"already_voted": "您已经投过票了。"
 			}
 		},
 		"search": {
@@ -347,6 +374,7 @@
 			"options": {
 				"song": "您要搜索的歌曲"
 			},
+			"select": "请选择您要播放的歌曲",
 			"errors": {
 				"no_results": "未找到结果。",
 				"search_error": "搜索时出错。"
@@ -371,6 +399,9 @@
 		},
 		"shuffle": {
 			"description": "随机播放队列",
+			"errors": {
+				"fairplay": "公平播放模式已启用。您不能随机播放队列。"
+			},
 			"messages": {
 				"shuffled": "已随机播放队列。"
 			}
@@ -378,7 +409,13 @@
 		"skip": {
 			"description": "跳过当前歌曲",
 			"messages": {
-				"skipped": "已跳过 [{title}]({uri})。"
+				"skipped": "已跳过 [{title}]({uri})。",
+				"vote_embed": "投票跳过: **{votes}/{needed}**\n✅ 跳过，❌ 继续播放。",
+				"button_skip": "👍 跳过",
+				"button_keep": "👎 保留",
+				"button_yes": "✅ 跳过",
+				"button_no": "❌ 保留",
+				"already_voted": "您已经投过票了。"
 			}
 		},
 		"skipto": {
@@ -396,7 +433,13 @@
 		"stop": {
 			"description": "停止音乐并清除队列",
 			"messages": {
-				"stopped": "已停止音乐并清除队列。"
+				"stopped": "已停止音乐并清除队列。",
+				"vote_embed": "投票停止: **{votes}/{needed}**\n✅ 停止，❌ 继续播放。",
+				"button_stop": "🛑 停止",
+				"button_keep": "👎 保留",
+				"button_yes": "✅ 停止",
+				"button_no": "❌ 继续",
+				"already_voted": "您已经投过票了。"
 			}
 		},
 		"volume": {
@@ -499,22 +542,57 @@
 			}
 		},
 		"lyrics": {
-			"description": "Get's the lyrics of the currently playing track"
-		},
-		"fairplay": {
-			"description": "Set the bot to play music fairly"
-		},
-		"playlocal": {
-			"description": "Plays an your local audio files",
-			"options": {
-				"file": "The audio file you want to play"
+			"description": "获取当前播放曲目的歌词",
+			"lyrics_track": "### 歌词: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
+			"searching": "`🔍` 正在搜索 **{trackTitle}** 的歌词...",
+			"errors": {
+				"no_results": "未找到当前曲目的歌词。",
+				"lyrics_error": "获取歌词时出错。"
 			}
 		},
+		"fairplay": {
+			"description": "设置机器人公平播放音乐",
+			"errors": {
+				"not_in_voice": "您需要在语音频道中才能使用此命令。",
+				"generic": "执行此命令时出错。"
+			},
+			"messages": {
+				"disabled": "`✅` | 公平播放模式已`禁用`。",
+				"enabled": "`✅` | 公平播放模式已`启用`。",
+				"added_to_queue": "已将 [{title}]({url}) 添加到队列。",
+				"errors": {
+					"empty_query": "请附加音频文件以播放。",
+					"invalid_format": "您只能播放 MP3、WAV、OGG、FLAC、AAC 或 M4A 文件。",
+					"no_results": "播放音频文件失败。它可能已损坏。"
+				}
+			}
+		},
+		"playlocal": {
+			"description": "播放您的本地音频文件",
+			"options": {
+				"file": "您要播放的音频文件"
+			},
+			"loading": "正在加载...",
+			"errors": {
+				"empty_query": "请附加音频文件以播放。",
+				"invalid_format": "您只能播放 MP3、WAV、OGG、FLAC、AAC 或 M4A 文件。",
+				"no_results": "播放音频文件失败。它可能已损坏。"
+			},
+			"added_to_queue": "已将 [{title}]({url}) 添加到队列"
+		},
 		"loop_current": {
-			"description": "cmd.loop_current.description"
+			"description": "切换循环播放当前歌曲。"
 		},
 		"loop_queue": {
-			"description": "cmd.loop_queue.description"
+			"description": "切换循环播放队列。"
+		},
+		"resume_session": {
+			"no_session_found": "未找到上一个会话。",
+			"resume_failed": "出现错误。无法恢复会话。",
+			"resumed": "已成功恢复会话。"
+		},
+		"save_session": {
+			"saved": "成功保存 {saved} 个会话。无法保存 {failed} 个会话。"
 		}
 	},
 	"buttons": {
@@ -583,7 +661,9 @@
 			"no_dj_role": "未设置 DJ 角色。",
 			"no_dj_permission": "您需要拥有 DJ 角色才能使用此命令。",
 			"cooldown": "请等待 {time} 秒后再使用 `{command}` 命令。",
-			"error": "发生错误: `{error}`"
+			"error": "发生错误: `{error}`",
+			"vote_button": "为我投票！",
+			"vote_message": "等等！您需要在 top.gg 上为机器人投票才能使用此命令。谢谢。"
 		},
 		"message": {
 			"prefix_mention": "嘿，我这个服务器的前缀是 `{prefix}`。想要了解更多信息？请执行 `{prefix}help`\n注意安全，保持出色！",
@@ -607,7 +687,13 @@
 			"error": "发生错误: `{error}`",
 			"no_voice_channel_queue": "您未连接到语音频道以将歌曲排入队列。",
 			"no_permission_connect_speak": "我在 <#{channel}> 中没有足够的权限连接/发言。",
-			"different_voice_channel_queue": "您未连接到 <#{channel}> 以将歌曲排入队列。"
+			"different_voice_channel_queue": "您未连接到 <#{channel}> 以将歌曲排入队列。",
+			"maintenance": "机器人正在维护中。请稍后再试。",
+			"no_free_bots": "目前没有可用的机器人。您可能需要向此服务器添加更多机器人。",
+			"no_bots_configured": "此服务器尚未添加任何音乐机器人。请先邀请机器人！",
+			"voice_channel_full": "语音频道 <#{channel}> 已满。请切换到其他频道或增加成员限制。",
+			"vote_button": "为我投票！",
+			"vote_message": "等等！您需要在 top.gg 上为机器人投票才能使用此命令。谢谢。"
 		},
 		"setupButton": {
 			"no_voice_channel_button": "您未连接到语音频道以使用此按钮。",
@@ -641,12 +727,41 @@
 			"forward_footer": "由 {displayName} 快进 • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"button_not_available": "此按钮不可用。",
 			"no_music_playing": "此服务器中没有正在播放的音乐。"
+		},
+		"voice_state_update": {
+			"kicked": "机器人已从语音频道 <#{channelId}> 中被踢出。",
+			"moved": "机器人已移至 <#{channelId}>。",
+			"left_due_to_timeout_no_listeners": "机器人已因不活动（无听众）而离开语音频道 <#{channelId}>。",
+			"left_due_to_timeout_no_songs": "机器人已因不活动（无歌曲）而离开语音频道 <#{channelId}>。"
 		}
+	},
+	"will_leave": {
+		"no_listeners": "由于没有听众，机器人将在 {time} 分钟后离开。",
+		"no_songs": "由于没有歌曲，机器人将在 {time} 分钟后离开。"
+	},
+	"will_restart_after": "机器人将在 {time} 后重启",
+	"maintenance": {
+		"title": "维护模式",
+		"enabled_title": "🛠️ 已启用维护模式",
+		"enabled_desc": "机器人当前处于**维护模式**。音乐命令已禁用。",
+		"disabled_title": "✅ 已禁用维护模式",
+		"disabled_desc": "机器人已**恢复正常运行**。",
+		"field_title": "🔧 维护",
+		"status_title": "🛠️ 维护状态",
+		"status_value": "正在维护中",
+		"affected_title": "🕒 受影响的功能",
+		"affected_value": "音乐和队列命令暂时禁用。",
+		"requested_by": "由 {author} 请求",
+		"global_field_value_enabled": "```diff\n+ {count}/{total} 正在维护中\n```",
+		"global_field_value_disabled": "```diff\n- 全部正常运行\n```",
+		"global_field_fetch_failed": "⚠️ 无法获取数据。",
+		"local_field_enabled": "```diff\n+ 正在维护中\n```",
+		"local_field_disabled": "```diff\n- 正常运行\n```"
 	},
 	"Evaluate code": "评估代码",
 	"Leave a guild": "离开服务器",
 	"List all guilds the bot is in": "列出机器人所在的所有服务器",
 	"Restart the bot": "重启机器人",
-	"The loop mode you want to set": "The loop mode you want to set",
-	"Show current maintenance status.": "Show current maintenance status."
+	"The loop mode you want to set": "您想设置的循环模式",
+	"Show current maintenance status": "显示当前维护状态"
 }

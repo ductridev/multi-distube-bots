@@ -21,7 +21,8 @@
 		"lavalink": {
 			"description": "Zeigt die aktuellen Lavalink-Statistiken an.",
 			"title": "Lavalink-Statistiken",
-			"content": "Spieler: {players}\nSpielende Spieler: {playingPlayers}\nBetriebszeit: {uptime}\nKerne: {cores} Kern(e)\nSpeichernutzung: {used} / {reservable}\nSystemlast: {systemLoad}%\nLavalink-Last: {lavalinkLoad}%"
+			"content": "Spieler: {players}\nSpielende Spieler: {playingPlayers}\nBetriebszeit: {uptime}\nKerne: {cores} Kern(e)\nSpeichernutzung: {used} / {reservable}\nSystemlast: {systemLoad}%\nLavalink-Last: {lavalinkLoad}%",
+			"page_info": "Seite {index} von {total}"
 		},
 		"invite": {
 			"description": "Hole den Einladungslink des Bots.",
@@ -43,7 +44,7 @@
 			"content": "Bot-Informationen:\n- **Betriebssystem**: {osInfo}\n- **Betriebszeit**: {osUptime}\n- **Hostname**: {osHostname}\n- **CPU-Architektur**: {cpuInfo}\n- **CPU-Auslastung**: {cpuUsed}%\n- **Speichernutzung**: {memUsed}MB / {memTotal}GB\n- **Node-Version**: {nodeVersion}\n- **Discord-Version**: {discordJsVersion}\n- **Verbunden mit** {guilds} Guilden, {channels} Kanälen und {users} Benutzern\n- **Gesamtzahl der Befehle**: {commands}"
 		},
 		"about": {
-			"description": "Zeigt Informationen über den Bot an",
+			"description": "Zeigt Informationen über den Bot",
 			"fields": {
 				"creator": "Ersteller",
 				"repository": "Repository",
@@ -118,12 +119,14 @@
 		},
 		"bassboost": {
 			"description": "Bassboost-Filter ein-/ausschalten",
-			"messages": {
-				"filter_enabled": "`✅` | Bassboost-Filter wurde `AKTIVIERT`. \n**Vorsicht, zu lautes Hören kann deine Ohren schädigen!**",
-				"filter_disabled": "`✅` | Bassboost-Filter wurde `DEAKTIVIERT`."
-			},
 			"options": {
-				"level": "The bassboost level you want to set"
+				"level": "Das Bassboost-Level, das Sie einstellen möchten"
+			},
+			"messages": {
+				"high": "`✅` | Hoher Bassboost-Filter wurde `AKTIVIERT`.",
+				"low": "`✅` | Niedriger Bassboost-Filter wurde `AKTIVIERT`.",
+				"medium": "`✅` | Mittlerer Bassboost-Filter wurde `AKTIVIERT`.",
+				"off": "`✅` | Bassboost-Filter wurde `DEAKTIVIERT`."
 			}
 		},
 		"distortion": {
@@ -230,6 +233,7 @@
 		},
 		"grab": {
 			"description": "Holt den aktuell abgespielten Song in deine DM",
+			"loading": "Laden...",
 			"content": "**Dauer:** {length}\n**Angefordert von:** <@{requester}>\n**Link:** [Klicke hier]({uri})",
 			"check_dm": "Bitte überprüfe deine DM.",
 			"dm_failed": "Ich konnte dir keine DM senden."
@@ -258,7 +262,13 @@
 		},
 		"pause": {
 			"description": "Pausiert den aktuellen Song",
-			"successfully_paused": "Song erfolgreich pausiert."
+			"successfully_paused": "Song erfolgreich pausiert.",
+			"messages": {
+				"vote_embed": "Abstimmen zum Pausieren: **{votes}/{needed}**\n✅ zum Pausieren, ❌ zum Weiterspielen.",
+				"button_yes": "✅ Pausieren",
+				"button_no": "❌ Behalten",
+				"already_voted": "Du hast bereits abgestimmt."
+			}
 		},
 		"play": {
 			"description": "Spielt einen Song von YouTube, Spotify oder http ab",
@@ -273,7 +283,10 @@
 				"playlist_too_long": "Die Playlist ist zu lang. Die maximale Länge beträgt {maxPlaylistSize} Songs."
 			},
 			"added_to_queue": "[{title}]({uri}) zur Warteschlange hinzugefügt.",
-			"added_playlist_to_queue": "{length} Songs zur Warteschlange hinzugefügt."
+			"added_playlist_to_queue": "{length} Songs zur Warteschlange hinzugefügt.",
+			"warnings": {
+				"longtrack_warning": "⚠️ **Warnung:** Ein oder mehrere Titel in den Suchergebnissen überschreiten 30 Minuten Dauer. Bitte stellen Sie sicher, dass Sie diese langen Titel abspielen möchten, da sie Ihr Hörerlebnis beeinträchtigen können."
+			}
 		},
 		"playnext": {
 			"description": "Füge den Song hinzu, der als nächstes in der Warteschlange abgespielt werden soll",
@@ -296,7 +309,8 @@
 			"live": "LIVE",
 			"track_info": "{index}. [{title}]({uri}) - Angefordert von: <@{requester}> - Dauer: `{duration}`",
 			"title": "Warteschlange",
-			"page_info": "Seite {index} von {total}"
+			"page_info": "Seite {index} von {total}",
+			"duration": "Warteschlangen-Dauer: `{totalDuration}`"
 		},
 		"remove": {
 			"description": "Entfernt einen Song aus der Warteschlange",
@@ -326,7 +340,11 @@
 				"not_paused": "Der Player ist nicht pausiert."
 			},
 			"messages": {
-				"resumed": "Player fortgesetzt."
+				"resumed": "Player wurde fortgesetzt.",
+				"vote_embed": "Abstimmen zum Fortsetzen: **{votes}/{needed}**\n✅ zum Fortsetzen, ❌ zum Pausiert lassen.",
+				"button_yes": "✅ Fortsetzen",
+				"button_no": "❌ Pausiert lassen",
+				"already_voted": "Du hast bereits abgestimmt."
 			}
 		},
 		"search": {
@@ -334,6 +352,7 @@
 			"options": {
 				"song": "Der Song, nach dem du suchen möchtest"
 			},
+			"select": "Bitte wählen Sie den Titel aus, den Sie abspielen möchten",
 			"errors": {
 				"no_results": "Keine Ergebnisse gefunden.",
 				"search_error": "Ein Fehler ist beim Suchen aufgetreten."
@@ -358,6 +377,9 @@
 		},
 		"shuffle": {
 			"description": "Mische die Warteschlange",
+			"errors": {
+				"fairplay": "Fairplay-Modus ist aktiviert. Sie können die Warteschlange nicht mischen."
+			},
 			"messages": {
 				"shuffled": "Warteschlange gemischt."
 			}
@@ -365,7 +387,13 @@
 		"skip": {
 			"description": "Überspringe den aktuellen Song",
 			"messages": {
-				"skipped": "Übersprungen [{title}]({uri})."
+				"skipped": "Übersprungen [{title}]({uri}).",
+				"vote_embed": "Abstimmen zum Überspringen: **{votes}/{needed}**\n✅ zum Überspringen, ❌ zum Weiterspielen.",
+				"button_skip": "👍 Überspringen",
+				"button_keep": "👎 Behalten",
+				"button_yes": "✅ Überspringen",
+				"button_no": "❌ Behalten",
+				"already_voted": "Du hast bereits abgestimmt."
 			}
 		},
 		"skipto": {
@@ -383,7 +411,13 @@
 		"stop": {
 			"description": "Stoppt die Musik und leert die Warteschlange",
 			"messages": {
-				"stopped": "Musik gestoppt und Warteschlange geleert."
+				"stopped": "Musik gestoppt und Warteschlange geleert.",
+				"vote_embed": "Abstimmen zum Stoppen: **{votes}/{needed}**\n✅ zum Stoppen, ❌ zum Weiterspielen.",
+				"button_stop": "🛑 Stoppen",
+				"button_keep": "👎 Behalten",
+				"button_yes": "✅ Stoppen",
+				"button_no": "❌ Behalten",
+				"already_voted": "Du hast bereits abgestimmt."
 			}
 		},
 		"volume": {
@@ -499,22 +533,43 @@
 			}
 		},
 		"lyrics": {
-			"description": "Get's the lyrics of the currently playing track"
-		},
-		"fairplay": {
-			"description": "Set the bot to play music fairly"
-		},
-		"playlocal": {
-			"description": "Plays an your local audio files",
-			"options": {
-				"file": "The audio file you want to play"
+			"description": "Erhalte die Songtexte des aktuell abgespielten Titels",
+			"lyrics_track": "### Songtext für: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
+			"searching": "`🔍` Suche nach Songtext von **{trackTitle}**...",
+			"errors": {
+				"no_results": "Kein Songtext für den aktuellen Titel gefunden.",
+				"lyrics_error": "Beim Abrufen des Songtexts ist ein Fehler aufgetreten."
 			}
 		},
+		"fairplay": {
+			"description": "Stellen Sie den Bot so ein, dass er Musik fair abspielt",
+			"errors": {
+				"not_in_voice": "Du musst in einem Sprachkanal sein, um diesen Befehl zu verwenden.",
+				"generic": "Ein Fehler ist aufgetreten beim Versuch, diesen Befehl auszuführen."
+			},
+			"messages": {
+				"disabled": "`✅` | Fairplay-Modus wurde `DEAKTIVIERT`.",
+				"enabled": "`✅` | Fairplay-Modus wurde `AKTIVIERT`."
+			}
+		},
+		"playlocal": {
+			"description": "Spiele deine lokalen Audiodateien ab",
+			"options": {
+				"file": "Die Audiodatei, die du abspielen möchtest"
+			},
+			"loading": "Lädt...",
+			"errors": {
+				"empty_query": "Bitte füge eine Audiodatei zum Abspielen hinzu.",
+				"invalid_format": "Du kannst nur MP3-, WAV-, OGG-, FLAC-, AAC- oder M4A-Dateien abspielen.",
+				"no_results": "Die Audiodatei konnte nicht abgespielt werden. Sie könnte beschädigt sein."
+			},
+			"added_to_queue": "[{title}]({url}) zur Warteschlange hinzugefügt"
+		},
 		"loop_current": {
-			"description": "cmd.loop_current.description"
+			"description": "Wiederhole den aktuellen Song"
 		},
 		"loop_queue": {
-			"description": "cmd.loop_queue.description"
+			"description": "Wiederhole die Warteschlange"
 		}
 	},
 	"buttons": {
@@ -556,15 +611,15 @@
 			"looping_off_by": "Schleife aus von {user}"
 		},
 		"setupStart": {
-			"now_playing": "Now Playing",
-			"description": "[{title}]({uri}) by {author} • `[{length}]` - Requested by <@{requester}>",
-			"error_searching": "There was an error while searching.",
-			"no_results": "There were no results found.",
-			"nothing_playing": "Nothing playing right now.",
-			"queue_too_long": "The queue is too long. The maximum length is {maxQueueSize} songs.",
-			"playlist_too_long": "The playlist is too long. The maximum length is {maxPlaylistSize} songs.",
-			"added_to_queue": "Added [{title}]({uri}) to the queue.",
-			"added_playlist_to_queue": "Added [{length}] songs from the playlist to the queue."
+			"now_playing": "Jetzt spielt",
+			"description": "[{title}]({uri}) von {author} • `[{length}]` - Angefordert von <@{requester}>",
+			"error_searching": "Es gab einen Fehler bei der Suche.",
+			"no_results": "Es wurden keine Ergebnisse gefunden.",
+			"nothing_playing": "Momentan wird nichts abgespielt.",
+			"queue_too_long": "Die Warteschlange ist zu lang. Die maximale Länge beträgt {maxQueueSize} Songs.",
+			"playlist_too_long": "Die Playlist ist zu lang. Die maximale Länge beträgt {maxPlaylistSize} Songs.",
+			"added_to_queue": "[{title}]({uri}) zur Warteschlange hinzugefügt.",
+			"added_playlist_to_queue": "[{length}] Songs aus der Playlist zur Warteschlange hinzugefügt."
 		}
 	},
 	"event": {
@@ -583,7 +638,9 @@
 			"no_dj_role": "DJ-Rolle ist nicht gesetzt.",
 			"no_dj_permission": "Du musst die DJ-Rolle haben, um diesen Befehl zu verwenden.",
 			"cooldown": "Bitte warte {time} weitere Sekunde(n), bevor du den Befehl `{command}` erneut verwendest.",
-			"error": "Ein Fehler ist aufgetreten: `{error}`"
+			"error": "Ein Fehler ist aufgetreten: `{error}`",
+			"vote_button": "Stimme für mich ab!",
+			"vote_message": "Warte! Du musst auf top.gg abstimmen, um diesen Befehl zu verwenden. Danke."
 		},
 		"message": {
 			"prefix_mention": "Hey, mein Präfix für diesen Server ist `{prefix}`. Möchtest du mehr Infos? Dann gib `{prefix}help` ein\nBleib sicher, bleib großartig!",
@@ -606,8 +663,19 @@
 			"no_mention_everyone": "Du kannst diesen Befehl nicht mit @everyone oder @here verwenden.",
 			"error": "Ein Fehler ist aufgetreten: `{error}`",
 			"no_voice_channel_queue": "Du bist nicht mit einem Sprachkanal verbunden, um Songs in die Warteschlange zu stellen.",
-			"no_permission_connect_speak": "Ich habe nicht genügend Berechtigungen, um mich in <#{channel}> zu verbinden/sprechen.",
-			"different_voice_channel_queue": "Du bist nicht mit <#{channel}> verbunden, um Songs in die Warteschlange zu stellen."
+			"no_permission_connect_speak": "Ich habe nicht genug Berechtigungen, um mich in <#{channel}> zu verbinden/sprechen.",
+			"different_voice_channel_queue": "Du bist nicht mit <#{channel}> verbunden, um Songs in die Warteschlange zu stellen.",
+			"vote_button": "Stimme für mich ab!",
+			"vote_message": "Warte! Du musst auf top.gg abstimmen, um diesen Befehl zu verwenden. Danke.",
+			"no_free_bots": "Im Moment sind keine Bots verfügbar. Möglicherweise möchtest du weitere Bots zu diesem Server hinzufügen.",
+			"no_bots_configured": "Diesem Server wurden noch keine Musik-Bots hinzugefügt. Bitte lade zuerst einen Bot ein!",
+			"button_pause": "⏸️ Pausieren",
+			"button_resume": "▶️ Fortsetzen",
+			"button_skip": "⏭️ Überspringen",
+			"button_stop": "⏹️ Stoppen",
+			"button_loop_off": "🔁 Schleife Aus",
+			"button_loop_song": "🔂 Song wiederholen",
+			"button_loop_queue": "🔁 Warteschlange wiederholen"
 		},
 		"setupButton": {
 			"no_voice_channel_button": "Du bist nicht mit einem Sprachkanal verbunden, um diesen Button zu verwenden.",
@@ -641,12 +709,32 @@
 			"forward_footer": "Vorgespult von {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "Dieser Button ist nicht verfügbar.",
 			"no_music_playing": "Es wird gerade nichts abgespielt."
+		},
+		"voice_state_update": {
+			"not_in_voice": "Ich habe <#{voiceChannel}> verlassen, weil ich allein war.",
+			"voice_channel_moved": "Ich bin zu <#{voiceChannel}> verschoben worden.",
+			"dj_role_user_moved": "Du hast nicht die DJ-Rolle, um mich zu verschieben.",
+			"alone_in_voice": "Musik wurde pausiert, weil ich allein bin.",
+			"kicked": "Bot wurde aus dem Sprachkanal <#{channelId}> gekickt.",
+			"moved": "Bot wurde zu <#{channelId}> verschoben.",
+			"left_due_to_timeout_no_listeners": "Bot hat den Sprachkanal <#{channelId}> aufgrund von Inaktivität verlassen (keine Zuhörer).",
+			"left_due_to_timeout_no_songs": "Bot hat den Sprachkanal <#{channelId}> aufgrund von Inaktivität verlassen (keine Songs)."
+		},
+		"will_leave": {
+			"no_users": "Ich verlasse <#{voiceChannel}>, weil niemand mehr zuhört.",
+			"queue_empty": "Ich habe <#{voiceChannel}> verlassen, weil die Warteschlange leer ist.",
+			"no_listeners": "Bot wird in {time} Minuten aufgrund fehlender Zuhörer verlassen.",
+			"no_songs": "Bot wird in {time} Minuten aufgrund fehlender Songs verlassen."
 		}
 	},
-	"Evaluate code": "Evaluate code",
-	"Leave a guild": "Leave a guild",
-	"List all guilds the bot is in": "List all guilds the bot is in",
-	"Restart the bot": "Restart the bot",
-	"The loop mode you want to set": "The loop mode you want to set",
-	"Show current maintenance status.": "Show current maintenance status."
+	"Evaluate code": "Code evaluieren",
+	"Leave a guild": "Eine Gilde verlassen",
+	"List all guilds the bot is in": "Alle Gilden auflisten, in denen sich der Bot befindet",
+	"Restart the bot": "Bot neu starten",
+	"The loop mode you want to set": "Der Wiederholungsmodus, den du setzen möchtest",
+	"Show current maintenance status": "Aktuellen Wartungsstatus anzeigen",
+	"will_leave": {
+		"no_listeners": "Bot verlässt in {time} Minuten wegen fehlender Zuhörer.",
+		"no_songs": "Bot verlässt in {time} Minuten wegen fehlender Songs."
+	}
 }

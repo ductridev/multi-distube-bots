@@ -89,6 +89,17 @@
 		  "reset": "Riporta la lingua a quella predefinita"
 		}
 	  },
+	  "fairplay": {
+		"description": "Imposta il bot per riprodurre musica in modo equo",
+		"errors": {
+		  "not_in_voice": "Devi essere in un canale vocale per usare questo comando.",
+		  "generic": "Si è verificato un errore durante l'esecuzione di questo comando."
+		},
+		"messages": {
+		  "disabled": "`✅` | La modalità equa è stata `DISATTIVATA`.",
+		  "enabled": "`✅` | La modalità equa è stata `ATTIVATA`."
+		}
+	  },
 	  "prefix": {
 		"description": "Mostra o imposta il prefisso del bot",
 		"errors": {
@@ -284,7 +295,13 @@
 	  },
 	  "pause": {
 		"description": "Metti in pausa la canzone corrente",
-		"successfully_paused": "Canzone messa in pausa con successo."
+		"successfully_paused": "Canzone messa in pausa con successo.",
+		"messages": {
+		  "vote_embed": "Vota per mettere in pausa: **{votes}/{needed}**\n✅ per mettere in pausa, ❌ per continuare.",
+		  "button_yes": "✅ Pausa",
+		  "button_no": "❌ Continua",
+		  "already_voted": "Hai già votato."
+		}
 	  },
 	  "play": {
 		"description": "Riproduci una canzone da YouTube, Spotify o http",
@@ -299,7 +316,23 @@
 		  "playlist_too_long": "La playlist è troppo lunga. La lunghezza massima è di {maxPlaylistSize} canzoni."
 		},
 		"added_to_queue": "Aggiunta [{title}]({uri}) alla coda.",
-		"added_playlist_to_queue": "Aggiunte {length} canzoni alla coda."
+		"added_playlist_to_queue": "Aggiunte {length} canzoni alla coda.",
+		"warnings": {
+		  "longtrack_warning": "⚠️ **Attenzione:** Una o più tracce nei risultati di ricerca superano i 30 minuti di durata. Assicurati di voler riprodurre queste tracce lunghe poiché potrebbero influenzare la tua esperienza di ascolto."
+		}
+	  },
+	  "playlocal": {
+		"description": "Riproduci i tuoi file audio locali",
+		"options": {
+		  "file": "Il file audio che vuoi riprodurre"
+		},
+		"loading": "Caricamento...",
+		"errors": {
+		  "empty_query": "Allega un file audio da riprodurre.",
+		  "invalid_format": "Puoi riprodurre solo file MP3, WAV, OGG, FLAC, AAC o M4A.",
+		  "no_results": "Impossibile riprodurre il file audio. Potrebbe essere danneggiato."
+		},
+		"added_to_queue": "Aggiunto [{title}]({url}) alla coda"
 	  },
 	  "playnext": {
 		"description": "Aggiungi la canzone da riprodurre successivamente nella coda",
@@ -322,7 +355,8 @@
 		"live": "DIRETTA",
 		"track_info": "{index}. [{title}]({uri}) - Richiesta da: <@{requester}> - Durata: `{duration}`",
 		"title": "Coda",
-		"page_info": "Pagina {index} di {total}"
+		"page_info": "Pagina {index} di {total}",
+		"duration": "Durata Coda: `{totalDuration}`"
 	  },
 	  "remove": {
 		"description": "Rimuovi una canzone dalla coda",
@@ -352,7 +386,11 @@
 		  "not_paused": "Il riproduttore non è in pausa."
 		},
 		"messages": {
-		  "resumed": "Riproduttore ripreso."
+		  "resumed": "Riproduttore ripreso.",
+		  "vote_embed": "Vota per riprendere: **{votes}/{needed}**\n✅ per riprendere, ❌ per tenere in pausa.",
+		  "button_yes": "✅ Riprendi",
+		  "button_no": "❌ Tieni in Pausa",
+		  "already_voted": "Hai già votato."
 		}
 	  },
 	  "search": {
@@ -385,6 +423,9 @@
 	  },
 	  "shuffle": {
 		"description": "Mescola la coda",
+		"errors": {
+		  "fairplay": "La modalità equa è attiva. Non puoi mescolare la coda."
+		},
 		"messages": {
 		  "shuffled": "Coda mescolata."
 		}
@@ -392,7 +433,13 @@
 	  "skip": {
 		"description": "Salta la canzone corrente",
 		"messages": {
-		  "skipped": "Saltata [{title}]({uri})."
+		  "skipped": "Saltata [{title}]({uri}).",
+		  "vote_embed": "Vota per saltare: **{votes}/{needed}**\n✅ per saltare, ❌ per continuare.",
+		  "button_skip": "👍 Salta",
+		  "button_keep": "👎 Continua",
+		  "button_yes": "✅ Salta",
+		  "button_no": "❌ Continua",
+		  "already_voted": "Hai già votato."
 		}
 	  },
 	  "skipto": {
@@ -410,7 +457,13 @@
 	  "stop": {
 		"description": "Ferma la musica e svuota la coda",
 		"messages": {
-		  "stopped": "Musica fermata e coda svuotata."
+		  "stopped": "Musica fermata e coda svuotata.",
+		  "vote_embed": "Vota per fermare: **{votes}/{needed}**\n✅ per fermare, ❌ per continuare.",
+		  "button_stop": "🛑 Ferma",
+		  "button_keep": "👎 Continua",
+		  "button_yes": "✅ Ferma",
+		  "button_no": "❌ Continua",
+		  "already_voted": "Hai già votato."
 		}
 	  },
 	  "volume": {
@@ -511,6 +564,12 @@
 		  "playlist_stolen": "Playlist `{playlist}` rubata con successo da {user}.",
 		  "error_occurred": "Si è verificato un errore durante il furto della playlist."
 		}
+	  },
+	  "loop_current": {
+		"description": "Ripeti la canzone attualmente in riproduzione"
+	  },
+	  "loop_queue": {
+		"description": "Ripeti l'intera coda"
 	  }
 	},
 	"buttons": {
@@ -605,7 +664,9 @@
 		"no_permission_connect_speak": "Non ho abbastanza permessi per connettermi/parlare in <#{channel}>.",
 		"different_voice_channel_queue": "Non sei connesso a <#{channel}> per mettere in coda le canzoni.",
 		"vote_button": "Vota per me!",
-		"vote_message": "Aspetta! Devi votare su top.gg per usare questo comando. Grazie."
+		"vote_message": "Aspetta! Devi votare su top.gg per usare questo comando. Grazie.",
+		"no_free_bots": "Nessun bot è disponibile al momento. Potresti voler aggiungere più bot a questo server.",
+		"no_bots_configured": "Nessun bot musicale è stato ancora aggiunto a questo server. Per favore, invita prima un bot!"
 	  },
 	  "setupButton": {
 		"no_voice_channel_button": "Non sei connesso a un canale vocale per usare questo pulsante.",
@@ -639,11 +700,22 @@
 		"forward_footer": "Mandata avanti da {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 		"button_not_available": "Questo pulsante non è disponibile.",
 		"no_music_playing": "Non c'è musica in riproduzione in questo server."
+	  },
+	  "voice_state_update": {
+		"kicked": "Il bot è stato espulso dal canale vocale <#{channelId}>.",
+		"moved": "Il bot è stato spostato in <#{channelId}>.",
+		"left_due_to_timeout_no_listeners": "Il bot ha lasciato il canale vocale <#{channelId}> a causa di inattività (nessun ascoltatore).",
+		"left_due_to_timeout_no_songs": "Il bot ha lasciato il canale vocale <#{channelId}> a causa di inattività (nessuna canzone)."
 	  }
+	},
+	"will_leave": {
+	  "no_listeners": "Il bot lascerà tra {time} minuti a causa della mancanza di ascoltatori.",
+	  "no_songs": "Il bot lascerà tra {time} minuti a causa della mancanza di canzoni."
 	},
 	"Evaluate code": "Valuta il codice",
 	"Leave a guild": "Abbandona un server",
 	"List all guilds the bot is in": "Elenca tutti i server in cui si trova il bot",
 	"Restart the bot": "Riavvia il bot",
-	"The loop mode you want to set": "La modalità di ripetizione che vuoi impostare"
+	"The loop mode you want to set": "La modalità di ripetizione che vuoi impostare",
+	"Show current maintenance status": "Mostra lo stato di manutenzione corrente"
 }

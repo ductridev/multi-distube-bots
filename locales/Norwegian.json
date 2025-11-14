@@ -21,7 +21,8 @@
 		"lavalink": {
 			"description": "Viser gjeldende Lavalink-statistikk.",
 			"title": "Lavalink-statistikk",
-			"content": "Spillere: {players}\nSpillende spillere: {playingPlayers}\nOppetid: {uptime}\nKjerner: {cores} Kjerne(r)\nMinnebruk: {used} / {reservable}\nSystembelastning: {systemLoad}%\nLavalink-belastning: {lavalinkLoad}%"
+			"content": "Spillere: {players}\nSpillende spillere: {playingPlayers}\nOppetid: {uptime}\nKjerner: {cores} Kjerne(r)\nMinnebruk: {used} / {reservable}\nSystembelastning: {systemLoad}%\nLavalink-belastning: {lavalinkLoad}%",
+			"page_info": "Side {index} av {total}"
 		},
 		"invite": {
 			"description": "Hent botinvitasjonslenken.",
@@ -133,7 +134,11 @@
 			"description": "Slå på/av bassboost-filteret",
 			"messages": {
 				"filter_enabled": "`✅` | Bassboost-filteret er `AKTIVERT`. \n**Vær forsiktig, å lytte for høyt kan skade hørselen!**",
-				"filter_disabled": "`✅` | Bassboost-filteret er `DEAKTIVERT`."
+				"filter_disabled": "`✅` | Bassboost-filteret er `DEAKTIVERT`.",
+				"high": "`✅` | Høy bassforsterkning filter har blitt `AKTIVERT`.",
+				"low": "`✅` | Lav bassforsterkning filter har blitt `AKTIVERT`.",
+				"medium": "`✅` | Medium bassforsterkning filter har blitt `AKTIVERT`.",
+				"off": "`✅` | Bassforsterkning filter har blitt `DEAKTIVERT`."
 			},
 			"options": {
 				"level": "The bassboost level you want to set"
@@ -245,7 +250,8 @@
 			"description": "Henter sangen som spilles av for øyeblikket til din DM",
 			"content": "**Varighet:** {length}\n**Forespurt av:** <@{requester}>\n**Lenke:** [Klikk her]({uri})",
 			"check_dm": "Sjekk din DM.",
-			"dm_failed": "Jeg kunne ikke sende deg en DM."
+			"dm_failed": "Jeg kunne ikke sende deg en DM.",
+			"loading": "Laster..."
 		},
 		"join": {
 			"description": "Blir med i talekanalen",
@@ -271,7 +277,13 @@
 		},
 		"pause": {
 			"description": "Pauser gjeldende sang",
-			"successfully_paused": "Sangen er pauset."
+			"successfully_paused": "Sangen er pauset.",
+			"messages": {
+				"vote_embed": "Vote to pause: **{votes}/{needed}**\n✅ to pause, ❌ to keep playing.",
+				"button_yes": "✅ Pause",
+				"button_no": "❌ Fortsett",
+				"already_voted": "Du har allerede stemt."
+			}
 		},
 		"play": {
 			"description": "Spiller av en sang fra YouTube, Spotify eller http",
@@ -286,7 +298,10 @@
 				"playlist_too_long": "Spillelisten er for lang. Maksimal lengde er {maxPlaylistSize} sanger."
 			},
 			"added_to_queue": "La til [{title}]({uri}) i køen.",
-			"added_playlist_to_queue": "La til {length} sanger i køen."
+			"added_playlist_to_queue": "La til {length} sanger i køen.",
+			"warnings": {
+				"longtrack_warning": "⚠️ **Advarsel:** Ett eller flere spor i søkeresultatene overstiger 30 minutter i varighet. Vennligst sørg for at du vil spille disse lange sporene da de kan påvirke lytteopplevelsen din."
+			}
 		},
 		"playnext": {
 			"description": "Legg til sangen som skal spilles av neste i køen",
@@ -309,7 +324,8 @@
 			"live": "DIREKTE",
 			"track_info": "{index}. [{title}]({uri}) - Forespurt av: <@{requester}> - Varighet: `{duration}`",
 			"title": "Kø",
-			"page_info": "Side {index} av {total}"
+			"page_info": "Side {index} av {total}",
+			"duration": "Køens varighet: `{totalDuration}`"
 		},
 		"remove": {
 			"description": "Fjerner en sang fra køen",
@@ -339,7 +355,11 @@
 				"not_paused": "Spilleren er ikke pauset."
 			},
 			"messages": {
-				"resumed": "Gjenopptok spilleren."
+				"resumed": "Gjenopptok spilleren.",
+				"vote_embed": "Vote to resume: **{votes}/{needed}**\n✅ to resume, ❌ to keep paused.",
+				"button_yes": "✅ Gjenoppta",
+				"button_no": "❌ Hold pauset",
+				"already_voted": "Du har allerede stemt."
 			}
 		},
 		"search": {
@@ -353,7 +373,8 @@
 			},
 			"messages": {
 				"added_to_queue": "La til [{title}]({uri}) i køen."
-			}
+			},
+			"select": "Vennligst velg sangen du vil spille"
 		},
 		"seek": {
 			"description": "Søker til et bestemt tidspunkt i sangen",
@@ -373,12 +394,21 @@
 			"description": "Stokker køen",
 			"messages": {
 				"shuffled": "Stokket køen."
+			},
+			"errors": {
+				"fairplay": "Rettferdig spillmodus er aktivert. Du kan ikke stokke køen."
 			}
 		},
 		"skip": {
 			"description": "Hopper over gjeldende sang",
 			"messages": {
-				"skipped": "Hoppet over [{title}]({uri})."
+				"skipped": "Hoppet over [{title}]({uri}).",
+				"vote_embed": "Vote to skip: **{votes}/{needed}**\n✅ to skip, ❌ to keep playing.",
+				"button_skip": "👍 Hopp over",
+				"button_keep": "👎 Fortsett",
+				"button_yes": "✅ Hopp over",
+				"button_no": "❌ Fortsett",
+				"already_voted": "Du har allerede stemt."
 			}
 		},
 		"skipto": {
@@ -396,7 +426,13 @@
 		"stop": {
 			"description": "Stopper musikken og tømmer køen",
 			"messages": {
-				"stopped": "Stoppet musikken og tømte køen."
+				"stopped": "Stoppet musikken og tømte køen.",
+				"vote_embed": "Vote to stop: **{votes}/{needed}**\n✅ to stop, ❌ to keep playing.",
+				"button_stop": "🛑 Stopp",
+				"button_keep": "👎 Fortsett",
+				"button_yes": "✅ Stopp",
+				"button_no": "❌ Fortsett",
+				"already_voted": "Du har allerede stemt."
 			}
 		},
 		"volume": {
@@ -499,16 +535,37 @@
 			}
 		},
 		"lyrics": {
-			"description": "Get's the lyrics of the currently playing track"
+			"description": "Get's the lyrics of the currently playing track",
+			"lyrics_track": "### Lyrics for: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
+			"searching": "`🔍` Søker etter **{trackTitle}** sangtekst...",
+			"errors": {
+				"no_results": "Ingen sangtekst funnet for gjeldende spor.",
+				"lyrics_error": "En feil oppstod ved henting av sangtekst."
+			}
 		},
 		"fairplay": {
-			"description": "Set the bot to play music fairly"
+			"description": "Set the bot to play music fairly",
+			"errors": {
+				"not_in_voice": "You need to be in a voice channel to use this command.",
+				"generic": "An error occurred while trying to execute this command."
+			},
+			"messages": {
+				"disabled": "`✅` | Fairplay mode has been `DISABLED`.",
+				"enabled": "`✅` | Fairplay mode has been `ENABLED`."
+			}
 		},
 		"playlocal": {
 			"description": "Plays an your local audio files",
 			"options": {
 				"file": "The audio file you want to play"
-			}
+			},
+			"loading": "Laster...",
+			"errors": {
+				"empty_query": "Vennligst legg ved en lydfil for å spille.",
+				"invalid_format": "Du kan bare spille MP3, WAV, OGG, FLAC, AAC eller M4A filer.",
+				"no_results": "Kunne ikke spille lydfilen. Den kan være skadet."
+			},
+			"added_to_queue": "La til [{title}]({url}) i køen"
 		},
 		"loop_current": {
 			"description": "cmd.loop_current.description"
@@ -583,7 +640,9 @@
 			"no_dj_role": "DJ-rollen er ikke angitt.",
 			"no_dj_permission": "Du må ha DJ-rollen for å bruke denne kommandoen.",
 			"cooldown": "Vent {time} sekund(er) til før du bruker `{command}`-kommandoen på nytt.",
-			"error": "En feil oppstod: `{error}`"
+			"error": "En feil oppstod: `{error}`",
+			"vote_button": "Stem på meg!",
+			"vote_message": "Vent! Du må stemme på top.gg for å bruke denne kommandoen. Takk."
 		},
 		"message": {
 			"prefix_mention": "Hei, prefikset mitt for denne serveren er `{prefix}`. Vil du ha mer informasjon? Bruk da `{prefix}help`\nHold deg trygg, hold deg fantastisk!",
@@ -607,7 +666,11 @@
 			"error": "En feil oppstod: `{error}`",
 			"no_voice_channel_queue": "Du er ikke tilkoblet en talekanal for å legge til sanger i køen.",
 			"no_permission_connect_speak": "Jeg har ikke nok tillatelse til å koble til/snakke i <#{channel}>.",
-			"different_voice_channel_queue": "Du er ikke tilkoblet <#{channel}> for å legge til sanger i køen."
+			"different_voice_channel_queue": "Du er ikke tilkoblet <#{channel}> for å legge til sanger i køen.",
+			"vote_button": "Stem på meg!",
+			"vote_message": "Vent! Du må stemme på top.gg for å bruke denne kommandoen. Takk.",
+			"no_free_bots": "Ingen roboter er tilgjengelige akkurat nå. Du vil kanskje legge til flere roboter på denne serveren.",
+			"no_bots_configured": "Ingen musikkroboter har blitt lagt til på denne serveren ennå. Vennligst inviter en robot først!"
 		},
 		"setupButton": {
 			"no_voice_channel_button": "Du er ikke tilkoblet en talekanal for å bruke denne knappen.",
@@ -641,12 +704,23 @@
 			"forward_footer": "Spolet fremover av {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "Denne knappen er ikke tilgjengelig.",
 			"no_music_playing": "Det spilles ingen musikk på denne serveren."
+		},
+		"voice_state_update": {
+			"kicked": "Boten har blitt sparket fra talekanalen <#{channelId}>.",
+			"moved": "Boten har blitt flyttet til <#{channelId}>.",
+			"left_due_to_timeout_no_listeners": "Boten har forlatt talekanalen <#{channelId}> på grunn av inaktivitet (ingen lyttere).",
+			"left_due_to_timeout_no_songs": "Boten har forlatt talekanalen <#{channelId}> på grunn av inaktivitet (ingen sanger)."
 		}
 	},
 	"Evaluate code": "Evaluer kode",
 	"Leave a guild": "Forlat en server",
 	"List all guilds the bot is in": "List opp alle servere boten er på",
 	"Restart the bot": "Start boten på nytt",
-	"The loop mode you want to set": "The loop mode you want to set",
-	"Show current maintenance status.": "Show current maintenance status."
+	"The loop mode you want to set": "Løkkemoduset du vil angi",
+	"Show current maintenance status.": "Show current maintenance status.",
+	"will_leave": {
+		"no_listeners": "Boten vil forlate om {time} minutter på grunn av ingen lyttere.",
+		"no_songs": "Boten vil forlate om {time} minutter på grunn av ingen sanger."
+	},
+	"Show current maintenance status": "Vis nåværende vedlikeholdsstatus"
 }

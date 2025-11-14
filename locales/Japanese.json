@@ -21,7 +21,8 @@
 		"lavalink": {
 			"description": "現在のLavalinkの統計情報を表示します。",
 			"title": "Lavalinkの統計情報",
-			"content": "プレイヤー: {players}\n再生中のプレイヤー: {playingPlayers}\n稼働時間: {uptime}\nコア: {cores} コア\nメモリ使用量: {used} / {reservable}\nシステム負荷: {systemLoad}%\nLavalink負荷: {lavalinkLoad}%"
+			"content": "プレイヤー: {players}\n再生中のプレイヤー: {playingPlayers}\n稼働時間: {uptime}\nコア: {cores} コア\nメモリ使用量: {used} / {reservable}\nシステム負荷: {systemLoad}%\nLavalink負荷: {lavalinkLoad}%",
+			"page_info": "ページ {index} / {total}"
 		},
 		"invite": {
 			"description": "ボットの招待リンクを取得します。",
@@ -133,7 +134,11 @@
 			"description": "ベースブーストフィルターのオン/オフ",
 			"messages": {
 				"filter_enabled": "`✅` | ベースブーストフィルターが`有効`になりました。\n**音量を上げすぎると聴覚に悪影響を与える可能性があるので注意してください！**",
-				"filter_disabled": "`✅` | ベースブーストフィルターが`無効`になりました。"
+				"filter_disabled": "`✅` | ベースブーストフィルターが`無効`になりました。",
+				"high": "`✅` | 高音ベースブーストフィルターが`有効`になりました。",
+				"low": "`✅` | 低音ベースブーストフィルターが`有効`になりました。",
+				"medium": "`✅` | 中音ベースブーストフィルターが`有効`になりました。",
+				"off": "`✅` | ベースブーストフィルターが`無効`になりました。"
 			},
 			"options": {
 				"level": "The bassboost level you want to set"
@@ -245,7 +250,8 @@
 			"description": "現在再生中の曲をDMに送信します",
 			"content": "**再生時間:** {length}\n**リクエスト者:** <@{requester}>\n**リンク:** [ここをクリック]({uri})",
 			"check_dm": "DMを確認してください。",
-			"dm_failed": "DMを送信できませんでした。"
+			"dm_failed": "DMを送信できませんでした。",
+			"loading": "読み込み中..."
 		},
 		"join": {
 			"description": "ボイスチャンネルに参加します",
@@ -271,7 +277,13 @@
 		},
 		"pause": {
 			"description": "現在の曲を一時停止します",
-			"successfully_paused": "曲が正常に一時停止されました。"
+			"successfully_paused": "曲が正常に一時停止されました。",
+			"messages": {
+				"vote_embed": "Vote to pause: **{votes}/{needed}**\n✅ to pause, ❌ to keep playing.",
+				"button_yes": "✅ 一時停止",
+				"button_no": "❌ 続行",
+				"already_voted": "既に投票済みです。"
+			}
 		},
 		"play": {
 			"description": "YouTube、Spotify、またはhttpから曲を再生します",
@@ -286,7 +298,10 @@
 				"playlist_too_long": "プレイリストが長すぎます。最大長は {maxPlaylistSize} 曲です。"
 			},
 			"added_to_queue": "[{title}]({uri}) をキューに追加しました。",
-			"added_playlist_to_queue": "{length} 曲をキューに追加しました。"
+			"added_playlist_to_queue": "{length} 曲をキューに追加しました。",
+			"warnings": {
+				"longtrack_warning": "⚠️ **警告:** 検索結果の1つ以上のトラックが30分を超えています。これらの長いトラックを再生すると、リスニング体験に影響を与える可能性がありますのでご注意ください。"
+			}
 		},
 		"playnext": {
 			"description": "キューの次に再生する曲を追加します",
@@ -309,7 +324,8 @@
 			"live": "ライブ",
 			"track_info": "{index}. [{title}]({uri}) - リクエスト者: <@{requester}> - 再生時間: `{duration}`",
 			"title": "キュー",
-			"page_info": "ページ {index} / {total}"
+			"page_info": "ページ {index} / {total}",
+			"duration": "キューの長さ: `{totalDuration}`"
 		},
 		"remove": {
 			"description": "キューから曲を削除します",
@@ -339,7 +355,11 @@
 				"not_paused": "プレーヤーは一時停止していません。"
 			},
 			"messages": {
-				"resumed": "プレーヤーを再開しました。"
+				"resumed": "プレーヤーを再開しました。",
+				"vote_embed": "Vote to resume: **{votes}/{needed}**\n✅ to resume, ❌ to keep paused.",
+				"button_yes": "✅ 再開",
+				"button_no": "❌ 一時停止継続",
+				"already_voted": "既に投票済みです。"
 			}
 		},
 		"search": {
@@ -353,7 +373,8 @@
 			},
 			"messages": {
 				"added_to_queue": "[{title}]({uri}) をキューに追加しました。"
-			}
+			},
+			"select": "再生したい曲を選択してください"
 		},
 		"seek": {
 			"description": "曲の特定の時間にシークします",
@@ -373,12 +394,21 @@
 			"description": "キューをシャッフルします",
 			"messages": {
 				"shuffled": "キューをシャッフルしました。"
+			},
+			"errors": {
+				"fairplay": "フェアプレイモードが有効です。キューをシャッフルできません。"
 			}
 		},
 		"skip": {
 			"description": "現在の曲をスキップします",
 			"messages": {
-				"skipped": "[{title}]({uri}) をスキップしました。"
+				"skipped": "[{title}]({uri}) をスキップしました。",
+				"vote_embed": "Vote to skip: **{votes}/{needed}**\n✅ to skip, ❌ to keep playing.",
+				"button_skip": "👍 スキップ",
+				"button_keep": "👎 続行",
+				"button_yes": "✅ スキップ",
+				"button_no": "❌ 続行",
+				"already_voted": "既に投票済みです。"
 			}
 		},
 		"skipto": {
@@ -396,7 +426,13 @@
 		"stop": {
 			"description": "音楽を停止し、キューをクリアします",
 			"messages": {
-				"stopped": "音楽を停止し、キューをクリアしました。"
+				"stopped": "音楽を停止し、キューをクリアしました。",
+				"vote_embed": "Vote to stop: **{votes}/{needed}**\n✅ to stop, ❌ to keep playing.",
+				"button_stop": "🛑 停止",
+				"button_keep": "👎 続行",
+				"button_yes": "✅ 停止",
+				"button_no": "❌ 続行",
+				"already_voted": "既に投票済みです。"
 			}
 		},
 		"volume": {
@@ -499,16 +535,37 @@
 			}
 		},
 		"lyrics": {
-			"description": "Get's the lyrics of the currently playing track"
+			"description": "Get's the lyrics of the currently playing track",
+			"lyrics_track": "### Lyrics for: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
+			"searching": "`🔍` **{trackTitle}**の歌詞を検索中...",
+			"errors": {
+				"no_results": "現在のトラックの歌詞が見つかりませんでした。",
+				"lyrics_error": "歌詞の取得中にエラーが発生しました。"
+			}
 		},
 		"fairplay": {
-			"description": "Set the bot to play music fairly"
+			"description": "Set the bot to play music fairly",
+			"errors": {
+				"not_in_voice": "You need to be in a voice channel to use this command.",
+				"generic": "An error occurred while trying to execute this command."
+			},
+			"messages": {
+				"disabled": "`✅` | Fairplay mode has been `DISABLED`.",
+				"enabled": "`✅` | Fairplay mode has been `ENABLED`."
+			}
 		},
 		"playlocal": {
 			"description": "Plays an your local audio files",
 			"options": {
 				"file": "The audio file you want to play"
-			}
+			},
+			"loading": "読み込み中...",
+			"errors": {
+				"empty_query": "再生するオーディオファイルを添付してください。",
+				"invalid_format": "MP3、WAV、OGG、FLAC、AACまたはM4Aファイルのみ再生できます。",
+				"no_results": "オーディオファイルの再生に失敗しました。破損している可能性があります。"
+			},
+			"added_to_queue": "キューに[{title}]({url})を追加しました"
 		},
 		"loop_current": {
 			"description": "cmd.loop_current.description"
@@ -583,7 +640,9 @@
 			"no_dj_role": "DJ ロールが設定されていません。",
 			"no_dj_permission": "このコマンドを使用するにはDJロールが必要です。",
 			"cooldown": "この `{command}` コマンドを再度使用する前に、あと {time} 秒待ってください。",
-			"error": "エラーが発生しました: `{error}`"
+			"error": "エラーが発生しました: `{error}`",
+			"vote_button": "投票してください！",
+			"vote_message": "お待ちください！このコマンドを使用するには、top.ggで投票する必要があります。ありがとうございます。"
 		},
 		"message": {
 			"prefix_mention": "こんにちは、このサーバーの私のプレフィックスは `{prefix}` です。詳細を知りたい場合は `{prefix}help` と入力してください。\n安全に、そして素晴らしく過ごしましょう！",
@@ -607,7 +666,11 @@
 			"error": "エラーが発生しました: `{error}`",
 			"no_voice_channel_queue": "曲をキューに入れるにはボイスチャンネルに接続する必要があります。",
 			"no_permission_connect_speak": "<#{channel}> で接続/発言するための十分な権限がありません。",
-			"different_voice_channel_queue": "曲をキューに入れるために <#{channel}> に接続されていません。"
+			"different_voice_channel_queue": "曲をキューに入れるために <#{channel}> に接続されていません。",
+			"vote_button": "投票してください！",
+			"vote_message": "お待ちください！このコマンドを使用するには、top.ggで投票する必要があります。ありがとうございます。",
+			"no_free_bots": "現在利用可能なボットがありません。このサーバーにさらにボットを追加することをお勧めします。",
+			"no_bots_configured": "このサーバーにはまだ音楽ボットが追加されていません。まずボットを招待してください！"
 		},
 		"setupButton": {
 			"no_voice_channel_button": "このボタンを使用するにはボイスチャンネルに接続する必要があります。",
@@ -641,12 +704,23 @@
 			"forward_footer": "{displayName} によって早送りされました • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "このボタンは使用できません。",
 			"no_music_playing": "現在、何も再生されていません。"
+		},
+		"voice_state_update": {
+			"kicked": "ボットがボイスチャンネル<#{channelId}>からキックされました。",
+			"moved": "ボットが<#{channelId}>に移動されました。",
+			"left_due_to_timeout_no_listeners": "非アクティブ（リスナーなし）のため、ボットがボイスチャンネル<#{channelId}>から退出しました。",
+			"left_due_to_timeout_no_songs": "非アクティブ（曲なし）のため、ボットがボイスチャンネル<#{channelId}>から退出しました。"
 		}
 	},
 	"Evaluate code": "コードを評価",
 	"Leave a guild": "ギルドを離れる",
 	"List all guilds the bot is in": "ボットが所属しているすべてのギルドを一覧表示",
 	"Restart the bot": "ボットを再起動",
-	"The loop mode you want to set": "The loop mode you want to set",
-	"Show current maintenance status.": "Show current maintenance status."
+	"The loop mode you want to set": "設定したいループモード",
+	"Show current maintenance status.": "Show current maintenance status.",
+	"will_leave": {
+		"no_listeners": "リスナーがいないため、ボットは{time}分後に退出します。",
+		"no_songs": "曲がないため、ボットは{time}分後に退出します。"
+	},
+	"Show current maintenance status": "現在のメンテナンス状態を表示"
 }

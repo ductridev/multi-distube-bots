@@ -213,10 +213,10 @@
 			"set": "`✅` | Ngôn ngữ đã được chuyển sang `{language}`."
 		},
 		"lavalink": {
-			"content": "Số trình phát: {players}\nĐang phát: {playingPlayers}\nThời gian hoạt động: {uptime}\nSố lõi CPU: {cores}\nBộ nhớ sử dụng: {used} / {reservable}\nTải hệ thống: {systemLoad}%\nTải Lavalink: {lavalinkLoad}%\nPlugins: {plugins}",
 			"description": "Hiển thị thông tin hiện tại của Lavalink.",
-			"page_info": "Trang {index} / {total}",
-			"title": "Thông tin Lavalink"
+			"title": "Thông tin Lavalink",
+			"content": "Số trình phát: {players}\nĐang phát: {playingPlayers}\nThời gian hoạt động: {uptime}\nSố lõi CPU: {cores}\nBộ nhớ sử dụng: {used} / {reservable}\nTải hệ thống: {systemLoad}%\nTải Lavalink: {lavalinkLoad}%\nPlugins: {plugins}",
+			"page_info": "Trang {index} / {total}"
 		},
 		"leave": {
 			"description": "Rời khỏi kênh thoại",
@@ -289,16 +289,22 @@
 		},
 		"pause": {
 			"description": "Tạm dừng bài hát hiện tại",
-			"successfully_paused": "Đã tạm dừng bài hát."
+			"successfully_paused": "Đã tạm dừng bài hát.",
+			"messages": {
+				"vote_embed": "Bỏ phiếu để tạm dừng: **{votes}/{needed}**\n✅ để tạm dừng, ❌ để tiếp tục phát.",
+				"button_yes": "✅ Tạm dừng",
+				"button_no": "❌ Tiếp tục",
+				"already_voted": "Bạn đã bỏ phiếu rồi."
+			}
 		},
 		"ping": {
-			"api_latency": "Độ trễ của API",
-			"bot_latency": "Độ trễ của Bot",
-			"content": "Đang kiểm tra độ trễ...",
 			"description": "Kiểm tra độ trễ của bot.",
-			"requested_by": "Được yêu cầu bởi {author}",
+			"content": "Đang kiểm tra độ trễ...",
+			"bot_latency": "Độ trễ của Bot",
+			"api_latency": "Độ trễ của API",
 			"vc_latency": "Độ trễ kênh âm thanh",
-			"vc_region": "Điểm cuối của kênh âm thanh"
+			"vc_region": "Vùng kênh âm thanh",
+			"requested_by": "Được yêu cầu bởi {author}"
 		},
 		"pitch": {
 			"description": "Thay đổi độ cao âm thanh",
@@ -313,19 +319,22 @@
 			}
 		},
 		"play": {
-			"added_playlist_to_queue": "Đã thêm {length} bài hát từ danh sách phát vào hàng chờ.",
-			"added_to_queue": "Đã thêm [{title}]({uri}) vào hàng chờ.",
 			"description": "Phát một bài hát từ YouTube, Spotify hoặc đường dẫn trực tiếp",
-			"errors": {
-				"no_results": "Không tìm thấy kết quả phù hợp.",
-				"playlist_too_long": "Danh sách phát quá dài. Giới hạn tối đa là {maxPlaylistSize} bài hát.",
-				"queue_too_long": "Hàng chờ quá dài. Giới hạn tối đa là {maxQueueSize} bài hát.",
-				"search_error": "Đã xảy ra lỗi khi tìm kiếm bài hát."
-			},
-			"loading": "Đang tải bài hát...",
 			"options": {
 				"song": "Tên hoặc liên kết bài hát bạn muốn phát"
-			}
+			},
+			"loading": "Đang tải bài hát...",
+			"warnings": {
+				"longtrack_warning": "⚠️ **Cảnh báo:** Một hoặc nhiều bài hát trong kết quả tìm kiếm có thời lượng vượt quá 30 phút. Vui lòng đảm bảo bạn muốn phát những bài hát dài này vì chúng có thể ảnh hưởng đến trải nghiệm nghe nhạc của bạn."
+			},
+			"errors": {
+				"search_error": "Đã xảy ra lỗi khi tìm kiếm bài hát.",
+				"no_results": "Không tìm thấy kết quả phù hợp.",
+				"queue_too_long": "Hàng chờ quá dài. Giới hạn tối đa là {maxQueueSize} bài hát.",
+				"playlist_too_long": "Danh sách phát quá dài. Giới hạn tối đa là {maxPlaylistSize} bài hát."
+			},
+			"added_to_queue": "Đã thêm [{title}]({uri}) vào hàng chờ.",
+			"added_playlist_to_queue": "Đã thêm {length} bài hát từ danh sách phát vào hàng chờ."
 		},
 		"playlocal": {
 			"added_to_queue": "Đã thêm [{title}]({url}) vào hàng chờ.",
@@ -446,7 +455,11 @@
 				"not_paused": "Bài hát hiện không bị tạm dừng."
 			},
 			"messages": {
-				"resumed": "Đã tiếp tục phát nhạc."
+				"resumed": "Đã tiếp tục phát nhạc.",
+				"vote_embed": "Bỏ phiếu để tiếp tục phát: **{votes}/{needed}**\n✅ để tiếp tục, ❌ để giữ nguyên tạm dừng.",
+				"button_yes": "✅ Tiếp tục",
+				"button_no": "❌ Giữ tạm dừng",
+				"already_voted": "Bạn đã bỏ phiếu rồi."
 			}
 		},
 		"rotation": {
@@ -521,6 +534,8 @@
 				"vote_embed": "Bỏ phiếu để bỏ qua bài hát này: **{votes}/{needed}** phiếu cần thiết.",
 				"button_skip": "Bỏ Qua",
 				"button_keep": "Giữ Lại",
+				"button_yes": "✅ Bỏ qua",
+				"button_no": "❌ Giữ lại",
 				"already_voted": "Bạn đã bỏ phiếu rồi."
 			}
 		},
@@ -567,6 +582,8 @@
 				"vote_embed": "Bỏ phiếu để dừng phát nhạc: **{votes}/{needed}** phiếu cần thiết.",
 				"button_stop": "Dừng",
 				"button_keep": "Tiếp tục phát",
+				"button_yes": "✅ Dừng",
+				"button_no": "❌ Tiếp tục",
 				"already_voted": "Bạn đã bỏ phiếu rồi."
 			}
 		},
@@ -747,12 +764,11 @@
 		}
 	},
 	"Restart the bot": "Khởi động lại bot",
-	"Show current maintenance status": "Hiển thị tình trạng bảo trì hiện tại.",
+	"Show current maintenance status": "Hiển thị tình trạng bảo trì hiện tại",
 	"The loop mode you want to set": "Chế độ lặp lại bạn muốn đặt",
 	"will_leave": {
 		"no_listeners": "Bot sẽ rời đi sau {time} phút vì không có người nghe.",
 		"no_songs": "Bot sẽ rời đi sau {time} phút vì không có bài hát nào."
 	},
-	"will_restart_after": "Bot sẽ khởi động lại sau {time}",
-	"Show current maintenance status.": "Show current maintenance status."
+	"will_restart_after": "Bot sẽ khởi động lại sau {time}"
 }

@@ -13,7 +13,7 @@
 		},
 		"ping": {
 			"description": "Bot ka ping dhakeye",
-			"content": "Pinging...",
+			"content": "पिंग हो रहा है...",
 			"bot_latency": "Bot Vilanbta",
 			"api_latency": "API Vilanbta",
 			"requested_by": "{author} dwara anurodh kiya gaya"
@@ -21,7 +21,8 @@
 		"lavalink": {
 			"description": "Mojuda Lavalink aakde dhakeye",
 			"title": "Lavalink Aakde",
-			"content": "Player: {players}\nChal rahe Player: {playingPlayers}\nUptime: {uptime}\nCores: {cores} Core(s)\nSmriti Upbhog: {used} / {reservable}\nSystem Load: {systemLoad}%\nLavalink Load: {lavalinkLoad}%"
+			"content": "Player: {players}\nChal rahe Player: {playingPlayers}\nUptime: {uptime}\nCores: {cores} Core(s)\nSmriti Upbhog: {used} / {reservable}\nSystem Load: {systemLoad}%\nLavalink Load: {lavalinkLoad}%",
+			"page_info": "पृष्ठ {index} कुल {total} में से"
 		},
 		"invite": {
 			"description": "Bot nimantran link prapt karein",
@@ -46,7 +47,7 @@
 			"description": "Bot ke baare mein jankari dhakeye",
 			"fields": {
 				"creator": "Nirmata",
-				"repository": "Repository",
+				"repository": "रिपॉजिटरी",
 				"support": "Sahayta",
 				"description": "Woh sachmuch mein coding anubhav ke liye apna pehla open source project banana chahta tha. Is project mein, use kam bugs ke sath ek project banane ki चुनौती दी गई थी. Aasha hai aap MultiBungoBot ka upyog karke anand lenge!"
 			}
@@ -73,7 +74,7 @@
 				"toggle": "DJ role ko toggle karta hai",
 				"role": "DJ role"
 			},
-			"subcommands": "Subcommands"
+			"subcommands": "उपकमांड"
 		},
 		"language": {
 			"description": "Bot ke liye bhasha set karein",
@@ -133,10 +134,14 @@
 			"description": "bassboost filter on/off karein",
 			"messages": {
 				"filter_enabled": "`✅` | Bassboost filter `SAKRIYA` kar diya gaya hai. \n**Savdhan rahein, tej awaz mein sunne se aapke kaano ko nuksan pahunch sakta hai!**",
-				"filter_disabled": "`✅` | Bassboost filter `NIRAKRIYA` kar diya gaya hai."
+				"filter_disabled": "`✅` | Bassboost filter `NIRAKRIYA` kar diya gaya hai.",
+				"high": "`✅` | उच्च बासबूस्ट फ़िल्टर `सक्षम` हो गया है।",
+				"low": "`✅` | निम्न बासबूस्ट फ़िल्टर `सक्षम` हो गया है।",
+				"medium": "`✅` | मध्यम बासबूस्ट फ़िल्टर `सक्षम` हो गया है।",
+				"off": "`✅` | बासबूस्ट फ़िल्टर `अक्षम` हो गया है।"
 			},
 			"options": {
-				"level": "The bassboost level you want to set"
+				"level": "आप जो बासबूस्ट स्तर सेट करना चाहते हैं"
 			}
 		},
 		"distortion": {
@@ -245,7 +250,8 @@
 			"description": "Aapke DM par chal rahe song ko grab karta hai",
 			"content": "**Aawadhi:** {length}\n**Anurodh karta:** <@{requester}>\n**Link:** [Yahan click karein]({uri})",
 			"check_dm": "Kripya apna DM check karein.",
-			"dm_failed": "Main aapko DM nahin bhej saka."
+			"dm_failed": "Main aapko DM nahin bhej saka.",
+			"loading": "लोड हो रहा है..."
 		},
 		"join": {
 			"description": "Voice channel mein shamil hota hai",
@@ -271,14 +277,20 @@
 		},
 		"pause": {
 			"description": "Mojuda song ko pause karein",
-			"successfully_paused": "Song ko safaltapoorvak pause kar diya गया."
+			"successfully_paused": "Song ko safaltapoorvak pause kar diya गया.",
+			"messages": {
+				"vote_embed": "Vote to pause: **{votes}/{needed}**\n✅ to pause, ❌ to keep playing.",
+				"button_yes": "✅ रोकें",
+				"button_no": "❌ जारी रखें",
+				"already_voted": "आप पहले ही वोट कर चुके हैं।"
+			}
 		},
 		"play": {
 			"description": "YouTube, Spotify ya http se ek song play karein",
 			"options": {
 				"song": "Woh song jise aap play karna chahte hain"
 			},
-			"loading": "Loading...",
+			"loading": "लोड हो रहा है...",
 			"errors": {
 				"search_error": "Khojte samay ek error aaya.",
 				"no_results": "Koi result nahin mila.",
@@ -286,14 +298,17 @@
 				"playlist_too_long": "Playlist bahut lambi hai. Adhiktam lambai {maxPlaylistSize} songs hai."
 			},
 			"added_to_queue": "[{title}]({uri}) ko queue mein jod diya gaya है.",
-			"added_playlist_to_queue": "{length} songs ko queue mein jod diya गया है."
+			"added_playlist_to_queue": "{length} songs ko queue mein jod diya गया है.",
+			"warnings": {
+				"longtrack_warning": "⚠️ **चेतावनी:** खोज परिणामों में एक या अधिक ट्रैक 30 मिनट से अधिक समय के हैं। कृपया सुनिश्चित करें कि आप इन लंबे ट्रैक को चलाना चाहते हैं क्योंकि वे आपके सुनने के अनुभव को प्रभावित कर सकते हैं।"
+			}
 		},
 		"playnext": {
 			"description": "Queue mein aage play karne ke liye song jodein",
 			"options": {
 				"song": "Woh song jise aap play karna chahte hain"
 			},
-			"loading": "Loading...",
+			"loading": "लोड हो रहा है...",
 			"errors": {
 				"search_error": "Khojte samay ek error aaya.",
 				"no_results": "Koi result nahin mila.",
@@ -306,10 +321,11 @@
 		"queue": {
 			"description": "Mojuda queue dhakeye",
 			"now_playing": "Abhi chal raha hai: [{title}]({uri}) - Anurodh karta: <@{requester}> - Aawadhi: `{duration}`",
-			"live": "LIVE",
+			"live": "लाइव",
 			"track_info": "{index}. [{title}]({uri}) - Anurodh karta: <@{requester}> - Aawadhi: `{duration}`",
-			"title": "Queue",
-			"page_info": "{total} mein se page {index}"
+			"title": "कतार",
+			"page_info": "{total} mein se page {index}",
+			"duration": "कतार अवधि: `{totalDuration}`"
 		},
 		"remove": {
 			"description": "Queue se ek song hatayein",
@@ -339,7 +355,11 @@
 				"not_paused": "Player pause nahin hai."
 			},
 			"messages": {
-				"resumed": "Player ko resume kar diya gaya है."
+				"resumed": "Player ko resume kar diya gaya है.",
+				"vote_embed": "Vote to resume: **{votes}/{needed}**\n✅ to resume, ❌ to keep paused.",
+				"button_yes": "✅ फिर से शुरू करें",
+				"button_no": "❌ रोके रखें",
+				"already_voted": "आप पहले ही वोट कर चुके हैं।"
 			}
 		},
 		"search": {
@@ -353,7 +373,8 @@
 			},
 			"messages": {
 				"added_to_queue": "[{title}]({uri}) ko queue mein jod diya gaya है."
-			}
+			},
+			"select": "कृपया वह गाना चुनें जिसे आप चलाना चाहते हैं"
 		},
 		"seek": {
 			"description": "Song mein ek nishchit samay tak khojein",
@@ -373,12 +394,21 @@
 			"description": "Queue ko shuffle karein",
 			"messages": {
 				"shuffled": "Queue ko shuffle kar diya गया है."
+			},
+			"errors": {
+				"fairplay": "फेयरप्ले मोड सक्षम है। आप कतार को शफ़ल नहीं कर सकते।"
 			}
 		},
 		"skip": {
 			"description": "Mojuda song ko skip karein",
 			"messages": {
-				"skipped": "[{title}]({uri}) ko skip kar diya गया है."
+				"skipped": "[{title}]({uri}) ko skip kar diya गया है.",
+				"vote_embed": "Vote to skip: **{votes}/{needed}**\n✅ to skip, ❌ to keep playing.",
+				"button_skip": "👍 छोड़ें",
+				"button_keep": "👎 जारी रखें",
+				"button_yes": "✅ छोड़ें",
+				"button_no": "❌ जारी रखें",
+				"already_voted": "आप पहले ही वोट कर चुके हैं।"
 			}
 		},
 		"skipto": {
@@ -396,7 +426,13 @@
 		"stop": {
 			"description": "Music band karein aur queue clear karein",
 			"messages": {
-				"stopped": "Music band kar diya गया है aur queue clear कर दी गई है."
+				"stopped": "Music band kar diya गया है aur queue clear कर दी गई है.",
+				"vote_embed": "Vote to stop: **{votes}/{needed}**\n✅ to stop, ❌ to keep playing.",
+				"button_stop": "🛑 रोकें",
+				"button_keep": "👎 जारी रखें",
+				"button_yes": "✅ रोकें",
+				"button_no": "❌ जारी रखें",
+				"already_voted": "आप पहले ही वोट कर चुके हैं।"
 			}
 		},
 		"volume": {
@@ -499,16 +535,37 @@
 			}
 		},
 		"lyrics": {
-			"description": "Get's the lyrics of the currently playing track"
+			"description": "वर्तमान में चल रहे ट्रैक के बोल प्राप्त करें",
+			"lyrics_track": "### Lyrics for: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
+			"searching": "`🔍` **{trackTitle}** के बोल खोजे जा रहे हैं...",
+			"errors": {
+				"no_results": "वर्तमान ट्रैक के लिए कोई बोल नहीं मिले।",
+				"lyrics_error": "बोल प्राप्त करते समय एक त्रुटि हुई।"
+			}
 		},
 		"fairplay": {
-			"description": "Set the bot to play music fairly"
+			"description": "बॉट को संगीत निष्पक्ष रूप से चलाने के लिए सेट करें",
+			"errors": {
+				"not_in_voice": "इस कमांड का उपयोग करने के लिए आपको वॉइस चैनल में होना चाहिए।",
+				"generic": "इस कमांड को निष्पादित करने का प्रयास करते समय एक त्रुटि हुई।"
+			},
+			"messages": {
+				"disabled": "`✅` | फेयरप्ले मोड `अक्षम` कर दिया गया है।",
+				"enabled": "`✅` | फेयरप्ले मोड `सक्षम` कर दिया गया है।"
+			}
 		},
 		"playlocal": {
-			"description": "Plays an your local audio files",
+			"description": "आपकी स्थानीय ऑडियो फ़ाइलें चलाता है",
 			"options": {
-				"file": "The audio file you want to play"
-			}
+				"file": "वह ऑडियो फ़ाइल जिसे आप चलाना चाहते हैं"
+			},
+			"loading": "लोड हो रहा है...",
+			"errors": {
+				"empty_query": "कृपया चलाने के लिए एक ऑडियो फ़ाइल संलग्न करें।",
+				"invalid_format": "आप केवल MP3, WAV, OGG, FLAC, AAC या M4A फ़ाइलें चला सकते हैं।",
+				"no_results": "ऑडियो फ़ाइल चलाने में विफल। यह दूषित हो सकती है।"
+			},
+			"added_to_queue": "कतार में [{title}]({url}) जोड़ा गया"
 		},
 		"loop_current": {
 			"description": "cmd.loop_current.description"
@@ -519,12 +576,12 @@
 	},
 	"buttons": {
 		"invite": "Nimantran",
-		"support": "Support Server",
+		"support": "सहायता सर्वर",
 		"previous": "Pichhla",
-		"resume": "Resume",
+		"resume": "पुनः आरंभ करें",
 		"stop": "Roko",
-		"skip": "Skip",
-		"loop": "Loop",
+		"skip": "छोड़ें",
+		"loop": "लूप",
 		"errors": {
 			"not_author": "Aap is button ka upyog nahin kar sakte."
 		}
@@ -583,7 +640,9 @@
 			"no_dj_role": "DJ role set nahin hai.",
 			"no_dj_permission": "Is command ka upyog karne ke liye aapke paas DJ role hone ki jaroorat hai.",
 			"cooldown": "`{command}` command ka fir se upyog karne se pehle kripya {time} second(s) aur प्रतीक्षा करें.",
-			"error": "Ek error aaya: `{error}`"
+			"error": "Ek error aaya: `{error}`",
+			"vote_button": "मुझे वोट करें!",
+			"vote_message": "रुकें! इस कमांड का उपयोग करने के लिए आपको top.gg पर वोट करना होगा। धन्यवाद।"
 		},
 		"message": {
 			"prefix_mention": "Hey, is server ke liye mera prefix `{prefix}` hai. Aur jankari chahiye? To `{prefix}help` karein\nSurakshit Rahein, Shaandaar Rahein!",
@@ -607,13 +666,17 @@
 			"error": "Ek error aaya: `{error}`",
 			"no_voice_channel_queue": "Songs ko queue mein jodne ke liye aap kisi voice channel से जुड़े नहीं हैं.",
 			"no_permission_connect_speak": "Mere paas <#{channel}> mein connect/speak karne ki पर्याप्त permission nahin hai.",
-			"different_voice_channel_queue": "Songs ko queue mein jodne ke liye aap <#{channel}> se nahin जुड़े हैं."
+			"different_voice_channel_queue": "Songs ko queue mein jodne ke liye aap <#{channel}> se nahin जुड़े हैं.",
+			"vote_button": "मुझे वोट करें!",
+			"vote_message": "रुकें! इस कमांड का उपयोग करने के लिए आपको top.gg पर वोट करना होगा। धन्यवाद।",
+			"no_free_bots": "अभी कोई बॉट उपलब्ध नहीं है। आप इस सर्वर में और बॉट जोड़ना चाह सकते हैं।",
+			"no_bots_configured": "इस सर्वर में अभी तक कोई म्यूज़िक बॉट नहीं जोड़ा गया है। कृपया पहले एक बॉट को आमंत्रित करें!"
 		},
 		"setupButton": {
 			"no_voice_channel_button": "Is button ka upyog karne ke liye aap kisi voice channel से जुड़े नहीं हैं.",
 			"different_voice_channel_button": "In buttons ka upyog karne ke liye aap {channel} se nahin जुड़े हैं.",
 			"now_playing": "Abhi Chal Raha Hai",
-			"live": "LIVE",
+			"live": "लाइव",
 			"requested_by": "<@{requester}> dwara anurodh kiya गया",
 			"no_dj_permission": "Is command ka upyog karne ke liye aapke paas DJ role hone ki jaroorat hai.",
 			"volume_set": "Volume {vol}% par set कर दिया गया है",
@@ -641,12 +704,23 @@
 			"forward_footer": "{displayName} dwara forward kiya गया • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "Yeh button uplabdh nahin hai.",
 			"no_music_playing": "Abhi kuchh bhi play nahin ho raha hai."
+		},
+		"voice_state_update": {
+			"kicked": "बॉट को वॉइस चैनल <#{channelId}> से निकाल दिया गया है।",
+			"moved": "बॉट को <#{channelId}> में स्थानांतरित कर दिया गया है।",
+			"left_due_to_timeout_no_listeners": "निष्क्रियता (कोई श्रोता नहीं) के कारण बॉट ने वॉइस चैनल <#{channelId}> छोड़ दिया है।",
+			"left_due_to_timeout_no_songs": "निष्क्रियता (कोई गाना नहीं) के कारण बॉट ने वॉइस चैनल <#{channelId}> छोड़ दिया है।"
 		}
 	},
-	"Evaluate code": "Evaluate code",
-	"Leave a guild": "Leave a guild",
-	"List all guilds the bot is in": "List all guilds the bot is in",
-	"Restart the bot": "Restart the bot",
-	"The loop mode you want to set": "The loop mode you want to set",
-	"Show current maintenance status.": "Show current maintenance status."
+	"Evaluate code": "कोड का मूल्यांकन करें",
+	"Leave a guild": "सर्वर छोड़ें",
+	"List all guilds the bot is in": "बॉट जिन सभी सर्वरों में है उन्हें सूचीबद्ध करें",
+	"Restart the bot": "बॉट को पुनः आरंभ करें",
+	"The loop mode you want to set": "आप जो लूप मोड सेट करना चाहते हैं",
+	"Show current maintenance status.": "Show current maintenance status.",
+	"will_leave": {
+		"no_listeners": "सुनने वालों के न होने के कारण बॉट {time} मिनट में चला जाएगा।",
+		"no_songs": "गाने न होने के कारण बॉट {time} मिनट में चला जाएगा।"
+	},
+	"Show current maintenance status": "वर्तमान रखरखाव स्थिति दिखाएं"
 }

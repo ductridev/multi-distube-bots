@@ -295,7 +295,13 @@
 		},
 		"pause": {
 			"description": "Pauses the current song",
-			"successfully_paused": "Successfully paused the song."
+			"successfully_paused": "Successfully paused the song.",
+			"messages": {
+				"vote_embed": "Vote to pause: **{votes}/{needed}**\n✅ to pause, ❌ to keep playing.",
+				"button_yes": "✅ Pause",
+				"button_no": "❌ Keep",
+				"already_voted": "You have already voted."
+			}
 		},
 		"play": {
 			"description": "Plays a song from YouTube, Spotify or http",
@@ -303,6 +309,9 @@
 				"song": "The song you want to play"
 			},
 			"loading": "Loading...",
+			"warnings": {
+				"longtrack_warning": "⚠️ **Warning:** One or more tracks in the search results exceed 30 minutes in duration. Please ensure you want to play these long tracks as they may affect your listening experience."
+			},
 			"errors": {
 				"search_error": "There was an error while searching.",
 				"no_results": "There were no results found.",
@@ -377,7 +386,11 @@
 				"not_paused": "The player is not paused."
 			},
 			"messages": {
-				"resumed": "Resumed the player."
+				"resumed": "Resumed the player.",
+				"vote_embed": "Vote to resume: **{votes}/{needed}**\n✅ to resume, ❌ to keep paused.",
+				"button_yes": "✅ Resume",
+				"button_no": "❌ Keep Paused",
+				"already_voted": "You have already voted."
 			}
 		},
 		"search": {
@@ -421,9 +434,11 @@
 			"description": "Skips the current song",
 			"messages": {
 				"skipped": "Skipped [{title}]({uri}).",
-				"vote_embed": "Vote to skip: **{votes}/{needed}**\n👍 to skip, 👎 to keep playing.",
+				"vote_embed": "Vote to skip: **{votes}/{needed}**\n✅ to skip, ❌ to keep playing.",
 				"button_skip": "👍 Skip",
 				"button_keep": "👎 Keep",
+				"button_yes": "✅ Skip",
+				"button_no": "❌ Keep",
 				"already_voted": "You have already voted."
 			}
 		},
@@ -442,7 +457,13 @@
 		"stop": {
 			"description": "Stops the music and clears the queue",
 			"messages": {
-				"stopped": "Stopped the music and cleared the queue."
+				"stopped": "Stopped the music and cleared the queue.",
+				"vote_embed": "Vote to stop: **{votes}/{needed}**\n✅ to stop, ❌ to keep playing.",
+				"button_stop": "🛑 Stop",
+				"button_keep": "👎 Keep",
+				"button_yes": "✅ Stop",
+				"button_no": "❌ Keep",
+				"already_voted": "You have already voted."
 			}
 		},
 		"volume": {
@@ -545,10 +566,10 @@
 			}
 		},
 		"loop_current": {
-			"description": "cmd.loop_current.description"
+			"description": "Loop the currently playing song"
 		},
 		"loop_queue": {
-			"description": "cmd.loop_queue.description"
+			"description": "Loop the entire queue"
 		}
 	},
 	"buttons": {
@@ -696,5 +717,5 @@
 	"List all guilds the bot is in": "List all guilds the bot is in",
 	"Restart the bot": "Restart the bot",
 	"The loop mode you want to set": "The loop mode you want to set",
-	"Show current maintenance status.": "Show current maintenance status."
+	"Show current maintenance status": "Show current maintenance status"
 }

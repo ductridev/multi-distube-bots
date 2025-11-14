@@ -21,7 +21,8 @@
 		"lavalink": {
 			"description": "Affiche les statistiques actuelles de Lavalink.",
 			"title": "Statistiques Lavalink",
-			"content": "Joueurs: {players}\nJoueurs en cours: {playingPlayers}\nTemps de fonctionnement: {uptime}\nNoyaux: {cores} Noyau(x)\nUtilisation de la mémoire: {used} / {reservable}\nCharge du système: {systemLoad}%\nCharge Lavalink: {lavalinkLoad}%"
+			"content": "Joueurs: {players}\nJoueurs en cours: {playingPlayers}\nTemps de fonctionnement: {uptime}\nNoyaux: {cores} Noyau(x)\nUtilisation de la mémoire: {used} / {reservable}\nCharge du système: {systemLoad}%\nCharge Lavalink: {lavalinkLoad}%",
+			"page_info": "Page {index} sur {total}"
 		},
 		"invite": {
 			"description": "Obtenez le lien d'invitation du bot.",
@@ -118,12 +119,14 @@
 		},
 		"bassboost": {
 			"description": "Activer/désactiver le filtre de basses",
-			"messages": {
-				"filter_enabled": "`✅` | Le filtre de basses a été `ACTIVÉ`. \n**Attention, écouter trop fort peut endommager votre audition !**",
-				"filter_disabled": "`✅` | Le filtre de basses a été `DÉSACTIVÉ`."
-			},
 			"options": {
-				"level": "The bassboost level you want to set"
+				"level": "Le niveau de basses que vous souhaitez définir"
+			},
+			"messages": {
+				"high": "`✅` | Le filtre de basses élevées a été `ACTIVÉ`.",
+				"low": "`✅` | Le filtre de basses faibles a été `ACTIVÉ`.",
+				"medium": "`✅` | Le filtre de basses moyennes a été `ACTIVÉ`.",
+				"off": "`✅` | Le filtre de basses a été `DÉSACTIVÉ`."
 			}
 		},
 		"distortion": {
@@ -229,7 +232,8 @@
 			}
 		},
 		"grab": {
-			"description": "Récupère la chanson en cours de lecture sur votre DM",
+			"description": "Récupère la chanson en cours de lecture dans votre DM",
+			"loading": "Chargement...",
 			"content": "**Durée:** {length}\n**Demandé par:** <@{requester}>\n**Lien:** [Cliquez ici]({uri})",
 			"check_dm": "Veuillez vérifier votre DM.",
 			"dm_failed": "Je n'ai pas pu vous envoyer de DM."
@@ -258,7 +262,13 @@
 		},
 		"pause": {
 			"description": "Met en pause la chanson actuelle",
-			"successfully_paused": "Chanson mise en pause avec succès."
+			"successfully_paused": "Chanson mise en pause avec succès.",
+			"messages": {
+				"vote_embed": "Votez pour mettre en pause : **{votes}/{needed}**\n✅ pour mettre en pause, ❌ pour continuer la lecture.",
+				"button_yes": "✅ Pause",
+				"button_no": "❌ Continuer",
+				"already_voted": "Vous avez déjà voté."
+			}
 		},
 		"play": {
 			"description": "Lit une chanson de YouTube, Spotify ou http",
@@ -273,7 +283,10 @@
 				"playlist_too_long": "La playlist est trop longue. La longueur maximale est de {maxPlaylistSize} chansons."
 			},
 			"added_to_queue": "Ajouté [{title}]({uri}) à la file d'attente.",
-			"added_playlist_to_queue": "Ajouté {length} chansons à la file d'attente."
+			"added_playlist_to_queue": "Ajouté {length} chansons à la file d'attente.",
+			"warnings": {
+				"longtrack_warning": "⚠️ **Attention :** Une ou plusieurs pistes dans les résultats de recherche dépassent 30 minutes de durée. Assurez-vous de vouloir lire ces longues pistes car elles peuvent affecter votre expérience d'écoute."
+			}
 		},
 		"playnext": {
 			"description": "Ajoute la chanson à jouer ensuite dans la file d'attente",
@@ -296,7 +309,8 @@
 			"live": "EN DIRECT",
 			"track_info": "{index}. [{title}]({uri}) - Demandé par: <@{requester}> - Durée: `{duration}`",
 			"title": "File d'attente",
-			"page_info": "Page {index} sur {total}"
+			"page_info": "Page {index} sur {total}",
+			"duration": "Durée de la File d'attente : `{totalDuration}`"
 		},
 		"remove": {
 			"description": "Supprime une chanson de la file d'attente",
@@ -326,7 +340,11 @@
 				"not_paused": "Le lecteur n'est pas en pause."
 			},
 			"messages": {
-				"resumed": "Le lecteur a repris."
+				"resumed": "Le lecteur a repris.",
+				"vote_embed": "Votez pour reprendre : **{votes}/{needed}**\n✅ pour reprendre, ❌ pour rester en pause.",
+				"button_yes": "✅ Reprendre",
+				"button_no": "❌ Rester en Pause",
+				"already_voted": "Vous avez déjà voté."
 			}
 		},
 		"search": {
@@ -334,6 +352,7 @@
 			"options": {
 				"song": "La chanson que vous souhaitez rechercher"
 			},
+			"select": "Veuillez sélectionner la chanson que vous souhaitez lire",
 			"errors": {
 				"no_results": "Aucun résultat trouvé.",
 				"search_error": "Une erreur s'est produite lors de la recherche."
@@ -358,6 +377,9 @@
 		},
 		"shuffle": {
 			"description": "Mélange la file d'attente",
+			"errors": {
+				"fairplay": "Le mode de jeu équitable est activé. Vous ne pouvez pas mélanger la file d'attente."
+			},
 			"messages": {
 				"shuffled": "File d'attente mélangée."
 			}
@@ -365,7 +387,13 @@
 		"skip": {
 			"description": "Passe la chanson actuelle",
 			"messages": {
-				"skipped": "Passé [{title}]({uri})."
+				"skipped": "Sauté [{title}]({uri}).",
+				"vote_embed": "Votez pour passer : **{votes}/{needed}**\n✅ pour passer, ❌ pour continuer la lecture.",
+				"button_skip": "👍 Passer",
+				"button_keep": "👎 Garder",
+				"button_yes": "✅ Passer",
+				"button_no": "❌ Garder",
+				"already_voted": "Vous avez déjà voté."
 			}
 		},
 		"skipto": {
@@ -381,9 +409,15 @@
 			}
 		},
 		"stop": {
-			"description": "Arrête la musique et efface la file d'attente",
+			"description": "Arrête la musique et vide la file d'attente",
 			"messages": {
-				"stopped": "Musique arrêtée et file d'attente effacée."
+				"stopped": "Musique arrêtée et file d'attente vidée.",
+				"vote_embed": "Votez pour arrêter : **{votes}/{needed}**\n✅ pour arrêter, ❌ pour continuer la lecture.",
+				"button_stop": "🛑 Arrêter",
+				"button_keep": "👎 Garder",
+				"button_yes": "✅ Arrêter",
+				"button_no": "❌ Garder",
+				"already_voted": "Vous avez déjà voté."
 			}
 		},
 		"volume": {
@@ -499,22 +533,43 @@
 			}
 		},
 		"lyrics": {
-			"description": "Get's the lyrics of the currently playing track"
-		},
-		"fairplay": {
-			"description": "Set the bot to play music fairly"
-		},
-		"playlocal": {
-			"description": "Plays an your local audio files",
-			"options": {
-				"file": "The audio file you want to play"
+			"description": "Obtient les paroles de la piste en cours de lecture",
+			"lyrics_track": "### Paroles pour : [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
+			"searching": "`🔍` Recherche des paroles de **{trackTitle}**...",
+			"errors": {
+				"no_results": "Aucune parole trouvée pour la piste actuelle.",
+				"lyrics_error": "Une erreur s'est produite lors de la récupération des paroles."
 			}
 		},
+		"fairplay": {
+			"description": "Configure le bot pour jouer de la musique de manière équitable",
+			"errors": {
+				"not_in_voice": "Vous devez être dans un canal vocal pour utiliser cette commande.",
+				"generic": "Une erreur s'est produite lors de l'exécution de cette commande."
+			},
+			"messages": {
+				"disabled": "`✅` | Le mode de jeu équitable a été `DÉSACTIVÉ`.",
+				"enabled": "`✅` | Le mode de jeu équitable a été `ACTIVÉ`."
+			}
+		},
+		"playlocal": {
+			"description": "Joue vos fichiers audio locaux",
+			"options": {
+				"file": "Le fichier audio que vous souhaitez lire"
+			},
+			"loading": "Chargement...",
+			"errors": {
+				"empty_query": "Veuillez joindre un fichier audio à lire.",
+				"invalid_format": "Vous ne pouvez lire que des fichiers MP3, WAV, OGG, FLAC, AAC ou M4A.",
+				"no_results": "Échec de la lecture du fichier audio. Il peut être corrompu."
+			},
+			"added_to_queue": "Ajouté [{title}]({url}) à la file d'attente"
+		},
 		"loop_current": {
-			"description": "cmd.loop_current.description"
+			"description": "Boucle la chanson en cours de lecture"
 		},
 		"loop_queue": {
-			"description": "cmd.loop_queue.description"
+			"description": "Boucle toute la file d'attente"
 		}
 	},
 	"buttons": {
@@ -556,15 +611,15 @@
 			"looping_off_by": "Boucle désactivée par {user}"
 		},
 		"setupStart": {
-			"now_playing": "Now Playing",
-			"description": "[{title}]({uri}) by {author} • `[{length}]` - Requested by <@{requester}>",
-			"error_searching": "There was an error while searching.",
-			"no_results": "There were no results found.",
-			"nothing_playing": "Nothing playing right now.",
-			"queue_too_long": "The queue is too long. The maximum length is {maxQueueSize} songs.",
-			"playlist_too_long": "The playlist is too long. The maximum length is {maxPlaylistSize} songs.",
-			"added_to_queue": "Added [{title}]({uri}) to the queue.",
-			"added_playlist_to_queue": "Added [{length}] songs from the playlist to the queue."
+			"now_playing": "En cours de lecture",
+			"description": "[{title}]({uri}) par {author} • `[{length}]` - Demandé par <@{requester}>",
+			"error_searching": "Une erreur s'est produite lors de la recherche.",
+			"no_results": "Aucun résultat trouvé.",
+			"nothing_playing": "Rien ne joue en ce moment",
+			"queue_too_long": "La file d'attente est trop longue. La longueur maximale est de {maxQueueSize} chansons.",
+			"playlist_too_long": "La playlist est trop longue. La longueur maximale est de {maxPlaylistSize} chansons.",
+			"added_to_queue": "Ajouté [{title}]({uri}) à la file d'attente.",
+			"added_playlist_to_queue": "Ajouté [{length}] chansons de la playlist à la file d'attente."
 		}
 	},
 	"event": {
@@ -583,7 +638,9 @@
 			"no_dj_role": "Le rôle DJ n'est pas défini.",
 			"no_dj_permission": "Vous devez avoir le rôle DJ pour utiliser cette commande.",
 			"cooldown": "Veuillez attendre {time} seconde(s) de plus avant de réutiliser la commande `{command}`.",
-			"error": "Une erreur s'est produite : `{error}`"
+			"error": "Une erreur s'est produite : `{error}`",
+			"vote_button": "Votez pour moi !",
+			"vote_message": "Attendez ! Vous devez voter sur top.gg pour utiliser cette commande. Merci."
 		},
 		"message": {
 			"prefix_mention": "Hé, mon préfixe pour ce serveur est `{prefix}`. Vous voulez plus d'infos ? alors faites `{prefix}help`\nRestez en sécurité, restez génial !",
@@ -607,7 +664,11 @@
 			"error": "Une erreur s'est produite : `{error}`",
 			"no_voice_channel_queue": "Vous n'êtes pas connecté à un canal vocal pour mettre des chansons en file d'attente.",
 			"no_permission_connect_speak": "Je n'ai pas suffisamment de permissions pour me connecter/parler dans <#{channel}>.",
-			"different_voice_channel_queue": "Vous n'êtes pas connecté à <#{channel}> pour mettre des chansons en file d'attente."
+			"different_voice_channel_queue": "Vous n'êtes pas connecté à <#{channel}> pour mettre des chansons en file d'attente.",
+			"vote_button": "Votez pour moi !",
+			"vote_message": "Attendez ! Vous devez voter sur top.gg pour utiliser cette commande. Merci.",
+			"no_free_bots": "Aucun bot n'est disponible pour le moment. Vous voudrez peut-être ajouter plus de bots à ce serveur.",
+			"no_bots_configured": "Aucun bot musical n'a encore été ajouté à ce serveur. Veuillez d'abord inviter un bot !"
 		},
 		"setupButton": {
 			"no_voice_channel_button": "Vous n'êtes pas connecté à un canal vocal pour utiliser ce bouton.",
@@ -617,7 +678,7 @@
 			"requested_by": "Demandé par <@{requester}>",
 			"no_dj_permission": "Vous devez avoir le rôle DJ pour utiliser cette commande.",
 			"volume_set": "Volume défini sur {vol}%",
-			"volume_footer": "Volume: {vol}% • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
+			"volume_footer": "Volume : {vol}% • BuNgo Music Bot 🎵 • Créé par Gúp Bu Ngô avec ♥️",
 			"paused": "Mis en pause",
 			"resumed": "Repris",
 			"pause_resume": "{name} la musique.",
@@ -641,12 +702,22 @@
 			"forward_footer": "Avancé par {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
 			"button_not_available": "Ce bouton n'est pas disponible.",
 			"no_music_playing": "Rien ne joue en ce moment."
+		},
+		"voice_state_update": {
+			"kicked": "Le bot a été expulsé du canal vocal <#{channelId}>.",
+			"moved": "Le bot a été déplacé vers <#{channelId}>.",
+			"left_due_to_timeout_no_listeners": "Le bot a quitté le canal vocal <#{channelId}> en raison d'inactivité (aucun auditeur).",
+			"left_due_to_timeout_no_songs": "Le bot a quitté le canal vocal <#{channelId}> en raison d'inactivité (aucune chanson)."
 		}
 	},
-	"Evaluate code": "Evaluate code",
-	"Leave a guild": "Leave a guild",
-	"List all guilds the bot is in": "List all guilds the bot is in",
-	"Restart the bot": "Restart the bot",
-	"The loop mode you want to set": "The loop mode you want to set",
-	"Show current maintenance status.": "Show current maintenance status."
+	"will_leave": {
+		"no_listeners": "Le bot partira dans {time} minutes en raison de l'absence d'auditeurs.",
+		"no_songs": "Le bot partira dans {time} minutes en raison de l'absence de chansons."
+	},
+	"Evaluate code": "Évaluer le code",
+	"Leave a guild": "Quitter un serveur",
+	"List all guilds the bot is in": "Lister tous les serveurs dans lesquels se trouve le bot",
+	"Restart the bot": "Redémarrer le bot",
+	"The loop mode you want to set": "Le mode de boucle que vous souhaitez définir",
+	"Show current maintenance status": "Afficher l'état de maintenance actuel"
 }

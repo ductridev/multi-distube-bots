@@ -21,7 +21,8 @@
 		"lavalink": {
 			"description": "Muestra las estadísticas actuales de Lavalink.",
 			"title": "Estadísticas de Lavalink",
-			"content": "Reproductores: {players}\nReproductores en reproducción: {playingPlayers}\nTiempo de actividad: {uptime}\nNúcleos: {cores} Núcleo(s)\nUso de memoria: {used} / {reservable}\nCarga del sistema: {systemLoad}%\nCarga de Lavalink: {lavalinkLoad}%"
+			"content": "Reproductores: {players}\nReproductores en reproducción: {playingPlayers}\nTiempo de actividad: {uptime}\nNúcleos: {cores} Núcleo(s)\nUso de memoria: {used} / {reservable}\nCarga del sistema: {systemLoad}%\nCarga de Lavalink: {lavalinkLoad}%",
+			"page_info": "Página {index} de {total}"
 		},
 		"invite": {
 			"description": "Obtén el enlace de invitación del bot.",
@@ -118,12 +119,14 @@
 		},
 		"bassboost": {
 			"description": "Activar/desactivar filtro de refuerzo de graves",
-			"messages": {
-				"filter_enabled": "`✅` | El filtro de refuerzo de graves se ha `ACTIVADO`. \n**¡Ten cuidado, escuchar demasiado alto puede dañar tu oído!**",
-				"filter_disabled": "`✅` | El filtro de refuerzo de graves se ha `DESACTIVADO`."
-			},
 			"options": {
-				"level": "The bassboost level you want to set"
+				"level": "El nivel de refuerzo de graves que deseas establecer"
+			},
+			"messages": {
+				"high": "`✅` | El filtro de refuerzo de graves alto se ha `ACTIVADO`.",
+				"low": "`✅` | El filtro de refuerzo de graves bajo se ha `ACTIVADO`.",
+				"medium": "`✅` | El filtro de refuerzo de graves medio se ha `ACTIVADO`.",
+				"off": "`✅` | El filtro de refuerzo de graves se ha `DESACTIVADO`."
 			}
 		},
 		"distortion": {
@@ -230,6 +233,7 @@
 		},
 		"grab": {
 			"description": "Obtiene la canción que se está reproduciendo actualmente en tu DM",
+			"loading": "Cargando...",
 			"content": "**Duración:** {length}\n**Solicitado por:** <@{requester}>\n**Enlace:** [Haz clic aquí]({uri})",
 			"check_dm": "Por favor, revisa tu DM.",
 			"dm_failed": "No pude enviarte un DM."
@@ -258,7 +262,13 @@
 		},
 		"pause": {
 			"description": "Pausa la canción actual",
-			"successfully_paused": "La canción se ha pausado correctamente."
+			"successfully_paused": "La canción se ha pausado correctamente.",
+			"messages": {
+				"vote_embed": "Vota para pausar: **{votes}/{needed}**\n✅ para pausar, ❌ para seguir reproduciendo.",
+				"button_yes": "✅ Pausar",
+				"button_no": "❌ Continuar",
+				"already_voted": "Ya has votado."
+			}
 		},
 		"play": {
 			"description": "Reproduce una canción de YouTube, Spotify o http",
@@ -273,7 +283,10 @@
 				"playlist_too_long": "La lista de reproducción es demasiado larga. La longitud máxima es de {maxPlaylistSize} canciones."
 			},
 			"added_to_queue": "Se ha añadido [{title}]({uri}) a la cola.",
-			"added_playlist_to_queue": "Se han añadido {length} canciones a la cola."
+			"added_playlist_to_queue": "Se han añadido {length} canciones a la cola.",
+			"warnings": {
+				"longtrack_warning": "⚠️ **Advertencia:** Una o más pistas en los resultados de búsqueda superan los 30 minutos de duración. Asegúrate de que deseas reproducir estas pistas largas ya que pueden afectar tu experiencia de escucha."
+			}
 		},
 		"playnext": {
 			"description": "Añade la canción para reproducirla a continuación en la cola",
@@ -296,7 +309,8 @@
 			"live": "EN DIRECTO",
 			"track_info": "{index}. [{title}]({uri}) - Solicitado por: <@{requester}> - Duración: {duration}",
 			"title": "Cola",
-			"page_info": "Página {index} de {total}"
+			"page_info": "Página {index} de {total}",
+			"duration": "Duración de la Cola: `{totalDuration}`"
 		},
 		"remove": {
 			"description": "Elimina una canción de la cola",
@@ -326,7 +340,11 @@
 				"not_paused": "El reproductor no está en pausa."
 			},
 			"messages": {
-				"resumed": "Se ha reanudado el reproductor."
+				"resumed": "Se ha reanudado el reproductor.",
+				"vote_embed": "Vota para reanudar: **{votes}/{needed}**\n✅ para reanudar, ❌ para mantener en pausa.",
+				"button_yes": "✅ Reanudar",
+				"button_no": "❌ Mantener en Pausa",
+				"already_voted": "Ya has votado."
 			}
 		},
 		"search": {
@@ -334,6 +352,7 @@
 			"options": {
 				"song": "La canción que quieres buscar"
 			},
+			"select": "Por favor selecciona la canción que quieres reproducir",
 			"errors": {
 				"no_results": "No se han encontrado resultados.",
 				"search_error": "Se ha producido un error durante la búsqueda."
@@ -357,15 +376,24 @@
 			}
 		},
 		"shuffle": {
-			"description": "Baraja la cola",
+			"description": "Mezcla la cola",
+			"errors": {
+				"fairplay": "El modo de juego justo está activado. No puedes mezclar la cola."
+			},
 			"messages": {
-				"shuffled": "Se ha barajado la cola."
+				"shuffled": "Se ha mezclado la cola."
 			}
 		},
 		"skip": {
 			"description": "Salta la canción actual",
 			"messages": {
-				"skipped": "Se ha saltado [{title}]({uri})."
+				"skipped": "Se ha saltado [{title}]({uri}).",
+				"vote_embed": "Vota para saltar: **{votes}/{needed}**\n✅ para saltar, ❌ para seguir reproduciendo.",
+				"button_skip": "👍 Saltar",
+				"button_keep": "👎 Mantener",
+				"button_yes": "✅ Saltar",
+				"button_no": "❌ Mantener",
+				"already_voted": "Ya has votado."
 			}
 		},
 		"skipto": {
@@ -381,9 +409,15 @@
 			}
 		},
 		"stop": {
-			"description": "Detiene la música y borra la cola",
+			"description": "Detiene la música y vacía la cola",
 			"messages": {
-				"stopped": "Se ha detenido la música y se ha borrado la cola."
+				"stopped": "Se ha detenido la música y se ha vaciado la cola.",
+				"vote_embed": "Vota para detener: **{votes}/{needed}**\n✅ para detener, ❌ para seguir reproduciendo.",
+				"button_stop": "🛑 Detener",
+				"button_keep": "👎 Mantener",
+				"button_yes": "✅ Detener",
+				"button_no": "❌ Mantener",
+				"already_voted": "Ya has votado."
 			}
 		},
 		"volume": {
@@ -499,22 +533,43 @@
 			}
 		},
 		"lyrics": {
-			"description": "Get's the lyrics of the currently playing track"
-		},
-		"fairplay": {
-			"description": "Set the bot to play music fairly"
-		},
-		"playlocal": {
-			"description": "Plays an your local audio files",
-			"options": {
-				"file": "The audio file you want to play"
+			"description": "Obtiene la letra de la pista que se está reproduciendo actualmente",
+			"lyrics_track": "### Letra de: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
+			"searching": "`🔍` Buscando la letra de **{trackTitle}**...",
+			"errors": {
+				"no_results": "No se encontró la letra de la pista actual.",
+				"lyrics_error": "Se produjo un error al obtener la letra."
 			}
 		},
+		"fairplay": {
+			"description": "Configura el bot para reproducir música de forma justa",
+			"errors": {
+				"not_in_voice": "Debes estar en un canal de voz para usar este comando.",
+				"generic": "Se produjo un error al intentar ejecutar este comando."
+			},
+			"messages": {
+				"disabled": "`✅` | El modo de juego justo se ha `DESACTIVADO`.",
+				"enabled": "`✅` | El modo de juego justo se ha `ACTIVADO`."
+			}
+		},
+		"playlocal": {
+			"description": "Reproduce tus archivos de audio locales",
+			"options": {
+				"file": "El archivo de audio que quieres reproducir"
+			},
+			"loading": "Cargando...",
+			"errors": {
+				"empty_query": "Por favor, adjunta un archivo de audio para reproducir.",
+				"invalid_format": "Solo puedes reproducir archivos MP3, WAV, OGG, FLAC, AAC o M4A.",
+				"no_results": "No se pudo reproducir el archivo de audio. Puede estar dañado."
+			},
+			"added_to_queue": "Añadido [{title}]({url}) a la cola"
+		},
 		"loop_current": {
-			"description": "cmd.loop_current.description"
+			"description": "Repite la canción que se está reproduciendo actualmente"
 		},
 		"loop_queue": {
-			"description": "cmd.loop_queue.description"
+			"description": "Repite toda la cola"
 		}
 	},
 	"buttons": {
@@ -556,15 +611,15 @@
 			"looping_off_by": "Bucle desactivado por {user}"
 		},
 		"setupStart": {
-			"now_playing": "Now Playing",
-			"description": "[{title}]({uri}) by {author} • `[{length}]` - Requested by <@{requester}>",
-			"error_searching": "There was an error while searching.",
-			"no_results": "There were no results found.",
-			"nothing_playing": "Nothing playing right now.",
-			"queue_too_long": "The queue is too long. The maximum length is {maxQueueSize} songs.",
-			"playlist_too_long": "The playlist is too long. The maximum length is {maxPlaylistSize} songs.",
-			"added_to_queue": "Added [{title}]({uri}) to the queue.",
-			"added_playlist_to_queue": "Added [{length}] songs from the playlist to the queue."
+			"now_playing": "Ahora se está reproduciendo",
+			"description": "[{title}]({uri}) de {author} • `[{length}]` - Solicitado por <@{requester}>",
+			"error_searching": "Se produjo un error al buscar.",
+			"no_results": "No se encontraron resultados.",
+			"nothing_playing": "No se está reproduciendo nada ahora mismo",
+			"queue_too_long": "La cola es demasiado larga. La longitud máxima es de {maxQueueSize} canciones.",
+			"playlist_too_long": "La lista de reproducción es demasiado larga. La longitud máxima es de {maxPlaylistSize} canciones.",
+			"added_to_queue": "Se añadió [{title}]({uri}) a la cola.",
+			"added_playlist_to_queue": "Se añadieron [{length}] canciones de la lista de reproducción a la cola."
 		}
 	},
 	"event": {
@@ -583,7 +638,9 @@
 			"no_dj_role": "El rol de DJ no está configurado.",
 			"no_dj_permission": "Debes tener el rol de DJ para usar este comando.",
 			"cooldown": "Por favor, espera {time} segundo(s) más antes de volver a usar el comando `{command}`.",
-			"error": "Se ha producido un error: `{error}`"
+			"error": "Se ha producido un error: `{error}`",
+			"vote_button": "¡Vota por mí!",
+			"vote_message": "¡Espera! Necesitas votar en top.gg para usar este comando. Gracias."
 		},
 		"message": {
 			"prefix_mention": "Hola, mi prefijo para este servidor es `{prefix}`. ¿Quieres más información? Entonces escribe `{prefix}help`\n¡Mantente seguro, mantente genial!",
@@ -608,6 +665,8 @@
 			"no_voice_channel_queue": "No estás conectado a un canal de voz para poner canciones en cola.",
 			"no_permission_connect_speak": "No tengo suficientes permisos para conectarme/hablar en <#{channel}>.",
 			"different_voice_channel_queue": "No estás conectado a <#{channel}> para poner canciones en cola.",
+			"vote_button": "¡Vota por mí!",
+			"vote_message": "¡Espera! Necesitas votar en top.gg para usar este comando. Gracias.",
 			"no_free_bots": "No hay bots disponibles en este momento. Es posible que desees agregar más bots a este servidor.",
 			"no_bots_configured": "Aún no se han agregado bots de música a este servidor. ¡Por favor invita un bot primero!"
 		},
@@ -643,12 +702,22 @@
 			"forward_footer": "Adelantado por {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "Este botón no está disponible.",
 			"no_music_playing": "No se está reproduciendo nada ahora mismo."
+		},
+		"voice_state_update": {
+			"kicked": "El bot ha sido expulsado del canal de voz <#{channelId}>.",
+			"moved": "El bot ha sido movido a <#{channelId}>.",
+			"left_due_to_timeout_no_listeners": "El bot ha abandonado el canal de voz <#{channelId}> debido a inactividad (sin oyentes).",
+			"left_due_to_timeout_no_songs": "El bot ha abandonado el canal de voz <#{channelId}> debido a inactividad (sin canciones)."
 		}
 	},
-	"Evaluate code": "Evaluate code",
-	"Leave a guild": "Leave a guild",
-	"List all guilds the bot is in": "List all guilds the bot is in",
-	"Restart the bot": "Restart the bot",
-	"The loop mode you want to set": "The loop mode you want to set",
-	"Show current maintenance status.": "Show current maintenance status."
+	"will_leave": {
+		"no_listeners": "El bot se irá en {time} minutos debido a la falta de oyentes.",
+		"no_songs": "El bot se irá en {time} minutos debido a la falta de canciones."
+	},
+	"Evaluate code": "Evaluar código",
+	"Leave a guild": "Abandonar un servidor",
+	"List all guilds the bot is in": "Listar todos los servidores en los que está el bot",
+	"Restart the bot": "Reiniciar el bot",
+	"The loop mode you want to set": "El modo de bucle que quieres establecer",
+	"Show current maintenance status": "Mostrar el estado de mantenimiento actual"
 }

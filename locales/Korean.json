@@ -284,7 +284,13 @@
 		},
 		"pause": {
 			"description": "노래를 일시정지해요",
-			"successfully_paused": "노래를 일시정지했어요."
+			"successfully_paused": "노래를 일시정지했어요.",
+			"messages": {
+				"vote_embed": "일시정지 투표: **{votes}/{needed}**\n✅ 일시정지, ❌ 계속 재생",
+				"button_yes": "✅ 일시정지",
+				"button_no": "❌ 유지",
+				"already_voted": "이미 투표하셨어요."
+			}
 		},
 		"play": {
 			"description": "노래를 재생해요",
@@ -292,6 +298,9 @@
 				"song": "노래 제목 또는 URL"
 			},
 			"loading": "로드 중...",
+			"warnings": {
+				"longtrack_warning": "⚠️ **경고:** 검색 결과 중 하나 이상의 트랙이 30분을 초과합니다. 긴 트랙을 재생하면 청취 경험에 영향을 줄 수 있으니 확인해 주세요."
+			},
 			"errors": {
 				"search_error": "노래를 검색하는 도중 오류가 발생했어요.",
 				"no_results": "검색 결과가 없어요.",
@@ -335,7 +344,8 @@
 			"live": "라이브",
 			"track_info": "{index}번: [{title}]({uri}) - 요청자: <@{requester}> - 길이: `{duration}`",
 			"title": "대기열",
-			"page_info": "{index} 페이지 중 {total} 페이지"
+			"page_info": "{index} 페이지 중 {total} 페이지",
+			"duration": "대기열 길이: `{totalDuration}`"
 		},
 		"remove": {
 			"description": "대기열에서 노래를 삭제해요",
@@ -365,7 +375,11 @@
 				"not_paused": "플레이어가 일시정지되지 않았어요."
 			},
 			"messages": {
-				"resumed": "노래를 재계했어요."
+				"resumed": "노래를 재계했어요.",
+				"vote_embed": "재생 재개 투표: **{votes}/{needed}**\n✅ 재생 재개, ❌ 일시정지 유지",
+				"button_yes": "✅ 재생 재개",
+				"button_no": "❌ 일시정지 유지",
+				"already_voted": "이미 투표하셨어요."
 			}
 		},
 		"search": {
@@ -397,15 +411,24 @@
 			}
 		},
 		"shuffle": {
-			"description": "대기열을 섞어요",
+			"description": "대기열을 섮어요",
 			"messages": {
-				"shuffled": "대기열을 섞었어요."
+				"shuffled": "대기열을 섮었어요."
+			},
+			"errors": {
+				"fairplay": "공정 플레이 모드가 활성화되어 있어 대기열을 섮을 수 없어요."
 			}
 		},
 		"skip": {
 			"description": "현재 재생중인 노래를 스킵해요",
 			"messages": {
-				"skipped": "[{title}]({uri}) 노래를 스킵했어요."
+				"skipped": "[{title}]({uri}) 노래를 스킵했어요.",
+				"vote_embed": "스킵 투표: **{votes}/{needed}**\n✅ 스킵, ❌ 계속 재생",
+				"button_skip": "👍 스킵",
+				"button_keep": "👎 유지",
+				"button_yes": "✅ 스킵",
+				"button_no": "❌ 유지",
+				"already_voted": "이미 투표하셨어요."
 			}
 		},
 		"skipto": {
@@ -423,7 +446,13 @@
 		"stop": {
 			"description": "노래를 정지해요",
 			"messages": {
-				"stopped": "노래를 정지했어요."
+				"stopped": "노래를 정지했어요.",
+				"vote_embed": "정지 투표: **{votes}/{needed}**\n✅ 정지, ❌ 계속 재생",
+				"button_stop": "🛑 정지",
+				"button_keep": "👎 유지",
+				"button_yes": "✅ 정지",
+				"button_no": "❌ 유지",
+				"already_voted": "이미 투표하셨어요."
 			}
 		},
 		"volume": {
@@ -526,13 +555,21 @@
 			}
 		},
 		"fairplay": {
-			"description": "Set the bot to play music fairly"
+			"description": "공정한 음악 재생 모드를 설정해요",
+			"errors": {
+				"not_in_voice": "이 명령어를 사용하려면 음성 채널에 있어야 해요.",
+				"generic": "명령어 실행 중 오류가 발생했어요."
+			},
+			"messages": {
+				"disabled": "`✅` | 공정 플레이 모드가 `비활성화`되었어요.",
+				"enabled": "`✅` | 공정 플레이 모드가 `활성화`되었어요."
+			}
 		},
 		"loop_current": {
-			"description": "cmd.loop_current.description"
+			"description": "현재 재생 중인 노래를 반복해요"
 		},
 		"loop_queue": {
-			"description": "cmd.loop_queue.description"
+			"description": "전체 대기열을 반복해요"
 		}
 	},
 	"buttons": {
@@ -627,7 +664,9 @@
 			"no_permission_connect_speak": "<#{channel}>에서 연결/말하기 권한이 없어요.",
 			"different_voice_channel_queue": "노래를 대기열에 추가하려면 <#{channel}> 채널에 있어야 해요.",
 			"vote_button": "투표하기",
-			"vote_message": "잠깐! 이 명령어를 사용하려면 top.gg에서 투표해야 해요."
+			"vote_message": "잠깐! 이 명령어를 사용하려면 top.gg에서 투표해야 해요.",
+			"no_free_bots": "현재 사용 가능한 봇이 없어요. 이 서버에 더 많은 봇을 추가해 보세요.",
+			"no_bots_configured": "아직 이 서버에 음악 봇이 추가되지 않았어요. 먼저 봇을 초대해 주세요!"
 		},
 		"setupButton": {
 			"no_voice_channel_button": "이 버튼을 사용하려면 음성 채널에 있어야 해요.",
@@ -661,12 +700,22 @@
 			"forward_footer": "{displayName}님에 의해 빨리감기됨 • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "사용할 수 없는 버튼이에요.",
 			"no_music_playing": "현재 재생 중인 노래가 없어요."
+		},
+		"voice_state_update": {
+			"kicked": "봇이 음성 채널 <#{channelId}>에서 강제 퇴장되었어요.",
+			"moved": "봇이 <#{channelId}>로 이동되었어요.",
+			"left_due_to_timeout_no_listeners": "봇이 비활성 상태(청취자 없음)로 인해 음성 채널 <#{channelId}>에서 나갔어요.",
+			"left_due_to_timeout_no_songs": "봇이 비활성 상태(노래 없음)로 인해 음성 채널 <#{channelId}>에서 나갔어요."
 		}
+	},
+	"will_leave": {
+		"no_listeners": "청취자가 없어 {time}분 후 봇이 나가요.",
+		"no_songs": "노래가 없어 {time}분 후 봇이 나가요."
 	},
 	"Evaluate code": "코드를 실행해요",
 	"Leave a guild": "봇을 서버에서 퇴장시켜요",
 	"List all guilds the bot is in": "봇이 들어가 있는 서버를 확인해요",
 	"Restart the bot": "봇을 재시작해요",
-	"The loop mode you want to set": "The loop mode you want to set",
-	"Show current maintenance status.": "Show current maintenance status."
+	"The loop mode you want to set": "설정하려는 반복 모드",
+	"Show current maintenance status": "현재 유지보수 상태를 표시해요"
 }

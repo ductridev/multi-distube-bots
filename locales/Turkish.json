@@ -284,7 +284,13 @@
 		},
 		"pause": {
 			"description": "Mevcut şarkıyı duraklatır.",
-			"successfully_paused": "Şarkı başarıyla duraklatıldı."
+			"successfully_paused": "Şarkı başarıyla duraklatıldı.",
+			"messages": {
+				"vote_embed": "Duraklatma için oy: **{votes}/{needed}**\n✅ durdurmak için, ❌ çalmaya devam etmek için",
+				"button_yes": "✅ Duraklat",
+				"button_no": "❌ Devam Et",
+				"already_voted": "Zaten oy kullandınız."
+			}
 		},
 		"play": {
 			"description": "YouTube, Spotify veya bir bağlantıdan şarkı çalar.",
@@ -299,7 +305,10 @@
 				"playlist_too_long": "Çalma listesi çok uzun. Maksimum uzunluk {maxPlaylistSize} şarkıdır."
 			},
 			"added_to_queue": "Kuyruğa [{title}]({uri}) eklendi.",
-			"added_playlist_to_queue": "{length} şarkı kuyruğa eklendi."
+			"added_playlist_to_queue": "{length} şarkı kuyruğa eklendi.",
+			"warnings": {
+				"longtrack_warning": "⚠️ **Uyarı:** Arama sonuçlarındaki bir veya daha fazla parça 30 dakikadan uzun. Lütfen bu uzun parçaları çalmak istediğinizden emin olun çünkü dinleme deneyiminizi etkileyebilir."
+			}
 		},
 		"playnext": {
 			"description": "Sıradaki olarak çalınacak şarkıyı kuyruğa ekler.",
@@ -322,7 +331,8 @@
 			"live": "Canlı Yayın",
 			"track_info": "{index}. [{title}]({uri}) - İsteyen: <@{requester}> - Süre: `{duration}`",
 			"title": "Kuyruk",
-			"page_info": "Sayfa {index} / {total}"
+			"page_info": "Sayfa {index} / {total}",
+			"duration": "Kuyruk Süresi: `{totalDuration}`"
 		},
 		"remove": {
 			"description": "Kuyruktan bir şarkıyı kaldırır.",
@@ -352,7 +362,11 @@
 				"not_paused": "Oynatıcı duraklatılmamış."
 			},
 			"messages": {
-				"resumed": "Oynatıcı devam ettirildi."
+				"resumed": "Oynatıcı devam ettiriliyor.",
+				"vote_embed": "Devam için oy: **{votes}/{needed}**\n✅ devam etmek için, ❌ duraklatılmış tutmak için",
+				"button_yes": "✅ Devam Et",
+				"button_no": "❌ Duraklatılmış Tut",
+				"already_voted": "Zaten oy kullandınız."
 			}
 		},
 		"search": {
@@ -360,6 +374,7 @@
 			"options": {
 				"song": "Aramak istediğiniz şarkı."
 			},
+			"select": "Lütfen çalmak istediğiniz şarkıyı seçin",
 			"errors": {
 				"no_results": "Sonuç bulunamadı.",
 				"search_error": "Arama sırasında bir hata oluştu."
@@ -386,12 +401,21 @@
 			"description": "Kuyruğu karıştırır.",
 			"messages": {
 				"shuffled": "Kuyruk karıştırıldı."
+			},
+			"errors": {
+				"fairplay": "Adil oyun modu etkin. Kuyruğu karıştıramazsınız."
 			}
 		},
 		"skip": {
 			"description": "Mevcut şarkıyı geçer.",
 			"messages": {
-				"skipped": "[{title}]({uri}) şarkısı geçildi.."
+				"skipped": "[{title}]({uri}) şarkısı geçildi..",
+				"vote_embed": "Atla için oy: **{votes}/{needed}**\n✅ atlamak için, ❌ çalmaya devam etmek için",
+				"button_skip": "👍 Atla",
+				"button_keep": "👎 Devam Et",
+				"button_yes": "✅ Atla",
+				"button_no": "❌ Devam Et",
+				"already_voted": "Zaten oy kullandınız."
 			}
 		},
 		"skipto": {
@@ -409,7 +433,13 @@
 		"stop": {
 			"description": "Müziği durdurur ve kuyruğu temizler.",
 			"messages": {
-				"stopped": "Müzik durduruldu ve kuyruk temizlendi."
+				"stopped": "Müzik durduruldu ve kuyruk temizlendi.",
+				"vote_embed": "Durdurma için oy: **{votes}/{needed}**\n✅ durdurmak için, ❌ çalmaya devam etmek için",
+				"button_stop": "🛑 Durdur",
+				"button_keep": "👎 Devam Et",
+				"button_yes": "✅ Durdur",
+				"button_no": "❌ Devam Et",
+				"already_voted": "Zaten oy kullandınız."
 			}
 		},
 		"volume": {
@@ -512,19 +542,34 @@
 			}
 		},
 		"fairplay": {
-			"description": "Set the bot to play music fairly"
-		},
-		"playlocal": {
-			"description": "Plays an your local audio files",
-			"options": {
-				"file": "The audio file you want to play"
+			"description": "Botu adil bir şekilde müzik çalması için ayarla",
+			"errors": {
+				"not_in_voice": "Bu komutu kullanmak için bir ses kanalında olmalısınız.",
+				"generic": "Bu komutu çalıştırırken bir hata oluştu."
+			},
+			"messages": {
+				"disabled": "`✅` | Adil oyun modu `DEVRE DIŞI BIRAKILDI`.",
+				"enabled": "`✅` | Adil oyun modu `ETKİNLEŞTİRİLDİ`."
 			}
 		},
+		"playlocal": {
+			"description": "Yerel ses dosyalarınızı çalar",
+			"options": {
+				"file": "Çalmak istediğiniz ses dosyası"
+			},
+			"loading": "Yükleniyor...",
+			"errors": {
+				"empty_query": "Lütfen çalmak için bir ses dosyası ekleyin.",
+				"invalid_format": "Sadece MP3, WAV, OGG, FLAC, AAC veya M4A dosyalarını çalabilirsiniz.",
+				"no_results": "Ses dosyası çalınamadı. Dosya bozuk olabilir."
+			},
+			"added_to_queue": "[{title}]({url}) sıraya eklendi"
+		},
 		"loop_current": {
-			"description": "cmd.loop_current.description"
+			"description": "Şu anda çalan şarkıyı tekrarla"
 		},
 		"loop_queue": {
-			"description": "cmd.loop_queue.description"
+			"description": "Tüm kuyruğu tekrarla"
 		}
 	},
 	"buttons": {
@@ -577,6 +622,10 @@
 			"added_playlist_to_queue": "Kuyruğa [{length}] şarkı eklendi."
 		}
 	},
+	"will_leave": {
+		"no_listeners": "Ses kanalında dinleyici olmadığı için **{time}** içinde ayrılacağım.",
+		"no_songs": "Kuyruğa şarkı eklenmediği için **{time}** içinde ayrılacağım."
+	},
 	"event": {
 		"interaction": {
 			"setup_channel": "Bu komutu kurulum kanalında kullanamazsınız.",
@@ -609,7 +658,7 @@
 			"no_music_playing": "Şu anda çalan bir şey yok.",
 			"no_dj_role": "DJ rolü ayarlanmadı.",
 			"no_dj_permission": "Bu komutu kullanmak için DJ rolüne sahip olmalısınız.",
-			"missing_arguments": "Missing Arguments",
+			"missing_arguments": "Eksik Argümanlar",
 			"missing_arguments_description": "`{command}` komutu için gerekli argümanları belirtin.\n\nÖrnekler:\n{examples}",
 			"syntax_footer": "Sözdizimi: [] = isteğe bağlı, <> = zorunlu • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"cooldown": "`{command}` komutunu yeniden kullanmadan önce {time} saniye bekleyin.",
@@ -619,7 +668,9 @@
 			"no_permission_connect_speak": "<#{channel}> kanalına bağlanma/konuşma iznim yok.",
 			"different_voice_channel_queue": "Şarkıları kuyruğa almak için <#{channel}> kanalına bağlı olmalısınız.",
 			"vote_button": "Oy Ver!",
-			"vote_message": "Durun! Bu komutu kullanabilmek için top.gg üzerinde oy vermelisiniz. Teşekkürler."
+			"vote_message": "Durun! Bu komutu kullanabilmek için top.gg üzerinde oy vermelisiniz. Teşekkürler.",
+			"no_free_bots": "Şu anda kullanılabilir bot yok. Lütfen bir botu boşaltmak için başka bir sunucudaki müziği durdurun.",
+			"no_bots_configured": "Bu sunucuya henüz müzik botu eklenmedi. Lütfen sunucu yöneticinize danışın."
 		},
 		"setupButton": {
 			"no_voice_channel_button": "Bu butonu kullanmak için bir ses kanalına bağlı olmalısınız.",
@@ -632,7 +683,7 @@
 			"volume_footer": "Ses: %{vol} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"paused": "Duraklatıldı",
 			"resumed": "Devam Ettirildi",
-			"pause_resume": "{name} the music.",
+			"pause_resume": "Müziği {name}.",
 			"pause_resume_footer": "{displayName} tarafından {name} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"no_music_to_skip": "Geçilecek müzik yok.",
 			"skipped": "Müzik geçildi.",
@@ -653,12 +704,18 @@
 			"forward_footer": "{displayName} tarafından ileri sarıldı • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
 			"button_not_available": "Bu buton kullanılamaz.",
 			"no_music_playing": "Bu sunucuda çalan müzik yok."
+		},
+		"voice_state_update": {
+			"kicked": "Bot ses kanalından atıldı. Oynatma durduruldu.",
+			"moved": "Bot başka bir ses kanalına taşındı. Oynatma durduruldu.",
+			"left_due_to_timeout_no_listeners": "Ses kanalında dinleyici olmadığı için ayrıldım.",
+			"left_due_to_timeout_no_songs": "Kuyruğa şarkı eklenmediği için ayrıldım."
 		}
 	},
 	"Evaluate code": "Kodu çalıştır.",
 	"Leave a guild": "Bir sunucudan çık.",
 	"List all guilds the bot is in": "Botun bulunduğu tüm sunucuları listele.",
-	"Restart the bot": "Botu yeniden başlat.",
-	"The loop mode you want to set": "The loop mode you want to set",
-	"Show current maintenance status.": "Show current maintenance status."
+	"Restart the bot": "Botu yeniden başlat",
+	"The loop mode you want to set": "Ayarlamak istediğiniz döngü modu",
+	"Show current maintenance status": "Mevcut bakım durumunu göster"
 }
