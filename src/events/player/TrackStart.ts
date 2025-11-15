@@ -141,6 +141,25 @@ export default class TrackStart extends Event {
 				await trackStart(setup.messageId, textChannel, player, track, this.client, locale);
 			}
 		} else {
+			const previousMessageId = player.get<string | undefined>('messageId');
+			
+			// For track loop mode: nothing changes, just return (message already exists)
+			if (player.repeatMode === 'track' && previousMessageId) {
+				return;
+			}
+			
+			// For queue loop or normal mode: delete old message and create new one
+			if (previousMessageId) {
+				try {
+					const previousMessage = await channel.messages.fetch(previousMessageId).catch(() => null);
+					if (previousMessage?.deletable) {
+						await previousMessage.delete().catch(() => null);
+					}
+				} catch (error) {
+					// Message might already be deleted or not found, continue
+				}
+			}
+
 			const message = await channel.send({
 				embeds: [embed],
 				components: [createButtonRow(player, this.client)],

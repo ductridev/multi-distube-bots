@@ -19,8 +19,12 @@ export default class TrackEnd extends Event {
 			clientId: this.client.childEnv.clientId,
 		});
 
-		// Prevent this event from running if repeat mode is track
-		if (player.repeatMode === 'track') return
+		// For track loop mode, don't delete message - trackStart will reuse it
+		if (player.repeatMode === 'track') {
+			// Still save player queue
+			await player.queue.utils.save();
+			return;
+		}
 
 		// Save player queue
 		await player.queue.utils.save();
@@ -31,6 +35,7 @@ export default class TrackEnd extends Event {
 		const locale = await this.client.db.getLanguage(player.guildId);
 		await updateSetup(this.client, guild, locale);
 
+		// For queue loop or normal mode, delete the message (new track will have new message)
 		const messageId = player.get<string | undefined>('messageId');
 		if (!messageId) return;
 
