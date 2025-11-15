@@ -22,12 +22,12 @@ export async function authRoutes(fastify: FastifyInstance) {
 			// Exchange code for access token
 			const redirectUri = `${env.DASHBOARD_URL}/auth/callback`;
 			
-			fastify.log.info('Token exchange attempt:', {
+			fastify.log.info({
 				client_id: env.DISCORD_CLIENT_ID,
 				redirect_uri: redirectUri,
 				has_code: !!code,
 				has_secret: !!env.DISCORD_CLIENT_SECRET
-			});
+			}, 'Token exchange attempt');
 
 			const tokenResponse = await fetch('https://discord.com/api/oauth2/token', {
 				method: 'POST',
@@ -144,14 +144,12 @@ export async function authRoutes(fastify: FastifyInstance) {
 					role: user.role,
 					managedBots: user.managedBots,
 				},
-			});
-		} catch (error) {
-			fastify.log.error('Auth error:', error);
-			return reply.status(500).send({ error: 'Authentication failed' });
-		}
-	});
-
-	// Get current user
+		});
+	} catch (error) {
+		fastify.log.error(error, 'Auth error');
+		return reply.status(500).send({ error: 'Authentication failed' });
+	}
+});	// Get current user
 	fastify.get('/me', async (request, reply) => {
 		try {
 			const token = request.cookies?.dashboard_session || request.headers.authorization?.replace('Bearer ', '');
@@ -191,14 +189,12 @@ export async function authRoutes(fastify: FastifyInstance) {
 					createdAt: session.user.createdAt,
 					lastLogin: session.user.lastLogin,
 				},
-			});
-		} catch (error) {
-			fastify.log.error('Get user error:', error);
-			return reply.status(500).send({ error: 'Failed to fetch user' });
-		}
-	});
-
-	// Refresh token
+		});
+	} catch (error) {
+		fastify.log.error(error, 'Get user error');
+		return reply.status(500).send({ error: 'Failed to fetch user' });
+	}
+});	// Refresh token
 	fastify.post('/refresh', async (request, reply) => {
 		try {
 			const token = request.cookies?.dashboard_session || request.headers.authorization?.replace('Bearer ', '');
@@ -253,7 +249,7 @@ export async function authRoutes(fastify: FastifyInstance) {
 				csrfToken,
 			});
 		} catch (error) {
-			fastify.log.error('Token refresh error:', error);
+			fastify.log.error(error, 'Token refresh error');
 			return reply.status(500).send({ error: 'Failed to refresh token' });
 		}
 	});
@@ -273,7 +269,7 @@ export async function authRoutes(fastify: FastifyInstance) {
 
 			return reply.send({ success: true });
 		} catch (error) {
-			fastify.log.error('Logout error:', error);
+			fastify.log.error(error, 'Logout error');
 			return reply.status(500).send({ error: 'Logout failed' });
 		}
 	});

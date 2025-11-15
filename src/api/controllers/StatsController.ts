@@ -115,7 +115,7 @@ export class StatsController {
 				data: records,
 			});
 
-			logger.info(`Recorded stats for ${records.length} bots`);
+			// logger.info(`Recorded stats for ${records.length} bots`);
 			return { success: true };
 		} catch (error) {
 			logger.error('Failed to record stats:', error);

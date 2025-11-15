@@ -195,7 +195,7 @@ export function auditLog(action: string) {
 			});
 		} catch (error) {
 			// Don't block the request if audit log fails
-			request.log.error('Failed to create audit log:', error);
+			request.log.error(error, 'Failed to create audit log');
 		}
 	};
 }

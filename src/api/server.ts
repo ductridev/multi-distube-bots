@@ -103,12 +103,14 @@ export async function startApiServer(bots: Lavamusic[]) {
 		request.log.error(error);
 
 		// Don't expose internal errors in production
-		const message = isProduction ? 'Internal server error' : error.message;
+		const message = isProduction ? 'Internal server error' : (error as Error).message || 'Unknown error';
+		const statusCode = (error as any).statusCode || 500;
+		const stack = (error as Error).stack;
 
-		reply.status(error.statusCode || 500).send({
+		reply.status(statusCode).send({
 			error: message,
-			statusCode: error.statusCode || 500,
-			...(isProduction ? {} : { stack: error.stack }),
+			statusCode,
+			...(isProduction ? {} : { stack }),
 		});
 	});
 

@@ -50,7 +50,7 @@ export async function authenticateJWT(request: FastifyRequest, reply: FastifyRep
 		// Attach user to request
 		(request as any).dashboardUser = user;
 	} catch (error) {
-		request.log.error('JWT authentication failed:', error);
+		request.log.error(error, 'JWT authentication failed');
 		return reply.status(401).send({ error: 'Invalid token' });
 	}
 }
