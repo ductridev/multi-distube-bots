@@ -38,8 +38,20 @@ export default class Botinfo extends Command {
 		const osUptime = client.utils.formatTime(os.uptime());
 		const osHostname = os.hostname();
 		const cpuInfo = `${os.arch()} (${os.cpus().length} cores)`;
-		const cpuUsed = (await usagePercent({ coreIndex: 0, sampleMs: 2000 })).percent;
-		const memTotal = showTotalMemory(true);
+		
+		// Wrap system stats calls in try-catch for containerized environments
+		let cpuUsed = 0;
+		let memTotal: string = '0 MB';
+		try {
+			cpuUsed = (await usagePercent({ coreIndex: 0, sampleMs: 2000 })).percent;
+			const totalMem = showTotalMemory(true);
+			memTotal = typeof totalMem === 'string' ? totalMem : `${totalMem} MB`;
+		} catch (error) {
+			// Fallback for containerized environments (Docker/Pterodactyl)
+			cpuUsed = 0;
+			memTotal = `${(os.totalmem() / 1024 ** 2).toFixed(2)} MB`;
+		}
+		
 		const memUsed = (process.memoryUsage().rss / 1024 ** 2).toFixed(2);
 		const nodeVersion = process.version;
 		const discordJsVersion = version;
