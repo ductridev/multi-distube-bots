@@ -717,7 +717,6 @@
 	"List all guilds the bot is in": "Lista wszystkich serwerów, w których jest bot",
 	"Restart the bot": "Uruchom ponownie bota",
 	"The loop mode you want to set": "Tryb pętli, który chcesz ustawić",
-	"Show current maintenance status.": "Show current maintenance status.",
 	"will_leave": {
 		"no_listeners": "Bot opuści kanał za {time} minut z powodu braku słuchaczy.",
 		"no_songs": "Bot opuści kanał za {time} minut z powodu braku utworów."

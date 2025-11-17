@@ -5,7 +5,7 @@ export default class MaintainInfo extends Command {
         super(client, {
             name: 'maintaininfo',
             description: {
-                content: 'Show current maintenance status.',
+                content: 'Show current maintenance status',
                 examples: ['maintaininfo'],
                 usage: 'maintaininfo',
             },

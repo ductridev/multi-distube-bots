@@ -717,7 +717,6 @@
 	"List all guilds the bot is in": "Daftar semua server tempat bot berada",
 	"Restart the bot": "Restart bot",
 	"The loop mode you want to set": "Mode loop yang ingin Anda atur",
-	"Show current maintenance status.": "Show current maintenance status.",
 	"will_leave": {
 		"no_listeners": "Bot akan keluar dalam {time} menit karena tidak ada pendengar.",
 		"no_songs": "Bot akan keluar dalam {time} menit karena tidak ada lagu."

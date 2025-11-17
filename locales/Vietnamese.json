@@ -12,12 +12,6 @@
 		"support": "Máy Chủ Hỗ Trợ"
 	},
 	"cmd": {
-		"messages": {
-			"no_user": "Không tìm thấy người dùng.",
-			"no_voice_channel": "Bạn cần tham gia một kênh thoại để sử dụng lệnh này.",
-			"not_in_voice": "Bot không có trong kênh thoại.",
-			"already_voted": "Bạn đã bỏ phiếu rồi."
-		},
 		"247": {
 			"description": "Giữ bot luôn ở trong kênh thoại",
 			"errors": {
@@ -28,6 +22,12 @@
 				"disabled": "`✅` | Chế độ 24/7 đã được `TẮT`.",
 				"enabled": "`✅` | Chế độ 24/7 đã được `BẬT`.\n**Bot sẽ ở lại kênh thoại ngay cả khi không còn ai trong kênh.**"
 			}
+		},
+		"messages": {
+			"no_user": "Không tìm thấy người dùng.",
+			"no_voice_channel": "Bạn cần tham gia một kênh thoại để sử dụng lệnh này.",
+			"not_in_voice": "Bot không có trong kênh thoại.",
+			"already_voted": "Bạn đã bỏ phiếu rồi."
 		},
 		"8d": {
 			"description": "Bật/tắt hiệu ứng âm thanh 8D",

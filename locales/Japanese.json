@@ -717,7 +717,6 @@
 	"List all guilds the bot is in": "ボットが所属しているすべてのギルドを一覧表示",
 	"Restart the bot": "ボットを再起動",
 	"The loop mode you want to set": "設定したいループモード",
-	"Show current maintenance status.": "Show current maintenance status.",
 	"will_leave": {
 		"no_listeners": "リスナーがいないため、ボットは{time}分後に退出します。",
 		"no_songs": "曲がないため、ボットは{time}分後に退出します。"

@@ -717,7 +717,6 @@
 	"List all guilds the bot is in": "बॉट जिन सभी सर्वरों में है उन्हें सूचीबद्ध करें",
 	"Restart the bot": "बॉट को पुनः आरंभ करें",
 	"The loop mode you want to set": "आप जो लूप मोड सेट करना चाहते हैं",
-	"Show current maintenance status.": "Show current maintenance status.",
 	"will_leave": {
 		"no_listeners": "सुनने वालों के न होने के कारण बॉट {time} मिनट में चला जाएगा।",
 		"no_songs": "गाने न होने के कारण बॉट {time} मिनट में चला जाएगा।"

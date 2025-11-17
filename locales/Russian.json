@@ -717,7 +717,6 @@
 	"List all guilds the bot is in": "Список всех серверов, на которых находится бот",
 	"Restart the bot": "Перезапустить бота",
 	"The loop mode you want to set": "Режим повтора, который вы хотите установить",
-	"Show current maintenance status.": "Show current maintenance status.",
 	"will_leave": {
 		"no_listeners": "Бот покинет канал через {time} минут из-за отсутствия слушателей.",
 		"no_songs": "Бот покинет канал через {time} минут из-за отсутствия песен."
