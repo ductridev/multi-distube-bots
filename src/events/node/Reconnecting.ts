@@ -9,8 +9,8 @@ export default class Reconnecting extends Event {
 		});
 	}
 
-	public async run(_node: LavalinkNode): Promise<void> {
-		// this.client.logger.success(`Node ${node.id} is reconnecting!`);
+	public async run(node: LavalinkNode): Promise<void> {
+		this.client.logger.success(`Node ${node.id} is reconnecting!`);
 
 		// sendLog(this.client, `Node ${node.id} is reconnecting!`, 'success');
 	}
