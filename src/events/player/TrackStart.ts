@@ -298,6 +298,19 @@ function createCollector(
 				player.set('messageId', undefined);
 				player.stopPlaying(true, false);
 				await interaction.deferUpdate();
+				
+				// Remove all buttons from the message
+				if (message && message.editable) {
+					await message.edit({
+						embeds: [
+							embed.setFooter({
+								text: T(locale, 'cmd.stop.messages.stopped') + " • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
+								iconURL: interaction.user.avatarURL({}),
+							}),
+						],
+						components: [], // Remove all buttons
+					});
+				}
 				break;
 			}
 			case 'skip':
