@@ -770,5 +770,6 @@
 		"no_listeners": "Bot sẽ rời đi sau {time} phút vì không có người nghe.",
 		"no_songs": "Bot sẽ rời đi sau {time} phút vì không có bài hát nào."
 	},
-	"will_restart_after": "Bot sẽ khởi động lại sau {time}"
+	"will_restart_after": "Bot sẽ khởi động lại sau {time}",
+	"Show current maintenance status.": "Show current maintenance status."
 }

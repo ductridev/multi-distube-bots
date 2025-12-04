@@ -721,5 +721,6 @@
 		"no_listeners": "Boten vil forlate om {time} minutter på grunn av ingen lyttere.",
 		"no_songs": "Boten vil forlate om {time} minutter på grunn av ingen sanger."
 	},
-	"Show current maintenance status": "Vis nåværende vedlikeholdsstatus"
+	"Show current maintenance status": "Vis nåværende vedlikeholdsstatus",
+	"Show current maintenance status.": "Show current maintenance status."
 }

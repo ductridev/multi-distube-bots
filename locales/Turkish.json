@@ -717,5 +717,6 @@
 	"List all guilds the bot is in": "Botun bulunduğu tüm sunucuları listele.",
 	"Restart the bot": "Botu yeniden başlat",
 	"The loop mode you want to set": "Ayarlamak istediğiniz döngü modu",
-	"Show current maintenance status": "Mevcut bakım durumunu göster"
+	"Show current maintenance status": "Mevcut bakım durumunu göster",
+	"Show current maintenance status.": "Show current maintenance status."
 }

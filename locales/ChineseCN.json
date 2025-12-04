@@ -763,5 +763,6 @@
 	"List all guilds the bot is in": "列出机器人所在的所有服务器",
 	"Restart the bot": "重启机器人",
 	"The loop mode you want to set": "您想设置的循环模式",
-	"Show current maintenance status": "显示当前维护状态"
+	"Show current maintenance status": "显示当前维护状态",
+	"Show current maintenance status.": "Show current maintenance status."
 }

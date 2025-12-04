@@ -717,5 +717,6 @@
 	"List all guilds the bot is in": "봇이 들어가 있는 서버를 확인해요",
 	"Restart the bot": "봇을 재시작해요",
 	"The loop mode you want to set": "설정하려는 반복 모드",
-	"Show current maintenance status": "현재 유지보수 상태를 표시해요"
+	"Show current maintenance status": "현재 유지보수 상태를 표시해요",
+	"Show current maintenance status.": "Show current maintenance status."
 }

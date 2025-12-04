@@ -719,5 +719,6 @@
 	"List all guilds the bot is in": "Listar todos los servidores en los que está el bot",
 	"Restart the bot": "Reiniciar el bot",
 	"The loop mode you want to set": "El modo de bucle que quieres establecer",
-	"Show current maintenance status": "Mostrar el estado de mantenimiento actual"
+	"Show current maintenance status": "Mostrar el estado de mantenimiento actual",
+	"Show current maintenance status.": "Show current maintenance status."
 }

@@ -721,5 +721,6 @@
 		"no_listeners": "Bot opuści kanał za {time} minut z powodu braku słuchaczy.",
 		"no_songs": "Bot opuści kanał za {time} minut z powodu braku utworów."
 	},
-	"Show current maintenance status": "Pokaż aktualny status konserwacji"
+	"Show current maintenance status": "Pokaż aktualny status konserwacji",
+	"Show current maintenance status.": "Show current maintenance status."
 }

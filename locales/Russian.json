@@ -721,5 +721,6 @@
 		"no_listeners": "Бот покинет канал через {time} минут из-за отсутствия слушателей.",
 		"no_songs": "Бот покинет канал через {time} минут из-за отсутствия песен."
 	},
-	"Show current maintenance status": "Показать текущий статус обслуживания"
+	"Show current maintenance status": "Показать текущий статус обслуживания",
+	"Show current maintenance status.": "Show current maintenance status."
 }

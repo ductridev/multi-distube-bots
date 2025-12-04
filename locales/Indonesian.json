@@ -721,5 +721,6 @@
 		"no_listeners": "Bot akan keluar dalam {time} menit karena tidak ada pendengar.",
 		"no_songs": "Bot akan keluar dalam {time} menit karena tidak ada lagu."
 	},
-	"Show current maintenance status": "Tampilkan status pemeliharaan saat ini"
+	"Show current maintenance status": "Tampilkan status pemeliharaan saat ini",
+	"Show current maintenance status.": "Show current maintenance status."
 }

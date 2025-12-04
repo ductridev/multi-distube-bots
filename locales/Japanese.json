@@ -721,5 +721,6 @@
 		"no_listeners": "リスナーがいないため、ボットは{time}分後に退出します。",
 		"no_songs": "曲がないため、ボットは{time}分後に退出します。"
 	},
-	"Show current maintenance status": "現在のメンテナンス状態を表示"
+	"Show current maintenance status": "現在のメンテナンス状態を表示",
+	"Show current maintenance status.": "Show current maintenance status."
 }

@@ -721,5 +721,6 @@
 		"no_listeners": "सुनने वालों के न होने के कारण बॉट {time} मिनट में चला जाएगा।",
 		"no_songs": "गाने न होने के कारण बॉट {time} मिनट में चला जाएगा।"
 	},
-	"Show current maintenance status": "वर्तमान रखरखाव स्थिति दिखाएं"
+	"Show current maintenance status": "वर्तमान रखरखाव स्थिति दिखाएं",
+	"Show current maintenance status.": "Show current maintenance status."
 }

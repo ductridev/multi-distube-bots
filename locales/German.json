@@ -736,5 +736,6 @@
 	"will_leave": {
 		"no_listeners": "Bot verlässt in {time} Minuten wegen fehlender Zuhörer.",
 		"no_songs": "Bot verlässt in {time} Minuten wegen fehlender Songs."
-	}
+	},
+	"Show current maintenance status.": "Show current maintenance status."
 }
