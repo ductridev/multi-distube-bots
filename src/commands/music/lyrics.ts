@@ -68,7 +68,7 @@ export default class Lyrics extends Command {
 			try {
 				lyrics = await getLyrics(options);
 			} catch (e) {
-				lyrics = (await this.client.manager.getPlayer(ctx.guild!.id)!.getCurrentLyrics()).text ?? '';
+				lyrics = (await this.client.manager.getPlayer(ctx.guild!.id)!.getLyrics(track, true)).text ?? '';
 			}
 			if (lyrics) {
 				const lyricsPages = this.paginateLyrics(lyrics);
