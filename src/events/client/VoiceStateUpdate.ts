@@ -18,6 +18,18 @@ export default class VoiceStateUpdate extends Event {
 
 		if (!player?.voiceChannelId) return;
 
+		// Only process voice state updates for the voice channel THIS bot is in
+		// Ignore voice state changes in other voice channels in the same guild
+		const relevantChannelId = player.voiceChannelId;
+		const isRelevantChange =
+			oldState.channelId === relevantChannelId ||
+			newState.channelId === relevantChannelId;
+
+		if (!isRelevantChange) {
+			// This voice state update is for a different channel - ignore it
+			return;
+		}
+
 		const vc = newState.guild.channels.cache.get(player.voiceChannelId);
 		if (!(vc && vc.members instanceof Map)) return;
 
