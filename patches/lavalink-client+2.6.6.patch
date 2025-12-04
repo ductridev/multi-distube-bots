@@ -14,10 +14,38 @@ index 8b81c01..1110205 100644
  type RepeatMode = "queue" | "track" | "off";
  interface PlayerOptions {
 diff --git a/node_modules/lavalink-client/dist/index.js b/node_modules/lavalink-client/dist/index.js
-index 6f28f5e..65fc8a5 100644
+index 6f28f5e..3cb6532 100644
 --- a/node_modules/lavalink-client/dist/index.js
 +++ b/node_modules/lavalink-client/dist/index.js
-@@ -4575,7 +4575,8 @@ var Player = class {
+@@ -1139,7 +1139,9 @@ var LavalinkNode = class {
+     return { response, options };
+   }
+   async request(endpoint, modify, parseAsText) {
+-    if (!this.connected) throw new Error("The node is not connected to the Lavalink Server!, Please call node.connect() first!");
++    if (!this.connected) {
++      this.reconnect();
++    }
+     const { response, options } = await this.rawRequest(endpoint, modify);
+     if (["DELETE", "PUT"].includes(options.method)) return;
+     if (response.status === 204) return;
+@@ -1949,13 +1951,13 @@ var LavalinkNode = class {
+   /** @private util function for handling error events from websocket */
+   error(error) {
+     if (!error) return;
+-    this.NodeManager.emit("error", this, error);
++    this.reconnect();
++    // this.NodeManager.emit("error", this, error);
+     if (this.options.closeOnError) {
+       if (this.heartBeatInterval) clearInterval(this.heartBeatInterval);
+       if (this.pingTimeout) clearTimeout(this.pingTimeout);
+       this.socket?.close(500, "Node-Error - Force Reconnect");
+-    }
+-    ;
++    };
+   }
+   /** @private util function for handling message events from websocket */
+   async message(d) {
+@@ -4575,7 +4577,8 @@ var Player = class {
        nodeId: this.node?.id,
        nodeSessionId: this.node?.sessionId,
        ping: this.ping,
