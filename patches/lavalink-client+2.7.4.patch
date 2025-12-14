@@ -1,0 +1,29 @@
+diff --git a/node_modules/lavalink-client/dist/index.d.ts b/node_modules/lavalink-client/dist/index.d.ts
+index 3c03aef..b451abf 100644
+--- a/node_modules/lavalink-client/dist/index.d.ts
++++ b/node_modules/lavalink-client/dist/index.d.ts
+@@ -1878,6 +1878,10 @@ interface PlayerJson {
+     nodeSessionId?: string;
+     /** The stored queue */
+     queue?: StoredQueue;
++    /** Custom Data for the player get/set datastorage */
++    data: {
++        [key: string]: any;
++    };
+ }
+ type RepeatMode = "queue" | "track" | "off";
+ interface PlayerOptions {
+diff --git a/node_modules/lavalink-client/dist/index.js b/node_modules/lavalink-client/dist/index.js
+index 7947866..76d22ef 100644
+--- a/node_modules/lavalink-client/dist/index.js
++++ b/node_modules/lavalink-client/dist/index.js
+@@ -4686,7 +4686,8 @@ var Player = class {
+       nodeId: this.node?.id,
+       nodeSessionId: this.node?.sessionId,
+       ping: this.ping,
+-      queue: this.queue.utils.toJSON()
++      queue: this.queue.utils.toJSON(),
++      data: this.data
+     };
+   }
+ };
