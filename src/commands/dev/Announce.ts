@@ -46,13 +46,24 @@ export default class Announce extends Command {
             })
             .setTimestamp();
 
+        // Track sent channel IDs to prevent duplicates
+        const sentChannelIds = new Set<string>();
         let sentCount = 0;
+
         for (const guildMap of sessionMap.values()) {
             for (const player of guildMap.values()) {
                 try {
-                    const channel = client.channels.cache.get((player as Player)!.textChannelId!);
+                    const textChannelId = (player as Player)!.textChannelId!;
+
+                    // Skip if already sent to this channel
+                    if (sentChannelIds.has(textChannelId)) {
+                        continue;
+                    }
+
+                    const channel = client.channels.cache.get(textChannelId);
                     if (channel && channel.isTextBased() && (channel as TextChannel).viewable && (channel as TextChannel).permissionsFor(client.user!)?.has(['SendMessages', 'EmbedLinks'])) {
                         await (channel as TextChannel).send({ embeds: [embed] });
+                        sentChannelIds.add(textChannelId);
                         sentCount++;
                     }
                 } catch (e) {
