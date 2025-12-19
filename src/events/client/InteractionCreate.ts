@@ -68,6 +68,15 @@ export default class InteractionCreate extends Event {
 				});
 				return;
 			}
+
+			// CRITICAL: Check voice channel BEFORE bot selection for voice-required commands
+			if (command.player?.voice && !userVCId) {
+				await interaction.reply({
+					content: T(locale, 'event.interaction.no_voice_channel', { command: command.name }),
+					ephemeral: true,
+				});
+				return;
+			}
 			
 			let chosenBot: typeof this.client = allBots[0];
 			let valid = true;
