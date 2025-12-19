@@ -119,7 +119,7 @@ flowchart TD
     
     NeedVoting --> CheckExistingVote{Already<br/>voted?}
     CheckExistingVote -->|Yes| AlreadyVoted[Show: Already voted]
-    CheckExistingVote -->|No| FirstVote{First vote<br/>on this action?}
+    CheckExistingVote -->|No| FirstVote{First vote<br/>by anyone?}
     
     FirstVote -->|Yes| CreateEmbed[Create vote embed<br/>with ✅ Yes / ❌ No buttons]
     CreateEmbed --> AddVote[Add user's vote]
