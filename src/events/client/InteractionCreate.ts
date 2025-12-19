@@ -383,15 +383,6 @@ export default class InteractionCreate extends Event {
 			}
 
 			try {
-				// Update player text channel if a player exists and command is music-related
-				const musicCategories = ['music', 'filters', 'playlist'];
-				if (musicCategories.includes(command.category)) {
-					const player = this.client.manager.getPlayer(interaction.guildId);
-					if (player && player.textChannelId !== interaction.channelId) {
-						player.textChannelId = interaction.channelId;
-					}
-				}
-
 				await command.run(this.client, ctx, ctx.args);
 				if (setup && interaction.channelId === setup.textId && allowedCategories.includes(command.category)) {
 					setTimeout(() => {
