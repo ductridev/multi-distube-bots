@@ -76,6 +76,14 @@ export default class MessageCreate extends Event {
 			}
 			return;
 		}
+
+		// CRITICAL: Check voice channel BEFORE bot selection for voice-required commands
+		if (command.player?.voice && !userVCId) {
+			await message.reply({
+				content: T(locale, 'event.message.no_voice_channel', { command: command.name }),
+			});
+			return;
+		}
 		
 		// Early return: If this bot is not configured for this guild, skip processing
 		if (!allBots.some(bot => bot.user?.id === this.client.user?.id)) {
@@ -145,18 +153,16 @@ export default class MessageCreate extends Event {
 						chosenBot = idleBot.bot;
 						valid = true;
 					}
-					// Priority 4: If using global prefix and all bots busy, use message ID hash
-					else if (matchedPrefix.trim() === env.GLOBAL_PREFIX) {
-						// All bots are busy, but user still wants to queue
-						// Use deterministic distribution based on message ID
-						const botIndex = parseInt(message.id.slice(-4), 16) % allBots.length;
-						chosenBot = allBots[botIndex];
-						valid = true;
-					}
 					// No bot available - all bots are busy in other VCs
 					else {
-						chosenBot = null;
-						valid = false;
+						// Pick a bot for responding (first one or based on prefix)
+						if (matchedPrefix.trim() === env.GLOBAL_PREFIX) {
+							const botIndex = parseInt(message.id.slice(-4), 16) % allBots.length;
+							chosenBot = allBots[botIndex];
+						} else {
+							chosenBot = allBots[0];
+						}
+						valid = false; // Mark as invalid so it shows "no free bots" message
 					}
 				}
 			}
@@ -183,12 +189,8 @@ export default class MessageCreate extends Event {
 		// Only the chosen bot should continue processing
 		if (!chosenBot || this.client.user!.id !== chosenBot.user!.id) return;
 
-		if (!valid) {
-			await message.reply({
-				content: T(locale, 'event.message.no_free_bots'),
-			});
-			return;
-		}
+		// Don't check if bot is free yet - we need to validate voice channel first
+		// to show proper error messages
 
 		const ctx = new Context(message, args);
 		ctx.setArgs(args);
@@ -350,9 +352,12 @@ export default class MessageCreate extends Event {
 					});
 				}
 
+				// Only check if bot is in different channel if THIS bot is actually in a voice channel
+				// AND the bot selection was valid (meaning this bot was intended to be used)
 				if (
 					clientMember.voice.channel &&
-					clientMember.voice.channelId !== (message.member as GuildMember).voice.channelId
+					clientMember.voice.channelId !== (message.member as GuildMember).voice.channelId &&
+					valid
 				) {
 					return await message.reply({
 						content: T(locale, 'event.message.different_voice_channel', {
@@ -443,16 +448,16 @@ export default class MessageCreate extends Event {
 			});
 		}
 
-		try {
-			// Update player text channel if a player exists and command is music-related
-			const musicCategories = ['music', 'filters', 'playlist'];
-			if (musicCategories.includes(command.category)) {
-				const player = this.client.manager.getPlayer(message.guildId);
-				if (player && player.textChannelId !== message.channelId) {
-					player.textChannelId = message.channelId;
-				}
-			}
+		// NOW check if bot is free (after all permission/voice checks)
+		// This ensures users get proper error messages about missing permissions or voice channel first
+		if (!valid) {
+			await message.reply({
+				content: T(locale, 'event.message.no_free_bots'),
+			});
+			return;
+		}
 
+		try {
 			return command.run(this.client, ctx, ctx.args);
 		} catch (error: any) {
 			this.client.logger.error(error);
