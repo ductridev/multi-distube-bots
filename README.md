@@ -52,9 +52,14 @@ This project supports multiple bot instances running simultaneously. Here's how 
 flowchart TD
     Start([User sends command]) --> CheckGuild{Guild has<br/>configured bots?}
     CheckGuild -->|No| Error1[Show: No bots configured]
-    CheckGuild -->|Yes| CheckVC{User in<br/>voice channel?}
+    CheckGuild -->|Yes| CheckCommandType{Command requires<br/>voice channel?}
     
+    CheckCommandType -->|No| CheckPrefixMatch{Prefix matches<br/>specific bot?}
+    CheckCommandType -->|Yes| CheckVC{User in<br/>voice channel?}
+    
+    CheckVC -->|No| ErrorNoVC[❌ Show: Must be<br/>in voice channel]
     CheckVC -->|Yes| QueryState[Query Discord's<br/>real voice state]
+    
     QueryState --> CheckSameVC{Bot already<br/>in user's VC?}
     
     CheckSameVC -->|Yes| UseSameBot[✅ Priority 1:<br/>Use that bot]
@@ -66,9 +71,8 @@ flowchart TD
     CheckIdleBot -->|Yes| UseIdleBot[✅ Priority 3:<br/>Use first idle bot]
     CheckIdleBot -->|No| AllBusy[❌ All bots busy]
     AllBusy --> PickForError[Pick first bot<br/>for error message]
-    PickForError --> ShowError[Show: No free bots]
+    PickForError --> ShowErrorBusy[Show: No free bots]
     
-    CheckVC -->|No| CheckPrefixMatch{Prefix matches<br/>specific bot?}
     CheckPrefixMatch -->|Yes| UseBot[Use matched bot]
     CheckPrefixMatch -->|No| IsGlobalPrefix{Using global<br/>prefix?}
     
@@ -84,7 +88,7 @@ flowchart TD
     
     OnlyChosen -->|No| EarlyExit[Early exit:<br/>Don't process]
     OnlyChosen -->|Yes| ValidCheck{Command<br/>valid?}
-    ValidCheck -->|No| ShowError
+    ValidCheck -->|No| ShowError[Show command error]
     ValidCheck -->|Yes| Execute[✅ Execute command]
     
     style UseSameBot fill:#4CAF50
@@ -92,6 +96,8 @@ flowchart TD
     style UseIdleBot fill:#4CAF50
     style Execute fill:#4CAF50
     style ShowError fill:#f44336
+    style ShowErrorBusy fill:#f44336
+    style ErrorNoVC fill:#f44336
     style Error1 fill:#f44336
     style EarlyExit fill:#FF9800
 ```
