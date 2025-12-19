@@ -42,7 +42,7 @@
 - Playlist commands
 - Music channel system
 
-## �️ System Architecture
+## System Architecture
 
 ### Multi-Bot Selection Flow
 
@@ -158,7 +158,7 @@ flowchart TD
 
 **Supported Actions**: skip, stop, pause, resume, volume, seek, shuffle, skipto, clearqueue
 
-## �🎶 Support Sources
+## 🎶 Support Sources
 
 ### 🔍 Default Sources
 
