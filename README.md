@@ -42,7 +42,123 @@
 - Playlist commands
 - Music channel system
 
-## 🎶 Support Sources
+## �️ System Architecture
+
+### Multi-Bot Selection Flow
+
+This project supports multiple bot instances running simultaneously. Here's how the system determines which bot handles each command:
+
+```mermaid
+flowchart TD
+    Start([User sends command]) --> CheckGuild{Guild has<br/>configured bots?}
+    CheckGuild -->|No| Error1[Show: No bots configured]
+    CheckGuild -->|Yes| CheckVC{User in<br/>voice channel?}
+    
+    CheckVC -->|Yes| QueryState[Query Discord's<br/>real voice state]
+    QueryState --> CheckSameVC{Bot already<br/>in user's VC?}
+    
+    CheckSameVC -->|Yes| UseSameBot[✅ Priority 1:<br/>Use that bot]
+    CheckSameVC -->|No| CheckMatchingPrefix{Bot with matching<br/>prefix AND idle?}
+    
+    CheckMatchingPrefix -->|Yes| UseMatchingBot[✅ Priority 2:<br/>Use matching bot]
+    CheckMatchingPrefix -->|No| CheckIdleBot{Any bot<br/>idle?}
+    
+    CheckIdleBot -->|Yes| UseIdleBot[✅ Priority 3:<br/>Use first idle bot]
+    CheckIdleBot -->|No| AllBusy[❌ All bots busy]
+    AllBusy --> PickForError[Pick first bot<br/>for error message]
+    PickForError --> ShowError[Show: No free bots]
+    
+    CheckVC -->|No| CheckPrefixMatch{Prefix matches<br/>specific bot?}
+    CheckPrefixMatch -->|Yes| UseBot[Use matched bot]
+    CheckPrefixMatch -->|No| IsGlobalPrefix{Using global<br/>prefix?}
+    
+    IsGlobalPrefix -->|Yes| HashDistribute[Distribute using<br/>message ID hash]
+    IsGlobalPrefix -->|No| UseFirst[Use first available bot]
+    
+    UseSameBot --> OnlyChosen{Is this bot<br/>the chosen one?}
+    UseMatchingBot --> OnlyChosen
+    UseIdleBot --> OnlyChosen
+    UseBot --> OnlyChosen
+    HashDistribute --> OnlyChosen
+    UseFirst --> OnlyChosen
+    
+    OnlyChosen -->|No| EarlyExit[Early exit:<br/>Don't process]
+    OnlyChosen -->|Yes| ValidCheck{Command<br/>valid?}
+    ValidCheck -->|No| ShowError
+    ValidCheck -->|Yes| Execute[✅ Execute command]
+    
+    style UseSameBot fill:#4CAF50
+    style UseMatchingBot fill:#4CAF50
+    style UseIdleBot fill:#4CAF50
+    style Execute fill:#4CAF50
+    style ShowError fill:#f44336
+    style Error1 fill:#f44336
+    style EarlyExit fill:#FF9800
+```
+
+**Key Insight**: All bot instances query Discord's **real voice state** (not in-memory cache) to ensure deterministic selection - every bot instance reaches the same conclusion about which bot should handle the command.
+
+### Democratic Voting System Flow
+
+For actions affecting music playback (skip, stop, pause, etc.), the system uses democratic voting when multiple users are in the voice channel:
+
+```mermaid
+flowchart TD
+    Start([User triggers action]) --> CheckPrivilege{Is user<br/>privileged?}
+    
+    CheckPrivilege -->|Track Requester| ExecuteImmediate[✅ Execute immediately]
+    CheckPrivilege -->|Bot Summoner| ExecuteImmediate
+    CheckPrivilege -->|DJ Role| ExecuteImmediate
+    CheckPrivilege -->|Autoplay Track| ExecuteImmediate
+    
+    CheckPrivilege -->|No privilege| CountListeners[Count non-bot<br/>listeners in VC]
+    
+    CountListeners --> CheckCount{Listener<br/>count?}
+    CheckCount -->|≤ 2 listeners| ExecuteImmediate
+    CheckCount -->|> 2 listeners| NeedVoting[Voting required]
+    
+    NeedVoting --> CheckExistingVote{Already<br/>voted?}
+    CheckExistingVote -->|Yes| AlreadyVoted[Show: Already voted]
+    CheckExistingVote -->|No| FirstVote{First vote<br/>on this action?}
+    
+    FirstVote -->|Yes| CreateEmbed[Create vote embed<br/>with ✅ Yes / ❌ No buttons]
+    CreateEmbed --> AddVote[Add user's vote]
+    
+    FirstVote -->|No| AddVote
+    AddVote --> UpdateEmbed[Update vote count<br/>in embed]
+    
+    UpdateEmbed --> CheckMajority{Votes ≥<br/>majority needed?}
+    CheckMajority -->|No| WaitMore[Wait for more votes]
+    CheckMajority -->|Yes| ClearVotes[Clear vote sets]
+    ClearVotes --> ExecuteImmediate
+    
+    ExecuteImmediate --> Complete([Action executed])
+    WaitMore --> ButtonClick[User clicks<br/>vote button]
+    ButtonClick --> AddVote
+    AlreadyVoted --> End([End])
+    
+    style ExecuteImmediate fill:#4CAF50
+    style CreateEmbed fill:#2196F3
+    style UpdateEmbed fill:#2196F3
+    style Complete fill:#4CAF50
+    style AlreadyVoted fill:#FF9800
+    style WaitMore fill:#FF9800
+```
+
+**Privileged Users** (skip voting):
+- 🎵 **Track Requester**: User who added the song
+- 📞 **Bot Summoner**: User who called the bot to voice channel  
+- 👑 **DJ Role**: Server members with DJ role
+- 🤖 **Autoplay Tracks**: Bot-added tracks (anyone can control)
+
+**Vote Calculations**:
+- Required votes = `⌈listeners / 2⌉` (majority, rounded up)
+- Votes tracked per-player using Sets: `skipVotes`, `keepVotes`, etc.
+- Buttons handled in `InteractionCreate` event with customIds: `{action}_vote_yes`/`{action}_vote_no`
+
+**Supported Actions**: skip, stop, pause, resume, volume, seek, shuffle, skipto, clearqueue
+
+## �🎶 Support Sources
 
 ### 🔍 Default Sources
 
