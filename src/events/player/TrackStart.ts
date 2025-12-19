@@ -313,30 +313,96 @@ function createCollector(
 				}
 				break;
 			}
-			case 'skip':
+			case 'skip': {
 				const autoplay = player.get<boolean>('autoplay');
 				if (!autoplay && player.queue.tracks.length === 0) {
 					// Clear the messageId before stopping to ensure new messages are created for future tracks
 					player.set('messageId', undefined);
 					player.stopPlaying(true, false);
 					await editMessage(T(locale, 'cmd.stop.messages.stopped'));
-				} else if (player.queue.tracks.length > 0) {
-					await interaction.deferUpdate();
-					player.skip();
-					await editMessage(
-						T(locale, 'player.trackStart.skipped_by', {
-							user: interaction.user.tag,
-						}),
-					);
-				} else {
-					player.skip(0, !autoplay);
-					await editMessage(
-						T(locale, 'player.trackStart.skipped_by', {
-							user: interaction.user.tag,
-						}),
-					);
+					break;
 				}
+
+				// Check voting - use button-specific voting method
+				const userId = interaction.user.id;
+				const isDJ = await VotingSystem['checkDJPermission'](client, {
+					guild: interaction.guild,
+					author: interaction.user,
+				} as any);
+				const privilegeCheck = VotingSystem.hasPrivilege(
+					{
+						guild: interaction.guild,
+						author: interaction.user,
+					} as any,
+					player,
+					isDJ,
+				);
+
+				// Count listeners
+				const member = interaction.guild.members.cache.get(userId);
+				const channel = member?.voice?.channel;
+				let listeners = 1;
+				if (channel && channel.members) {
+					listeners = channel.members.filter((m: any) => !m.user.bot).size;
+				}
+
+				// If privileged or <= 2 listeners, execute immediately
+				if (!privilegeCheck.hasPrivilege && listeners > 2) {
+					// Need voting
+					const voteKey = 'skipVotes';
+					const keepKey = 'keepVotes';
+
+					if (!player.get(voteKey)) player.set(voteKey, new Set<string>());
+					if (!player.get(keepKey)) player.set(keepKey, new Set<string>());
+
+					const skipVotes = player.get(voteKey) as Set<string>;
+					const keepVotes = player.get(keepKey) as Set<string>;
+
+					// Check if user already voted
+					if (skipVotes.has(userId) || keepVotes.has(userId)) {
+						await interaction.reply({
+							content: T(locale, 'cmd.skip.messages.already_voted'),
+							flags: MessageFlags.Ephemeral,
+						});
+						return;
+					}
+
+					const needed = Math.ceil(listeners / 2);
+
+					// Add vote
+					skipVotes.add(userId);
+					player.set(voteKey, skipVotes);
+
+					// Check if enough votes
+					if (skipVotes.size < needed) {
+						// Not enough votes yet
+						await interaction.reply({
+							content: T(locale, 'cmd.skip.messages.vote_registered', {
+								votes: skipVotes.size,
+								needed,
+							}),
+							flags: MessageFlags.Ephemeral,
+						});
+						return;
+					}
+
+					// Clear votes
+					skipVotes.clear();
+					keepVotes.clear();
+					player.set(voteKey, skipVotes);
+					player.set(keepKey, keepVotes);
+				}
+
+				// Execute skip
+				await interaction.deferUpdate();
+				player.skip(0, !autoplay);
+				await editMessage(
+					T(locale, 'player.trackStart.skipped_by', {
+						user: interaction.user.tag,
+					}),
+				);
 				break;
+			}
 			case 'loop': {
 				await interaction.deferUpdate();
 				switch (player.repeatMode) {

@@ -4,6 +4,7 @@ import { Event, type Lavamusic } from '../../structures/index';
 import type { Requester } from '../../types';
 import { getButtons } from '../../utils/Buttons';
 import { buttonReply } from '../../utils/SetupSystem';
+import { VotingSystem } from '../../utils/VotingSystem';
 import { checkDj } from '../player/TrackStart';
 
 export default class SetupButtons extends Event {
@@ -176,7 +177,8 @@ export default class SetupButtons extends Event {
 					break;
 				}
 				case 'SKIP_BUT': {
-					if (player.queue.tracks.length === 0) {
+					const autoplay = player.get<boolean>('autoplay');
+					if (!autoplay && player.queue.tracks.length === 0) {
 						return await buttonReply(
 							interaction,
 							T(locale, 'event.setupButton.no_music_to_skip'),
@@ -184,7 +186,78 @@ export default class SetupButtons extends Event {
 						);
 					}
 
-					player.skip();
+					// Check voting - use button-specific voting method
+					const userId = interaction.user.id;
+					const isDJ = await VotingSystem['checkDJPermission'](this.client, {
+						guild: interaction.guild,
+						author: interaction.user,
+					} as any);
+					const privilegeCheck = VotingSystem.hasPrivilege(
+						{
+							guild: interaction.guild,
+							author: interaction.user,
+						} as any,
+						player,
+						isDJ,
+					);
+
+					// Count listeners
+					const member = interaction.guild.members.cache.get(userId);
+					const channel = member?.voice?.channel;
+					let listeners = 1;
+					if (channel && channel.members) {
+						listeners = channel.members.filter((m: any) => !m.user.bot).size;
+					}
+
+					// If privileged or <= 2 listeners, execute immediately
+					if (!privilegeCheck.hasPrivilege && listeners > 2) {
+						// Need voting
+						const voteKey = 'skipVotes';
+						const keepKey = 'keepVotes';
+
+						if (!player.get(voteKey)) player.set(voteKey, new Set<string>());
+						if (!player.get(keepKey)) player.set(keepKey, new Set<string>());
+
+						const skipVotes = player.get(voteKey) as Set<string>;
+						const keepVotes = player.get(keepKey) as Set<string>;
+
+						// Check if user already voted
+						if (skipVotes.has(userId) || keepVotes.has(userId)) {
+							return await buttonReply(
+								interaction,
+								T(locale, 'cmd.skip.messages.already_voted'),
+								this.client.color.red,
+							);
+						}
+
+						const needed = Math.ceil(listeners / 2);
+
+						// Add vote
+						skipVotes.add(userId);
+						player.set(voteKey, skipVotes);
+
+						// Check if enough votes
+						if (skipVotes.size < needed) {
+							// Not enough votes yet
+							return await buttonReply(
+								interaction,
+								T(locale, 'cmd.skip.messages.vote_registered', {
+									votes: skipVotes.size,
+									needed,
+								}),
+								this.client.color.main,
+							);
+						}
+
+						// Clear votes
+						skipVotes.clear();
+						keepVotes.clear();
+						player.set(voteKey, skipVotes);
+						player.set(keepKey, keepVotes);
+					}
+
+					// Execute skip
+					player.skip(0, !autoplay);
 					await buttonReply(interaction, T(locale, 'event.setupButton.skipped'), this.client.color.main);
 
 					const newTrack = player.queue.current?.info;
