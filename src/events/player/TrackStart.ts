@@ -323,6 +323,8 @@ function createCollector(
 					break;
 				}
 
+				const { VotingSystem } = await import('../../utils/VotingSystem');
+
 				// Check voting - use button-specific voting method
 				const userId = interaction.user.id;
 				const isDJ = await VotingSystem['checkDJPermission'](client, {
