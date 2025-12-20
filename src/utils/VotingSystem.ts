@@ -10,6 +10,17 @@ export interface VoteResult {
 	needsVoting?: boolean;
 }
 
+/**
+ * Map to store active vote timeouts
+ * Key: `guildId:action`, Value: NodeJS.Timeout
+ */
+const voteTimeouts = new Map<string, NodeJS.Timeout>();
+
+/**
+ * Vote timeout duration in milliseconds (3 minutes)
+ */
+const VOTE_TIMEOUT_MS = 3 * 60 * 1000; // 3 minutes
+
 export interface VoteCheckOptions {
 	client: Lavamusic;
 	ctx: Context;
@@ -201,6 +212,19 @@ export class VotingSystem {
 
 		// Store message ID for later updates
 		player.set(`${action}VoteMessageId`, sent.id);
+
+		// Clear any existing timeout for this action
+		if (ctx.guild?.id) {
+			this.clearVoteTimeout(ctx.guild.id, action);
+
+			// Start 3-minute timeout
+			const timeoutKey = `${ctx.guild.id}:${action}`;
+			const timeout = setTimeout(() => {
+				this.handleVoteTimeout(client, ctx.guild!.id, action, ctx.channel?.id);
+			}, VOTE_TIMEOUT_MS);
+
+			voteTimeouts.set(timeoutKey, timeout);
+		}
 	}
 
 	/**
@@ -261,6 +285,72 @@ export class VotingSystem {
 
 		const djRole = roles.find((role) => member.roles.cache.has(role.roleId));
 		return !!djRole;
+	}
+
+	/**
+	 * Handle vote timeout - disable buttons and clear vote state
+	 */
+	private static async handleVoteTimeout(
+		client: Lavamusic,
+		guildId: string,
+		action: string,
+		textChannelId?: string,
+	): Promise<void> {
+		const player = client.manager.getPlayer(guildId);
+		if (!player) return;
+
+		const messageId = player.get(`${action}VoteMessageId`) as string | undefined;
+		if (!messageId) return;
+
+		// Clear vote state
+		const voteKey = `${action}Votes`;
+		const keepKey = 'keepVotes';
+		player.set(voteKey, new Set<string>());
+		player.set(keepKey, new Set<string>());
+		player.set(`${action}VoteMessageId`, undefined);
+
+		// Clear timeout from map
+		const timeoutKey = `${guildId}:${action}`;
+		voteTimeouts.delete(timeoutKey);
+
+		// Try to update the message to remove buttons
+		try {
+			let voteMsg;
+			if (textChannelId) {
+				const channel = await client.channels.fetch(textChannelId);
+				if (channel?.isTextBased()) {
+					voteMsg = await channel.messages.fetch(messageId);
+				}
+			}
+
+			if (voteMsg) {
+				const embed = new EmbedBuilder()
+					.setColor(client.color.red)
+					.setDescription(`Vote for ${action} has timed out after 3 minutes. ⏱️`)
+					.setFooter({
+						text: 'BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️',
+						iconURL:
+							'https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg',
+					})
+					.setTimestamp();
+
+				await voteMsg.edit({ embeds: [embed], components: [] });
+			}
+		} catch (e) {
+			// Message might be deleted or inaccessible
+		}
+	}
+
+	/**
+	 * Clear vote timeout for a specific action
+	 */
+	private static clearVoteTimeout(guildId: string, action: string): void {
+		const timeoutKey = `${guildId}:${action}`;
+		const timeout = voteTimeouts.get(timeoutKey);
+		if (timeout) {
+			clearTimeout(timeout);
+			voteTimeouts.delete(timeoutKey);
+		}
 	}
 
 	/**
@@ -328,6 +418,9 @@ export class VotingSystem {
 
 		// Check if vote passed
 		if (actionVotes.size >= needed) {
+			// Clear timeout since vote completed
+			this.clearVoteTimeout(guild.id, action);
+
 			actionVotes.clear();
 			keepVotes.clear();
 			player.set(voteKey, actionVotes);
