@@ -20,7 +20,7 @@ export class ScalableStateManager {
 		this.client = client;
 		this.useRedis = !!redisUrl;
 		this.keyPrefix = keyPrefix;
-		
+
 		if (this.useRedis && redisUrl) {
 			this.initRedis(redisUrl);
 		} else {
@@ -32,7 +32,7 @@ export class ScalableStateManager {
 		try {
 			// Parse Redis URL for BullMQ connection options
 			const url = new URL(redisUrl);
-			
+
 			this.connection = {
 				host: url.hostname,
 				port: url.port ? Number.parseInt(url.port) : 6379,
@@ -44,7 +44,12 @@ export class ScalableStateManager {
 
 			// Create IORedis instance for direct operations
 			this.redis = new IORedis({
-				...this.connection,
+				host: this.connection.host,
+				port: this.connection.port,
+				password: this.connection.password,
+				db: this.connection.db,
+				maxRetriesPerRequest: this.connection.maxRetriesPerRequest,
+				enableReadyCheck: this.connection.enableReadyCheck,
 				keyPrefix: this.keyPrefix,
 				lazyConnect: false,
 				retryStrategy: (times) => {
@@ -52,13 +57,13 @@ export class ScalableStateManager {
 					return delay;
 				},
 			});
-			
+
 			this.redis.on('error', (err) => {
 				console.error('[Redis] Error:', err);
 				console.log('[ScalableState] Falling back to IPC mode due to Redis error');
 				this.useRedis = false;
 			});
-			
+
 			this.redis.on('connect', () => {
 				console.log('[Redis] Connected');
 			});
@@ -82,12 +87,12 @@ export class ScalableStateManager {
 	private getFromCache(key: string): any | null {
 		const cached = this.localCache.get(key);
 		if (!cached) return null;
-		
+
 		if (Date.now() > cached.expires) {
 			this.localCache.delete(key);
 			return null;
 		}
-		
+
 		return cached.data;
 	}
 
@@ -113,7 +118,7 @@ export class ScalableStateManager {
 	 */
 	async setVoiceChannelMapping(guildId: string, voiceChannelId: string, botClientId: string): Promise<void> {
 		const key = `vc:${guildId}:${voiceChannelId}`;
-		
+
 		if (this.useRedis && this.redis) {
 			// Redis: Global state, no broadcast needed
 			try {
@@ -126,7 +131,7 @@ export class ScalableStateManager {
 		} else if (this.isSharded()) {
 			// IPC Fallback (Sharded): Only query the shard that owns this guild
 			const shardId = this.getShardIdForGuild(guildId);
-			
+
 			if (this.client.shard?.ids.includes(shardId)) {
 				// This shard owns the guild, store locally
 				this.setCache(key, botClientId);
@@ -143,11 +148,11 @@ export class ScalableStateManager {
 	 */
 	async getBotInVoiceChannel(guildId: string, voiceChannelId: string): Promise<string | null> {
 		const key = `vc:${guildId}:${voiceChannelId}`;
-		
+
 		// Check local cache first
 		const cached = this.getFromCache(key);
 		if (cached) return cached;
-		
+
 		if (this.useRedis && this.redis) {
 			// Redis: Direct lookup
 			try {
@@ -161,7 +166,7 @@ export class ScalableStateManager {
 		} else if (this.isSharded()) {
 			// IPC Fallback (Sharded): Query the shard that owns this guild
 			const shardId = this.getShardIdForGuild(guildId);
-			
+
 			if (this.client.shard?.ids.includes(shardId)) {
 				// This shard owns the guild
 				return this.getFromCache(key);
@@ -171,16 +176,16 @@ export class ScalableStateManager {
 					const results = await this.client.shard!.broadcastEval(
 						(client, context) => {
 							if (!client.shard?.ids.includes(context.shardId)) return null;
-							
+
 							const manager = (client as any).shardStateManager;
 							if (!manager) return null;
-							
+
 							const cached = manager.localCache.get(context.key);
 							return cached?.data || null;
 						},
 						{ context: { shardId, key } }
 					);
-					
+
 					const result = results.find(r => r !== null);
 					if (result) this.setCache(key, result);
 					return result || null;
@@ -204,7 +209,7 @@ export class ScalableStateManager {
 			try {
 				const keys = await this.redis.keys(`vc:${guildId}:*`);
 				const mapping = new Map<string, string>();
-				
+
 				for (const key of keys) {
 					const voiceChannelId = key.split(':')[2];
 					const botClientId = await this.redis.get(key);
@@ -212,28 +217,28 @@ export class ScalableStateManager {
 						mapping.set(voiceChannelId, botClientId);
 					}
 				}
-				
+
 				return mapping;
 			} catch (error) {
 				console.error('[ScalableState] Redis scan error, using local cache:', error);
 				// Fall through to local cache
 			}
 		}
-		
+
 		if (this.isSharded()) {
 			// IPC Fallback (Sharded): Only return mappings for guilds this shard owns
 			const shardId = this.getShardIdForGuild(guildId);
-			
+
 			if (!this.client.shard?.ids.includes(shardId)) {
 				// Query the correct shard
 				try {
 					const results = await this.client.shard!.broadcastEval(
 						(client, context) => {
 							if (!client.shard?.ids.includes(context.shardId)) return null;
-							
+
 							const manager = (client as any).shardStateManager;
 							if (!manager) return null;
-							
+
 							const mapping: Record<string, string> = {};
 							for (const [key, cached] of manager.localCache.entries()) {
 								if (key.startsWith(`vc:${context.guildId}:`)) {
@@ -245,7 +250,7 @@ export class ScalableStateManager {
 						},
 						{ context: { shardId, guildId } }
 					);
-					
+
 					const result = results.find(r => r !== null);
 					if (result) {
 						const mapping = new Map<string, string>();
@@ -259,7 +264,7 @@ export class ScalableStateManager {
 				}
 			}
 		}
-		
+
 		// Return local mappings for this guild (non-sharded or local shard)
 		const mapping = new Map<string, string>();
 		for (const [key, cached] of this.localCache.entries()) {
@@ -286,7 +291,7 @@ export class ScalableStateManager {
 	 */
 	async removeVoiceChannel(guildId: string, voiceChannelId: string): Promise<void> {
 		const key = `vc:${guildId}:${voiceChannelId}`;
-		
+
 		if (this.useRedis && this.redis) {
 			try {
 				await this.redis.del(key);
@@ -304,7 +309,7 @@ export class ScalableStateManager {
 	 */
 	async removeBotFromGuild(guildId: string, botClientId: string): Promise<void> {
 		const mapping = await this.getVoiceChannelMapping(guildId);
-		
+
 		for (const [vcId, clientId] of mapping.entries()) {
 			if (clientId === botClientId) {
 				await this.removeVoiceChannel(guildId, vcId);
@@ -318,7 +323,7 @@ export class ScalableStateManager {
 	async savePlayerSession(guildId: string, voiceChannelId: string, sessionData: any): Promise<void> {
 		const key = `session:${guildId}:${voiceChannelId}`;
 		const data = typeof sessionData === 'string' ? sessionData : JSON.stringify(sessionData);
-		
+
 		if (this.useRedis && this.redis) {
 			try {
 				await this.redis.setex(key, 3600, data);
@@ -336,7 +341,7 @@ export class ScalableStateManager {
 	 */
 	async getPlayerSession(guildId: string, voiceChannelId: string): Promise<any | null> {
 		const key = `session:${guildId}:${voiceChannelId}`;
-		
+
 		const cached = this.getFromCache(key);
 		if (cached) {
 			try {
@@ -345,7 +350,7 @@ export class ScalableStateManager {
 				return cached;
 			}
 		}
-		
+
 		if (this.useRedis && this.redis) {
 			try {
 				const result = await this.redis.get(key);
@@ -361,7 +366,7 @@ export class ScalableStateManager {
 				console.error('[ScalableState] Redis session get error:', error);
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -370,7 +375,7 @@ export class ScalableStateManager {
 	 */
 	async removePlayerSession(guildId: string, voiceChannelId: string): Promise<void> {
 		const key = `session:${guildId}:${voiceChannelId}`;
-		
+
 		if (this.useRedis && this.redis) {
 			try {
 				await this.redis.del(key);
@@ -388,7 +393,7 @@ export class ScalableStateManager {
 	 */
 	async getGuildPlayerSessions(guildId: string): Promise<Map<string, any>> {
 		const sessions = new Map<string, any>();
-		
+
 		if (this.useRedis && this.redis) {
 			try {
 				const keys = await this.redis.keys(`session:${guildId}:*`);
@@ -418,7 +423,7 @@ export class ScalableStateManager {
 				}
 			}
 		}
-		
+
 		return sessions;
 	}
 
