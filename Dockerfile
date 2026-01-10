@@ -40,7 +40,6 @@ COPY --from=builder --chown=node:node /opt/lavamusic/dist ./dist
 COPY --from=builder --chown=node:node /opt/lavamusic/node_modules ./node_modules
 COPY --from=builder --chown=node:node /opt/lavamusic/prisma ./prisma
 COPY --from=builder --chown=node:node /opt/lavamusic/package*.json ./
-COPY --from=builder --chown=node:node /opt/lavamusic/src/utils/LavaLogo.txt ./src/utils/LavaLogo.txt
 COPY --from=builder --chown=node:node /opt/lavamusic/locales ./locales
 
 # Create non-root user and set permissions
