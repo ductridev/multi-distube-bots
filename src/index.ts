@@ -1,4 +1,3 @@
-import * as fs from 'node:fs';
 import { PrismaClient } from '@prisma/client';
 import { shardStart } from './shard';
 import { type Lavamusic } from './structures';
@@ -7,6 +6,8 @@ import { restoreSessions } from './utils/functions/loadSessionsOnStartup';
 import { Player } from 'lavalink-client';
 import { ShardStateManager } from './structures/ShardStateManager';
 import { startApiServer } from './api/server';
+import { VotingSystem } from './utils/VotingSystem';
+import { PeriodicMessageSystem } from './utils/PeriodicMessageSystem';
 
 const prisma = new PrismaClient();
 
@@ -176,10 +177,6 @@ function setConsoleTitle(title: string): void {
 }
 
 try {
-	if (!fs.existsSync('./src/utils/LavaLogo.txt')) {
-		console.error('LavaLogo.txt file is missing');
-		process.exit(1);
-	}
 	// console.clear();
 	// Set a custom title for the console window
 	setConsoleTitle('Lavamusic');
@@ -196,6 +193,20 @@ try {
 		// shardStart(logger, bots[3]);
 		for (const bot of bots) {
 			shardStart(bot);
+		}
+
+		// Start vote cleanup job (once for all bots)
+		if (bots.length > 0) {
+			// Use the first bot's instance to start the cleanup (it will check all players)
+			setTimeout(() => {
+				if (activeBots.length > 0) {
+					VotingSystem.startCleanupJob(activeBots[0]);
+					console.log('[VOTE CLEANUP] Started periodic vote cleanup job');
+					
+					PeriodicMessageSystem.startPeriodicCheck();
+					console.log('[PERIODIC MESSAGES] Started periodic message system');
+				}
+			}, 10000); // Wait 10 seconds for bots to initialize
 		}
 
 		// Start API server after bots are initialized
