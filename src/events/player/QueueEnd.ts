@@ -3,6 +3,7 @@ import type { Player, Track, TrackStartEvent } from 'lavalink-client';
 import { Event, type Lavamusic } from '../../structures/index';
 import { updateSetup } from '../../utils/SetupSystem';
 import { T } from '../../structures/I18n';
+import { PeriodicMessageSystem } from '../../utils/PeriodicMessageSystem';
 
 export default class QueueEnd extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -14,6 +15,18 @@ export default class QueueEnd extends Event {
 	public async run(player: Player, _track: Track | null, _payload: TrackStartEvent): Promise<void> {
 		const guild = this.client.guilds.cache.get(player.guildId);
 		if (!guild) return;
+
+		// End periodic message session when queue ends
+		PeriodicMessageSystem.endSession(player.guildId, this.client.childEnv.clientId);
+
+		// Clear all vote data
+		const voteActions = ['skip', 'stop', 'pause', 'resume', 'volume', 'seek', 'shuffle', 'skipto', 'clearqueue', 'leave'];
+		for (const action of voteActions) {
+			player.set(`${action}Votes`, new Set<string>());
+			player.set(`${action}VoteMessageId`, undefined);
+			player.set(`${action}VoteChannelId`, undefined);
+		}
+		player.set('keepVotes', new Set<string>());
 
 		// Save player queue
 		await player.queue.utils.save();

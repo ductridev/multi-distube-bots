@@ -3,6 +3,7 @@ import type { Player } from 'lavalink-client';
 import { Event, type Lavamusic } from '../../structures/index';
 import { updateSetup } from '../../utils/SetupSystem';
 import { VoiceStateHelper } from '../../utils/VoiceStateHelper';
+import { PeriodicMessageSystem } from '../../utils/PeriodicMessageSystem';
 
 export default class PlayerDestroy extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -13,6 +14,18 @@ export default class PlayerDestroy extends Event {
 
 	public async run(player: Player, _reason: string): Promise<void> {
 		const guild = this.client.guilds.cache.get(player.guildId);
+
+		// End periodic message session
+		PeriodicMessageSystem.endSession(player.guildId, this.client.childEnv.clientId);
+
+		// Clear all vote data
+		const voteActions = ['skip', 'stop', 'pause', 'resume', 'volume', 'seek', 'shuffle', 'skipto', 'clearqueue', 'leave'];
+		for (const action of voteActions) {
+			player.set(`${action}Votes`, new Set<string>());
+			player.set(`${action}VoteMessageId`, undefined);
+			player.set(`${action}VoteChannelId`, undefined);
+		}
+		player.set('keepVotes', new Set<string>());
 
 		// Clear any pending timeouts for this guild
 		const listenerTimeout = this.client.timeoutListenersMap.get(player.guildId);
