@@ -23,6 +23,7 @@ import { trackStart } from '../../utils/SetupSystem';
 import { VoiceStateHelper } from '../../utils/VoiceStateHelper';
 import { dashboardSocket } from '../../api/websocket/DashboardSocket';
 import { PrismaClient } from '@prisma/client';
+import { PeriodicMessageSystem } from '../../utils/PeriodicMessageSystem';
 
 const prisma = new PrismaClient();
 
@@ -37,7 +38,7 @@ export default class TrackStart extends Event {
 		const guild = this.client.guilds.cache.get(player.guildId);
 		if (!player.options.customData) player.options.customData = {};
 		player.options.customData.botClientId = this.client.childEnv.clientId
-		
+
 		// Save player session across shards
 		await VoiceStateHelper.saveSession(
 			this.client,
@@ -45,7 +46,7 @@ export default class TrackStart extends Event {
 			player.voiceChannelId!,
 			player
 		);
-		
+
 		// Cancel timeout
 		const timeout = this.client.timeoutSongsMap.get(player.guildId);
 		if (timeout) {
@@ -55,7 +56,7 @@ export default class TrackStart extends Event {
 		if (!guild) return;
 		if (!player.textChannelId) return;
 		if (!track) return;
-		
+
 		// Emit WebSocket event for dashboard
 		dashboardSocket.emitPlayerStart({
 			guildId: player.guildId,
@@ -68,7 +69,7 @@ export default class TrackStart extends Event {
 			},
 			requestedBy: (track.requester as Requester).username,
 		});
-		
+
 		// Record to player history
 		try {
 			await prisma.playerHistory.create({
@@ -84,9 +85,18 @@ export default class TrackStart extends Event {
 		} catch (error) {
 			this.client.logger.error('Failed to record player history:', error);
 		}
-		
+
 		const channel = guild.channels.cache.get(player.textChannelId) as TextChannel;
 		if (!channel) return;
+
+		// Clear all vote data from previous track
+		const voteActions = ['skip', 'stop', 'pause', 'resume', 'volume', 'seek', 'shuffle', 'skipto', 'clearqueue', 'leave'];
+		for (const action of voteActions) {
+			player.set(`${action}Votes`, new Set<string>());
+			player.set(`${action}VoteMessageId`, undefined);
+			player.set(`${action}VoteChannelId`, undefined);
+		}
+		player.set('keepVotes', new Set<string>());
 
 		// Save player queue
 		await player.queue.utils.save();
@@ -94,6 +104,9 @@ export default class TrackStart extends Event {
 		this.client.utils.updateStatus(this.client, guild.id);
 
 		const locale = await this.client.db.getLanguage(guild.id);
+
+		// Mark session start for periodic message system
+		PeriodicMessageSystem.startSession(guild.id, this.client.childEnv.clientId);
 
 		// if (player.voiceChannelId) {
 		// 	await this.client.utils.setVoiceStatus(this.client, player.voiceChannelId, `🎵 ${track.info.title}`);
@@ -142,12 +155,12 @@ export default class TrackStart extends Event {
 			}
 		} else {
 			const previousMessageId = player.get<string | undefined>('messageId');
-			
+
 			// For track loop mode: nothing changes, just return (message already exists)
 			if (player.repeatMode === 'track' && previousMessageId) {
 				return;
 			}
-			
+
 			// For queue loop or normal mode: delete old message and create new one
 			if (previousMessageId) {
 				try {
@@ -298,7 +311,7 @@ function createCollector(
 				player.set('messageId', undefined);
 				player.stopPlaying(true, false);
 				await interaction.deferUpdate();
-				
+
 				// Remove all buttons from the message
 				if (message && message.editable) {
 					await message.edit({
@@ -325,74 +338,41 @@ function createCollector(
 
 				const { VotingSystem } = await import('../../utils/VotingSystem');
 
-				// Check voting - use button-specific voting method
-				const userId = interaction.user.id;
-				const isDJ = await VotingSystem['checkDJPermission'](client, {
+				// Use VotingSystem for voting check
+				const skipCtx = {
 					guild: interaction.guild,
 					author: interaction.user,
-				} as any);
-				const privilegeCheck = VotingSystem.hasPrivilege(
-					{
-						guild: interaction.guild,
-						author: interaction.user,
-					} as any,
-					player,
-					isDJ,
-				);
+					channelId: interaction.channelId,
+					channel: interaction.channel,
+					sendMessage: async (content: any) => {
+						if (typeof content === 'string') {
+							return await interaction.followUp({ content });
+						}
+						return await interaction.followUp({ ...content });
+					},
+					locale: (key: string, vars?: any) => T(locale, key, vars),
+				} as any;
 
-				// Count listeners
-				const member = interaction.guild.members.cache.get(userId);
-				const channel = member?.voice?.channel;
-				let listeners = 1;
-				if (channel && channel.members) {
-					listeners = channel.members.filter((m: any) => !m.user.bot).size;
+				const skipVoteResult = await VotingSystem.checkVote({
+					client,
+					ctx: skipCtx,
+					player,
+					action: 'skip',
+				});
+
+				if (skipVoteResult.alreadyVoted) {
+					await interaction.reply({
+						content: T(locale, 'cmd.skip.messages.already_voted'),
+						flags: MessageFlags.Ephemeral,
+					});
+					return;
 				}
 
-				// If privileged or <= 2 listeners, execute immediately
-				if (!privilegeCheck.hasPrivilege && listeners > 2) {
-					// Need voting
-					const voteKey = 'skipVotes';
-					const keepKey = 'keepVotes';
-
-					if (!player.get(voteKey)) player.set(voteKey, new Set<string>());
-					if (!player.get(keepKey)) player.set(keepKey, new Set<string>());
-
-					const skipVotes = player.get(voteKey) as Set<string>;
-					const keepVotes = player.get(keepKey) as Set<string>;
-
-					// Check if user already voted
-					if (skipVotes.has(userId) || keepVotes.has(userId)) {
-						await interaction.reply({
-							content: T(locale, 'cmd.skip.messages.already_voted'),
-							flags: MessageFlags.Ephemeral,
-						});
-						return;
-					}
-
-					const needed = Math.ceil(listeners / 2);
-
-					// Add vote
-					skipVotes.add(userId);
-					player.set(voteKey, skipVotes);
-
-					// Check if enough votes
-					if (skipVotes.size < needed) {
-						// Not enough votes yet
-						await interaction.reply({
-							content: T(locale, 'cmd.skip.messages.vote_registered', {
-								votes: skipVotes.size,
-								needed,
-							}),
-							flags: MessageFlags.Ephemeral,
-						});
-						return;
-					}
-
-					// Clear votes
-					skipVotes.clear();
-					keepVotes.clear();
-					player.set(voteKey, skipVotes);
-					player.set(keepKey, keepVotes);
+				if (!skipVoteResult.shouldExecute) {
+					// Vote is in progress, VotingSystem already sent the vote embed via followUp
+					// Acknowledge the interaction by deferring the update
+					await interaction.deferUpdate().catch(() => null);
+					return;
 				}
 
 				// Execute skip
