@@ -43,6 +43,15 @@ export default class MessageCreate extends Event {
 		const prefix = await this.client.db.getPrefix(guildId, botClientId);
 		const mention = new RegExp(`^<@!?${this.client.user?.id}>( |)$`);
 		if (mention.test(message.content)) {
+			// Get the help command and execute it
+			const helpCommand = this.client.commands.get('help');
+			if (helpCommand) {
+				const ctx = new Context(message, []);
+				ctx.guildLocale = locale;
+				await helpCommand.run(this.client, ctx, []);
+				return;
+			}
+			// Fallback to prefix message if help command not found
 			await message.reply({
 				content: T(locale, 'event.message.prefix_mention', {
 					prefix: prefix,
@@ -65,7 +74,7 @@ export default class MessageCreate extends Event {
 		if (!command) return;
 
 		const allBots = getBotsForGuild(guildId);
-		
+
 		// Check if no bots are configured for this guild
 		if (allBots.length === 0) {
 			// Only one bot should reply to avoid spam
@@ -84,12 +93,12 @@ export default class MessageCreate extends Event {
 			});
 			return;
 		}
-		
+
 		// Early return: If this bot is not configured for this guild, skip processing
 		if (!allBots.some(bot => bot.user?.id === this.client.user?.id)) {
 			return;
 		}
-		
+
 		let chosenBot: typeof this.client | null = null;
 		let valid = true;
 
@@ -98,11 +107,11 @@ export default class MessageCreate extends Event {
 		// because each bot instance might have different in-memory state
 		const voiceStates = message.guild!.voiceStates.cache;
 		const botClientIds = allBots.map(b => b.user!.id);
-		
+
 		// Build REAL voice channel mapping from Discord's actual state
 		const realGuildMap = new Map<string, string>();
 		const realActiveClientIds = new Set<string>();
-		
+
 		for (const [, voiceState] of voiceStates) {
 			if (voiceState.channelId && botClientIds.includes(voiceState.member!.user.id)) {
 				realGuildMap.set(voiceState.channelId, voiceState.member!.user.id);
@@ -253,13 +262,30 @@ export default class MessageCreate extends Event {
 			}
 		}
 
-		if (command.vote
+		if (!isDev && command.vote
 			&& this.client.env.TOPGG
-			&& (!this.client.env.SKIP_VOTES_GUILDS || !this.client.env.SKIP_VOTES_GUILDS.find(id => id === message.guildId))
-			&& (!this.client.env.SKIP_VOTES_USERS || !this.client.env.SKIP_VOTES_USERS.find(id => id === message.author.id))
+			&& !this.client.env.SKIP_VOTES_GUILDS!.find(id => id === message.guildId)
+			&& !this.client.env.SKIP_VOTES_USERS!.find(id => id === message.author.id)
 		) {
-			const voted = await this.client.topGG.hasVoted(message.author.id);
-			if (!(isDev || voted)) {
+			// Add timeout to prevent hanging on slow/unresponsive Top.gg API
+			const voteCheckTimeout = new Promise<boolean>((resolve) => {
+				setTimeout(() => {
+					this.client.logger.warn(`Vote check timeout for user ${message.author.id} - defaulting to disallow command`);
+					resolve(false); // Default to disallowing command if API is slow
+				}, 5000); // 5 second timeout
+			});
+
+			let voted: boolean;
+			try {
+				voted = await Promise.race([
+					this.client.topGG.hasVoted(message.author.id),
+					voteCheckTimeout
+				]);
+			} catch (error) {
+				voted = false; // Default to disallowing command on error
+			}
+
+			if (!voted) {
 				const voteBtn = new ActionRowBuilder<ButtonBuilder>().addComponents(
 					new ButtonBuilder()
 						.setLabel(T(locale, 'event.message.vote_button'))
