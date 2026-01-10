@@ -17,15 +17,31 @@ export interface VoteResult {
 const voteTimeouts = new Map<string, NodeJS.Timeout>();
 
 /**
+ * Map to store vote creation timestamps for cleanup
+ * Key: `guildId:action`, Value: timestamp
+ */
+const voteTimestamps = new Map<string, number>();
+
+/**
  * Vote timeout duration in milliseconds (3 minutes)
  */
 const VOTE_TIMEOUT_MS = 3 * 60 * 1000; // 3 minutes
+
+/**
+ * Cleanup interval for stale votes (1 minute)
+ */
+const CLEANUP_INTERVAL_MS = 60 * 1000; // 1 minute
+
+/**
+ * Global cleanup interval reference
+ */
+let cleanupInterval: NodeJS.Timeout | null = null;
 
 export interface VoteCheckOptions {
 	client: Lavamusic;
 	ctx: Context;
 	player: Player;
-	action: 'skip' | 'stop' | 'pause' | 'resume' | 'volume' | 'seek' | 'shuffle' | 'skipto' | 'clearqueue';
+	action: 'skip' | 'stop' | 'pause' | 'resume' | 'volume' | 'seek' | 'shuffle' | 'skipto' | 'clearqueue' | 'leave';
 	actionData?: any; // For actions that need additional data (e.g., volume level)
 }
 
@@ -65,7 +81,8 @@ export class VotingSystem {
 		}
 
 		// Check if user is requester of current track
-		const requesterId = player.queue.current?.requester;
+		const requester = player.queue.current?.requester as any;
+		const requesterId = typeof requester === 'string' ? requester : requester?.id;
 		if (requesterId === userId) {
 			return { hasPrivilege: true, reason: 'requester' };
 		}
@@ -103,6 +120,15 @@ export class VotingSystem {
 			return { shouldExecute: false };
 		}
 
+		// Check if vote system is enabled for this guild
+		if (ctx.guild?.id) {
+			const voteEnabled = await client.db.getVoteEnabled(ctx.guild.id);
+			if (!voteEnabled) {
+				// Vote system disabled, execute immediately
+				return { shouldExecute: true, isPrivileged: true };
+			}
+		}
+
 		// Check for privilege first
 		const isDJ = await this.checkDJPermission(client, ctx);
 		const privilegeCheck = this.hasPrivilege(ctx, player, isDJ);
@@ -121,13 +147,37 @@ export class VotingSystem {
 
 		// Need voting - get or create vote set
 		const voteKey = `${action}Votes`;
-		const keepKey = 'keepVotes';
+		const keepKey = `${action}KeepVotes`;
 
 		if (!player.get(voteKey)) player.set(voteKey, new Set<string>());
 		if (!player.get(keepKey)) player.set(keepKey, new Set<string>());
 
 		const actionVotes = player.get(voteKey) as Set<string>;
 		const keepVotes = player.get(keepKey) as Set<string>;
+
+		// Detect and clear stale votes (if vote message no longer exists)
+		const voteMessageId = player.get(`${action}VoteMessageId`);
+		if (voteMessageId && (actionVotes.size > 0 || keepVotes.size > 0)) {
+			// Check if the vote message still exists
+			const voteChannelId: string = player.get(`${action}VoteChannelId`);
+			if (voteChannelId) {
+				try {
+					const channel = await client.channels.fetch(voteChannelId);
+					if (channel?.isTextBased()) {
+						await channel.messages.fetch(voteMessageId);
+						// Message exists, votes are still valid
+					}
+				} catch (e) {
+					// Message was deleted or doesn't exist - clear stale votes
+					actionVotes.clear();
+					keepVotes.clear();
+					player.set(voteKey, actionVotes);
+					player.set(keepKey, keepVotes);
+					player.set(`${action}VoteMessageId`, undefined);
+					player.set(`${action}VoteChannelId`, undefined);
+				}
+			}
+		}
 
 		// Check if user already voted
 		if (actionVotes.has(userId) || keepVotes.has(userId)) {
@@ -210,15 +260,25 @@ export class VotingSystem {
 			components,
 		});
 
-		// Store message ID for later updates
-		player.set(`${action}VoteMessageId`, sent.id);
+		// Store message ID and locale for later updates
+		if (sent?.id) {
+			player.set(`${action}VoteMessageId`, sent.id);
+			player.set(`${action}VoteChannelId`, ctx.channelId);
+			if (ctx.guild?.id) {
+				const locale = await client.db.getLanguage(ctx.guild.id);
+				player.set(`${action}VoteLocale`, locale);
+			}
+		}
 
 		// Clear any existing timeout for this action
 		if (ctx.guild?.id) {
 			this.clearVoteTimeout(ctx.guild.id, action);
 
-			// Start 3-minute timeout
+			// Store vote creation timestamp for cleanup job
 			const timeoutKey = `${ctx.guild.id}:${action}`;
+			voteTimestamps.set(timeoutKey, Date.now());
+
+			// Start 3-minute timeout
 			const timeout = setTimeout(() => {
 				this.handleVoteTimeout(client, ctx.guild!.id, action, ctx.channel?.id);
 			}, VOTE_TIMEOUT_MS);
@@ -239,16 +299,14 @@ export class VotingSystem {
 		needed: number,
 	): Promise<void> {
 		const messageId = player.get(`${action}VoteMessageId`) as string | undefined;
-		if (!messageId) return;
-
-		const userId = ctx.author?.id;
-		if (!userId) return;
-
-		const channel = ctx.guild?.members.cache.get(userId)?.voice?.channel;
-		if (!channel) return;
+		const channelId = player.get(`${action}VoteChannelId`) as string | undefined;
+		if (!messageId || !channelId) return;
 
 		try {
-			const voteMsg = await (channel as any).messages?.fetch(messageId);
+			const channel = await client.channels.fetch(channelId);
+			if (!channel?.isTextBased()) return;
+
+			const voteMsg = await channel.messages.fetch(messageId);
 			if (!voteMsg) return;
 
 			const embed = new EmbedBuilder()
@@ -304,7 +362,7 @@ export class VotingSystem {
 
 		// Clear vote state
 		const voteKey = `${action}Votes`;
-		const keepKey = 'keepVotes';
+		const keepKey = `${action}KeepVotes`;
 		player.set(voteKey, new Set<string>());
 		player.set(keepKey, new Set<string>());
 		player.set(`${action}VoteMessageId`, undefined);
@@ -312,6 +370,7 @@ export class VotingSystem {
 		// Clear timeout from map
 		const timeoutKey = `${guildId}:${action}`;
 		voteTimeouts.delete(timeoutKey);
+		voteTimestamps.delete(timeoutKey);
 
 		// Try to update the message to remove buttons
 		try {
@@ -350,6 +409,7 @@ export class VotingSystem {
 		if (timeout) {
 			clearTimeout(timeout);
 			voteTimeouts.delete(timeoutKey);
+			voteTimestamps.delete(timeoutKey);
 		}
 	}
 
@@ -368,6 +428,20 @@ export class VotingSystem {
 		const player = client.manager.getPlayer(guild.id);
 		if (!player) {
 			await interaction.reply({ content: 'No player found.', ephemeral: true });
+			return;
+		}
+
+		// Check if user is in the voice channel
+		const member = guild.members.cache.get(user.id);
+		const userVoiceChannel = member?.voice?.channel;
+		const botVoiceChannel = guild.channels.cache.get(player.voiceChannelId!);
+
+		if (!userVoiceChannel || userVoiceChannel.id !== botVoiceChannel?.id) {
+			const locale = await client.db.getLanguage(guild.id);
+			await interaction.reply({
+				content: (await import('../structures/I18n')).T(locale, 'player.errors.not_in_voice'),
+				ephemeral: true
+			});
 			return;
 		}
 
@@ -394,20 +468,22 @@ export class VotingSystem {
 		player.set(voteKey, actionVotes);
 		player.set(keepKey, keepVotes);
 
-		// Count listeners
-		const member = guild.members.cache.get(user.id);
-		const channel = member?.voice?.channel;
+		// Count listeners (using the already fetched voice channel)
 		let listeners = 1;
-		if (channel && channel.members) {
-			listeners = channel.members.filter((m: any) => !m.user.bot).size;
+		if (userVoiceChannel && userVoiceChannel.members) {
+			listeners = userVoiceChannel.members.filter((m: any) => !m.user.bot).size;
 		}
 
 		const needed = Math.ceil(listeners / 2);
 
+		// Get stored locale to preserve language
+		const storedLocale = player.get(`${action}VoteLocale`) as string || 'EnglishUS';
+		const locale = await client.db.getLanguage(guild.id) || storedLocale;
+
 		const embed = new EmbedBuilder()
 			.setColor(client.color.main)
 			.setDescription(
-				`Vote to ${action}: **${actionVotes.size}/${needed}**\n✅ to ${action}, ❌ to keep.`,
+				(await import('../structures/I18n')).T(locale, `cmd.${action}.messages.vote_embed`, { votes: actionVotes.size, needed }),
 			)
 			.setFooter({
 				text: 'BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️',
@@ -491,6 +567,13 @@ export class VotingSystem {
 				embed.setColor(0x43b581);
 				break;
 
+			case 'leave':
+				const channelId = player.voiceChannelId;
+				player.destroy();
+				embed.setDescription(`Left <#${channelId}>.`);
+				embed.setColor(0x43b581);
+				break;
+
 			default:
 				embed.setDescription(`Action ${action} executed.`);
 				break;
@@ -500,5 +583,72 @@ export class VotingSystem {
 			embeds: [embed],
 			components: [],
 		});
+	}
+
+	/**
+	 * Start periodic cleanup of stale votes
+	 * Should be called once when the bot starts
+	 */
+	public static startCleanupJob(client: Lavamusic): void {
+		if (cleanupInterval) {
+			return; // Already running
+		}
+
+		cleanupInterval = setInterval(async () => {
+			try {
+				const now = Date.now();
+				const players = Array.from(client.manager.players.values());
+
+				for (const player of players) {
+					const voteActions = ['skip', 'stop', 'pause', 'resume', 'volume', 'seek', 'shuffle', 'skipto', 'clearqueue', 'leave'];
+					
+					for (const action of voteActions) {
+						const voteKey = `${player.guildId}:${action}`;
+						const voteTimestamp = voteTimestamps.get(voteKey);
+						
+						// If vote exists and is older than timeout, clean it up
+						if (voteTimestamp && now - voteTimestamp > VOTE_TIMEOUT_MS) {
+						await this.handleVoteTimeout(client, player.guildId, action, player.textChannelId || undefined);
+						voteTimestamps.delete(voteKey);
+					}
+
+					// Also check if vote message still exists
+					const voteMessageId = player.get(`${action}VoteMessageId`);
+					if (voteMessageId) {
+						const voteChannelId = player.get(`${action}VoteChannelId`) as string | undefined;
+							if (voteChannelId) {
+								try {
+									const channel = await client.channels.fetch(voteChannelId);
+									if (channel?.isTextBased()) {
+										await channel.messages.fetch(voteMessageId);
+										// Message exists, no action needed
+									}
+								} catch (e) {
+									// Message was deleted - clear stale vote data
+									player.set(`${action}Votes`, new Set<string>());
+							player.set(`${action}KeepVotes`, new Set<string>());
+									player.set(`${action}VoteMessageId`, undefined);
+									player.set(`${action}VoteChannelId`, undefined);
+									voteTimestamps.delete(voteKey);
+								}
+							}
+						}
+					}
+				}
+			} catch (error) {
+				console.error('Vote cleanup error:', error);
+			}
+		}, CLEANUP_INTERVAL_MS);
+	}
+
+	/**
+	 * Stop the cleanup job
+	 * Should be called when bot shuts down
+	 */
+	public static stopCleanupJob(): void {
+		if (cleanupInterval) {
+			clearInterval(cleanupInterval);
+			cleanupInterval = null;
+		}
 	}
 }
