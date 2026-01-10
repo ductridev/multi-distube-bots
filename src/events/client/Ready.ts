@@ -21,7 +21,7 @@ export default class Ready extends Event {
 			],
 			status: this.client.childEnv.status as any,
 		});
-		
+
 		// Emit WebSocket event for dashboard
 		dashboardSocket.emitBotStatus({
 			clientId: this.client.childEnv.clientId,
@@ -39,12 +39,17 @@ export default class Ready extends Event {
 		}
 
 		if (this.client.env.TOPGG) {
-			const autoPoster = AutoPoster(this.client.env.TOPGG, this.client);
-			setInterval(() => {
-				autoPoster.on('posted', _stats => {
-					null;
-				});
-			}, 24 * 60 * 60e3); // 24 hours in milliseconds
+			// Only start auto poster if the client ID matches
+			if (this.client.application?.id === this.client.env.TOPGG_CLIENT_ID) {
+				const autoPoster = AutoPoster(this.client.env.TOPGG, this.client);
+				setInterval(() => {
+					autoPoster.on('posted', _stats => {
+						null;
+					});
+				}, 24 * 60 * 60e3); // 24 hours in milliseconds
+			} else {
+				this.client.logger.warn('Top.gg client ID does not match application ID. Skipping auto poster.');
+			}
 		} else {
 			this.client.logger.warn('Top.gg token not found. Skipping auto poster.');
 		}
