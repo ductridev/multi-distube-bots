@@ -27,6 +27,16 @@
   </p>
 </p>
 
+## License Notice
+
+This project is source-available, NOT open source.
+
+Public Discord bots, commercial use, hosting, redistribution, or
+derivative works made available to third parties require a paid
+Commercial License.
+
+See LICENSE for full terms.
+
 ## 🔥 Unique Features
 
 - User-friendly and Easy to Use
