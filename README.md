@@ -27,16 +27,6 @@
   </p>
 </p>
 
-## License Notice
-
-This project is source-available, NOT open source.
-
-Public Discord bots, commercial use, hosting, redistribution, or
-derivative works made available to third parties require a paid
-Commercial License.
-
-See LICENSE for full terms.
-
 ## 🔥 Unique Features
 
 - User-friendly and Easy to Use
@@ -447,9 +437,17 @@ This project is licensed under a **Custom Proprietary License** with the followi
   - Commercial use (monetization, advertising, paid services)
   - Distribution or reselling
 
-**SPDX-License-Identifier**: `LicenseRef-BungoMusic-1.0`
+**SPDX-License-Identifier**: `LicenseRef-BungoMusic-1.1`
 
-See the [LICENSE](LICENSE) file for complete terms and conditions.
+## License Notice
+
+This project is source-available, NOT open source.
+
+Public Discord bots, commercial use, hosting, redistribution, or
+derivative works made available to third parties require a paid
+Commercial License.
+
+See [LICENSE](LICENSE) for complete terms and conditions.
 
 📧 **Commercial License Inquiries**: Contact [ductridevdn@gmail.com](mailto:ductridevdn@gmail.com)
 
@@ -481,3 +479,5 @@ Thanks go to these wonderful people:
 [license-url]: https://github.com/ductridev/multi-distube-bots/blob/master/LICENSE
 [support-server]: https://discord.gg/bostreamlimit
 [support-shield]: https://img.shields.io/discord/942117923001098260.svg?style=for-the-badge&logo=discord&colorB=7289DA
+
+© 2025 ductridev — All rights reserved.
