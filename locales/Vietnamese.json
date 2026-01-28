@@ -1,62 +1,62 @@
 {
 	"buttons": {
 		"errors": {
-			"not_author": "Bạn không thể sử dụng nút này vì bạn không phải là người yêu cầu."
+			"not_author": "Ê, đây không phải nút của bạn đâu nhé! Chỉ người yêu cầu bài hát mới được nhấn nút này thôi 😊"
 		},
-		"invite": "Mời Bot",
+		"invite": "⭐ Mời Bot",
 		"loop": "Lặp Lại",
 		"previous": "Bài Trước",
 		"resume": "Tiếp Tục",
 		"skip": "Bỏ Qua",
 		"stop": "Dừng",
-		"support": "Máy Chủ Hỗ Trợ"
+		"support": "💬 Hỗ Trợ"
 	},
 	"cmd": {
 		"247": {
-			"description": "Giữ bot luôn ở trong kênh thoại",
+			"description": "Để mình ở lại kênh thoại 24/7, dù không có ai thì vẫn chờ bạn đó! 🎵",
 			"errors": {
-				"generic": "Đã xảy ra lỗi khi thực hiện lệnh này.",
-				"not_in_voice": "Bạn cần tham gia một kênh thoại để sử dụng lệnh này."
+				"generic": "Ối! Có lỗi xảy ra rồi. Thử lại xem sao nhé 🔧",
+				"not_in_voice": "Ê vào kênh thoại đã nào! Mình cần biết bạn ở đâu để còn ở lại 🎧"
 			},
 			"messages": {
-				"disabled": "`✅` | Chế độ 24/7 đã được `TẮT`.",
-				"enabled": "`✅` | Chế độ 24/7 đã được `BẬT`.\n**Bot sẽ ở lại kênh thoại ngay cả khi không còn ai trong kênh.**"
+				"disabled": "Đã tắt chế độ 24/7. Mình sẽ rời đi khi hết nhạc hoặc không còn ai nhé! 👋",
+				"enabled": "Bật chế độ 24/7 rồi! Mình sẽ ở đây chờ bạn dù có thế nào đi nữa 🎶"
 			}
 		},
 		"messages": {
-			"no_user": "Không tìm thấy người dùng.",
-			"no_voice_channel": "Bạn cần tham gia một kênh thoại để sử dụng lệnh này.",
-			"not_in_voice": "Bot không có trong kênh thoại.",
-			"already_voted": "Bạn đã bỏ phiếu rồi."
+			"no_user": "Hmm, không tìm thấy người dùng này. Chắc họ đang ẩn danh? 🤔",
+			"no_voice_channel": "Vào kênh thoại trước đi bạn ơi! Mình cần biết bạn ở đâu 🎵",
+			"not_in_voice": "Mình đâu có trong kênh thoại nào cả 🤷",
+			"already_voted": "Bạn đã vote rồi mà! Mỗi người một phiếu thôi nha 😊"
 		},
 		"8d": {
-			"description": "Bật/tắt hiệu ứng âm thanh 8D",
+			"description": "Trải nghiệm âm thanh vòm 8D siêu đỉnh! Âm nhạc xoay quanh tai bạn đó 🎧",
 			"messages": {
-				"filter_disabled": "`✅` | Bộ lọc 8D đã được `TẮT`.",
-				"filter_enabled": "`✅` | Bộ lọc 8D đã được `BẬT`."
+				"filter_disabled": "Đã tắt hiệu ứng 8D. Trở về âm thanh thường thôi! ✨",
+				"filter_enabled": "Hiệu ứng 8D đã bật! Cảm nhận âm nhạc xoay quanh bạn nào 🌀"
 			}
 		},
 		"about": {
-			"description": "Xem thông tin về bot",
+			"description": "Tìm hiểu về mình - bot nhạc cute nhất Discord của Gúp Bu Ngô! 🎵",
 			"fields": {
-				"creator": "Người phát triển",
-				"description": "Anh ấy muốn tạo ra dự án mã nguồn mở đầu tiên của mình để rèn luyện kỹ năng lập trình. Trong quá trình này, anh ấy đã thử thách bản thân tạo ra một sản phẩm ít lỗi nhất có thể. Hy vọng bạn sẽ thích sử dụng MultiBungoBot!",
-				"repository": "Kho mã nguồn",
-				"support": "Máy chủ hỗ trợ"
+				"creator": "Người sáng tạo",
+				"description": "Đây là dự án mã nguồn mở đầu tiên được tạo ra với tình yêu và đam mê! Tác giả đã thử thách bản thân để tạo ra một con bot nhạc hoàn hảo với ít lỗi nhất có thể. Hy vọng bạn sẽ thích sử dụng MultiBungoBot! ❤️",
+				"repository": "📦 Mã nguồn",
+				"support": "💬 Hỗ trợ"
 			}
 		},
 		"addsong": {
-			"description": "Thêm bài hát vào danh sách phát cá nhân",
+			"description": "Lưu bài hát yêu thích vào playlist riêng của bạn! 💖",
 			"messages": {
-				"added": "Đã thêm {count} bài hát vào danh sách phát **{playlist}**.",
-				"no_playlist": "Vui lòng chỉ định một danh sách phát.",
-				"no_song": "Vui lòng chỉ định một bài hát.",
-				"no_songs_found": "Không tìm thấy bài hát nào phù hợp.",
-				"playlist_not_found": "Không tìm thấy danh sách phát đó."
+				"added": "Xong rồi! Đã thêm {count} bài vào playlist **{playlist}** của bạn 🎶",
+				"no_playlist": "Bạn muốn thêm vào playlist nào? Cho mình tên playlist nhé! 📝",
+				"no_song": "Bài hát nào bạn muốn thêm vào? Cho mình tên hoặc link nhé! 🎵",
+				"no_songs_found": "Úi, không tìm thấy bài hát nào cả. Thử tìm kiếm khác xem! 🔍",
+				"playlist_not_found": "Không có playlist này trong danh sách của bạn. Kiểm tra lại tên nhé! 📋"
 			},
 			"options": {
-				"playlist": "Tên danh sách phát bạn muốn thêm vào",
-				"song": "Tên hoặc liên kết bài hát bạn muốn thêm"
+				"playlist": "Tên playlist bạn muốn thêm bài vào",
+				"song": "Tên hoặc link bài hát muốn thêm"
 			}
 		},
 		"announce": {
@@ -65,657 +65,687 @@
 			}
 		},
 		"autoplay": {
-			"description": "Bật/tắt chế độ Tự động phát",
+			"description": "Tự động phát nhạc tương tự khi hết playlist! Nhạc không bao giờ dừng 🎶",
 			"messages": {
-				"disabled": "`✅` | Chế độ Tự động phát đã được `TẮT`.",
-				"enabled": "`✅` | Chế độ Tự động phát đã được `BẬT`."
+				"disabled": "Đã tắt autoplay! Nhạc sẽ dừng khi hết playlist đó 👋",
+				"enabled": "Autoplay đã bật! Mình sẽ tự chọn nhạc hay khi hết playlist nha 🎵"
 			}
 		},
 		"bassboost": {
-			"description": "Bật/tắt hiệu ứng Bassboost",
+			"description": "Tăng bass cực mạnh! Loa rung cả nhà luôn 🔊",
 			"messages": {
-				"filter_disabled": "`✅` | Bộ lọc Bassboost đã được `TẮT`.",
-				"filter_enabled": "`✅` | Bộ lọc Bassboost đã được `BẬT`.\n**Lưu ý: Âm lượng quá cao có thể gây hại cho thính giác!**",
-				"high": "`✅` | Bộ lọc Bassboost đã được `BẬT` và đặt thành `Cao`.",
-				"low": "`✅` | Bộ lọc Bassboost đã được `BẬT` và đặt thành `Thấp`.",
-				"medium": "`✅` | Bộ lọc Bassboost đã được `BẬT` và đặt thành `Trung bình`.",
-				"off": "`✅` | Bộ lọc Bassboost đã được `TẮT`."
+				"filter_disabled": "Đã tắt bassboost. Bass trở về bình thường rồi! 🎵",
+				"filter_enabled": "Bassboost đã bật! Cảm nhận bass rung động nào! 💥\n**Cẩn thận: Âm lượng quá cao có thể hại tai đấy!**",
+				"high": "Bassboost mức cao! Loa sắp nổ rồi đó 🔥",
+				"low": "Bassboost mức nhẹ. Vừa đủ để cảm nhận bass thôi 🎶",
+				"medium": "Bassboost mức trung bình. Bass mạnh mà không quá đâu! 🎧",
+				"off": "Đã tắt bassboost rồi! ✨"
 			},
 			"options": {
-				"level": "Mức độ Bassboost bạn muốn đặt"
+				"level": "Chọn mức độ bass bạn muốn (low/medium/high)"
 			}
 		},
 		"botinfo": {
-			"content": "Thông tin bot:\n- **Hệ điều hành:** {osInfo}\n- **Thời gian hoạt động:** {osUptime}\n- **Tên máy chủ:** {osHostname}\n- **Kiến trúc CPU:** {cpuInfo}\n- **CPU sử dụng:** {cpuUsed}%\n- **Bộ nhớ sử dụng:** {memUsed}MB / {memTotal}GB\n- **Phiên bản Node:** {nodeVersion}\n- **Phiên bản Discord.js:** {discordJsVersion}\n- **Kết nối với:** {guilds} máy chủ, {channels} kênh và {users} người dùng\n- **Tổng số lệnh:** {commands}",
-			"description": "Xem thông tin về bot."
+			"content": "📊 **Thông tin về mình:**\n- **Hệ điều hành:** {osInfo}\n- **Thời gian hoạt động:** {osUptime}\n- **Máy chủ:** {osHostname}\n- **CPU:** {cpuInfo}\n- **Sử dụng CPU:** {cpuUsed}%\n- **RAM:** {memUsed}MB / {memTotal}GB\n- **Node.js:** {nodeVersion}\n- **Discord.js:** {discordJsVersion}\n- **Đang phục vụ:** {guilds} servers, {channels} kênh và {users} người dùng\n- **Tổng lệnh:** {commands}",
+			"description": "Xem thông số kỹ thuật và tình trạng hoạt động của mình! 📊"
 		},
 		"clearqueue": {
-			"description": "Xóa toàn bộ hàng chờ phát nhạc",
+			"description": "Xóa sạch hàng chờ! Bắt đầu lại từ đầu nào 🗑️",
 			"messages": {
-				"cleared": "`✅` | Hàng chờ đã được xóa."
+				"cleared": "Đã xóa sạch hàng chờ! Giờ thêm nhạc mới thôi 🎵"
 			}
 		},
 		"create": {
-			"description": "Tạo một danh sách phát mới",
+			"description": "Tạo playlist mới cho riêng bạn! 🎶",
 			"messages": {
-				"name_too_long": "Tên danh sách phát không được dài quá 50 ký tự.",
-				"playlist_created": "Đã tạo danh sách phát **{name}** thành công.",
-				"playlist_exists": "Danh sách phát với tên này đã tồn tại. Vui lòng chọn tên khác."
+				"name_too_long": "Ú, tên quá dài rồi! Giới hạn 50 ký tự thôi nha 😅",
+				"playlist_created": "Hurayyy! Đã tạo playlist **{name}** thành công! Bắt đầu thêm nhạc vào thôi 🎵",
+				"playlist_exists": "Playlist này đã có rồi! Chọn tên khác đi bạn 📝"
 			},
 			"options": {
-				"name": "Tên danh sách phát bạn muốn tạo"
+				"name": "Tên playlist bạn muốn tạo"
 			}
 		},
 		"delete": {
-			"description": "Xóa một danh sách phát",
+			"description": "Xóa playlist không còn dùng nữa 🗑️",
 			"messages": {
-				"playlist_deleted": "Đã xóa danh sách phát **{playlistName}**.",
-				"playlist_not_found": "Không tìm thấy danh sách phát đó."
+				"playlist_deleted": "Đã xóa playlist **{playlistName}**. Tạm biệt nhé! 👋",
+				"playlist_not_found": "Không tìm thấy playlist này. Kiểm tra lại tên xem! 🔍"
 			},
 			"options": {
-				"playlist": "Tên danh sách phát bạn muốn xóa"
+				"playlist": "Tên playlist bạn muốn xóa"
 			}
 		},
 		"distortion": {
-			"description": "Bật/tắt hiệu ứng Distortion",
+			"description": "Hiệu ứng méo âm - nghe như trong điện thoại cũ 📞",
 			"messages": {
-				"filter_disabled": "`✅` | Bộ lọc Distortion đã được `TẮT`.",
-				"filter_enabled": "`✅` | Bộ lọc Distortion đã được `BẬT`."
+				"filter_disabled": "Đã tắt hiệu ứng distortion rồi! ✨",
+				"filter_enabled": "Hiệu ứng distortion đã bật! Âm thanh nghe khá lạ đấy 🌀"
 			}
 		},
 		"dj": {
-			"description": "Quản lý chế độ DJ và các vai trò liên quan",
+			"description": "Quản lý chế độ DJ - chỉ DJ mới điều khiển nhạc! 🎧",
 			"errors": {
-				"invalid_subcommand": "Vui lòng chọn một lệnh phụ hợp lệ.",
-				"no_roles": "Hiện tại không có vai trò DJ nào được thiết lập.",
-				"provide_role": "Vui lòng cung cấp một vai trò DJ."
+				"invalid_subcommand": "Lệnh không hợp lệ. Thử add/remove/clear/toggle nhé! 🔧",
+				"no_roles": "Chưa có vai trò DJ nào cả. Thêm vai trò đi nào! 🎤",
+				"provide_role": "Chọn vai trò DJ đi bạn! Mention vai trò vào đó 🎭"
 			},
 			"messages": {
-				"all_roles_cleared": "Tất cả vai trò DJ đã được xóa.",
-				"role_added": "Đã thêm vai trò DJ <@&{roleId}>.",
-				"role_exists": "Vai trò DJ <@&{roleId}> đã được thêm trước đó.",
-				"role_not_found": "Vai trò DJ <@&{roleId}> chưa được thiết lập.",
-				"role_removed": "Đã xóa vai trò DJ <@&{roleId}>.",
-				"toggle": "Chế độ DJ đã được chuyển sang `{status}`."
+				"all_roles_cleared": "Xóa sạch tất cả vai trò DJ rồi! Giờ ai cũng có thể điều khiển nhạc 🎵",
+				"role_added": "Đã thêm vai trò DJ <@&{roleId}>! Họ giờ có quyền điều khiển nhạc rồi 🎧",
+				"role_exists": "Vai trò <@&{roleId}> đã là DJ rồi mà! 😊",
+				"role_not_found": "Vai trò <@&{roleId}> không phải DJ. Thêm trước đi! 🔍",
+				"role_removed": "Đã xóa vai trò DJ <@&{roleId}>. Giờ họ không còn quyền điều khiển nhạc nữa! 👋",
+				"toggle": "Chế độ DJ đã chuyển sang {status}! 🎶"
 			},
 			"options": {
-				"add": "Vai trò DJ bạn muốn thêm",
-				"clear": "Xóa toàn bộ vai trò DJ",
-				"remove": "Vai trò DJ bạn muốn xóa",
+				"add": "Vai trò muốn thêm làm DJ",
+				"clear": "Xóa hết vai trò DJ",
+				"remove": "Vai trò muốn xóa khỏi DJ",
 				"role": "Chọn vai trò DJ",
 				"toggle": "Bật/tắt chế độ DJ"
 			},
-			"subcommands": "Lệnh phụ"
+			"subcommands": "Các lệnh phụ"
 		},
-		"fairplay": {
-			"description": "Bật chế độ phát nhạc công bằng (Fair Play)",
+		"vote": {
+			"description": "Quản lý hệ thống vote dân chủ cho các lệnh nhạc! 🗳️",
 			"errors": {
-				"generic": "Đã xảy ra lỗi khi thực hiện lệnh này.",
-				"not_in_voice": "Bạn cần tham gia một kênh thoại để sử dụng lệnh này."
+				"no_subcommand": "Chọn toggle hoặc status nhé! 📝",
+				"invalid_subcommand": "Lệnh không hợp lệ. Thử toggle hoặc status! 🔧"
 			},
 			"messages": {
-				"added_to_queue": "Đã thêm [{title}]({url}) vào hàng chờ.",
-				"disabled": "`✅` | Chế độ phát công bằng (Fairplay) đã được `TẮT`.",
-				"enabled": "`✅` | Chế độ phát công bằng (Fairplay) đã được `BẬT`.",
+				"toggled": "Hệ thống vote đã được {status}! 🗳️",
+				"enabled": "**bật**",
+				"disabled": "**tắt**",
+				"current_status": "Hệ thống vote hiện đang {status}! 📊"
+			},
+			"options": {
+				"toggle": "Bật hoặc tắt hệ thống vote",
+				"status": "Xem trạng thái hệ thống vote"
+			}
+		},
+		"fairplay": {
+			"description": "Phát nhạc công bằng - ai cũng có quyền phát nhạc! ⚖️",
+			"errors": {
+				"generic": "Ối! Có lỗi xảy ra. Thử lại nhé 🔧",
+				"not_in_voice": "Vào kênh thoại đã rồi mới dùng được lệnh này! 🎧"
+			},
+			"messages": {
+				"added_to_queue": "Đã thêm [{title}]({url}) vào hàng chờ rồi! 🎵",
+				"disabled": "Đã tắt chế độ fairplay. Thêm bao nhiêu bài cũng được! 🎶",
+				"enabled": "Chế độ fairplay đã bật! Mọi người đều có quyền phát nhạc công bằng ⚖️",
 				"errors": {
-					"empty_query": "Vui lòng đính kèm một tệp âm thanh để phát.",
-					"invalid_format": "Bạn chỉ có thể phát các tệp MP3, WAV, OGG, FLAC, AAC hoặc M4A.",
-					"no_results": "Không thể phát tệp âm thanh. Có thể tệp đã bị hỏng."
+					"empty_query": "Đính kèm file nhạc vào đi bạn! 📄",
+					"invalid_format": "Chỉ chơi được MP3, WAV, OGG, FLAC, AAC hoặc M4A thôi! 🎵",
+					"no_results": "Không phát được file này. Có thể file bị hỏng rồi 😢"
 				}
 			}
 		},
 		"grab": {
-			"check_dm": "Vui lòng kiểm tra tin nhắn riêng (DM) của bạn.",
-			"content": "**Thời lượng:** {length}\n**Yêu cầu bởi:** <@{requester}>\n**Liên kết:** [Nhấn vào đây]({uri})",
-			"description": "Gửi thông tin bài hát đang phát vào tin nhắn riêng của bạn",
-			"dm_failed": "Tôi không thể gửi tin nhắn riêng cho bạn. Hãy đảm bảo bạn đã bật tin nhắn riêng từ máy chủ này.",
-			"loading": "Đang tải..."
+			"check_dm": "Check tin nhắn riêng (DM) xem! Mình đã gửi rồi 📩",
+			"content": "**Thời lượng:** {length}\n**Người yêu cầu:** <@{requester}>\n**Link:** [Bấm vào đây]({uri})",
+			"description": "Lưu bài đang phát vào tin nhắn riêng của bạn! 💖",
+			"dm_failed": "Không gửi được DM cho bạn. Bật tin nhắn riêng trong cài đặt nha! 📧",
+			"loading": "Đang chuẩn bị... ⏳"
 		},
 		"help": {
-			"content": "Chào bạn! Tôi là {bot}. Bạn có thể dùng `{prefix}help <command>` để xem chi tiết về từng lệnh.",
-			"description": "Hiển thị menu trợ giúp.",
-			"footer": "Dùng {prefix}help <command> để biết thêm về lệnh • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
-			"help_cmd": "**Mô tả:** {description}\n**Cách dùng:** {usage}\n**Ví dụ:** {examples}\n**Tên gọi khác:** {aliases}\n**Danh mục:** {category}\n**Thời gian chờ:** {cooldown} giây\n**Yêu cầu quyền:** {premUser}\n**Quyền của bot:** {premBot}\n**Chỉ dành cho nhà phát triển:** {dev}\n**Lệnh Slash:** {slash}\n**Tham số:** {args}\n**Trình phát:** {player}\n**DJ:** {dj}\n**Quyền DJ:** {djPerm}\n**Yêu cầu kênh thoại:** {voice}",
-			"not_found": "Không tìm thấy lệnh `{cmdName}`.",
+			"content": "Xin chào! Mình là {bot}, bot nhạc siêu xịn được tạo bởi Gúp Bu Ngô! Dùng `{prefix}help <tên lệnh>` để xem chi tiết nhé 🎵",
+			"description": "Xem hướng dẫn sử dụng toàn bộ lệnh! 📚",
+			"footer": "Dùng {prefix}help <lệnh> để biết thêm • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
+			"help_cmd": "**Mô tả:** {description}\n**Cách dùng:** {usage}\n**Ví dụ:** {examples}\n**Tên khác:** {aliases}\n**Danh mục:** {category}\n**Thời gian chờ:** {cooldown} giây\n**Quyền cần:** {premUser}\n**Quyền bot:** {premBot}\n**Dev only:** {dev}\n**Slash command:** {slash}\n**Tham số:** {args}\n**Player:** {player}\n**DJ:** {dj}\n**DJ Permission:** {djPerm}\n**Kênh thoại:** {voice}",
+			"not_found": "Không tìm thấy lệnh `{cmdName}`. Kiểm tra lại xem! 🔍",
 			"options": {
 				"command": "Lệnh bạn muốn xem thông tin"
 			},
-			"title": "Menu Trợ Giúp"
+			"title": "📖 Menu Trợ Giúp"
 		},
 		"invite": {
-			"content": "Bạn có thể mời tôi bằng cách nhấn vào nút bên dưới. Có vấn đề hoặc lỗi? Tham gia máy chủ hỗ trợ nhé!",
-			"description": "Lấy liên kết mời bot."
+			"content": "Mời mình vào server của bạn bằng nút bên dưới nhé! Gặp lỗi gì thì vào server hỗ trợ nha! 💜",
+			"description": "Lấy link mời bot về server của bạn! ⭐"
 		},
 		"join": {
-			"already_connected": "Tôi đã kết nối với kênh thoại <#{channelId}> rồi.",
-			"description": "Tham gia kênh thoại của bạn",
-			"joined": "Đã tham gia kênh thoại <#{channelId}> thành công.",
-			"no_voice_channel": "Bạn cần tham gia một kênh thoại để sử dụng lệnh này."
+			"already_connected": "Mình đã ở trong <#{channelId}> rồi mà! 😊",
+			"description": "Gọi mình vào kênh thoại của bạn! 🎧",
+			"joined": "Đã vào <#{channelId}> rồi! Bắt đầu phát nhạc thôi 🎵",
+			"no_voice_channel": "Vào kênh thoại trước đi bạn! Mình cần biết bạn ở đâu 🎤"
 		},
 		"karaoke": {
-			"description": "Bật/tắt hiệu ứng Karaoke",
+			"description": "Giảm giọng hát - hát karaoke thôi nào! 🎤",
 			"messages": {
-				"filter_disabled": "`✅` | Bộ lọc Karaoke đã được `TẮT`.",
-				"filter_enabled": "`✅` | Bộ lọc Karaoke đã được `BẬT`."
+				"filter_disabled": "Đã tắt chế độ karaoke. Giọng hát trở lại rồi! 🎵",
+				"filter_enabled": "Chế độ karaoke đã bật! Giọng hát giảm đi, hát đi bạn ơi! 🎤"
 			}
 		},
 		"language": {
-			"already_set": "Ngôn ngữ đã được đặt thành `{language}`.",
-			"description": "Thay đổi ngôn ngữ của bot",
-			"invalid_language": "Vui lòng chọn một ngôn ngữ hợp lệ. Ví dụ: `EnglishUS` cho tiếng Anh (Hoa Kỳ).\n\nBạn có thể xem danh sách các ngôn ngữ hỗ trợ [tại đây](https://discord.com/developers/docs/reference#locales).\n\n**Ngôn ngữ khả dụng:**\n{languages}",
-			"not_set": "Hiện tại chưa thiết lập ngôn ngữ.",
+			"already_set": "Ngôn ngữ đang là `{language}` rồi mà! 😊",
+			"description": "Đổi ngôn ngữ của bot theo ý bạn! 🌏",
+			"invalid_language": "Ngôn ngữ này không hợp lệ! Thử `EnglishUS` hoặc `Vietnamese` xem.\n\nXem danh sách đầy đủ [tại đây](https://discord.com/developers/docs/reference#locales).\n\n**Ngôn ngữ có sẵn:**\n{languages}",
+			"not_set": "Chưa đặt ngôn ngữ cụ thể. Đang dùng mặc định! 🌐",
 			"options": {
 				"language": "Ngôn ngữ bạn muốn chọn",
 				"reset": "Đặt lại về ngôn ngữ mặc định",
 				"set": "Đặt ngôn ngữ cho bot"
 			},
-			"reset": "`✅` | Ngôn ngữ đã được đặt lại về mặc định.",
-			"set": "`✅` | Ngôn ngữ đã được chuyển sang `{language}`."
+			"reset": "Đã đặt lại về ngôn ngữ mặc định rồi! ✨",
+			"set": "Ngôn ngữ đã chuyển sang `{language}`! 🎉"
 		},
 		"lavalink": {
-			"description": "Hiển thị thông tin hiện tại của Lavalink.",
-			"title": "Thông tin Lavalink",
-			"content": "Số trình phát: {players}\nĐang phát: {playingPlayers}\nThời gian hoạt động: {uptime}\nSố lõi CPU: {cores}\nBộ nhớ sử dụng: {used} / {reservable}\nTải hệ thống: {systemLoad}%\nTải Lavalink: {lavalinkLoad}%\nPlugins: {plugins}",
+			"description": "Xem thông số kỹ thuật của Lavalink server! 📊",
+			"title": "📊 Thông tin Lavalink",
+			"content": "Players: {players}\nĐang phát: {playingPlayers}\nUptime: {uptime}\nCPU cores: {cores}\nRAM: {used} / {reservable}\nTải hệ thống: {systemLoad}%\nTải Lavalink: {lavalinkLoad}%\nPlugins: {plugins}",
 			"page_info": "Trang {index} / {total}"
 		},
 		"leave": {
-			"description": "Rời khỏi kênh thoại",
-			"left": "Đã rời khỏi kênh thoại <#{channelId}>.",
-			"not_in_channel": "Tôi hiện không có trong bất kỳ kênh thoại nào."
+			"description": "Bye bye! Mình rời kênh thoại nhé 👋",
+			"left": "Đã rời <#{channelId}> rồi! Gọi mình lại khi cần nhé 💜",
+			"not_in_channel": "Mình đâu có trong kênh thoại nào cả mà 🤔",
+			"messages": {
+				"vote_embed": "Vote để mình rời đi: **{votes}/{needed}**\n✅ Rời đi, ❌ Ở lại",
+				"button_yes": "✅ Rời",
+				"button_no": "❌ Ở lại",
+				"already_voted": "Bạn vote rồi mà! Mỗi người một phiếu thôi nhé 😊"
+			}
 		},
 		"list": {
-			"description": "Xem tất cả danh sách phát của người dùng",
+			"description": "Xem tất cả playlist đã lưu! 📚",
 			"messages": {
-				"error": "Đã xảy ra lỗi khi lấy danh sách phát.",
-				"no_playlists": "Người dùng này không có danh sách phát nào.",
-				"playlists_title": "Danh sách phát của {username}",
-				"your": "Danh sách phát của bạn"
+				"error": "Ối! Lỗi khi lấy danh sách playlist 😢",
+				"no_playlists": "Người này chưa có playlist nào cả! 📝",
+				"playlists_title": "📚 Playlist của {username}",
+				"your": "📚 Playlist của bạn"
 			},
 			"options": {
-				"user": "Người dùng bạn muốn xem danh sách phát"
+				"user": "Người bạn muốn xem playlist"
 			}
 		},
 		"load": {
-			"description": "Tải một danh sách phát của bạn",
+			"description": "Tải playlist của bạn vào hàng chờ! 🎵",
 			"messages": {
-				"playlist_empty": "Danh sách phát này đang trống.",
-				"playlist_loaded": "Đã tải danh sách phát `{name}` với `{count}` bài hát.",
-				"playlist_not_exist": "Không tìm thấy danh sách phát đó."
+				"playlist_empty": "Playlist này đang trống trơn. Thêm bài vào đi! 📝",
+				"playlist_loaded": "Đã tải `{name}` với {count} bài hát! Bắt đầu nghe thôi 🎶",
+				"playlist_not_exist": "Không có playlist này. Kiểm tra lại tên xem! 🔍"
 			},
 			"options": {
-				"playlist": "Tên danh sách phát bạn muốn tải"
+				"playlist": "Tên playlist bạn muốn tải"
 			}
 		},
 		"loop_current": {
-			"description": "Bật/tắt chế độ lặp lại bài hát."
+			"description": "Lặp lại bài này mãi mãi! 🔂"
 		},
 		"loop_queue": {
-			"description": "Bật/tắt chế độ lặp lại hàng chờ."
+			"description": "Lặp lại cả hàng chờ không ngừng! 🔁"
 		},
 		"loop": {
-			"description": "Bật/tắt chế độ lặp lại bài hát hoặc hàng chờ",
-			"invalid_mode": "Vui lòng chọn chế độ lặp hợp lệ. (ví dụ: off, track, queue)",
-			"looping_off": "**Đã tắt chế độ lặp lại.**",
-			"looping_queue": "**Đang lặp lại toàn bộ hàng chờ.**",
-			"looping_song": "**Đang lặp lại bài hát hiện tại.**"
+			"description": "Lặp lại bài hát hoặc cả playlist! 🔁",
+			"invalid_mode": "Chế độ không hợp lệ! Thử: off, track, hoặc queue 🔧",
+			"looping_off": "Tắt lặp lại rồi! Nhạc sẽ phát hết và dừng ⏹️",
+			"looping_queue": "Lặp lại toàn bộ hàng chờ! Nhạc không bao giờ dừng 🔁",
+			"looping_song": "Lặp lại bài này mãi! Nghe không chán luôn 🔂"
 		},
 		"lowpass": {
-			"description": "Bật/tắt hiệu ứng Lowpass",
+			"description": "Giảm treble - âm thanh êm dịu hơn! 🎵",
 			"messages": {
-				"filter_disabled": "`✅` | Bộ lọc Lowpass đã được `TẮT`.",
-				"filter_enabled": "`✅` | Bộ lọc Lowpass đã được `BẬT`."
+				"filter_disabled": "Đã tắt lowpass. Âm thanh trở lại bình thường! ✨",
+				"filter_enabled": "Lowpass đã bật! Âm thanh êm dịu, dễ nghe hơn 🌙"
 			}
 		},
 		"lyrics": {
-			"description": "Lấy lời bài hát của bài đang phát",
+			"description": "Xem lời bài hát đang phát! Hát theo đi nào 🎤",
 			"errors": {
-				"lyrics_error": "Đã xảy ra lỗi khi lấy lời bài hát.",
-				"no_results": "Không tìm thấy lời bài hát cho bài hát hiện tại."
+				"lyrics_error": "Ối! Lỗi khi tìm lời bài hát 😢",
+				"no_results": "Không tìm thấy lời bài hát này. Có lẽ nó là nhạc không lời? 🎵"
 			},
 			"lyrics_track": "### Lời bài hát: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
-			"searching": "🔍 Đang tìm lời bài hát cho **{trackTitle}** lyrics..."
+			"searching": "🔍 Đang tìm lời cho **{trackTitle}**..."
 		},
 		"nightcore": {
-			"description": "Bật/tắt hiệu ứng Nightcore",
+			"description": "Hiệu ứng nightcore - giọng cao, nhịp nhanh! ⚡",
 			"messages": {
-				"filter_disabled": "`✅` | Bộ lọc Nightcore đã được `TẮT`.",
-				"filter_enabled": "`✅` | Bộ lọc Nightcore đã được `BẬT`."
+				"filter_disabled": "Đã tắt nightcore. Trở về âm thanh thường! ✨",
+				"filter_enabled": "Nightcore đã bật! Giọng cao hơn, nhịp nhanh hơn 🔥"
 			}
 		},
 		"nowplaying": {
-			"description": "Hiển thị bài hát đang phát",
-			"now_playing": "Đang phát",
+			"description": "Xem bài nào đang phát! 🎵",
+			"now_playing": "🎶 Đang phát",
 			"track_info": "[{title}]({uri}) - Yêu cầu bởi: <@{requester}>\n\n`{bar}`"
 		},
 		"pause": {
-			"description": "Tạm dừng bài hát hiện tại",
-			"successfully_paused": "Đã tạm dừng bài hát.",
+			"description": "Dừng nhạc một chút! ⏸️",
+			"successfully_paused": "Đã tạm dừng! Gọi resume khi muốn nghe tiếp nhé ⏸️",
 			"messages": {
-				"vote_embed": "Bỏ phiếu để tạm dừng: **{votes}/{needed}**\n✅ để tạm dừng, ❌ để tiếp tục phát.",
-				"button_yes": "✅ Tạm dừng",
+				"vote_embed": "Vote để pause nhạc: **{votes}/{needed}**\n✅ Pause, ❌ Tiếp tục",
+				"button_yes": "✅ Pause",
 				"button_no": "❌ Tiếp tục",
-				"already_voted": "Bạn đã bỏ phiếu rồi."
+				"already_voted": "Bạn vote rồi! Một người một phiếu thôi 😊"
 			}
 		},
 		"ping": {
-			"description": "Kiểm tra độ trễ của bot.",
-			"content": "Đang kiểm tra độ trễ...",
-			"bot_latency": "Độ trễ của Bot",
-			"api_latency": "Độ trễ của API",
-			"vc_latency": "Độ trễ kênh âm thanh",
-			"vc_region": "Vùng kênh âm thanh",
-			"requested_by": "Được yêu cầu bởi {author}"
+			"description": "Xem mình phản hồi nhanh thế nào! ⚡",
+			"content": "Đang kiểm tra... 🏓",
+			"bot_latency": "🤖 Độ trễ Bot",
+			"api_latency": "🔌 Độ trễ API",
+			"vc_latency": "🎧 Độ trễ Voice",
+			"vc_region": "🌐 Vùng Voice",
+			"requested_by": "Yêu cầu bởi {author}"
 		},
 		"pitch": {
-			"description": "Thay đổi độ cao âm thanh",
+			"description": "Thay đổi độ cao của âm thanh! Làm giọng cao hơn hoặc thấp hơn 🎶",
 			"errors": {
-				"invalid_number": "Vui lòng nhập một số hợp lệ từ 0.5 đến 5."
+				"invalid_number": "Số không hợp lệ! Thử từ 0.5 đến 5 nhé (1.5 là vừa đó) 🔢"
 			},
 			"messages": {
-				"pitch_set": "`✅` | Độ cao đã được đặt thành **{pitch}**."
+				"pitch_set": "Độ cao đã đặt thành **{pitch}**! Nghe thử xem 🎵"
 			},
 			"options": {
-				"pitch": "Giá trị độ cao bạn muốn đặt (từ 0.5 đến 5)"
+				"pitch": "Độ cao bạn muốn (0.5 - 5, mặc định là 1.0)"
 			}
 		},
 		"play": {
-			"description": "Phát một bài hát từ YouTube, Spotify hoặc đường dẫn trực tiếp",
+			"description": "Phát nhạc từ YouTube, Spotify, SoundCloud và nhiều nền tảng khác! 🎵",
 			"options": {
-				"song": "Tên hoặc liên kết bài hát bạn muốn phát"
+				"song": "Tên bài hát hoặc link bạn muốn phát"
 			},
-			"loading": "Đang tải bài hát...",
+			"loading": "Đang tìm nhạc cho bạn... 🔍",
 			"warnings": {
-				"longtrack_warning": "⚠️ **Cảnh báo:** Một hoặc nhiều bài hát trong kết quả tìm kiếm có thời lượng vượt quá 30 phút. Vui lòng đảm bảo bạn muốn phát những bài hát dài này vì chúng có thể ảnh hưởng đến trải nghiệm nghe nhạc của bạn."
+				"longtrack_warning": "⚠️ **Chú ý:** Có bài dài hơn 30 phút đấy! Chắc chắn muốn phát nhạc dài thế không? 🕒"
 			},
 			"errors": {
-				"search_error": "Đã xảy ra lỗi khi tìm kiếm bài hát.",
-				"no_results": "Không tìm thấy kết quả phù hợp.",
-				"queue_too_long": "Hàng chờ quá dài. Giới hạn tối đa là {maxQueueSize} bài hát.",
-				"playlist_too_long": "Danh sách phát quá dài. Giới hạn tối đa là {maxPlaylistSize} bài hát."
+				"search_error": "Lỗi khi tìm nhạc! Thử lại xem sao 😢",
+				"no_results": "Không tìm thấy bài nào cả! Thử tìm kiếm khác xem 🔍",
+				"queue_too_long": "Hàng chờ đầy rồi! Giới hạn tối đa {maxQueueSize} bài thôi 📋",
+				"playlist_too_long": "Playlist quá dài! Chỉ thêm được tối đa {maxPlaylistSize} bài 📚"
 			},
-			"added_to_queue": "Đã thêm [{title}]({uri}) vào hàng chờ.",
-			"added_playlist_to_queue": "Đã thêm {length} bài hát từ danh sách phát vào hàng chờ."
+			"added_to_queue": "Đã thêm [{title}]({uri}) vào hàng chờ! 🎶",
+			"added_playlist_to_queue": "Thêm {length} bài từ playlist vào hàng chờ rồi! 🎵"
 		},
 		"playlocal": {
-			"added_to_queue": "Đã thêm [{title}]({url}) vào hàng chờ.",
-			"description": "Phát tệp âm thanh từ máy tính của bạn",
+			"added_to_queue": "Đã thêm [{title}]({url}) vào hàng chờ! 🎵",
+			"description": "Phát file nhạc từ máy tính của bạn! 💻",
 			"errors": {
-				"empty_query": "Vui lòng đính kèm một tệp âm thanh để phát.",
-				"invalid_format": "Bạn chỉ có thể phát các tệp MP3, WAV, OGG, FLAC, AAC hoặc M4A.",
-				"no_results": "Không thể phát tệp âm thanh. Có thể tệp đã bị hỏng."
+				"empty_query": "Đính kèm file nhạc vào đi bạn! 📄",
+				"invalid_format": "Chỉ chơi được MP3, WAV, OGG, FLAC, AAC hoặc M4A thôi! 🎵",
+				"no_results": "Không phát được file này. Có thể file bị hỏng rồi 😢"
 			},
-			"loading": "Đang tải...",
+			"loading": "Đang chuẩn bị... ⏳",
 			"options": {
-				"file": "Tệp âm thanh bạn muốn phát"
+				"file": "File nhạc bạn muốn phát"
 			}
 		},
 		"playnext": {
-			"added_playlist_to_play_next": "Đã thêm {length} bài hát để phát tiếp theo trong hàng chờ.",
-			"added_to_play_next": "Đã thêm [{title}]({uri}) để phát ngay sau bài hát hiện tại.",
-			"description": "Thêm bài hát để phát tiếp theo trong hàng chờ",
+			"added_playlist_to_play_next": "Thêm {length} bài để phát tiếp theo rồi! 🎶",
+			"added_to_play_next": "Đã xếp [{title}]({uri}) phát ngay sau bài này! ⏭️",
+			"description": "Xếp bài hát phát tiếp theo luôn - không phải chờ! ⏭️",
 			"errors": {
-				"no_results": "Không tìm thấy kết quả phù hợp.",
-				"playlist_too_long": "Danh sách phát quá dài. Giới hạn tối đa là {maxPlaylistSize} bài hát.",
-				"queue_too_long": "Hàng chờ quá dài. Giới hạn tối đa là {maxQueueSize} bài hát.",
-				"search_error": "Đã xảy ra lỗi khi tìm kiếm bài hát."
+				"no_results": "Không tìm thấy bài nào cả! 🔍",
+				"playlist_too_long": "Playlist quá dài! Tối đa {maxPlaylistSize} bài thôi 📚",
+				"queue_too_long": "Hàng chờ đầy quá rồi! Giới hạn {maxQueueSize} bài 📋",
+				"search_error": "Lỗi khi tìm nhạc! Thử lại xem 😢"
 			},
-			"loading": "Đang tải bài hát...",
+			"loading": "Đang tìm nhạc... 🔍",
 			"options": {
-				"song": "Tên hoặc liên kết bài hát bạn muốn phát tiếp theo"
+				"song": "Bài hát bạn muốn phát tiếp theo"
 			}
 		},
 		"prefix": {
-			"description": "Xem hoặc thay đổi tiền tố của bot",
+			"description": "Xem hoặc đổi tiền tố lệnh của bot! 📝",
 			"errors": {
-				"prefix_too_long": "Tiền tố không được dài quá 3 ký tự."
+				"prefix_too_long": "Tiền tố quá dài! Tối đa 3 ký tự thôi nhé 😅"
 			},
 			"messages": {
-				"current_prefix": "Tiền tố hiện tại của máy chủ này là `{prefix}`.",
-				"prefix_reset": "Tiền tố của máy chủ này đã được đặt lại thành `{prefix}`.",
-				"prefix_set": "Tiền tố mới của máy chủ này là `{prefix}`."
+				"current_prefix": "Tiền tố hiện tại là `{prefix}` nhé! 👌",
+				"prefix_reset": "Đã reset tiền tố về `{prefix}`! ✨",
+				"prefix_set": "Tiền tố mới là `{prefix}` rồi! 🎉"
 			},
 			"options": {
-				"prefix": "Tiền tố bạn muốn đặt",
-				"reset": "Đặt lại tiền tố về mặc định",
+				"prefix": "Tiền tố mới bạn muốn dùng",
+				"reset": "Reset về tiền tố mặc định",
 				"set": "Đặt tiền tố mới"
 			}
 		},
 		"queue": {
-			"description": "Xem hàng chờ phát nhạc hiện tại",
-			"duration": "Tổng thời lượng: `{totalDuration}`",
-			"live": "TRỰC TIẾP",
-			"now_playing": "Đang phát: [{title}]({uri}) - Yêu cầu bởi: <@{requester}> - Thời lượng: `{duration}`",
-			"page_info": "Trang {index} / {total}",
-			"title": "Hàng Chờ Phát Nhạc",
-			"track_info": "{index}. [{title}]({uri}) - Yêu cầu bởi: <@{requester}> - Thời lượng: `{duration}`"
+			"description": "Xem danh sách nhạc đang chờ! 📚",
+			"duration": "Tổng thời lượng: `{totalDuration}` ⏱️",
+			"live": "🔴 TRỰC TIẾP",
+			"now_playing": "🎶 Đang phát: [{title}]({uri}) - <@{requester}> - `{duration}`",
+			"page_info": "Trang {index}/{total}",
+			"title": "🎵 Hàng Chờ Nhạc",
+			"track_info": "{index}. [{title}]({uri}) - <@{requester}> - `{duration}`"
 		},
 		"rate": {
-			"description": "Thay đổi tốc độ phát nhạc",
+			"description": "Thay đổi tốc độ phát nhạc! Nhanh hoặc chậm tùy ý ⚡",
 			"errors": {
-				"invalid_number": "Vui lòng nhập một số hợp lệ từ 0.5 đến 5."
+				"invalid_number": "Số không hợp lệ! Thử từ 0.5 đến 5 (1.5 là nhanh vừa đó) 🔢"
 			},
 			"messages": {
-				"rate_set": "`✅` | Tốc độ đã được đặt thành **{rate}**."
+				"rate_set": "Tốc độ đã đặt thành **{rate}**! Nghe thử xem 🎶"
 			},
 			"options": {
-				"rate": "Giá trị tốc độ bạn muốn đặt (từ 0.5 đến 5)"
+				"rate": "Tốc độ bạn muốn (0.5 - 5, mặc định 1.0)"
 			}
 		},
 		"remove": {
-			"description": "Xóa một bài hát khỏi hàng chờ",
+			"description": "Xóa một bài khỏi hàng chờ! 🗑️",
 			"errors": {
-				"invalid_number": "Vui lòng nhập một số hợp lệ.",
-				"no_songs": "Hàng chờ hiện không có bài hát nào."
+				"invalid_number": "Nhập số thứ tự bài hát đi bạn! Ví dụ: 3 🔢",
+				"no_songs": "Hàng chờ đang trống trơn! Không có gì để xóa cả 😅"
 			},
 			"messages": {
-				"removed": "Đã xóa bài hát vị trí số {songNumber} khỏi hàng chờ."
+				"removed": "Đã xóa bài số {songNumber} khỏi hàng chờ rồi! 👍"
 			},
 			"options": {
-				"song": "Vị trí bài hát trong hàng chờ bạn muốn xóa"
+				"song": "Số thứ tự bài hát muốn xóa"
 			}
 		},
 		"removesong": {
-			"description": "Xóa một bài hát khỏi danh sách phát",
+			"description": "Xóa bài khỏi playlist cá nhân! 🗑️",
 			"messages": {
-				"error_occurred": "Đã xảy ra lỗi khi cố gắng xóa bài hát.",
-				"playlist_not_exist": "Không tìm thấy danh sách phát đó.",
-				"provide_playlist": "Vui lòng nhập tên danh sách phát.",
-				"provide_song": "Vui lòng nhập tên hoặc liên kết bài hát.",
-				"song_not_found": "Không tìm thấy bài hát trong danh sách phát.",
-				"song_removed": "Đã xóa bài hát **{song}** khỏi danh sách phát **{playlist}**."
+				"error_occurred": "Ối! Lỗi khi xóa bài hát 😢",
+				"playlist_not_exist": "Không có playlist này. Kiểm tra lại tên xem! 🔍",
+				"provide_playlist": "Chọn playlist đi bạn! Tên playlist nào? 📝",
+				"provide_song": "Bài hát nào muốn xóa? Cho mình tên hoặc link nhé! 🎵",
+				"song_not_found": "Không tìm thấy bài này trong playlist 🔍",
+				"song_removed": "Đã xóa **{song}** khỏi **{playlist}** rồi! 👋"
 			},
 			"options": {
-				"playlist": "Tên danh sách phát bạn muốn xóa khỏi",
-				"song": "Tên hoặc liên kết bài hát bạn muốn xóa"
+				"playlist": "Tên playlist muốn xóa bài khỏi",
+				"song": "Tên hoặc link bài muốn xóa"
 			}
 		},
 		"replay": {
-			"description": "Phát lại bài hát hiện tại từ đầu",
+			"description": "Phát lại bài này từ đầu! Nghe lại thôi 🔁",
 			"errors": {
-				"not_seekable": "Không thể phát lại bài hát này vì không thể tua lại được."
+				"not_seekable": "Không thể tua lại bài này. Có lẽ đang livestream? 📹"
 			},
 			"messages": {
-				"replaying": "Đang phát lại bài hát từ đầu."
+				"replaying": "Replay từ đầu! Nghe lại luyện quá 🔁"
 			}
 		},
 		"reset": {
-			"description": "Đặt lại tất cả bộ lọc âm thanh",
+			"description": "Xóa hết bộ lọc, trở về âm thanh gốc! ✨",
 			"messages": {
-				"filters_reset": "`✅` | Tất cả bộ lọc đã được đặt lại."
+				"filters_reset": "Tất cả bộ lọc đã reset! Âm thanh gốc rồi 🎵"
 			}
 		},
 		"resume_session": {
-			"no_session_found": "Không tìm thấy phiên cuối cùng.",
-			"resume_failed": "Đã xảy ra lỗi. Không thể khôi phục phiên.",
-			"resumed": "Khôi phục phiên thành công."
+			"no_session_found": "Không có phiên nào trước đó cả. Bắt đầu mới thôi! 🎉",
+			"resume_failed": "Ối! Không khôi phục được phiên. Thử phát lại từ đầu xem 😢",
+			"resumed": "Khôi phục phiên thành công! Tiếp tục nghe nào 🎵"
 		},
 		"resume": {
-			"description": "Tiếp tục phát bài hát đã tạm dừng",
+			"description": "Tiếp tục phát nhạc! Bật lại thôi ▶️",
 			"errors": {
-				"not_paused": "Bài hát hiện không bị tạm dừng."
+				"not_paused": "Nhạc đang chạy mà! Không cần resume đâu 😊"
 			},
 			"messages": {
-				"resumed": "Đã tiếp tục phát nhạc.",
-				"vote_embed": "Bỏ phiếu để tiếp tục phát: **{votes}/{needed}**\n✅ để tiếp tục, ❌ để giữ nguyên tạm dừng.",
+				"resumed": "Tiếp tục phát rồi! Nghe tiếp nào 🎶",
+				"vote_embed": "Vote để tiếp tục phát: **{votes}/{needed}**\n✅ Phát tiếp, ❌ Giữ pause",
 				"button_yes": "✅ Tiếp tục",
-				"button_no": "❌ Giữ tạm dừng",
-				"already_voted": "Bạn đã bỏ phiếu rồi."
+				"button_no": "❌ Giữ pause",
+				"already_voted": "Bạn vote rồi! Chờ kết quả nhé 😊"
 			}
 		},
 		"rotation": {
-			"description": "Bật/tắt hiệu ứng Rotation",
+			"description": "Hiệu ứng xoay - âm thanh xoay vòng! 🌀",
 			"messages": {
-				"disabled": "`✅` | Bộ lọc Rotation đã được `TẮT`.",
-				"enabled": "`✅` | Bộ lọc Rotation đã được `BẬT`."
+				"disabled": "Đã tắt rotation. Âm thanh bình thường rồi! ✨",
+				"enabled": "Rotation đã bật! Âm thanh xoay vòng xung quanh 🌀"
 			}
 		},
 		"save_session": {
-			"saved": "Đã lưu thành công {saved} phiên. Không thể lưu {failed} phiên."
+			"saved": "Lưu được {saved} phiên! Không lưu được {failed} phiên 💾"
 		},
 		"search": {
-			"description": "Tìm kiếm một bài hát để phát",
+			"description": "Tìm nhạc và chọn bài muốn phát! 🔍",
 			"errors": {
-				"no_results": "Không tìm thấy kết quả phù hợp.",
-				"search_error": "Đã xảy ra lỗi trong quá trình tìm kiếm."
+				"no_results": "Không tìm thấy bài nào cả! Thử từ khóa khác xem 🔍",
+				"search_error": "Lỗi khi tìm nhạc! Thử lại nào 😢"
 			},
 			"messages": {
-				"added_to_queue": "Đã thêm [{title}]({uri}) vào hàng chờ."
+				"added_to_queue": "Đã thêm [{title}]({uri}) vào hàng chờ! 🎵"
 			},
 			"options": {
-				"song": "Tên hoặc liên kết bài hát bạn muốn tìm"
+				"song": "Tên bài hát muốn tìm"
 			},
-			"select": "Vui lòng chọn bài hát bạn muốn phát"
+			"select": "Chọn bài nào muốn phát nhé! 🎶"
 		},
 		"seek": {
-			"description": "Chuyển đến một thời điểm cụ thể trong bài hát",
+			"description": "Tua đến thời điểm bất kỳ trong bài hát! ⏩",
 			"errors": {
-				"beyond_duration": "Không thể tua vượt quá thời lượng bài hát là {length}.",
-				"invalid_format": "Định dạng thời gian không hợp lệ. Ví dụ: seek 1m hoặc seek 1h 30m",
-				"not_seekable": "Không thể tua bài hát này."
+				"beyond_duration": "Không thể tua quá {length}. Bài này chỉ dài bấy nhiêu thôi! 😅",
+				"invalid_format": "Định dạng sai rồi! Ví dụ: 1m30s hoặc 2m 🕒",
+				"not_seekable": "Không tua được bài này. Có lẽ livestream? 📹"
 			},
 			"messages": {
-				"seeked_to": "Đã chuyển đến thời điểm {duration}."
+				"seeked_to": "Đã tua đến {duration}! ⏩"
 			},
 			"options": {
-				"duration": "Thời gian bạn muốn chuyển đến (ví dụ: 1m, 1h 30m)"
+				"duration": "Thời điểm muốn tua đến (ví dụ: 1m30s, 2m)"
 			}
 		},
 		"setup": {
-			"description": "Thiết lập các chức năng của bot",
+			"description": "Thiết lập kênh yêu cầu nhạc chuyên biệt! ⚙️",
 			"errors": {
-				"channel_delete_fail": "Kênh yêu cầu bài hát đã bị xóa. Nếu kênh vẫn còn tồn tại, vui lòng xóa nó thủ công.",
-				"channel_exists": "Kênh yêu cầu bài hát đã tồn tại.",
-				"channel_not_exists": "Không tìm thấy kênh yêu cầu bài hát."
+				"channel_delete_fail": "Kênh đã xóa nhưng còn sót. Bạn xóa thủ công giúp mình nhé! 🗑️",
+				"channel_exists": "Kênh yêu cầu nhạc đã có rồi! Không cần tạo nữa 😊",
+				"channel_not_exists": "Chưa có kênh yêu cầu nhạc nào. Tạo mới đi! 🎵"
 			},
 			"messages": {
-				"channel_created": "Đã tạo kênh yêu cầu bài hát tại <#{channelId}>.",
-				"channel_deleted": "Kênh yêu cầu bài hát đã được xóa.",
-				"channel_info": "Kênh yêu cầu bài hát hiện tại là <#{channelId}>."
+				"channel_created": "Tạo kênh yêu cầu nhạc tại <#{channelId}> rồi! 🎉",
+				"channel_deleted": "Đã xóa kênh yêu cầu nhạc. Bye bye! 👋",
+				"channel_info": "Kênh yêu cầu nhạc hiện tại: <#{channelId}> 🎵"
 			},
 			"options": {
-				"create": "Tạo kênh yêu cầu bài hát",
-				"delete": "Xóa kênh yêu cầu bài hát",
-				"info": "Hiển thị thông tin kênh yêu cầu bài hát"
+				"create": "Tạo kênh yêu cầu nhạc mới",
+				"delete": "Xóa kênh yêu cầu nhạc",
+				"info": "Xem thông tin kênh yêu cầu nhạc"
 			}
 		},
 		"shuffle": {
-			"description": "Xáo trộn hàng chờ phát nhạc",
+			"description": "Xáo trộn hàng chờ - bất ngờ thú vị hơn! 🔀",
 			"errors": {
-				"fairplay": "Chế độ phát công bằng đang được bật. Bạn không thể xáo trộn hàng chờ."
+				"fairplay": "Chế độ fairplay đang bật nên không xáo được. Tắt fairplay đi! ⚖️"
 			},
 			"messages": {
-				"shuffled": "Đã xáo trộn hàng chờ."
+				"shuffled": "Đã xáo trộn hàng chờ! Bất ngờ nhạc nào tiếp theo luôn 🔀"
 			}
 		},
 		"skip": {
-			"description": "Bỏ qua bài hát hiện tại",
+			"description": "Bỏ qua bài này, nghe bài khác! ⏭️",
 			"messages": {
-				"skipped": "Đã bỏ qua [{title}]({uri}).",
-				"vote_embed": "Bỏ phiếu để bỏ qua bài hát này: **{votes}/{needed}** phiếu cần thiết.",
+				"skipped": "Bỏ qua [{title}]({uri}) rồi! Nghe tiếp nào ⏭️",
+				"vote_embed": "Vote để skip bài này: **{votes}/{needed}** phiếu",
 				"button_skip": "Bỏ Qua",
 				"button_keep": "Giữ Lại",
-				"button_yes": "✅ Bỏ qua",
-				"button_no": "❌ Giữ lại",
-				"already_voted": "Bạn đã bỏ phiếu rồi."
+				"button_yes": "✅ Skip",
+				"button_no": "❌ Giữ",
+				"already_voted": "Bạn vote rồi! Chờ mọi người vote nữa nhé 😊",
+				"vote_registered": "Đã nhận phiếu! Cần {votes}/{needed} để skip 🗳️"
 			}
 		},
 		"skipto": {
-			"description": "Bỏ qua đến một bài hát cụ thể trong hàng chờ",
+			"description": "Nhảy thẳng đến bài bất kỳ trong hàng chờ! 🎯",
 			"errors": {
-				"invalid_number": "Vui lòng nhập một số hợp lệ."
+				"invalid_number": "Nhập số thứ tự bài hát đi! Ví dụ: 5 🔢"
 			},
 			"messages": {
-				"skipped_to": "Đã bỏ qua đến bài hát số {number}."
+				"skipped_to": "Nhảy đến bài số {number} rồi! 🎯"
 			},
 			"options": {
-				"number": "Vị trí bài hát bạn muốn bỏ qua đến"
+				"number": "Số thứ tự bài muốn nhảy đến"
 			}
 		},
 		"speed": {
-			"description": "Thay đổi tốc độ phát nhạc",
+			"description": "Thay đổi tốc độ nhạc! Nhanh hơn hoặc chậm hơn ⚡",
 			"messages": {
-				"invalid_number": "Vui lòng nhập một số hợp lệ từ 0.5 đến 5.",
-				"set_speed": "`✅` | Tốc độ đã được đặt thành **{speed}**."
+				"invalid_number": "Số không hợp lệ! Thử từ 0.5 đến 5 (1.25 là nhanh vừa) 🔢",
+				"set_speed": "Tốc độ đã đặt thành **{speed}**! Nghe thử xem ⚡"
 			},
 			"options": {
-				"speed": "Giá trị tốc độ bạn muốn đặt (từ 0.5 đến 5)"
+				"speed": "Tốc độ muốn đặt (0.5 - 5)"
 			}
 		},
 		"steal": {
-			"description": "Sao chép danh sách phát của người khác vào danh sách phát của bạn",
+			"description": "Copy playlist của người khác về cho mình! 🤫",
 			"messages": {
-				"error_occurred": "Đã xảy ra lỗi khi sao chép danh sách phát.",
-				"playlist_not_exist": "Người dùng này không có danh sách phát với tên đó.",
-				"playlist_stolen": "Đã sao chép danh sách phát `{playlist}` từ {user} vào danh sách phát của bạn thành công.",
-				"provide_playlist": "Vui lòng nhập tên danh sách phát.",
-				"provide_user": "Vui lòng nhắc đến một người dùng."
+				"error_occurred": "Ối! Lỗi khi copy playlist 😢",
+				"playlist_not_exist": "Người này không có playlist tên đó. Kiểm tra lại xem! 🔍",
+				"playlist_stolen": "Copy thành công playlist `{playlist}` của {user}! Giờ là của bạn rồi 🎉",
+				"provide_playlist": "Cho mình tên playlist muốn copy! 📝",
+				"provide_user": "Mention người có playlist muốn copy! 👤"
 			},
 			"options": {
-				"playlist": "Tên danh sách phát bạn muốn sao chép",
-				"user": "Người dùng mà bạn muốn sao chép danh sách phát từ"
+				"playlist": "Tên playlist muốn copy",
+				"user": "Người có playlist muốn copy"
 			}
 		},
 		"stop": {
-			"description": "Dừng phát nhạc và xóa toàn bộ hàng chờ",
+			"description": "Dừng hẳn nhạc và xóa sạch hàng chờ! ⏹️",
 			"messages": {
-				"stopped": "Đã dừng phát nhạc và xóa hàng chờ.",
-				"vote_embed": "Bỏ phiếu để dừng phát nhạc: **{votes}/{needed}** phiếu cần thiết.",
+				"stopped": "Đã dừng nhạc và xóa hàng chờ rồi! Bắt đầu mới nào 🎵",
+				"vote_embed": "Vote để dừng nhạc: **{votes}/{needed}** phiếu",
 				"button_stop": "Dừng",
-				"button_keep": "Tiếp tục phát",
+				"button_keep": "Phát tiếp",
 				"button_yes": "✅ Dừng",
 				"button_no": "❌ Tiếp tục",
-				"already_voted": "Bạn đã bỏ phiếu rồi."
+				"already_voted": "Bạn vote rồi! Chờ kết quả nhé 😊"
 			}
 		},
 		"tremolo": {
-			"description": "Bật/tắt hiệu ứng Tremolo",
+			"description": "Hiệu ứng tremolo - âm thanh rung! 🌊",
 			"messages": {
-				"disabled": "`✅` | Bộ lọc Tremolo đã được `TẮT`.",
-				"enabled": "`✅` | Bộ lọc Tremolo đã được `BẬT`."
+				"disabled": "Đã tắt tremolo. Âm thanh bình thường rồi! ✨",
+				"enabled": "Tremolo đã bật! Âm thanh rung động nhẹ nhàng 🌊"
 			}
 		},
 		"vibrato": {
-			"description": "Bật/tắt hiệu ứng Vibrato",
+			"description": "Hiệu ứng vibrato - âm thanh dao động! 🎶",
 			"messages": {
-				"disabled": "`✅` | Bộ lọc Vibrato đã được `TẮT`.",
-				"enabled": "`✅` | Bộ lọc Vibrato đã được `BẬT`."
+				"disabled": "Đã tắt vibrato. Trở về âm thanh gốc! ✨",
+				"enabled": "Vibrato đã bật! Âm thanh dao động đẹp mắt 🎶"
 			}
 		},
 		"volume": {
-			"description": "Điều chỉnh âm lượng của trình phát",
+			"description": "Điều chỉnh âm lượng! To nhỏ tùy bạn 🔊",
 			"messages": {
-				"invalid_number": "Vui lòng nhập một số hợp lệ.",
-				"set": "Âm lượng đã được đặt thành {volume}.",
-				"too_high": "Âm lượng không thể cao hơn 200. Bạn có định làm hỏng tai hoặc loa của mình không? Tôi không nghĩ đó là một ý hay đâu.",
-				"too_low": "Âm lượng không thể thấp hơn 0."
+				"invalid_number": "Nhập số từ 0-200 nhé! Ví dụ: 80 🔢",
+				"set": "Âm lượng đã đặt thành {volume}! Vừa đủ chưa? 🔊",
+				"too_high": "Nhỏ thôi! Quá 200 là hại tai đấy! Mình không muốn bạn bị điếc đâu 😱",
+				"too_low": "Không thể thấp hơn 0 được! Ít nhất phải có chút âm thanh chứ 😅"
 			},
 			"options": {
-				"number": "Mức âm lượng bạn muốn đặt"
+				"number": "Mức âm lượng (0-200)"
 			}
 		}
 	},
 	"Evaluate code": "Đánh giá mã",
 	"event": {
 		"interaction": {
-			"cooldown": "Vui lòng đợi {time} giây nữa trước khi sử dụng lệnh `{command}` này.",
-			"different_voice_channel": "Bạn phải kết nối với {channel} để sử dụng lệnh `{command}` này.",
-			"error": "Đã xảy ra lỗi: `{error}`",
-			"no_connect_permission": "Tôi không có quyền `CONNECT` để thực hiện lệnh `{command}` này.",
-			"no_dj_permission": "Bạn cần có vai trò DJ để sử dụng lệnh này.",
-			"no_dj_role": "Vai trò DJ chưa được thiết lập.",
-			"no_embed_links": "Tôi không có quyền **`EmbedLinks`**.",
-			"no_music_playing": "Hiện không có bài hát nào đang phát.",
-			"no_permission": "Tôi không có đủ quyền để thực hiện lệnh này. Tôi cần những quyền sau đây để thực hiện lệnh này: {permissions}.",
-			"no_request_to_speak": "Tôi không có quyền `REQUEST TO SPEAK` để thực hiện lệnh `{command}` này.",
-			"no_send_message": "Tôi không có quyền **`SendMessages`** trong `{guild}`.\nKênh: {channel}.",
-			"no_speak_permission": "Tôi không có quyền `SPEAK` để thực hiện lệnh `{command}` này.",
-			"no_user_permission": "Bạn không có đủ quyền để sử dụng lệnh này. Bạn cần những quyền sau đây để thực hiện lệnh này: {permissions}.",
-			"no_voice_channel": "Bạn cần tham gia một kênh thoại để sử dụng lệnh `{command}` này.",
-			"setup_channel": "Bạn không thể sử dụng lệnh này trong kênh thiết lập.",
-			"vote_button": "Bình chọn cho tôi!",
-			"vote_message": "Chờ chút! Bạn cần bình chọn cho bot trên top.gg để sử dụng lệnh này. Cảm ơn bạn!"
+			"cooldown": "Chờ {time} giây nữa nhé! Lệnh `{command}` đang cooldown ⏱️",
+			"different_voice_channel": "Vào {channel} đi bạn! Mình đang ở đó mà 🎵",
+			"error": "Lỗi rồi: `{error}` 😢",
+			"no_connect_permission": "Mình không có quyền vào kênh thoại! Bạn cho mình quyền `CONNECT` nhé 🔒",
+			"no_dj_permission": "Chỉ DJ mới dùng được lệnh này thôi! 🎧",
+			"no_dj_role": "Chưa thiết lập vai trò DJ. Dùng lệnh `dj` để thiết lập nhé! 🎭",
+			"no_embed_links": "Mình cần quyền `EmbedLinks` để hiển thị embed đẹp đẹp! 📊",
+			"no_music_playing": "Không có nhạc nào đang phát cả! Phát một bài đi nào 🎵",
+			"no_permission": "Mình thiếu quyền! Cần các quyền sau: {permissions} 🔒",
+			"no_request_to_speak": "Mình cần quyền `REQUEST TO SPEAK` cho kênh stage này! 🎭",
+			"no_send_message": "Mình không có quyền gửi tin nhắn trong `{guild}`\nKênh: {channel} 💬",
+			"no_speak_permission": "Mình không có quyền nói trong kênh thoại! Cho mình quyền `SPEAK` nhé 🔊",
+			"no_user_permission": "Bạn thiếu quyền để dùng lệnh này! Cần: {permissions} ⚠️",
+			"no_voice_channel": "Vào kênh thoại trước đi bạn! Mình cần biết bạn ở đâu 🎵",
+			"setup_channel": "Không thể dùng lệnh này trong kênh setup! Dùng kênh khác nhé 🚫",
+			"vote_button": "Vote cho mình! ⭐",
+			"vote_message": "Chờ chút! Vote cho mình trên top.gg để dùng lệnh này nhé! Cảm ơn bạn! 💖",
+			"bot_busy_different_vc": "Mình đang phát nhạc ở kênh khác rồi! Dùng bot khác hoặc chờ mình rảnh nhé 🎶",
+			"bot_busy_get_more": "Mình bận rồi! Thêm nhiều bot để phát nhạc nhiều phòng cùng lúc nhé! 🎵",
+			"get_more_bots_button": "Thêm Bot ➕"
 		},
 		"message": {
-			"cooldown": "Vui lòng đợi {time} giây nữa trước khi sử dụng lệnh `{command}` này.",
-			"different_voice_channel": "Bạn phải kết nối với {channel} để sử dụng lệnh `{command}` này.",
-			"different_voice_channel_queue": "Bạn cần tham gia <#{channel}> để xếp hàng bài hát.",
-			"error": "Đã xảy ra lỗi: `{error}`",
-			"maintenance": "Bot đang được bảo trì. Vui lòng quay lại sau.",
-			"missing_arguments": "Thiếu đối số",
-			"missing_arguments_description": "Vui lòng cung cấp đủ đối số cho lệnh `{command}`.\n\nVí dụ:\n{examples}",
-			"no_connect_permission": "Tôi không có quyền `CONNECT` để thực hiện lệnh `{command}` này.",
-			"no_dj_permission": "Bạn cần có vai trò DJ để sử dụng lệnh này.",
-			"no_dj_role": "Vai trò DJ chưa được thiết lập.",
-			"no_embed_links": "Tôi không có quyền **`EmbedLinks`**.",
-			"no_free_bots": "Hiện không có bot nào khả dụng. Bạn có thể muốn thêm nhiều bot hơn vào máy chủ này.",
-			"no_bots_configured": "Chưa có bot âm nhạc nào được thêm vào máy chủ này. Vui lòng mời bot trước!",
-			"no_mention_everyone": "Bạn không thể sử dụng lệnh này với `@everyone` hoặc `@here`. Vui lòng sử dụng lệnh slash.",
-			"no_music_playing": "Hiện không có bài hát nào đang phát.",
-			"no_permission": "Tôi không có đủ quyền để thực hiện lệnh này. Tôi cần những quyền sau đây để thực hiện lệnh này: {permissions}.",
-			"no_permission_connect_speak": "Tôi không có đủ quyền để kết nối hoặc nói trong <#{channel}>.",
-			"no_request_to_speak": "Tôi không có quyền `REQUEST TO SPEAK` để thực hiện lệnh `{command}` này.",
-			"no_send_message": "Tôi không có quyền **`SendMessages`** trong `{guild}`.\nKênh: {channel}.",
-			"no_speak_permission": "Tôi không có quyền `SPEAK` để thực hiện lệnh `{command}` này.",
-			"no_user_permission": "Bạn không có đủ quyền để sử dụng lệnh này. Bạn cần những quyền sau đây để thực hiện lệnh này: {permissions}.",
-			"no_voice_channel": "Bạn cần tham gia một kênh thoại để sử dụng lệnh `{command}` này.",
-			"no_voice_channel_queue": "Bạn cần tham gia kênh thoại để xếp hàng bài hát.",
-			"prefix_mention": "Xin chào! Tiền tố của tôi cho máy chủ này là `{prefix}`. Để biết thêm thông tin, hãy sử dụng `{prefix}help`.\nChúc bạn vui vẻ và an toàn!",
-			"syntax_footer": "Cú pháp: [] = tùy chọn, <> = bắt buộc • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
-			"voice_channel_full": "Kênh thoại <#{channel}> đã đầy. Vui lòng chuyển sang kênh khác hoặc tăng giới hạn thành viên.",
-			"vote_button": "Bình chọn cho tôi!",
-			"vote_message": "Chờ chút! Bạn cần bình chọn cho bot trên top.gg để sử dụng lệnh này. Cảm ơn bạn!"
+			"cooldown": "Chờ {time} giây nữa nhé! Lệnh `{command}` đang cooldown ⏱️",
+			"different_voice_channel": "Vào {channel} đi bạn! Mình đang ở đó 🎵",
+			"different_voice_channel_queue": "Vào <#{channel}> đã để thêm nhạc vào hàng chờ! 🎶",
+			"error": "Lỗi: `{error}` 😢",
+			"maintenance": "Bot đang bảo trì! Quay lại sau nhé 🔧",
+			"missing_arguments": "Thiếu tham số rồi!",
+			"missing_arguments_description": "Cần thêm tham số cho lệnh `{command}` nhé!\n\nVí dụ:\n{examples}",
+			"no_connect_permission": "Mình không có quyền vào kênh thoại! Cho mình quyền `CONNECT` 🔒",
+			"no_dj_permission": "Chỉ DJ mới dùng được! 🎧",
+			"no_dj_role": "Chưa có vai trò DJ. Dùng lệnh `dj` để thiết lập! 🎭",
+			"no_embed_links": "Mình cần quyền `EmbedLinks` để hiển thị đẹp! 📊",
+			"no_free_bots": "Không có bot nào rảnh! Thêm bot khác vào server xem 🤖",
+			"no_bots_configured": "Chưa có bot nhạc nào trong server! Mời bot vào trước nhé 🎵",
+			"no_mention_everyone": "Không mention `@everyone` hoặc `@here` nhé! Dùng slash command thôi 🚫",
+			"no_music_playing": "Không có nhạc nào đang phát! Phát một bài đi 🎵",
+			"no_permission": "Mình thiếu quyền! Cần: {permissions} 🔒",
+			"no_permission_connect_speak": "Mình không có quyền vào/nói trong <#{channel}>! 🔊",
+			"no_request_to_speak": "Mình cần quyền `REQUEST TO SPEAK` cho stage! 🎭",
+			"no_send_message": "Mình không gửi được tin nhắn trong `{guild}`\nKênh: {channel} 💬",
+			"no_speak_permission": "Mình cần quyền `SPEAK` để phát nhạc! 🔊",
+			"no_user_permission": "Bạn thiếu quyền! Cần: {permissions} ⚠️",
+			"no_voice_channel": "Vào kênh thoại trước đi bạn! 🎵",
+			"no_voice_channel_queue": "Vào kênh thoại để thêm nhạc! 🎶",
+			"prefix_mention": "Xin chào! Tiền tố của mình là `{prefix}` nhé. Muốn biết thêm thì dùng `{prefix}help`!\nChúc bạn vui vẻ! 🎉",
+			"syntax_footer": "Cú pháp: [] = tùy chọn, <> = bắt buộc • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
+			"voice_channel_full": "Kênh <#{channel}> đầy rồi! Sang kênh khác hoặc tăng giới hạn thành viên 😅",
+			"vote_button": "Vote cho mình! ⭐",
+			"vote_message": "Vote cho mình trên top.gg để dùng lệnh này nhé! Cảm ơn! 💖"
 		},
 		"setupButton": {
-			"button_not_available": "⛔ Nút này hiện không khả dụng.",
-			"different_voice_channel_button": "Bạn phải kết nối với {channel} để sử dụng các nút điều khiển.",
-			"forward_footer": "Tua tới bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
-			"forward_limit": "Bạn không thể tua tới quá thời lượng bài hát.",
-			"forwarded": "⏩ Đã tua tới nhạc.",
+			"button_not_available": "⛔ Nút này hiện không sài được!",
+			"different_voice_channel_button": "Vào {channel} để dùng nút điều khiển nhé! 🎵",
+			"forward_footer": "Tua tới bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
+			"forward_limit": "Không thể tua quá thời lượng bài! Quá giới hạn rồi 😅",
+			"forwarded": "⏩ Đã tua tới nhạc rồi!",
 			"live": "🔴 TRỰC TIẾP",
-			"loop_footer": "Lặp lại: {loop} • Bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
-			"loop_set": "🔁 Lặp lại đã được đặt thành {loop}.",
-			"no_dj_permission": "Bạn cần có vai trò DJ để sử dụng nút này.",
-			"no_music_playing": "Không có nhạc nào đang phát trong máy chủ này.",
-			"no_music_to_skip": "Không có bài hát nào để bỏ qua.",
-			"no_previous_track": "Không có bài hát trước đó.",
-			"no_voice_channel_button": "Bạn cần tham gia kênh thoại để sử dụng nút này.",
-			"nothing_playing": "Hiện tại không có gì đang phát.",
+			"loop_footer": "Lặp lại: {loop} • Bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
+			"loop_set": "🔁 Lặp lại đã chỉnh thành {loop} nhé!",
+			"no_dj_permission": "Chỉ DJ mới dùng được nút này thôi! 🎧",
+			"no_music_playing": "Không có nhạc nào đang phát! Bắt đầu đi nào 🎵",
+			"no_music_to_skip": "Không có bài nào để skip! 😅",
+			"no_previous_track": "Không có bài trước nào cả! ⏪",
+			"no_voice_channel_button": "Vào kênh thoại trước đã nhé! 🎵",
+			"nothing_playing": "Hiện không có gì đang phát! 😴",
 			"now_playing": "🎶 Đang phát",
-			"pause_resume": "{name} nhạc.",
-			"pause_resume_footer": "{name} bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
-			"paused": "⏸ Đã tạm dừng nhạc.",
-			"playing_previous": "Đang phát bài hát trước đó.",
-			"previous_footer": "Phát bài hát trước bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
+			"pause_resume": "{name} nhạc rồi!",
+			"pause_resume_footer": "{name} bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
+			"paused": "⏸ Đã tạm dừng nhạc!",
+			"playing_previous": "Đang phát bài trước! ⏮️",
+			"previous_footer": "Phát bài trước bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
 			"requested_by": "Yêu cầu bởi <@{requester}>",
-			"resumed": "▶️ Đã tiếp tục nhạc.",
-			"rewind_footer": "Tua lại bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
-			"rewinded": "⏪ Đã tua lại nhạc.",
-			"shuffled": "🔀 Đã xáo trộn danh sách phát.",
-			"skipped": "⏭ Đã bỏ qua bài hát.",
-			"skipped_footer": "Bỏ qua bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
-			"stopped": "⏹ Đã dừng nhạc.",
-			"stopped_footer": "Dừng bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
-			"volume_footer": "Âm lượng: {vol}% • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ♥️",
-			"volume_set": "Âm lượng đã được đặt thành {vol}%."
+			"resumed": "▶️ Đã tiếp tục nhạc! Nghe tiếp nào 🎵",
+			"rewind_footer": "Tua lại bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
+			"rewinded": "⏪ Đã tua lại nhạc!",
+			"shuffled": "🔀 Xáo hàng chờ rồi! Bất ngờ chưa? 🎲",
+			"skipped": "⏭ Skip bài rồi! Bài kế tiếp nào 🎵",
+			"skipped_footer": "Skip bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
+			"stopped": "⏹ Đã dừng nhạc! Mở lại bất cứ khi nào nhé 👋",
+			"stopped_footer": "Dừng bởi {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
+			"volume_footer": "Âm lượng: {vol}% • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
+			"volume_set": "Âm lượng đã chỉnh thành {vol}%! Vừa không? 🔊"
 		},
 		"voice_state_update": {
-			"kicked": "Bot đã bị ngắt kết nối khỏi kênh thoại <#{channelId}>.",
-			"moved": "Bot đã di chuyển sang kênh <#{channelId}>.",
-			"left_due_to_timeout_no_listeners": "Bot đã rời khỏi kênh thoại <#{channelId}> do không hoạt động (không có người nghe).",
-			"left_due_to_timeout_no_songs": "Bot đã rời khỏi kênh thoại <#{channelId}> do không có bài hát nào."
+			"kicked": "Mình bị ngắt kết nối khỏi kênh <#{channelId}>! Ai làm vậy? 😢",
+			"moved": "Mình đã chuyển sang kênh <#{channelId}> rồi! 🚚",
+			"left_due_to_timeout_no_listeners": "Mình rời kênh <#{channelId}> rồi vì không có ai nghe! Nhớ quay lại nhé 👋",
+			"left_due_to_timeout_no_songs": "Mình rời kênh <#{channelId}> vì hết nhạc rồi! Phát tiếp lần sau nhé 🎵",
+			"moved_to_channel_with_another_bot": "Oop! Kênh này đã có bot khác rồi! Mình thử quay lại kênh cũ <#{originalChannelId}> xem sao... 🔄",
+			"rejoined_original_channel": "Phù! Quay lại kênh cũ <#{channelId}> thành công rồi! 🎉",
+			"cannot_rejoin_stopping": "Không vào lại được kênh cũ <#{originalChannelId}>! Mình phải dừng nhạc và rời đi thôi... 😢"
 		}
 	},
 	"Leave a guild": "Rời khỏi một máy chủ",
 	"List all guilds the bot is in": "Liệt kê tất cả các máy chủ mà bot đang tham gia",
 	"maintenance": {
-		"affected_title": "🕒 Các chức năng bị ảnh hưởng",
-		"affected_value": "Các lệnh về nhạc và hàng đợi tạm thời bị vô hiệu hóa.",
-		"disabled_desc": "Bot đã **hoạt động bình thường trở lại**.",
+		"affected_title": "🕒 Chức năng bị ảnh hưởng",
+		"affected_value": "Các lệnh nhạc và hàng chờ tạm thời không dùng được. Chờ chút nhé!",
+		"disabled_desc": "Bot **hoạt động bình thường** trở lại rồi! Phát nhạc thoải mái nào 🎵",
 		"disabled_title": "✅ Đã Tắt Chế Độ Bảo Trì",
-		"enabled_desc": "Bot hiện đang ở **chế độ bảo trì**. Các lệnh phát nhạc đã bị vô hiệu hóa.",
+		"enabled_desc": "Bot đang **bảo trì**! Các lệnh phát nhạc tạm thời khóa. Quay lại sau nhé! 🔧",
 		"enabled_title": "🛠️ Đã Bật Chế Độ Bảo Trì",
 		"field_title": "🔧 Bảo trì",
-		"global_field_fetch_failed": "⚠️ Không thể lấy dữ liệu.",
+		"global_field_fetch_failed": "⚠️ Không lấy được dữ liệu! Thử lại nhé",
 		"global_field_value_disabled": "```diff\n- Tất cả ĐANG HOẠT ĐỘNG BÌNH THƯỜNG\n```",
 		"global_field_value_enabled": "```diff\n+ {count}/{total} ĐANG BẢO TRÌ\n```",
 		"local_field_disabled": "```diff\n- ĐANG HOẠT ĐỘNG BÌNH THƯỜNG\n```",
@@ -727,49 +757,54 @@
 	},
 	"player": {
 		"errors": {
-			"already_paused": "Bài hát đã bị tạm dừng rồi.",
-			"no_channel": "Bạn cần tham gia một kênh thoại để sử dụng lệnh này.",
-			"no_player": "Hiện không có trình phát nào đang hoạt động trong máy chủ này.",
-			"no_previous": "Không có bài hát trước đó trong danh sách phát.",
-			"no_song": "Không có bài hát nào trong danh sách phát.",
-			"queue_empty": "Danh sách phát hiện đang trống."
+			"already_paused": "Bài hát đang pause rồi mà! 😅",
+			"no_channel": "Vào kênh thoại trước đã nhé! Mình cần biết bạn ở đâu 🎵",
+			"not_in_voice": "Bạn phải ở trong kênh thoại để vote cho nhạc! 🗳️",
+			"no_player": "Không có nhạc nào đang phát! Bắt đầu nghe đi nào 🎶",
+			"no_previous": "Không có bài trước nào cả! Đây là bài đầu tiên rồi 🎵",
+			"no_song": "Không có bài nào trong hàng chờ! Thêm nhạc vào đi 🎶",
+			"queue_empty": "Hàng chờ trống rồng! Phát gì đó đi nào 🎵"
 		},
 		"setupStart": {
-			"added_playlist_to_queue": "✅ Đã thêm {length} bài hát từ danh sách phát vào danh sách chờ.",
-			"added_to_queue": "✅ Đã thêm [{title}]({uri}) vào danh sách phát.",
+			"added_playlist_to_queue": "✅ Đã thêm {length} bài từ playlist vào hàng chờ! Nghe nhạc thôi 🎶",
+			"added_to_queue": "✅ Đã thêm [{title}]({uri}) vào hàng chờ! 🎵",
 			"description": "[{title}]({uri}) của {author} • `[{length}]` • Yêu cầu bởi <@{requester}>",
-			"error_searching": "Đã xảy ra lỗi khi tìm kiếm bài hát.",
-			"no_results": "Không tìm thấy bài hát nào phù hợp.",
-			"nothing_playing": "Không có bài hát nào đang phát.",
+			"error_searching": "Ối! Có lỗi khi tìm nhạc! Thử lại xem 😢",
+			"no_results": "Không tìm thấy bài nào! Thử từ khóa khác xem 🔍",
+			"nothing_playing": "Không có nhạc nào đang phát! Bắt đầu nghe đi nào 🎵",
 			"now_playing": "🎶 Đang phát",
-			"playlist_too_long": "Danh sách phát quá dài. Tối đa {maxPlaylistSize} bài hát.",
-			"queue_too_long": "Danh sách phát đã đạt giới hạn. Tối đa {maxQueueSize} bài hát."
+			"playlist_too_long": "Playlist quá dài rồi! Tối đa {maxPlaylistSize} bài thôi nhé 😅",
+			"queue_too_long": "Hàng chờ đã đầy rồi! Giới hạn {maxQueueSize} bài 😅"
 		},
 		"trackStart": {
 			"author": "Tác giả",
 			"duration": "Thời lượng",
-			"looping_by": "🔂 Đang lặp lại bài hát bởi {user}",
+			"looping_by": "🔂 Đang lặp lại bài này bởi {user}",
 			"looping_off_by": "❌ Đã tắt lặp lại bởi {user}",
-			"looping_queue_by": "🔁 Đang lặp lại danh sách phát bởi {user}",
-			"need_dj_role": "Bạn cần có vai trò DJ để sử dụng lệnh này.",
-			"no_more_songs_in_queue": "Danh sách phát đã hết bài hát.",
-			"no_previous_song": "Không có bài hát trước đó.",
-			"not_connected_to_voice_channel": "Bạn không kết nối với <#{channel}> để sử dụng các nút điều khiển.",
+			"looping_queue_by": "🔁 Đang lặp lại hàng chờ bởi {user}",
+			"need_dj_role": "Chỉ DJ mới dùng được lệnh này! 🎧",
+			"no_more_songs_in_queue": "Hết nhạc rồi! Thêm bài khác đi nào 🎶",
+			"no_previous_song": "Không có bài trước! Đây là bài đầu rồi 🎵",
+			"not_connected_to_voice_channel": "Bạn không ở <#{channel}>! Vào đó để dùng nút điều khiển nhé 🎵",
 			"now_playing": "🎶 Đang phát",
 			"paused_by": "⏸ Tạm dừng bởi {user}",
 			"previous_by": "Bài trước bởi {user}",
 			"requested_by": "Yêu cầu bởi {user}",
 			"resumed_by": "▶️ Tiếp tục bởi {user}",
-			"skipped_by": "⏭ Bỏ qua bởi {user}"
+			"skipped_by": "⏭ Bỏ qua bài hát bởi {user}",
+			"vote_button": "Vote cho mình! ⭐",
+			"get_more_bots_button": "Thêm Bot ➕",
+			"periodic_message_vote_only": "🎵 Thích nhạc chứ? Vote cho mình trên Top.gg nhé! Mỗi vote giúp mình lớn mạnh hơn! ❤️",
+			"periodic_message_with_bots": "🎵 Thích nhạc chứ? Vote cho mình trên Top.gg! Muốn phát nhạc nhiều phòng? Thêm bot nào! 🎶"
 		}
 	},
 	"Restart the bot": "Khởi động lại bot",
 	"Show current maintenance status": "Hiển thị tình trạng bảo trì hiện tại",
 	"The loop mode you want to set": "Chế độ lặp lại bạn muốn đặt",
 	"will_leave": {
-		"no_listeners": "Bot sẽ rời đi sau {time} phút vì không có người nghe.",
-		"no_songs": "Bot sẽ rời đi sau {time} phút vì không có bài hát nào."
+		"no_listeners": "Mình sẽ rời sau {time} phút vì không có ai nghe! Chào tạm biệt 👋",
+		"no_songs": "Mình sẽ rời sau {time} phút vì không có nhạc! Phát tiếp nhé 🎵"
 	},
-	"will_restart_after": "Bot sẽ khởi động lại sau {time}",
-	"Show current maintenance status.": "Show current maintenance status."
+	"will_restart_after": "Mình sẽ khởi động lại sau {time}! Chờ mình tí nhé 🔄",
+	"Show current maintenance status.": "Hiển thị tình trạng bảo trì hiện tại."
 }

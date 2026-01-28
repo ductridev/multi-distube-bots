@@ -593,6 +593,13 @@
 		},
 		"save_session": {
 			"saved": "成功儲存 {saved} 個會話。無法儲存 {failed} 個會話。"
+		},
+		"vote": {
+			"description": "Quản lý hệ thống bỏ phiếu cho các lệnh nhạc",
+			"options": {
+				"toggle": "Bật hoặc tắt hệ thống bỏ phiếu",
+				"status": "Kiểm tra trạng thái hiện tại của hệ thống bỏ phiếu"
+			}
 		}
 	},
 	"buttons": {
@@ -607,6 +614,7 @@
 			"not_author": "您不能使用此按鈕。"
 		}
 	},
+
 	"player": {
 		"errors": {
 			"no_player": "此伺服器中沒有活動的播放器。",

@@ -572,6 +572,13 @@
 		},
 		"loop_queue": {
 			"description": "cmd.loop_queue.description"
+		},
+		"vote": {
+			"description": "Quản lý hệ thống bỏ phiếu cho các lệnh nhạc",
+			"options": {
+				"toggle": "Bật hoặc tắt hệ thống bỏ phiếu",
+				"status": "Kiểm tra trạng thái hiện tại của hệ thống bỏ phiếu"
+			}
 		}
 	},
 	"buttons": {
@@ -586,6 +593,7 @@
 			"not_author": "このボタンを使用する権限がありません。"
 		}
 	},
+
 	"player": {
 		"errors": {
 			"no_player": "このギルドにはアクティブなプレイヤーがありません。",

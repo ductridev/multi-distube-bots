@@ -605,6 +605,7 @@
 			"not_author": "Je kunt deze knop niet gebruiken."
 		}
 	},
+
 	"player": {
 		"errors": {
 			"no_player": "Er is geen actieve speler in deze server.",

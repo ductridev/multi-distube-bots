@@ -584,6 +584,7 @@
 		"not_author": "Non puoi usare questo pulsante."
 	  }
 	},
+
 	"player": {
 	  "errors": {
 		"no_player": "Non c'è nessun riproduttore attivo in questo server.",

@@ -1,575 +1,582 @@
 {
 	"cmd": {
 		"247": {
-			"description": "Set the bot to stay in the voice channel",
+			"description": "Keep me in the voice channel 24/7! I'll always be ready to play 🎵",
 			"errors": {
-				"not_in_voice": "You need to be in a voice channel to use this command.",
-				"generic": "An error occurred while trying to execute this command."
+				"not_in_voice": "Hey! Jump into a voice channel first so I know where to stay 🎵",
+				"generic": "Oops! Something went wrong. Try again? 🔧"
 			},
 			"messages": {
-				"disabled": "`✅` | 24/7 mode has been `DISABLED`.",
-				"enabled": "`✅` | 24/7 mode has been `ENABLED`."
+				"disabled": "24/7 mode is off! I'll leave when inactive now 👋",
+				"enabled": "24/7 mode is on! I'll stay here all day, every day 🎶"
 			}
 		},
 		"fairplay": {
-			"description": "Set the bot to play music fairly",
+			"description": "Fair play mode! Everyone gets an equal share of songs in the queue 🎲",
 			"errors": {
-				"not_in_voice": "You need to be in a voice channel to use this command.",
-				"generic": "An error occurred while trying to execute this command."
+				"not_in_voice": "Join a voice channel first! I need to know where the fairness happens 🎵",
+				"generic": "Oops! Hit a snag. Mind trying that again? 🔧"
 			},
 			"messages": {
-				"disabled": "`✅` | Fairplay mode has been `DISABLED`.",
-				"enabled": "`✅` | Fairplay mode has been `ENABLED`."
+				"disabled": "Fair play is off! Queue however you like now 🎵",
+				"enabled": "Fair play is on! Everyone gets equal song slots in the queue 🎲"
 			}
 		},
 		"ping": {
-			"description": "Shows the bot's ping.",
-			"content": "Pinging...",
+			"description": "Check my connection speed! See how fast I respond ⚡",
+			"content": "Checking my speed...",
 			"bot_latency": "Bot Latency",
 			"api_latency": "API Latency",
 			"requested_by": "Requested by {author}"
 		},
 		"lavalink": {
-			"description": "Shows the current Lavalink stats.",
+			"description": "Peek at my audio engine's performance! See how I'm running 📊",
 			"title": "Lavalink Stats",
 			"content": "Player: {players}\nPlaying Players: {playingPlayers}\nUptime: {uptime}\nCores: {cores} Core(s)\nMemory Usage: {used} / {reservable}\nSystem Load: {systemLoad}%\nLavalink Load: {lavalinkLoad}%",
 			"page_info": "Page {index} of {total}"
 		},
 		"invite": {
-			"description": "Get the bot invite link.",
-			"content": "You can invite me by clicking the button below. Any bugs or outages? Join the support server!"
+			"description": "Invite me to your server! Share the music love 💖",
+			"content": "Want me in your server? Click the button below! Need help or found a bug? Come hang out in the support server! 🎉"
 		},
 		"help": {
-			"description": "Shows the help menu.",
+			"description": "Need help? I've got you covered! See all my commands 📚",
 			"options": {
-				"command": "The command you want to get info on"
+				"command": "The command you want to learn about"
 			},
-			"content": "Hey there! I'm {bot}, a music bot made with [MultiBungoBot](https://github.com/ductridev/multi-distube-bots) and Discord.js. You can use `{prefix}help <command>` to get more info on a command.",
+			"content": "Hey there! I'm {bot}, your music companion 🎵 Built with love using [MultiBungoBot](https://github.com/ductridev/multi-distube-bots) and Discord.js. Use `{prefix}help <command>` to learn more about any command!",
 			"title": "Help Menu",
-			"not_found": "This `{cmdName}` command does not exist.",
+			"not_found": "Hmm, I don't recognize the `{cmdName}` command. Check your spelling? 🤔",
 			"help_cmd": "**Description:** {description}\n**Usage:** {usage}\n**Examples:** {examples}\n**Aliases:** {aliases}\n**Category:** {category}\n**Cooldown:** {cooldown} seconds\n**Permissions:** {premUser}\n**Bot Permissions:** {premBot}\n**Developer Only:** {dev}\n**Slash Command:** {slash}\n**Args:** {args}\n**Player:** {player}\n**DJ:** {dj}\n**DJ Permissions:** {djPerm}\n**Voice:** {voice}",
-			"footer": "Use {prefix}help <command> for more info on a command • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️"
+			"footer": "Use {prefix}help <command> for detailed info • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️"
 		},
 		"botinfo": {
-			"description": "Information about the bot",
+			"description": "Get to know me better! Check my stats and info 🤖",
 			"content": "Bot Information:\n- **Operating System**: {osInfo}\n- **Uptime**: {osUptime}\n- **Hostname**: {osHostname}\n- **CPU Architecture**: {cpuInfo}\n- **CPU Usage**: {cpuUsed}%\n- **Memory Usage**: {memUsed}MB / {memTotal}GB\n- **Node Version**: {nodeVersion}\n- **Discord.js Version**: {discordJsVersion}\n- **Connected to** {guilds} guilds, {channels} channels, and {users} users\n- **Total Commands**: {commands}"
 		},
 		"about": {
-			"description": "Shows information about the bot",
+			"description": "Learn about my story! Who made me and why 💡",
 			"fields": {
 				"creator": "Creator",
 				"repository": "Repository",
 				"support": "Support",
-				"description": "He really wanted to make his first open source project ever for more coding experience. In this project, he was challenged to make a project with fewer bugs. Hope you enjoy using MultiBungoBot!"
+				"description": "This is a passion project - my creator's first open source adventure! Built to bring music to Discord servers with fewer bugs and more love. Hope you enjoy jamming with MultiBungoBot! 🎵"
 			}
 		},
 		"dj": {
-			"description": "Manage the DJ mode and associated roles",
+			"description": "Manage DJ roles! Control who can command the music 🎧",
 			"errors": {
-				"provide_role": "Please provide a role.",
-				"no_roles": "The DJ role is empty.",
-				"invalid_subcommand": "Please provide a valid subcommand."
+				"provide_role": "Which role? Mention the role you want to set as DJ!",
+				"no_roles": "No DJ roles set up yet! Everyone can control music 🎵",
+				"invalid_subcommand": "That's not a valid option! Try add, remove, clear, or toggle."
 			},
 			"messages": {
-				"role_exists": "The DJ role <@&{roleId}> is already added.",
-				"role_added": "The DJ role <@&{roleId}> has been added.",
-				"role_not_found": "The DJ role <@&{roleId}> is not added.",
-				"role_removed": "The DJ role <@&{roleId}> has been removed.",
-				"all_roles_cleared": "All DJ roles have been removed.",
-				"toggle": "The DJ mode has been toggled to {status}."
+				"role_exists": "<@&{roleId}> is already a DJ role! They're all set 🎧",
+				"role_added": "<@&{roleId}> is now a DJ role! They can control the music now 🎵",
+				"role_not_found": "<@&{roleId}> isn't a DJ role. Can't remove what isn't there! 🤷",
+				"role_removed": "<@&{roleId}> is no longer a DJ role. Back to regular listening! 🎵",
+				"all_roles_cleared": "All DJ roles removed! Everyone can control music again 🎶",
+				"toggle": "DJ mode is now {status}! 🎧"
 			},
 			"options": {
-				"add": "The DJ role you want to add",
-				"remove": "The DJ role you want to remove",
-				"clear": "Clears all DJ roles",
-				"toggle": "Toggles the DJ role",
-				"role": "The DJ role"
+				"add": "Add a DJ role",
+				"remove": "Remove a DJ role",
+				"clear": "Remove all DJ roles",
+				"toggle": "Turn DJ mode on/off",
+				"role": "The role to manage"
 			},
 			"subcommands": "Subcommands"
 		},
-		"language": {
-			"description": "Set the language for the bot",
-			"invalid_language": "Please provide a valid language. Example: `EnglishUS` for English (United States)\n\nYou can find the list of supported languages [here](https://discord.com/developers/docs/reference#locales)\n\n**Available Languages:**\n{languages}",
-			"already_set": "The language is already set to `{language}`",
-			"not_set": "The language is not set.",
-			"set": "`✅` | The language has been set to `{language}`",
-			"reset": "`✅` | The language has been reset to the default language.",
+		"vote": {
+			"description": "Manage voting for music commands! Democracy in action 🗳️",
+			"errors": {
+				"no_subcommand": "Choose an option! Try 'toggle' or 'status'.",
+				"invalid_subcommand": "That option doesn't exist! Use toggle or status."
+			},
+			"messages": {
+				"toggled": "Voting system is now {status}! 🗳️",
+				"enabled": "`enabled`",
+				"disabled": "`disabled`",
+				"current_status": "Voting system is currently **{status}**."
+			},
 			"options": {
-				"set": "Set the language for the bot",
-				"language": "The language you want to set",
-				"reset": "Change the language back to the default language"
+				"toggle": "Turn voting on or off",
+				"status": "Check if voting is enabled"
+			}
+		},
+		"language": {
+			"description": "Choose your language! I can speak many languages 🌍",
+			"invalid_language": "Hmm, that's not a valid language. Try one from the list! Example: `EnglishUS` for English (United States)\n\nFind all supported languages [here](https://discord.com/developers/docs/reference#locales)\n\n**Available Languages:**\n{languages}",
+			"already_set": "Already using `{language}`! You're all set ✅",
+			"not_set": "No language set yet! Using the default.",
+			"set": "Language switched to `{language}`! 🌍",
+			"reset": "Language reset to default! Back to basics 🔄",
+			"options": {
+				"set": "Choose a language",
+				"language": "The language you want to use",
+				"reset": "Go back to default language"
 			}
 		},
 		"prefix": {
-			"description": "Shows or sets the bot's prefix",
+			"description": "Check or change my command prefix! Make it yours 🎮",
 			"errors": {
-				"prefix_too_long": "The prefix cannot be longer than 3 characters."
+				"prefix_too_long": "Keep it short! Prefix can't be longer than 3 characters."
 			},
 			"messages": {
-				"current_prefix": "The prefix for this server is `{prefix}`",
-				"prefix_set": "The prefix for this server is now `{prefix}`",
-				"prefix_reset": "The prefix for this server is now `{prefix}`"
+				"current_prefix": "My prefix here is `{prefix}` 🎮",
+				"prefix_set": "Prefix changed to `{prefix}`! Use it to command me ✨",
+				"prefix_reset": "Prefix reset to `{prefix}`! Back to default 🔄"
 			},
 			"options": {
-				"set": "Sets the prefix",
-				"prefix": "The prefix you want to set",
-				"reset": "Resets the prefix to the default one"
+				"set": "Change the prefix",
+				"prefix": "Your new prefix (max 3 characters)",
+				"reset": "Reset to default prefix"
 			}
 		},
 		"setup": {
-			"description": "Sets up the bot",
+			"description": "Set up a dedicated music request channel! Super convenient 🎵",
 			"errors": {
-				"channel_exists": "The song request channel already exists.",
-				"channel_not_exists": "The song request channel doesn't exist.",
-				"channel_delete_fail": "The setup channel has been deleted from the database. Please delete the channel yourself."
+				"channel_exists": "You already have a song request channel! Check it out 🎶",
+				"channel_not_exists": "No song request channel found! Create one first.",
+				"channel_delete_fail": "Removed from my database, but please delete the channel manually! 🛠️"
 			},
 			"messages": {
-				"channel_created": "The song request channel has been created in <#{channelId}>.",
-				"channel_deleted": "The song request channel has been deleted.",
-				"channel_info": "The song request channel is <#{channelId}>."
+				"channel_created": "Song request channel created in <#{channelId}>! Start queuing music there 🎵",
+				"channel_deleted": "Song request channel deleted! Gone but not forgotten 👋",
+				"channel_info": "Your song request channel is <#{channelId}> 🎶"
 			},
 			"options": {
-				"create": "Creates the song request channel",
-				"delete": "Deletes the song request channel",
-				"info": "Shows the song request channel"
+				"create": "Create a song request channel",
+				"delete": "Delete the song request channel",
+				"info": "Show current setup info"
 			}
 		},
 		"8d": {
-			"description": "on/off 8d filter",
+			"description": "Toggle 8D audio effect! Feel the music move around you 🔊",
 			"messages": {
-				"filter_enabled": "`✅` | 8D filter has been `ENABLED`.",
-				"filter_disabled": "`✅` | 8D filter has been `DISABLED`."
+				"filter_enabled": "8D filter is on! Put on headphones for the best experience 🎧",
+				"filter_disabled": "8D filter is off! Back to stereo sound 🔊"
 			}
 		},
 		"bassboost": {
-			"description": "on/off bassboost filter",
+			"description": "Boost that bass! Make it thump 🔊",
 			"options": {
-				"level": "The bassboost level you want to set"
+				"level": "Bass level (low, medium, high, or off)"
 			},
 			"messages": {
-				"high": "`✅` | High bassboost filter has been `ENABLED`.",
-				"low": "`✅` | Low bassboost filter has been `ENABLED`.",
-				"medium": "`✅` | Medium bassboost filter has been `ENABLED`.",
-				"off": "`✅` | Bassboost filter has been `DISABLED`."
+				"high": "High bass boost activated! Feel the rumble 🔊",
+				"low": "Low bass boost activated! Just a little extra thump 🎵",
+				"medium": "Medium bass boost activated! Nice and balanced 🎶",
+				"off": "Bass boost off! Natural sound restored ✨"
 			}
 		},
 		"distortion": {
-			"description": "Toggle the distortion filter on/off",
+			"description": "Toggle distortion effect! Rock out with attitude 🎸",
 			"messages": {
-				"filter_enabled": "`✅` | Distortion filter has been `ENABLED`.",
-				"filter_disabled": "`✅` | Distortion filter has been `DISABLED`."
+				"filter_enabled": "Distortion is on! Let's rock 🎸",
+				"filter_disabled": "Distortion is off! Clean sound restored ✨"
 			}
 		},
 		"karaoke": {
-			"description": "Toggle the karaoke filter on/off",
+			"description": "Toggle karaoke mode! Remove vocals and sing along 🎤",
 			"messages": {
-				"filter_enabled": "`✅` | Karaoke filter has been `ENABLED`.",
-				"filter_disabled": "`✅` | Karaoke filter has been `DISABLED`."
+				"filter_enabled": "Karaoke mode on! Time to sing 🎤",
+				"filter_disabled": "Karaoke mode off! Vocals are back 🎵"
 			}
 		},
 		"lowpass": {
-			"description": "Toggle the lowpass filter on/off",
+			"description": "Toggle lowpass filter! Mellow out the highs 🎶",
 			"messages": {
-				"filter_enabled": "`✅` | Lowpass filter has been `ENABLED`.",
-				"filter_disabled": "`✅` | Lowpass filter has been `DISABLED`."
+				"filter_enabled": "Lowpass filter on! Smooth and mellow vibes 🌊",
+				"filter_disabled": "Lowpass filter off! Full frequency restored ✨"
 			}
 		},
 		"nightcore": {
-			"description": "Toggle the nightcore filter on/off",
+			"description": "Toggle nightcore effect! Fast and high-pitched ⚡",
 			"messages": {
-				"filter_enabled": "`✅` | Nightcore filter has been `ENABLED`.",
-				"filter_disabled": "`✅` | Nightcore filter has been `DISABLED`."
+				"filter_enabled": "Nightcore mode on! Sped up and high-pitched ⚡",
+				"filter_disabled": "Nightcore mode off! Normal speed restored 🎵"
 			}
 		},
 		"pitch": {
-			"description": "Toggle the pitch filter on/off",
+			"description": "Adjust the pitch! Make it higher or lower 🎹",
 			"options": {
-				"pitch": "The number you want to set the pitch to (between 0.5 and 5)"
+				"pitch": "Pitch level (0.5 to 5, where 1 is normal)"
 			},
 			"errors": {
-				"invalid_number": "Please provide a valid number between 0.5 and 5."
+				"invalid_number": "Please use a number between 0.5 and 5! Try 1.2 for slightly higher pitch 🎵"
 			},
 			"messages": {
-				"pitch_set": "`✅` | Pitch has been set to **{pitch}**."
+				"pitch_set": "Pitch adjusted to **{pitch}**! How does it sound? 🎹"
 			}
 		},
 		"rate": {
-			"description": "Change the rate of the song",
+			"description": "Change the playback rate! Speed it up or slow it down ⏱️",
 			"options": {
-				"rate": "The number you want to set the rate to (between 0.5 and 5)"
+				"rate": "Playback rate (0.5 to 5, where 1 is normal)"
 			},
 			"errors": {
-				"invalid_number": "Please provide a valid number between 0.5 and 5."
+				"invalid_number": "Please use a number between 0.5 and 5! Try 1.5 for faster playback ⚡"
 			},
 			"messages": {
-				"rate_set": "`✅` | Rate has been set to **{rate}**."
+				"rate_set": "Playback rate set to **{rate}**! Enjoy the tempo 🎶"
 			}
 		},
 		"reset": {
-			"description": "Resets the active filters",
+			"description": "Reset all audio filters! Back to the original sound 🔄",
 			"messages": {
-				"filters_reset": "`✅` | Filters have been reset."
+				"filters_reset": "All filters reset! Clean, original sound restored ✨"
 			}
 		},
 		"rotation": {
-			"description": "Toggle the rotation filter on/off",
+			"description": "Toggle rotation effect! Make the sound spin around 🌀",
 			"messages": {
-				"enabled": "`✅` | Rotation filter has been `ENABLED`.",
-				"disabled": "`✅` | Rotation filter has been `DISABLED`."
+				"enabled": "Rotation effect on! Feel the music spin 🌀",
+				"disabled": "Rotation effect off! Static sound restored ✨"
 			}
 		},
 		"speed": {
-			"description": "Change the speed of the song",
+			"description": "Adjust playback speed! Fast forward or slow mo ⚡",
 			"options": {
-				"speed": "The speed you want to set"
+				"speed": "Speed multiplier (0.5 to 5)"
 			},
 			"messages": {
-				"invalid_number": "Please provide a valid number between 0.5 and 5.",
-				"set_speed": "`✅` | Speed has been set to **{speed}**."
+				"invalid_number": "Use a number between 0.5 and 5! Try 1.25 for a slight boost ⚡",
+				"set_speed": "Speed set to **{speed}**! Zooming along 🚀"
 			}
 		},
 		"tremolo": {
-			"description": "Toggle the tremolo filter on/off",
+			"description": "Toggle tremolo effect! Add a wavering sound 🌊",
 			"messages": {
-				"enabled": "`✅` | Tremolo filter has been `ENABLED`.",
-				"disabled": "`✅` | Tremolo filter has been `DISABLED`."
+				"enabled": "Tremolo effect on! Feel the waves 🌊",
+				"disabled": "Tremolo effect off! Steady sound restored ✨"
 			}
 		},
 		"vibrato": {
-			"description": "Toggle the vibrato filter on/off",
+			"description": "Toggle vibrato effect! Add a subtle wobble 🎶",
 			"messages": {
-				"enabled": "`✅` | Vibrato filter has been `ENABLED`.",
-				"disabled": "`✅` | Vibrato filter has been `DISABLED`."
+				"enabled": "Vibrato effect on! Smooth oscillation 🎶",
+				"disabled": "Vibrato effect off! Stable sound restored ✨"
 			}
 		},
 		"autoplay": {
-			"description": "Toggles autoplay",
+			"description": "Toggle autoplay! Keep the music flowing automatically 🔁",
 			"messages": {
-				"enabled": "`✅` | Autoplay has been `ENABLED`.",
-				"disabled": "`✅` | Autoplay has been `DISABLED`."
+				"enabled": "Autoplay is on! I'll keep finding similar tracks when the queue ends 🎵",
+				"disabled": "Autoplay is off! Music stops when the queue ends ⏹️"
 			}
 		},
 		"clearqueue": {
-			"description": "Clears the queue",
+			"description": "Clear the entire queue! Fresh start 🧹",
 			"messages": {
-				"cleared": "The queue has been cleared."
+				"cleared": "Queue cleared! Time for a fresh playlist 🎵"
 			}
 		},
 		"grab": {
-			"description": "Grabs the current playing song on your DM",
-			"loading": "Loading...",
+			"description": "Save the current song to your DMs! Never lose a great track 💾",
+			"loading": "Grabbing this track for you...",
 			"content": "**Duration:** {length}\n**Requested by:** <@{requester}>\n**Link:** [Click here]({uri})",
-			"check_dm": "Please check your DM.",
-			"dm_failed": "I couldn't send you a DM. Please make sure allow direct messages is turned on."
+			"check_dm": "Sent to your DMs! Check your messages 📨",
+			"dm_failed": "Couldn't send you a DM! Make sure you allow direct messages from server members 📩"
 		},
 		"join": {
-			"description": "Joins the voice channel",
-			"already_connected": "I'm already connected to <#{channelId}>.",
-			"no_voice_channel": "You need to be in a voice channel to use this command.",
-			"joined": "Successfully joined <#{channelId}>."
+			"description": "Call me to your voice channel! Let's listen together 🎵",
+			"already_connected": "I'm already in <#{channelId}>! Come join me there 🎶",
+			"no_voice_channel": "Jump into a voice channel first! I need to know where to go 🎵",
+			"joined": "Joined <#{channelId}>! Let's make some noise 🎉"
 		},
 		"leave": {
-			"description": "Leaves the voice channel",
-			"left": "Successfully left <#{channelId}>.",
-			"not_in_channel": "I'm not in a voice channel."
+			"description": "Make me leave the voice channel! See you later 👋",
+			"left": "Left <#{channelId}>! Catch you later 👋",
+			"not_in_channel": "I'm not in a voice channel right now! 🤷",
+			"messages": {
+				"left_announce": "{user} made me leave the voice channel 👋"
+			}
 		},
 		"loop": {
-			"description": "Loop the current song or the queue",
-			"looping_song": "**Looping the song.**",
-			"looping_queue": "**Looping the queue.**",
-			"looping_off": "**Looping is now off.**"
+			"description": "Loop the current song or the entire queue! Repeat your favorites 🔁",
+			"looping_song": "**Now looping this song!** Can't get enough? 🔂",
+			"looping_queue": "**Now looping the entire queue!** Round and round we go 🔁",
+			"looping_off": "**Loop is off!** Moving through the playlist normally ⏯️"
 		},
 		"lyrics": {
-			"description": "Get's the lyrics of the currently playing track",
+			"description": "Get lyrics for the current track! Sing along 🎤",
 			"lyrics_track": "### Lyrics for: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
 			"searching": "`🔍` Searching for **{trackTitle}** lyrics...",
 			"errors": {
-				"no_results": "No lyrics found for the current track.",
-				"lyrics_error": "An error occurred while getting the lyrics."
+				"no_results": "Couldn't find lyrics for this track! It might be instrumental or not in the database 🎶",
+				"lyrics_error": "Oops! Hit a snag getting the lyrics. Try again? 🔧"
 			}
 		},
 		"nowplaying": {
-			"description": "Shows the currently playing song",
+			"description": "See what's currently playing! Track info at a glance 🎵",
 			"now_playing": "Now Playing",
 			"track_info": "[{title}]({uri}) - Requested By: <@{requester}>\n\n`{bar}`"
 		},
 		"pause": {
-			"description": "Pauses the current song",
-			"successfully_paused": "Successfully paused the song.",
+			"description": "Pause the current song! Take a quick break ⏸️",
+			"successfully_paused": "Paused! Hit resume when you're ready ⏸️",
 			"messages": {
-				"vote_embed": "Vote to pause: **{votes}/{needed}**\n✅ to pause, ❌ to keep playing.",
-				"button_yes": "✅ Pause",
-				"button_no": "❌ Keep",
-				"already_voted": "You have already voted."
+				"paused_announce": "{user} paused [{title}]({uri}) ⏸️"
 			}
 		},
 		"play": {
-			"description": "Plays a song from YouTube, Spotify or http",
+			"description": "Play music from YouTube, Spotify, or direct links! Let's jam 🎵",
 			"options": {
-				"song": "The song you want to play"
+				"song": "Song name, URL, or search query"
 			},
-			"loading": "Loading...",
+			"loading": "Searching for your song...",
 			"warnings": {
-				"longtrack_warning": "⚠️ **Warning:** One or more tracks in the search results exceed 30 minutes in duration. Please ensure you want to play these long tracks as they may affect your listening experience."
+				"longtrack_warning": "⚠️ **Heads up:** Some tracks are over 30 minutes long! Make sure you want to play these epic tracks as they might slow down your queue."
 			},
 			"errors": {
-				"search_error": "There was an error while searching.",
-				"no_results": "There were no results found.",
-				"queue_too_long": "The queue is too long. The maximum length is {maxQueueSize} songs.",
-				"playlist_too_long": "The playlist is too long. The maximum length is {maxPlaylistSize} songs."
+				"search_error": "Oops! Search hit a snag. Try again? 🔧",
+				"no_results": "Couldn't find anything! Try different keywords? 🔍",
+				"queue_too_long": "Queue is full! Maximum is {maxQueueSize} songs. Clear some space first 🧹",
+				"playlist_too_long": "That playlist is huge! Maximum is {maxPlaylistSize} songs. Try a smaller one 💿"
 			},
-			"added_to_queue": "Added [{title}]({uri}) to the queue.",
-			"added_playlist_to_queue": "Added {length} songs to the queue."
+			"added_to_queue": "Added [{title}]({uri}) to the queue! Enjoy 🎵",
+			"added_playlist_to_queue": "Added {length} songs to the queue! That's a party 🎉"
 		},
 		"playlocal": {
-			"description": "Plays an your local audio files",
+			"description": "Play your local audio files! Upload and jam 💾",
 			"options": {
-				"file": "The audio file you want to play"
+				"file": "Your audio file to play"
 			},
-			"loading": "Loading...",
+			"loading": "Loading your file...",
 			"errors": {
-				"empty_query": "Please attach an audio file to play.",
-				"invalid_format": "You can only play MP3, WAV, OGG, FLAC, AAC or M4A files.",
-				"no_results": "Failed to play the audio file. It may be corrupted."
+				"empty_query": "Attach an audio file to play! I need something to work with 🎵",
+				"invalid_format": "That file format won't work! Please use MP3, WAV, OGG, FLAC, AAC, or M4A files 💿",
+				"no_results": "Couldn't play that file! It might be corrupted or incompatible 😢"
 			},
-			"added_to_queue": "Added [{title}]({url}) to the queue"
+			"added_to_queue": "Added [{title}]({url}) to the queue! 🎶"
 		},
 		"playnext": {
-			"description": "Add the song to play next in queue",
+			"description": "Add a song to play next in the queue! Skip the line ⏭️",
 			"options": {
-				"song": "The song you want to play"
+				"song": "Song to add to front of queue"
 			},
-			"loading": "Loading...",
+			"loading": "Finding your song...",
 			"errors": {
-				"search_error": "There was an error while searching.",
-				"no_results": "There were no results found.",
-				"queue_too_long": "The queue is too long. The maximum length is {maxQueueSize} songs.",
-				"playlist_too_long": "The playlist is too long. The maximum length is {maxPlaylistSize} songs."
+				"search_error": "Oops! Search failed. Try again? 🔧",
+				"no_results": "No results found! Try different search terms 🔍",
+				"queue_too_long": "Queue is maxed out at {maxQueueSize} songs! Clear some space first 🧹",
+				"playlist_too_long": "Playlist too large! Max is {maxPlaylistSize} songs 💿"
 			},
-			"added_to_play_next": "Added [{title}]({uri}) to play next in the queue.",
-			"added_playlist_to_play_next": "Added {length} songs to play next in the queue."
+			"added_to_play_next": "Added [{title}]({uri}) to play next! Coming right up ⏭️",
+			"added_playlist_to_play_next": "Added {length} songs to play next! Buckle up 🎉"
 		},
 		"queue": {
-			"description": "Shows the current queue",
+			"description": "View the music queue! See what's coming up 🎶",
 			"now_playing": "Now playing: [{title}]({uri}) - Requested By: <@{requester}> - Duration: `{duration}`",
 			"live": "LIVE",
 			"track_info": "{index}. [{title}]({uri}) - Requested By: <@{requester}> - Duration: `{duration}`",
 			"title": "Queue",
 			"page_info": "Page {index} of {total}",
-			"duration": "Queue Duration: `{totalDuration}`"
+			"duration": "Total Queue Duration: `{totalDuration}`"
 		},
 		"remove": {
-			"description": "Removes a song from the queue",
+			"description": "Remove a song from the queue! Changed your mind? 🚫",
 			"options": {
-				"song": "The song number you want to remove"
+				"song": "Position number of the song"
 			},
 			"errors": {
-				"no_songs": "There are no songs in the queue.",
-				"invalid_number": "Please provide a valid song number."
+				"no_songs": "The queue is empty! Nothing to remove 🤷",
+				"invalid_number": "Give me a valid song number from the queue! 🔢"
 			},
 			"messages": {
-				"removed": "Removed song number {songNumber} from the queue."
+				"removed": "Removed song #{songNumber} from the queue! Gone 👋"
 			}
 		},
 		"replay": {
-			"description": "Replays the current track",
+			"description": "Replay the current track! Hear it again 🔁",
 			"errors": {
-				"not_seekable": "Cannot replay this track as it is not seekable."
+				"not_seekable": "Can't replay this track! It's a live stream or doesn't support seeking 📶"
 			},
 			"messages": {
-				"replaying": "Replaying the current track."
+				"replaying": "Replaying from the start! Here we go again 🔁"
 			}
 		},
 		"resume": {
-			"description": "Resumes the current song",
+			"description": "Resume the paused song! Back to the music ▶️",
 			"errors": {
-				"not_paused": "The player is not paused."
+				"not_paused": "Nothing to resume! The music is already playing 🎵"
 			},
 			"messages": {
-				"resumed": "Resumed the player.",
+				"resumed": "Resumed! Let the music continue ▶️",
 				"vote_embed": "Vote to resume: **{votes}/{needed}**\n✅ to resume, ❌ to keep paused.",
 				"button_yes": "✅ Resume",
 				"button_no": "❌ Keep Paused",
-				"already_voted": "You have already voted."
+				"already_voted": "You've already voted! Waiting for others 😊"
 			}
 		},
 		"search": {
-			"description": "Searches for a song",
+			"description": "Search for songs and pick from results! Choose your favorite 🔍",
 			"options": {
-				"song": "The song you want to search"
+				"song": "What to search for"
 			},
-			"select": "Please select the song you want to play",
+			"select": "Pick the song you want to play! 🎵",
 			"errors": {
-				"no_results": "No results found.",
-				"search_error": "There was an error while searching."
+				"no_results": "No results found! Try different keywords 🔍",
+				"search_error": "Search failed! Try again? 🔧"
 			},
 			"messages": {
-				"added_to_queue": "Added [{title}]({uri}) to the queue."
+				"added_to_queue": "Added [{title}]({uri}) to the queue! 🎶"
 			}
 		},
 		"seek": {
-			"description": "Seeks to a certain time in the song",
+			"description": "Jump to a specific time in the song! Skip ahead or rewind ⏩",
 			"options": {
-				"duration": "The duration to seek to"
+				"duration": "Time to seek to (e.g., 1m30s, 2m, 45s)"
 			},
 			"errors": {
-				"invalid_format": "Invalid time format. Examples: seek 1m, seek 1h 30m",
-				"not_seekable": "This track is not seekable.",
-				"beyond_duration": "Cannot seek beyond the song duration of {length}."
+				"invalid_format": "Invalid time format! Try: `1m`, `1h 30m`, or `45s` ⏱️",
+				"not_seekable": "Can't seek in this track! It's a live stream or doesn't support seeking 📶",
+				"beyond_duration": "Can't seek beyond the song length of {length}! That's too far ⏭️"
 			},
 			"messages": {
-				"seeked_to": "Seeked to {duration}"
+				"seeked_to": "Jumped to {duration}! ⏩"
 			}
 		},
 		"shuffle": {
-			"description": "Shuffles the queue",
+			"description": "Shuffle the queue! Mix things up randomly 🔀",
 			"messages": {
-				"shuffled": "Shuffled the queue."
+				"shuffled": "Queue shuffled! Surprise me with what's next 🎲"
 			},
 			"errors": {
-				"fairplay": "Fairplay mode is enabled. You cannot shuffle the queue."
+				"fairplay": "Fair play mode is on! Can't shuffle when everyone gets equal turns 🎲"
 			}
 		},
 		"skip": {
-			"description": "Skips the current song",
+			"description": "Skip the current song! Next track please ⏭️",
 			"messages": {
-				"skipped": "Skipped [{title}]({uri}).",
-				"vote_embed": "Vote to skip: **{votes}/{needed}**\n✅ to skip, ❌ to keep playing.",
-				"button_skip": "👍 Skip",
-				"button_keep": "👎 Keep",
-				"button_yes": "✅ Skip",
-				"button_no": "❌ Keep",
-				"already_voted": "You have already voted."
+				"skipped": "Skipped [{title}]({uri})! Moving on ⏭️",
+				"skipped_announce": "{user} skipped [{title}]({uri}) ⏭️"
 			}
 		},
 		"skipto": {
-			"description": "Skips to a specific song in the queue",
+			"description": "Jump to a specific song in the queue! Skip ahead ⏭️",
 			"options": {
-				"number": "The number of the song you want to skip to"
+				"number": "Position number in the queue"
 			},
 			"errors": {
-				"invalid_number": "Please provide a valid number."
+				"invalid_number": "Give me a valid queue position number! 🔢"
 			},
 			"messages": {
-				"skipped_to": "Skipped to song number {number}."
+				"skipped_to": "Jumped to song #{number}! ⏭️"
 			}
 		},
 		"stop": {
-			"description": "Stops the music and clears the queue",
+			"description": "Stop the music and clear the queue! Fresh start ⏹️",
 			"messages": {
-				"stopped": "Stopped the music and cleared the queue.",
-				"vote_embed": "Vote to stop: **{votes}/{needed}**\n✅ to stop, ❌ to keep playing.",
-				"button_stop": "🛑 Stop",
-				"button_keep": "👎 Keep",
-				"button_yes": "✅ Stop",
-				"button_no": "❌ Keep",
-				"already_voted": "You have already voted."
+				"stopped": "Stopped the music and cleared the queue! Silence 🔇",
+				"stopped_announce": "{user} stopped the player and cleared the queue 🛑"
 			}
 		},
 		"volume": {
-			"description": "Sets the volume of the player",
+			"description": "Adjust the volume! Control how loud it gets 🔊",
 			"options": {
-				"number": "The volume you want to set"
+				"number": "Volume level (0-200)"
 			},
 			"messages": {
-				"invalid_number": "Please provide a valid number.",
-				"too_low": "The volume can't be lower than 0.",
-				"too_high": "The volume can't be higher than 200. Do you want to damage your hearing or speakers? Hmmm, I don't think that's such a good idea.",
-				"set": "Set the volume to {volume}"
+				"invalid_number": "Give me a number! Something between 0 and 200 🔢",
+				"too_low": "Volume can't go below 0! Gotta hear something 😅",
+				"too_high": "Whoa! 200 is the max! Don't want to blow your speakers or eardrums 🔊🚫",
+				"set": "Volume set to {volume}! Perfect? 🔊"
 			}
 		},
 		"addsong": {
-			"description": "Adds a song to the playlist",
+			"description": "Add songs to your playlist! Build your collection 💿",
 			"options": {
-				"playlist": "The playlist you want to add",
-				"song": "The song you want to add"
+				"playlist": "Which playlist to add to",
+				"song": "Song name or URL to add"
 			},
 			"messages": {
-				"no_playlist": "Please provide a playlist",
-				"no_song": "Please provide a song",
-				"playlist_not_found": "That playlist doesn't exist",
-				"no_songs_found": "No songs found",
-				"added": "Added {count} song(s) to {playlist}"
+				"no_playlist": "Which playlist? Give me a name! 💿",
+				"no_song": "What song? Give me something to add! 🎵",
+				"playlist_not_found": "Can't find that playlist! Check the name? 🔍",
+				"no_songs_found": "Couldn't find any songs! Try different search terms 🔍",
+				"added": "Added {count} song(s) to {playlist}! Growing the collection 🎶"
 			}
 		},
 		"create": {
-			"description": "Creates a playlist",
+			"description": "Create a new playlist! Start your collection 🎵",
 			"options": {
-				"name": "The name of the playlist"
+				"name": "Name for your new playlist"
 			},
 			"messages": {
-				"name_too_long": "Playlist names can only be 50 characters long.",
-				"playlist_exists": "A playlist with that name already exists. Please use a different name.",
-				"playlist_created": "Playlist **{name}** has been created."
+				"name_too_long": "Keep it under 50 characters! That name's too long ✏️",
+				"playlist_exists": "You already have a playlist with that name! Try a different one 💿",
+				"playlist_created": "Playlist **{name}** created! Time to add songs 🎉"
 			}
 		},
 		"delete": {
-			"description": "Deletes a playlist",
+			"description": "Delete a playlist! Remove it permanently 🗑️",
 			"options": {
-				"playlist": "The playlist you want to delete"
+				"playlist": "Which playlist to delete"
 			},
 			"messages": {
-				"playlist_not_found": "That playlist doesn't exist.",
-				"playlist_deleted": "Deleted playlist **{playlistName}**."
+				"playlist_not_found": "Can't find that playlist! Check the name? 🔍",
+				"playlist_deleted": "Deleted playlist **{playlistName}**! Gone forever 👋"
 			}
 		},
 		"list": {
-			"description": "Retrieves all playlists for the user",
+			"description": "View all playlists! See your or someone's collections 📚",
 			"options": {
-				"user": "The user whose playlists you want to retrieve"
+				"user": "User whose playlists to view (optional)"
 			},
 			"messages": {
-				"no_playlists": "This user has no playlists.",
+				"no_playlists": "No playlists yet! Time to create some 🎵",
 				"your": "Your",
 				"playlists_title": "{username}'s Playlists",
-				"error": "An error occurred while retrieving the playlists."
+				"error": "Oops! Couldn't load playlists. Try again? 🔧"
 			}
 		},
 		"load": {
-			"description": "Loads a playlist",
+			"description": "Load and play a saved playlist! Quick access to your collection 💿",
 			"options": {
-				"playlist": "The playlist you want to load"
+				"playlist": "Which playlist to load"
 			},
 			"messages": {
-				"playlist_not_exist": "That playlist doesn't exist.",
-				"playlist_empty": "That playlist is empty.",
-				"playlist_loaded": "Loaded `{name}` with `{count}` songs."
+				"playlist_not_exist": "Can't find that playlist! Check the name? 🔍",
+				"playlist_empty": "That playlist is empty! Add some songs first 🎵",
+				"playlist_loaded": "Loaded `{name}` with `{count}` songs! Let's go 🎉"
 			}
 		},
 		"removesong": {
-			"description": "Removes a song from the playlist",
+			"description": "Remove a song from your playlist! Clean up your collection 🧹",
 			"options": {
-				"playlist": "The playlist you want to remove from",
-				"song": "The song you want to remove"
+				"playlist": "Which playlist to remove from",
+				"song": "Song to remove"
 			},
 			"messages": {
-				"provide_playlist": "Please provide a playlist.",
-				"provide_song": "Please provide a song.",
-				"playlist_not_exist": "That playlist doesn't exist.",
-				"song_not_found": "No matching song found.",
-				"song_removed": "Removed {song} from {playlist}.",
-				"error_occurred": "An error occurred while removing the song."
+				"provide_playlist": "Which playlist? Give me a name! 💿",
+				"provide_song": "Which song? Give me something to remove! 🎵",
+				"playlist_not_exist": "Can't find that playlist! Check the name? 🔍",
+				"song_not_found": "Couldn't find a matching song! Check the name? 🎵",
+				"song_removed": "Removed {song} from {playlist}! Gone 👋",
+				"error_occurred": "Oops! Something went wrong. Try again? 🔧"
 			}
 		},
 		"steal": {
-			"description": "Steals a playlist from another user and adds it to your playlists",
+			"description": "Copy someone's playlist to your collection! Sharing is caring 🎶",
 			"options": {
-				"playlist": "The playlist you want to steal",
-				"user": "The user from whom you want to steal the playlist"
+				"playlist": "Playlist name to copy",
+				"user": "User whose playlist you want to copy"
 			},
 			"messages": {
-				"provide_playlist": "Please provide a playlist name.",
-				"provide_user": "Please mention a user.",
-				"playlist_not_exist": "That playlist doesn't exist for the mentioned user.",
-				"playlist_stolen": "Successfully stole the playlist `{playlist}` from {user}.",
-				"error_occurred": "An error occurred while stealing the playlist."
+				"provide_playlist": "Which playlist? Give me a name! 💿",
+				"provide_user": "Mention the user whose playlist you want! 👥",
+				"playlist_not_exist": "That user doesn't have a playlist with that name! 🤷",
+				"playlist_stolen": "Successfully copied `{playlist}` from {user}! It's yours now 🎉",
+				"error_occurred": "Oops! Couldn't copy the playlist. Try again? 🔧"
 			}
 		},
 		"loop_current": {
-			"description": "Loop the currently playing song"
+			"description": "Loop the current song! Repeat just this track 🔂"
 		},
 		"loop_queue": {
-			"description": "Loop the entire queue"
+			"description": "Loop the entire queue! Keep the party going 🔁"
 		}
 	},
 	"buttons": {
@@ -581,142 +588,154 @@
 		"skip": "Skip",
 		"loop": "Loop",
 		"errors": {
-			"not_author": "You can't use this button."
+			"not_author": "This button isn't for you! 🚫"
 		}
 	},
 	"player": {
 		"errors": {
-			"no_player": "There is no active player in this guild.",
-			"no_channel": "You need to be in a voice channel to use this command.",
-			"queue_empty": "The queue is empty.",
-			"no_previous": "There are no previous songs in the queue.",
-			"no_song": "There are no songs in the queue.",
-			"already_paused": "The song is already paused."
+			"no_player": "No music player active! Start playing something first 🎵",
+			"no_channel": "Join a voice channel first! I need to know where you are 🎵",
+			"not_in_voice": "You must be in a voice channel to vote on music actions! 🗳️",
+			"queue_empty": "The queue is empty! Add some songs 🎶",
+			"no_previous": "No previous songs! This is the first track 🎵",
+			"no_song": "No songs in the queue! Time to add some 🎶",
+			"already_paused": "Already paused! Hit resume when ready ⏸️"
 		},
 		"trackStart": {
 			"now_playing": "Now Playing",
 			"requested_by": "Requested by {user}",
 			"duration": "Duration",
 			"author": "Author",
-			"not_connected_to_voice_channel": "You are not connected to <#{channel}> to use these buttons.",
-			"need_dj_role": "You need to have the DJ role to use this command.",
+			"not_connected_to_voice_channel": "You're not in <#{channel}>! Join to use these buttons 🎵",
+			"need_dj_role": "You need the DJ role for this! 🎧",
 			"previous_by": "Previous by {user}",
-			"no_previous_song": "There is no previous song.",
+			"no_previous_song": "No previous song! This is the first one 🎵",
 			"paused_by": "Paused by {user}",
 			"resumed_by": "Resumed by {user}",
 			"skipped_by": "Skipped by {user}",
-			"no_more_songs_in_queue": "There is no more song in the queue.",
+			"no_more_songs_in_queue": "No more songs! Queue is empty 🎶",
 			"looping_by": "Looping by {user}",
 			"looping_queue_by": "Looping Queue by {user}",
-			"looping_off_by": "Looping Off by {user}"
+			"looping_off_by": "Loop Off by {user}",
+			"vote_button": "Vote for Us! ⭐",
+			"get_more_bots_button": "Get More Bots ➕",
+			"periodic_message_vote_only": "🎵 Enjoying the tunes? Support us with a vote on Top.gg! Your vote helps us grow! ❤️",
+			"periodic_message_with_bots": "🎵 Loving the music? Vote for us on Top.gg! Want music in multiple rooms? Get more bots! 🎶"
 		},
 		"setupStart": {
 			"now_playing": "Now Playing",
 			"description": "[{title}]({uri}) by {author} • `[{length}]` - Requested by <@{requester}>",
-			"error_searching": "There was an error while searching.",
-			"no_results": "There were no results found.",
-			"nothing_playing": "Nothing is playing right now",
-			"queue_too_long": "The queue is too long. The maximum length is {maxQueueSize} songs.",
-			"playlist_too_long": "The playlist is too long. The maximum length is {maxPlaylistSize} songs.",
-			"added_to_queue": "Added [{title}]({uri}) to the queue.",
-			"added_playlist_to_queue": "Added [{length}] songs from the playlist to the queue."
+			"error_searching": "Oops! Search failed. Try again? 🔧",
+			"no_results": "No results found! Try different keywords 🔍",
+			"nothing_playing": "Nothing playing right now! Start the party 🎵",
+			"queue_too_long": "Queue is maxed out at {maxQueueSize} songs! 🧹",
+			"playlist_too_long": "Playlist too big! Max is {maxPlaylistSize} songs 💿",
+			"added_to_queue": "Added [{title}]({uri}) to the queue! 🎶",
+			"added_playlist_to_queue": "Added [{length}] songs from the playlist! Party time 🎉"
 		}
 	},
 	"event": {
 		"interaction": {
-			"setup_channel": "You can't use this command in the setup channel.",
-			"no_send_message": "I don't have **`SendMessage`**, **`ViewChannel`**, **`EmbedLinks`** or **`ReadMessageHistory`**  permission.",
-			"no_permission": "I don't have {permissions} permission.",
-			"no_user_permission": "You don't have enough permissions to use this command.",
-			"no_voice_channel": "You must be connected to a voice channel to use this `{command}` command.",
-			"no_connect_permission": "I don't have `CONNECT` permissions to execute this `{command}` command.",
-			"no_speak_permission": "I don't have `SPEAK` permissions to execute this `{command}` command.",
-			"no_request_to_speak": "I don't have `REQUEST TO SPEAK` permission to execute this `{command}` command.",
-			"different_voice_channel": "You are not connected to {channel} to use this `{command}` command.",
-			"no_music_playing": "Nothing is playing right now.",
-			"no_dj_role": "DJ role is not set.",
-			"no_dj_permission": "You need to have the DJ role to use this command.",
-			"cooldown": "Please wait {time} more second(s) before reusing the `{command}` command.",
-			"error": "An error occurred: `{error}`",
-			"vote_button": "Vote for me!",
-			"vote_message": "Wait! You need to vote on top.gg to use this command. Thanks."
+			"setup_channel": "Can't use this command in the setup channel! Use a different one 🚫",
+			"no_send_message": "I need **`SendMessage`**, **`ViewChannel`**, **`EmbedLinks`**, and **`ReadMessageHistory`** permissions! 💬",
+			"no_permission": "I'm missing {permissions} permission! Can't do this without it 🔒",
+			"no_user_permission": "You don't have permission for this command! ⚠️",
+			"no_voice_channel": "Join a voice channel first to use `{command}`! 🎵",
+			"no_connect_permission": "I need `CONNECT` permission to run `{command}`! 🔒",
+			"no_speak_permission": "I need `SPEAK` permission to run `{command}`! 🔊",
+			"no_request_to_speak": "I need `REQUEST TO SPEAK` permission for stage channels! 🎭",
+			"different_voice_channel": "You're not in {channel} to use `{command}`! Join me there 🎵",
+			"no_music_playing": "Nothing playing right now! Start something 🎶",
+			"no_dj_role": "No DJ role set up yet! Use the `dj` command 🎧",
+			"no_dj_permission": "You need the DJ role for this! 🎧",
+			"cooldown": "Slow down! Wait {time} more second(s) before using `{command}` again ⏱️",
+			"error": "Oops! Error: `{error}` 😢",
+			"vote_button": "Vote for me! ⭐",
+			"vote_message": "Hold on! Vote for the bot on top.gg to use this command. Thanks for your support! 💖",
+			"bot_busy_different_vc": "I'm playing music in another channel right now! Use a different bot or wait till I'm free 🎵",
+			"bot_busy_get_more": "I'm busy in another channel! Add more bots to play in multiple rooms at once 🤖",
+			"get_more_bots_button": "Get More Bots ➕",
+			"slash_deprecated": "Slash commands have been deprecated! Please use `{prefix}{command}` instead. 🎵"
 		},
 		"message": {
-			"prefix_mention": "Hey, my prefix for this server is `{prefix}`. Want more info? then do `{prefix}help`\nStay Safe, Stay Awesome!",
-			"no_send_message": "I don't have **`SendMessage`**, **`ViewChannel`**, **`EmbedLinks`** or **`ReadMessageHistory`**  permission.",
-			"no_permission": "I don't have {permissions} permission.",
-			"no_user_permission": "You don't have enough permissions to use this command.",
-			"no_voice_channel": "You must be connected to a voice channel to use this `{command}` command.",
-			"no_connect_permission": "I don't have `CONNECT` permissions to execute this `{command}` command.",
-			"no_speak_permission": "I don't have `SPEAK` permissions to execute this `{command}` command.",
-			"no_request_to_speak": "I don't have `REQUEST TO SPEAK` permission to execute this `{command}` command.",
-			"different_voice_channel": "You are not connected to {channel} to use this `{command}` command.",
-			"no_music_playing": "Nothing is playing right now.",
-			"no_dj_role": "DJ role is not set.",
-			"no_dj_permission": "You need to have the DJ role to use this command.",
+			"prefix_mention": "Hey! My prefix here is `{prefix}`. Want help? Try `{prefix}help`\nStay awesome! 🎉",
+			"no_send_message": "I need **`SendMessage`**, **`ViewChannel`**, **`EmbedLinks`**, and **`ReadMessageHistory`** permissions! 💬",
+			"no_permission": "I'm missing {permissions} permission! 🔒",
+			"no_user_permission": "You don't have permission for this command! ⚠️",
+			"no_voice_channel": "Join a voice channel first to use `{command}`! 🎵",
+			"no_connect_permission": "I need `CONNECT` permission to run `{command}`! 🔒",
+			"no_speak_permission": "I need `SPEAK` permission to run `{command}`! 🔊",
+			"no_request_to_speak": "I need `REQUEST TO SPEAK` permission for stage channels! 🎭",
+			"different_voice_channel": "You're not in {channel} to use `{command}`! Join me 🎵",
+			"no_music_playing": "Nothing playing! Start the music 🎶",
+			"no_dj_role": "No DJ role set! Use the `dj` command 🎧",
+			"no_dj_permission": "You need the DJ role for this! 🎧",
 			"missing_arguments": "Missing Arguments",
-			"missing_arguments_description": "Please provide the required arguments for the `{command}` command.\n\nExamples:\n{examples}",
-			"syntax_footer": "Syntax: [] = optional, <> = required • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
-			"cooldown": "Please wait {time} more second(s) before reusing the `{command}` command.",
-			"no_mention_everyone": "You can't use this command with everyone or here. Please use slash command.",
-			"error": "An error occurred: `{error}`",
-			"no_voice_channel_queue": "You are not connected to a voice channel to queue songs.",
-			"no_permission_connect_speak": "I don't have enough permission to connect/speak in <#{channel}>.",
-			"different_voice_channel_queue": "You are not connected to <#{channel}> to queue songs.",
-			"vote_button": "Vote for me!",
-			"vote_message": "Wait! You need to vote on top.gg to use this command. Thanks.",
-			"no_free_bots": "No bots are available right now. You may want to add more bots to this server.",
-			"no_bots_configured": "No music bots have been added to this server yet. Please invite a bot first!"
+			"missing_arguments_description": "You forgot some arguments for `{command}`!\n\nExamples:\n{examples}",
+			"syntax_footer": "Syntax: [] = optional, <> = required • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
+			"cooldown": "Slow down! Wait {time} more second(s) before using `{command}` again ⏱️",
+			"no_mention_everyone": "Can't use @everyone or @here! Use slash commands instead 🚫",
+			"error": "Oops! Error: `{error}` 😢",
+			"no_voice_channel_queue": "Join a voice channel to add songs! 🎵",
+			"no_permission_connect_speak": "I can't connect/speak in <#{channel}>! Missing permissions 🔒",
+			"different_voice_channel_queue": "You're not in <#{channel}> to add songs! Join me 🎵",
+			"vote_button": "Vote for me! ⭐",
+			"vote_message": "Hold on! Vote for the bot on top.gg to use this command. Thanks! 💖",
+			"no_free_bots": "No bots available right now! Consider adding more bots to the server 🤖",
+			"no_bots_configured": "No music bots here yet! Invite a bot first 🎵"
 		},
 		"setupButton": {
-			"no_voice_channel_button": "You are not connected to a voice channel to use this button.",
-			"different_voice_channel_button": "You are not connected to {channel} to use these buttons.",
+			"no_voice_channel_button": "Join a voice channel first to use this button! 🎵",
+			"different_voice_channel_button": "You're not in {channel}! Join to use these buttons 🎵",
 			"now_playing": "Now Playing",
 			"live": "LIVE",
 			"requested_by": "Requested by <@{requester}>",
-			"no_dj_permission": "You need to have the DJ role to use this button.",
+			"no_dj_permission": "You need the DJ role for this button! 🎧",
 			"volume_set": "Volume set to {vol}%",
-			"volume_footer": "Volume: {vol}% • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
+			"volume_footer": "Volume: {vol}% • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
 			"paused": "Paused",
 			"resumed": "Resumed",
 			"pause_resume": "{name} the music.",
-			"pause_resume_footer": "{name} by {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
-			"no_music_to_skip": "There is no music to skip.",
+			"pause_resume_footer": "{name} by {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
+			"no_music_to_skip": "Nothing to skip! Queue is empty 🎶",
 			"skipped": "Skipped the music.",
-			"skipped_footer": "Skipped by {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
+			"skipped_footer": "Skipped by {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
 			"stopped": "Stopped the music.",
-			"stopped_footer": "Stopped by {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
-			"nothing_playing": "Nothing is playing right now",
+			"stopped_footer": "Stopped by {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
+			"nothing_playing": "Nothing playing right now! Start the music 🎶",
 			"loop_set": "Loop set to {loop}.",
-			"loop_footer": "Loop set to {loop} by {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
+			"loop_footer": "Loop set to {loop} by {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
 			"shuffled": "Shuffled the queue.",
-			"no_previous_track": "There is no previous track.",
+			"no_previous_track": "No previous track! This is the first song 🎵",
 			"playing_previous": "Playing the previous track.",
-			"previous_footer": "Playing the previous track by {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
+			"previous_footer": "Playing the previous track by {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
 			"rewinded": "Rewinded the music.",
-			"rewind_footer": "Rewinded by {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
-			"forward_limit": "You cannot forward the music more than the length of the song.",
+			"rewind_footer": "Rewinded by {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
+			"forward_limit": "Can't forward past the song length! ⏩",
 			"forwarded": "Forwarded the music.",
-			"forward_footer": "Forwarded by {displayName} • BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
-			"button_not_available": "This button is not available.",
-			"no_music_playing": "There is no music playing in this server."
+			"forward_footer": "Forwarded by {displayName} • BuNgo Music Bot 🎵 • Made by Gúp Bu Ngô with ❤️",
+			"button_not_available": "This button isn't available right now! 🚫",
+			"no_music_playing": "No music playing here! Start a song first 🎵"
 		},
 		"voice_state_update": {
-			"kicked": "Bot has been kicked from the voice channel <#{channelId}>.",
-			"moved": "Bot has been moved to <#{channelId}>.",
-			"left_due_to_timeout_no_listeners": "Bot has left the voice channel <#{channelId}> due to inactivity (no listeners).",
-			"left_due_to_timeout_no_songs": "Bot has left the voice channel <#{channelId}> due to inactivity (no songs)."
+			"kicked": "Got kicked from <#{channelId}>! Looks like someone doesn't want me here 😢",
+			"moved": "Moved to <#{channelId}>! Following you there 🎵",
+			"left_due_to_timeout_no_listeners": "Left <#{channelId}> - nobody was listening anymore! Call me back anytime 👋",
+			"left_due_to_timeout_no_songs": "Left <#{channelId}> - ran out of songs to play! Add more music next time 🎶",
+			"moved_to_channel_with_another_bot": "Oops! That channel already has another bot. Let me go back to <#{originalChannelId}>... 🔄",
+			"rejoined_original_channel": "Back in <#{channelId}>! Crisis averted ✅",
+			"cannot_rejoin_stopping": "Can't get back to <#{originalChannelId}>! Stopping playback... 🛑"
 		}
 	},
 	"will_leave": {
-		"no_listeners": "Bot will leave in {time} minutes due to no listeners.",
-		"no_songs": "Bot will leave in {time} minutes due to no songs."
+		"no_listeners": "I'll leave in {time} minutes if nobody's listening! Come hang out? 👂",
+		"no_songs": "I'll leave in {time} minutes - queue is empty! Add some songs 🎶"
 	},
-	"Evaluate code": "Evaluate code",
-	"Leave a guild": "Leave a guild",
-	"List all guilds the bot is in": "List all guilds the bot is in",
-	"Restart the bot": "Restart the bot",
-	"The loop mode you want to set": "The loop mode you want to set",
-	"Show current maintenance status": "Show current maintenance status",
-	"Show current maintenance status.": "Show current maintenance status."
+	"Evaluate code": "Run and test code snippets 💻",
+	"Leave a guild": "Make the bot leave a server 🚪",
+	"List all guilds the bot is in": "Show all servers I'm in 📝",
+	"Restart the bot": "Restart the bot 🔄",
+	"The loop mode you want to set": "Choose loop mode (off/track/queue) 🔁",
+	"Show current maintenance status": "Check if bot is under maintenance 🛠️",
+	"Show current maintenance status.": "Check maintenance status 🛠️"
 }

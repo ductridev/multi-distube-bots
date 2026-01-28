@@ -570,6 +570,13 @@
 		},
 		"loop_queue": {
 			"description": "전체 대기열을 반복해요"
+		},
+		"vote": {
+			"description": "Quản lý hệ thống bỏ phiếu cho các lệnh nhạc",
+			"options": {
+				"toggle": "Bật hoặc tắt hệ thống bỏ phiếu",
+				"status": "Kiểm tra trạng thái hiện tại của hệ thống bỏ phiếu"
+			}
 		}
 	},
 	"buttons": {
@@ -584,6 +591,7 @@
 			"not_author": "지금은 이 버튼을 사용할 수 없어요."
 		}
 	},
+
 	"player": {
 		"errors": {
 			"no_player": "이 서버에 활성 플레이어가 없어요.",

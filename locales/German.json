@@ -570,6 +570,13 @@
 		},
 		"loop_queue": {
 			"description": "Wiederhole die Warteschlange"
+		},
+		"vote": {
+			"description": "Quản lý hệ thống bỏ phiếu cho các lệnh nhạc",
+			"options": {
+				"toggle": "Bật hoặc tắt hệ thống bỏ phiếu",
+				"status": "Kiểm tra trạng thái hiện tại của hệ thống bỏ phiếu"
+			}
 		}
 	},
 	"buttons": {
@@ -583,6 +590,7 @@
 		"errors": {
 			"not_author": "Du kannst diesen Button nicht verwenden."
 		}
+	
 	},
 	"player": {
 		"errors": {
@@ -733,9 +741,5 @@
 	"Restart the bot": "Bot neu starten",
 	"The loop mode you want to set": "Der Wiederholungsmodus, den du setzen möchtest",
 	"Show current maintenance status": "Aktuellen Wartungsstatus anzeigen",
-	"will_leave": {
-		"no_listeners": "Bot verlässt in {time} Minuten wegen fehlender Zuhörer.",
-		"no_songs": "Bot verlässt in {time} Minuten wegen fehlender Songs."
-	},
 	"Show current maintenance status.": "Show current maintenance status."
 }

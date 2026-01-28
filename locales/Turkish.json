@@ -570,6 +570,13 @@
 		},
 		"loop_queue": {
 			"description": "Tüm kuyruğu tekrarla"
+		},
+		"vote": {
+			"description": "Quản lý hệ thống bỏ phiếu cho các lệnh nhạc",
+			"options": {
+				"toggle": "Bật hoặc tắt hệ thống bỏ phiếu",
+				"status": "Kiểm tra trạng thái hiện tại của hệ thống bỏ phiếu"
+			}
 		}
 	},
 	"buttons": {
@@ -583,6 +590,7 @@
 		"errors": {
 			"not_author": "Bu butonu kullanamazsınız."
 		}
+	
 	},
 	"player": {
 		"errors": {
