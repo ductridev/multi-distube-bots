@@ -72,7 +72,20 @@ export default class Context {
 	): Promise<Message> {
 		if (this.isInteraction) {
 			if (typeof content === 'string' || isInteractionReplyOptions(content)) {
-				this.msg = await this.interaction?.reply(content);
+				// Check if interaction has already been replied or deferred
+				if (this.interaction?.replied || this.interaction?.deferred) {
+					// Use followUp instead (returns Message directly)
+					this.msg = await this.interaction?.followUp(content) as Message;
+				} else {
+					// Use reply with fetchReply to get the message object
+					if (typeof content === 'string') {
+						this.msg = await this.interaction?.reply({ content, fetchReply: true }) as Message;
+					} else {
+						// For object content, reply and then fetch the reply
+						await this.interaction?.reply(content);
+						this.msg = await this.interaction?.fetchReply() as Message;
+					}
+				}
 				return this.msg;
 			}
 		} else if (typeof content === 'string' || isMessagePayload(content)) {
