@@ -1,6 +1,7 @@
 import { ChannelType, TextChannel, type GuildMember, type VoiceState } from 'discord.js';
 import { Event, type Lavamusic } from '../../structures/index';
 import { T } from '../../structures/I18n';
+import { activeBots } from '../../index';
 
 export default class VoiceStateUpdate extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -57,7 +58,7 @@ export default class VoiceStateUpdate extends Event {
 		} else if (type === 'leave') {
 			this.handale.leave(newState, this.client);
 		} else if (type === 'move') {
-			this.handale.move(newState, this.client);
+			this.handale.move(oldState, newState, this.client);
 		}
 	}
 
@@ -194,7 +195,7 @@ export default class VoiceStateUpdate extends Event {
 			}
 		},
 
-		async move(newState: VoiceState, client: Lavamusic) {
+		async move(oldState: VoiceState, newState: VoiceState, client: Lavamusic) {
 			// delay for 3 seconds
 			await new Promise(resolve => setTimeout(resolve, 3000));
 			const bot = newState.guild.voiceStates.cache.get(client.user!.id);
@@ -215,10 +216,12 @@ export default class VoiceStateUpdate extends Event {
 			const player = client.manager.getPlayer(newState.guild.id);
 			if (!player) return;
 			if (!player?.voiceChannelId) return;
+
 			const is247 = await client.db.get_247(client.childEnv.clientId, newState.guild.id);
 			const vc = newState.guild.channels.cache.get(player.voiceChannelId);
 			if (!(vc && vc.members instanceof Map)) return;
 
+			// Check if this bot was moved to a channel with another bot
 			if (newState.member?.user.bot && newState.member?.user.id === client.childEnv.clientId) {
 				const channel = client.channels.cache.get(player.textChannelId!);
 				const locale = await client.db.getLanguage(player.guildId);
@@ -228,10 +231,90 @@ export default class VoiceStateUpdate extends Event {
 				})
 					.setTimestamp();
 
-				if (channel && channel.isTextBased()) {
-					await (channel as TextChannel).send({
-						embeds: [embed.setColor(client.color.main).setDescription(T(locale, 'event.voice_state_update.moved', { channelId: player.voiceChannelId }))],
-					});
+				// Get the original channel (before move) and new channel (after move)
+				const originalChannelId = oldState.channelId;
+				const newChannelId = newState.channelId;
+
+				// Check if another bot from activeBots is in the new channel
+				if (newChannelId && originalChannelId && newChannelId !== originalChannelId) {
+					const newChannel = newState.guild.channels.cache.get(newChannelId);
+					if (newChannel && newChannel.members instanceof Map) {
+						// Check if any other bot from activeBots is in this channel
+						const otherBotsInChannel = activeBots.filter(otherBot =>
+							otherBot.user?.id !== client.user?.id && // Not this bot
+							newState.guild.members.cache.get(otherBot.user?.id || '')?.voice.channelId === newChannelId
+						);
+
+						if (otherBotsInChannel.length > 0) {
+							// Another bot is already in the new channel - try to rejoin original
+							if (channel && channel.isTextBased()) {
+								await (channel as TextChannel).send({
+									embeds: [embed.setColor(client.color.yellow).setDescription(
+										T(locale, 'event.voice_state_update.moved_to_channel_with_another_bot', { originalChannelId })
+									)],
+								});
+							}
+
+							// Try to rejoin the original channel
+							try {
+								const originalChannel = newState.guild.channels.cache.get(originalChannelId);
+
+								// Check if bot still has permissions to join the original channel
+								if (originalChannel && 'permissionsFor' in originalChannel) {
+									const permissions = originalChannel.permissionsFor(newState.guild.members.me!);
+									if (permissions && permissions.has(['Connect', 'Speak', 'ViewChannel'])) {
+										// Rejoin the original channel by moving the bot back
+										bot?.setChannel(originalChannelId);
+
+										if (channel && channel.isTextBased()) {
+											await (channel as TextChannel).send({
+												embeds: [embed.setColor(client.color.green).setDescription(
+													T(locale, 'event.voice_state_update.rejoined_original_channel', { channelId: originalChannelId })
+												)],
+											});
+										}
+
+										return; // Successfully rejoined, exit early
+									}
+								}
+
+								// If we reach here, we couldn't rejoin - send error and destroy
+								if (channel && channel.isTextBased()) {
+									await (channel as TextChannel).send({
+										embeds: [embed.setColor(client.color.red).setDescription(
+											T(locale, 'event.voice_state_update.cannot_rejoin_stopping', { originalChannelId })
+										)],
+									});
+								}
+
+								// Destroy the player
+								player.destroy();
+								return;
+
+							} catch (error) {
+								// Failed to rejoin - send error message and destroy player
+								client.logger.error(`Failed to rejoin original channel for bot ${client.childEnv.clientId}:`, error);
+
+								if (channel && channel.isTextBased()) {
+									await (channel as TextChannel).send({
+										embeds: [embed.setColor(client.color.red).setDescription(
+											T(locale, 'event.voice_state_update.cannot_rejoin_stopping', { originalChannelId })
+										)],
+									});
+								}
+
+								player.destroy();
+								return;
+							}
+						}
+					}
+				} else {
+					// Normal move message (when no conflict with other bots)
+					if (channel && channel.isTextBased()) {
+						await (channel as TextChannel).send({
+							embeds: [embed.setColor(client.color.main).setDescription(T(locale, 'event.voice_state_update.moved', { channelId: player.voiceChannelId }))],
+						});
+					}
 				}
 			}
 

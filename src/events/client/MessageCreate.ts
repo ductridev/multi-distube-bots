@@ -86,14 +86,6 @@ export default class MessageCreate extends Event {
 			return;
 		}
 
-		// CRITICAL: Check voice channel BEFORE bot selection for voice-required commands
-		if (command.player?.voice && !userVCId) {
-			await message.reply({
-				content: T(locale, 'event.message.no_voice_channel', { command: command.name }),
-			});
-			return;
-		}
-
 		// Early return: If this bot is not configured for this guild, skip processing
 		if (!allBots.some(bot => bot.user?.id === this.client.user?.id)) {
 			return;

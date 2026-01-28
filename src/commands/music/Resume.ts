@@ -1,5 +1,4 @@
 import { Command, type Context, type Lavamusic } from '../../structures/index';
-import { VotingSystem } from '../../utils/VotingSystem';
 
 export default class Resume extends Command {
 	constructor(client: Lavamusic) {
@@ -49,31 +48,7 @@ export default class Resume extends Command {
 			});
 		}
 
-		// Check voting
-		const voteResult = await VotingSystem.checkVote({
-			client,
-			ctx,
-			player,
-			action: 'resume',
-		});
-
-		if (voteResult.alreadyVoted) {
-			return await ctx.sendMessage({
-				embeds: [
-					embed.setColor(this.client.color.red).setDescription(ctx.locale('cmd.resume.messages.already_voted')),
-				],
-			});
-		}
-
-		if (!voteResult.shouldExecute) {
-			// Vote was registered but not enough votes yet
-			if (voteResult.needsVoting) {
-				return; // Voting embed was already sent
-			}
-			return;
-		}
-
-		// Execute resume
+		// Execute resume immediately (no voting)
 		player.resume();
 
 		return await ctx.sendMessage({

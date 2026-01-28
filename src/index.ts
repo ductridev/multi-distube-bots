@@ -6,7 +6,6 @@ import { restoreSessions } from './utils/functions/loadSessionsOnStartup';
 import { Player } from 'lavalink-client';
 import { ShardStateManager } from './structures/ShardStateManager';
 import { startApiServer } from './api/server';
-import { VotingSystem } from './utils/VotingSystem';
 import { PeriodicMessageSystem } from './utils/PeriodicMessageSystem';
 
 const prisma = new PrismaClient();
@@ -195,14 +194,11 @@ try {
 			shardStart(bot);
 		}
 
-		// Start vote cleanup job (once for all bots)
+		// Start periodic message system (once for all bots)
 		if (bots.length > 0) {
 			// Use the first bot's instance to start the cleanup (it will check all players)
 			setTimeout(() => {
 				if (activeBots.length > 0) {
-					VotingSystem.startCleanupJob(activeBots[0]);
-					console.log('[VOTE CLEANUP] Started periodic vote cleanup job');
-					
 					PeriodicMessageSystem.startPeriodicCheck();
 					console.log('[PERIODIC MESSAGES] Started periodic message system');
 				}

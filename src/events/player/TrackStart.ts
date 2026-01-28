@@ -89,15 +89,6 @@ export default class TrackStart extends Event {
 		const channel = guild.channels.cache.get(player.textChannelId) as TextChannel;
 		if (!channel) return;
 
-		// Clear all vote data from previous track
-		const voteActions = ['skip', 'stop', 'pause', 'resume', 'volume', 'seek', 'shuffle', 'skipto', 'clearqueue', 'leave'];
-		for (const action of voteActions) {
-			player.set(`${action}Votes`, new Set<string>());
-			player.set(`${action}VoteMessageId`, undefined);
-			player.set(`${action}VoteChannelId`, undefined);
-		}
-		player.set('keepVotes', new Set<string>());
-
 		// Save player queue
 		await player.queue.utils.save();
 
@@ -140,10 +131,6 @@ export default class TrackStart extends Event {
 					inline: true,
 				},
 			)
-			.setFooter({
-				text: "BuNgo Music Bot 🎵 • Maded by Gúp Bu Ngô with ♥️",
-				iconURL: "https://raw.githubusercontent.com/ductridev/multi-distube-bots/refs/heads/master/assets/img/bot-avatar-1.jpg",
-			})
 			.setTimestamp();
 
 		const setup = await this.client.db.getSetup(guild.id);
@@ -336,46 +323,6 @@ function createCollector(
 					break;
 				}
 
-				const { VotingSystem } = await import('../../utils/VotingSystem');
-
-				// Use VotingSystem for voting check
-				const skipCtx = {
-					guild: interaction.guild,
-					author: interaction.user,
-					channelId: interaction.channelId,
-					channel: interaction.channel,
-					sendMessage: async (content: any) => {
-						if (typeof content === 'string') {
-							return await interaction.followUp({ content });
-						}
-						return await interaction.followUp({ ...content });
-					},
-					locale: (key: string, vars?: any) => T(locale, key, vars),
-				} as any;
-
-				const skipVoteResult = await VotingSystem.checkVote({
-					client,
-					ctx: skipCtx,
-					player,
-					action: 'skip',
-				});
-
-				if (skipVoteResult.alreadyVoted) {
-					await interaction.reply({
-						content: T(locale, 'cmd.skip.messages.already_voted'),
-						flags: MessageFlags.Ephemeral,
-					});
-					return;
-				}
-
-				if (!skipVoteResult.shouldExecute) {
-					// Vote is in progress, VotingSystem already sent the vote embed via followUp
-					// Acknowledge the interaction by deferring the update
-					await interaction.deferUpdate().catch(() => null);
-					return;
-				}
-
-				// Execute skip
 				await interaction.deferUpdate();
 				player.skip(0, !autoplay);
 				await editMessage(

@@ -197,14 +197,14 @@ export default class Connect extends Event {
 				player.paused = fetchedPlayer.paused;
 				if (!player.paused && player.queue.tracks.length > 0) player.play();
 
-				this.client.logger.info(`Node ${node.id} has resumed player for guild ${fetchedPlayer.guildId}`);
-				this.client.logger.info("Previous Track:", player.queue.previous.length);
-				this.client.logger.info("Track:", player.queue.current);
-				this.client.logger.info("Queue Length:", player.queue.tracks.length);
-				this.client.logger.info("Paused:", player.paused);
-				this.client.logger.info("Connected:", player.connected);
-				this.client.logger.info("Voice Channel:", player.voiceChannelId);
-				this.client.logger.info("Text Channel:", player.textChannelId);
+				// this.client.logger.info(`Node ${node.id} has resumed player for guild ${fetchedPlayer.guildId}`);
+				// this.client.logger.info("Previous Track:", player.queue.previous.length);
+				// this.client.logger.info("Track:", player.queue.current);
+				// this.client.logger.info("Queue Length:", player.queue.tracks.length);
+				// this.client.logger.info("Paused:", player.paused);
+				// this.client.logger.info("Connected:", player.connected);
+				// this.client.logger.info("Voice Channel:", player.voiceChannelId);
+				// this.client.logger.info("Text Channel:", player.textChannelId);
 			}
 
 			this.client.logger.info(`Node ${node.id} has resumed all players`);
@@ -321,14 +321,14 @@ export default class Connect extends Event {
 					player.paused = oldPlayer.paused;
 					if (!player.paused && player.queue.tracks.length > 0) player.play();
 
-					this.client.logger.info(`Node ${node.id} has resumed player for guild ${guildId}`);
-					this.client.logger.info("Previous Track:", player.queue.previous.length);
-					this.client.logger.info("Track:", player.queue.current);
-					this.client.logger.info("Queue Length:", player.queue.tracks.length);
-					this.client.logger.info("Paused:", player.paused);
-					this.client.logger.info("Connected:", player.connected);
-					this.client.logger.info("Voice Channel:", player.voiceChannelId);
-					this.client.logger.info("Text Channel:", player.textChannelId);
+					// this.client.logger.info(`Node ${node.id} has resumed player for guild ${guildId}`);
+					// this.client.logger.info("Previous Track:", player.queue.previous.length);
+					// this.client.logger.info("Track:", player.queue.current);
+					// this.client.logger.info("Queue Length:", player.queue.tracks.length);
+					// this.client.logger.info("Paused:", player.paused);
+					// this.client.logger.info("Connected:", player.connected);
+					// this.client.logger.info("Voice Channel:", player.voiceChannelId);
+					// this.client.logger.info("Text Channel:", player.textChannelId);
 				}
 			})
 		});

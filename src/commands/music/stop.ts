@@ -1,5 +1,4 @@
 import { Command, type Context, type Lavamusic } from '../../structures/index';
-import { VotingSystem } from '../../utils/VotingSystem';
 
 export default class Stop extends Command {
 	constructor(client: Lavamusic) {
@@ -17,7 +16,7 @@ export default class Stop extends Command {
 			vote: false,
 			player: {
 				voice: true,
-				dj: false, // Changed to false - voting system handles DJ check
+				dj: false,
 				active: true,
 				djPerm: null,
 			},
@@ -42,30 +41,6 @@ export default class Stop extends Command {
 			.setTimestamp();
 
 		if (!player) return await ctx.sendMessage(ctx.locale('event.message.no_music_playing'));
-
-		// Check voting
-		const voteResult = await VotingSystem.checkVote({
-			client,
-			ctx,
-			player,
-			action: 'stop',
-		});
-
-		if (voteResult.alreadyVoted) {
-			return await ctx.sendMessage({
-				embeds: [
-					embed.setColor(this.client.color.red).setDescription(ctx.locale('cmd.stop.messages.already_voted')),
-				],
-			});
-		}
-
-		if (!voteResult.shouldExecute) {
-			// Vote was registered but not enough votes yet
-			if (voteResult.needsVoting) {
-				return; // Voting embed was already sent
-			}
-			return;
-		}
 
 		// Execute stop
 		player.set('messageId', undefined);
