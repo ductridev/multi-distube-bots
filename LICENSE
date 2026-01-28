@@ -1,9 +1,9 @@
 BUNGO MULTI-DISCORD BOTS - CUSTOM LICENSE
 SPDX-License-Identifier: LicenseRef-BungoMusic-1.0
-Version 1.0, January 2025
+Version 1.1, January 2026
 
 Copyright (c) 2025 ductridev
-All rights reserved.
+All rights reserved except as expressly granted by this License.
 
 This is a proprietary source-available license with commercial restrictions.
 Public and commercial use requires a separate paid license.
@@ -65,12 +65,9 @@ TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
       - Any other use that generates revenue directly or indirectly
 
    c) Distribution, redistribution, or making available the Work or modified
-      versions thereof to third parties through any means, including but not
-      limited to:
-      - Public repositories (unless explicitly permitted by Licensor)
-      - Hosting services
-      - File sharing platforms
-      - Any form of public or private distribution channels
+      versions thereof to third parties through any means, except for internal
+      distribution within the same legal entity or private organization for
+      non-commercial use.
 
    d) Sublicensing the Work to any third party.
 
@@ -107,12 +104,13 @@ TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
    b) Upon termination, You must immediately cease all use of the Work and
       destroy all copies in Your possession or control.
 
-   c) The Licensor reserves the right to terminate this License at any time
-      for Public Bot or Commercial Use violations.
+   c) The Licensor reserves the right to terminate this License upon material
+      breach of its terms, including but not limited to unauthorized Public
+      Bot deployment or Commercial Use.
 
 8. ENFORCEMENT
 
-   a) Unauthorized Public Bot deployment or Commercial Use will result in:
+   a) Unauthorized Public Bot deployment or Commercial Use may result in:
       - Immediate License termination
       - DMCA takedown notices
       - Legal action to recover damages
@@ -146,6 +144,15 @@ TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
 ================================================================================
 END OF TERMS AND CONDITIONS
 ================================================================================
+
+COMMERCIAL LICENSE SUMMARY (NON-BINDING)
+
+You must obtain a Commercial License if you:
+- Operate a Public Discord bot
+- Monetize the Work directly or indirectly
+- Provide hosting or services based on the Work
+
+Private, non-commercial use only is free.
 
 For licensing inquiries and commercial use permissions:
 Email: <ductridevdn@gmail.com>
