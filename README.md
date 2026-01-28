@@ -5,7 +5,7 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-<!-- [![Support Server][support-shield]][support-server] -->
+[![Support Server][support-shield]][support-server]
 [![Custom License][license-shield]][license-url]
 [![Run on Repl.it](https://repl.it/badge/github/ductridev/multi-distube-bots)](https://repl.it/github/ductridev/multi-distube-bots)
 [![Remix on Glitch](https://cdn.glitch.com/2703baf2-b643-4da7-ab91-7ee2a2d00b5b%2Fremix-button.svg)](https://glitch.com/edit/#!/import/github/ductridev/multi-distube-bots)
@@ -107,66 +107,6 @@ flowchart TD
 
 **Key Insight**: All bot instances query Discord's **real voice state** (not in-memory cache) to ensure deterministic selection - every bot instance reaches the same conclusion about which bot should handle the command.
 
-### Democratic Voting System Flow
-
-For actions affecting music playback (skip, stop, pause, etc.), the system uses democratic voting when multiple users are in the voice channel:
-
-```mermaid
-flowchart TD
-    Start([User triggers action]) --> CheckPrivilege{Is user<br/>privileged?}
-    
-    CheckPrivilege -->|Track Requester| ExecuteImmediate[✅ Execute immediately]
-    CheckPrivilege -->|Bot Summoner| ExecuteImmediate
-    CheckPrivilege -->|DJ Role| ExecuteImmediate
-    CheckPrivilege -->|Autoplay Track| ExecuteImmediate
-    
-    CheckPrivilege -->|No privilege| CountListeners[Count non-bot<br/>listeners in VC]
-    
-    CountListeners --> CheckCount{Listener<br/>count?}
-    CheckCount -->|≤ 2 listeners| ExecuteImmediate
-    CheckCount -->|> 2 listeners| NeedVoting[Voting required]
-    
-    NeedVoting --> CheckExistingVote{Already<br/>voted?}
-    CheckExistingVote -->|Yes| AlreadyVoted[Show: Already voted]
-    CheckExistingVote -->|No| FirstVote{First vote<br/>by anyone?}
-    
-    FirstVote -->|Yes| CreateEmbed[Create vote embed<br/>with ✅ Yes / ❌ No buttons]
-    CreateEmbed --> AddVote[Add user's vote]
-    
-    FirstVote -->|No| AddVote
-    AddVote --> UpdateEmbed[Update vote count<br/>in embed]
-    
-    UpdateEmbed --> CheckMajority{Votes ≥<br/>majority needed?}
-    CheckMajority -->|No| WaitMore[Wait for more votes]
-    CheckMajority -->|Yes| ClearVotes[Clear vote sets]
-    ClearVotes --> ExecuteImmediate
-    
-    ExecuteImmediate --> Complete([Action executed])
-    WaitMore --> ButtonClick[User clicks<br/>vote button]
-    ButtonClick --> AddVote
-    AlreadyVoted --> End([End])
-    
-    style ExecuteImmediate fill:#4CAF50
-    style CreateEmbed fill:#2196F3
-    style UpdateEmbed fill:#2196F3
-    style Complete fill:#4CAF50
-    style AlreadyVoted fill:#FF9800
-    style WaitMore fill:#FF9800
-```
-
-**Privileged Users** (skip voting):
-- 🎵 **Track Requester**: User who added the song
-- 📞 **Bot Summoner**: User who called the bot to voice channel  
-- 👑 **DJ Role**: Server members with DJ role
-- 🤖 **Autoplay Tracks**: Bot-added tracks (anyone can control)
-
-**Vote Calculations**:
-- Required votes = `⌈listeners / 2⌉` (majority, rounded up)
-- Votes tracked per-player using Sets: `skipVotes`, `keepVotes`, etc.
-- Buttons handled in `InteractionCreate` event with customIds: `{action}_vote_yes`/`{action}_vote_no`
-
-**Supported Actions**: skip, stop, pause, resume, volume, seek, shuffle, skipto, clearqueue
-
 ## 🎶 Support Sources
 
 ### 🔍 Default Sources
@@ -203,11 +143,11 @@ flowchart TD
 [youtube-source]: https://github.com/lavalink-devs/youtube-source
 [jiosaavn]: https://github.com/c0ders-io/jiosaavn-plugin
 
-To Setup a Lavalink server on Windows, Linux, or Replit, [Click Here!](https://github.com/LucasB25/lavalink-server)
+To Setup a Lavalink server on Windows, Linux, or Replit, join our [Discord Server](https://discord.gg/uzesCqZgdr) and ask for help in the `#need-lavalink` channel!
 
 ### **Need help with plugins?**
 
-Join our [Discord Server](https://discord.gg/YQsGbTwPBx) and ask for help in the `#support` channel!
+Join our [Discord Server](https://discord.gg/uzesCqZgdr) and ask for help in the `#support` channel!
 
 ## 🔧 Requirements
 
@@ -414,10 +354,6 @@ Do note that the bot will restart itself to update to the latest!
 - ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white) [PostgreSQL](https://www.postgresql.org/download/)
 - ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white) [Docker](https://www.docker.com/)
 - ![Docker-Compose](https://img.shields.io/badge/Docker--Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white) [Docker-Compose](https://docs.docker.com/compose/)
-
-## 📝 Tutorial
-
-A tutorial has been uploaded on YouTube. Watch it by [clicking here](https://youtu.be/x5lQD2rguz0).
 
 ## 📜 Contributing
 
