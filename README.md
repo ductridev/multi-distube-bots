@@ -9,6 +9,9 @@
 [![Custom License][license-shield]][license-url]
 [![Run on Repl.it](https://repl.it/badge/github/ductridev/multi-distube-bots)](https://repl.it/github/ductridev/multi-distube-bots)
 [![Remix on Glitch](https://cdn.glitch.com/2703baf2-b643-4da7-ab91-7ee2a2d00b5b%2Fremix-button.svg)](https://glitch.com/edit/#!/import/github/ductridev/multi-distube-bots)
+[![Discord Bots](https://top.gg/api/widget/servers/1385166515099275346.svg?noavatar=true)](https://top.gg//bot/1385166515099275346)
+[![Discord Bots](https://top.gg/api/widget/upvotes/1385166515099275346.svg?noavatar=true)](https://top.gg//bot/1385166515099275346)
+[![Discord Bots](https://top.gg/api/widget/owner/1385166515099275346.svg?noavatar=true)](https://top.gg//bot/1385166515099275346)
 
 <!-- PROJECT LOGO -->
 <br />
@@ -469,5 +472,5 @@ Thanks go to these wonderful people:
 [issues-url]: https://github.com/ductridev/multi-distube-bots/issues
 [license-shield]: https://img.shields.io/badge/License-Custom%20Proprietary-red.svg?style=for-the-badge
 [license-url]: https://github.com/ductridev/multi-distube-bots/blob/master/LICENSE
-[support-server]: https://discord.gg/bostreamlimit
+[support-server]: https://discord.gg/uzesCqZgdr
 [support-shield]: https://img.shields.io/discord/942117923001098260.svg?style=for-the-badge&logo=discord&colorB=7289DA
