@@ -66,7 +66,7 @@ export default class About extends Command {
 				},
 				{
 					name: ctx.locale('cmd.about.fields.support'),
-					value: '[Here](https://discord.gg/bostreamlimit)',
+					value: '[Here](https://discord.gg/uzesCqZgdr)',
 					inline: true,
 				},
 				{

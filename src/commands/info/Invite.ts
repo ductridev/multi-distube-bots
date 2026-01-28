@@ -47,7 +47,7 @@ export default class Invite extends Command {
 			new ButtonBuilder()
 				.setLabel(ctx.locale('buttons.support'))
 				.setStyle(ButtonStyle.Link)
-				.setURL('https://discord.gg/bostreamlimit'),
+				.setURL('https://discord.gg/uzesCqZgdr'),
 		);
 		return await ctx.sendMessage({
 			embeds: [embed.setColor(this.client.color.main).setDescription(ctx.locale('cmd.invite.content'))],
