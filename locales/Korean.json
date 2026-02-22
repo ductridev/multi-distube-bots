@@ -647,7 +647,8 @@
 			"cooldown": "`{command}` 명령어를 사용하려면 {time}초동안 기다려야 해요.",
 			"error": "오류: `{error}`",
 			"vote_button": "투표하기",
-			"vote_message": "잠깐! 이 명령어를 사용하려면 top.gg에서 투표해야 해요."
+			"vote_message": "잠깐! 이 명령어를 사용하려면 top.gg에서 투표해야 해요.",
+			"slash_deprecated": "빗금 명령어가 더 이상 사용되지 않아요! 대신 `{prefix}{command}`를 사용해 주세요. 🎵"
 		},
 		"message": {
 			"prefix_mention": "이 서버의 접두사는 `{prefix}`예요. 더 많은 정보를 원하시나요? `{prefix}help`를 사용하세요.\n안전하게 지내시고, 멋진 하루 보내세요!",

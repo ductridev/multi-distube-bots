@@ -661,7 +661,8 @@
 			"cooldown": "Wacht nog {time} seconde(n) voordat je het `{command}` commando opnieuw gebruikt.",
 			"error": "Er is een fout opgetreden: `{error}`",
 			"vote_button": "Stem op mij!",
-			"vote_message": "Wacht! Je moet stemmen op top.gg om dit commando te gebruiken. Bedankt."
+			"vote_message": "Wacht! Je moet stemmen op top.gg om dit commando te gebruiken. Bedankt.",
+			"slash_deprecated": "Slash-commando's zijn verouderd! Gebruik in plaats daarvan `{prefix}{command}`. 🎵"
 		},
 		"message": {
 			"prefix_mention": "Hé, mijn voorvoegsel voor deze server is `{prefix}`. Wil je meer informatie? Gebruik dan `{prefix}help`\nBlijf veilig, blijf geweldig!",

@@ -650,7 +650,8 @@
 			"cooldown": "`{command}` command ka fir se upyog karne se pehle kripya {time} second(s) aur प्रतीक्षा करें.",
 			"error": "Ek error aaya: `{error}`",
 			"vote_button": "मुझे वोट करें!",
-			"vote_message": "रुकें! इस कमांड का उपयोग करने के लिए आपको top.gg पर वोट करना होगा। धन्यवाद।"
+			"vote_message": "रुकें! इस कमांड का उपयोग करने के लिए आपको top.gg पर वोट करना होगा। धन्यवाद।",
+			"slash_deprecated": "स्लैश कमांड बंद कर दिए गए हैं! कृपया इसके बजाय `{prefix}{command}` का उपयोग करें। 🎵"
 		},
 		"message": {
 			"prefix_mention": "Hey, is server ke liye mera prefix `{prefix}` hai. Aur jankari chahiye? To `{prefix}help` karein\nSurakshit Rahein, Shaandaar Rahein!",

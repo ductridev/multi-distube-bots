@@ -650,7 +650,8 @@
 			"cooldown": "Vent {time} sekund(er) til før du bruker `{command}`-kommandoen på nytt.",
 			"error": "En feil oppstod: `{error}`",
 			"vote_button": "Stem på meg!",
-			"vote_message": "Vent! Du må stemme på top.gg for å bruke denne kommandoen. Takk."
+			"vote_message": "Vent! Du må stemme på top.gg for å bruke denne kommandoen. Takk.",
+			"slash_deprecated": "Skråstrekkommandoer er utdatert! Vennligst bruk `{prefix}{command}` i stedet. 🎵"
 		},
 		"message": {
 			"prefix_mention": "Hei, prefikset mitt for denne serveren er `{prefix}`. Vil du ha mer informasjon? Bruk da `{prefix}help`\nHold deg trygg, hold deg fantastisk!",

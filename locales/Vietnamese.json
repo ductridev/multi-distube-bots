@@ -109,7 +109,7 @@
 		"delete": {
 			"description": "Xóa playlist không còn dùng nữa 🗑️",
 			"messages": {
-				"playlist_deleted": "Đã xóa playlist **{playlistName}**. Tạm biệt nhé! 👋",
+				"playlist_deleted": "Đã xóa playlist **{playlistName}**.",
 				"playlist_not_found": "Không tìm thấy playlist này. Kiểm tra lại tên xem! 🔍"
 			},
 			"options": {
@@ -660,7 +660,8 @@
 			"vote_message": "Chờ chút! Vote cho mình trên top.gg để dùng lệnh này nhé! Cảm ơn bạn! 💖",
 			"bot_busy_different_vc": "Mình đang phát nhạc ở kênh khác rồi! Dùng bot khác hoặc chờ mình rảnh nhé 🎶",
 			"bot_busy_get_more": "Mình bận rồi! Thêm nhiều bot để phát nhạc nhiều phòng cùng lúc nhé! 🎵",
-			"get_more_bots_button": "Thêm Bot ➕"
+			"get_more_bots_button": "Thêm Bot ➕",
+			"slash_deprecated": "Lệnh slash đã bị loại bỏ! Vui lòng dùng `{prefix}{command}` thay thế. 🎵"
 		},
 		"message": {
 			"cooldown": "Chờ {time} giây nữa nhé! Lệnh `{command}` đang cooldown ⏱️",
@@ -728,7 +729,7 @@
 		"voice_state_update": {
 			"kicked": "Mình bị ngắt kết nối khỏi kênh <#{channelId}>! Ai làm vậy? 😢",
 			"moved": "Mình đã chuyển sang kênh <#{channelId}> rồi! 🚚",
-			"left_due_to_timeout_no_listeners": "Mình rời kênh <#{channelId}> rồi vì không có ai nghe! Nhớ quay lại nhé 👋",
+			"left_due_to_timeout_no_listeners": "Mình rời kênh <#{channelId}> rồi vì không có ai nghe! Tạm biệt nhé 👋",
 			"left_due_to_timeout_no_songs": "Mình rời kênh <#{channelId}> vì hết nhạc rồi! Phát tiếp lần sau nhé 🎵",
 			"moved_to_channel_with_another_bot": "Oop! Kênh này đã có bot khác rồi! Mình thử quay lại kênh cũ <#{originalChannelId}> xem sao... 🔄",
 			"rejoined_original_channel": "Phù! Quay lại kênh cũ <#{channelId}> thành công rồi! 🎉",
@@ -802,7 +803,7 @@
 	"Show current maintenance status": "Hiển thị tình trạng bảo trì hiện tại",
 	"The loop mode you want to set": "Chế độ lặp lại bạn muốn đặt",
 	"will_leave": {
-		"no_listeners": "Mình sẽ rời sau {time} phút vì không có ai nghe! Chào tạm biệt 👋",
+		"no_listeners": "Mình sẽ rời sau {time} phút vì không có ai nghe! Nhớ quay lại nhé 👋",
 		"no_songs": "Mình sẽ rời sau {time} phút vì không có nhạc! Phát tiếp nhé 🎵"
 	},
 	"will_restart_after": "Mình sẽ khởi động lại sau {time}! Chờ mình tí nhé 🔄",

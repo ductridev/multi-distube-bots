@@ -670,7 +670,8 @@
 			"cooldown": "慢点！再等 {time} 秒才能用 `{command}` 命令 ⏱️",
 			"error": "哎呀！出错了: `{error}` 😢",
 			"vote_button": "为我投票！⭐",
-			"vote_message": "等一下！在 top.gg 上为机器人投票后才能用这个命令。谢谢支持！💖"
+			"vote_message": "等一下！在 top.gg 上为机器人投票后才能用这个命令。谢谢支持！💖",
+			"slash_deprecated": "斜杠命令已弃用！请改用 `{prefix}{command}`。🎵"
 		},
 		"message": {
 			"prefix_mention": "嘿，我这个服务器的前缀是 `{prefix}`。想要了解更多信息？请执行 `{prefix}help`\n注意安全，保持出色！",

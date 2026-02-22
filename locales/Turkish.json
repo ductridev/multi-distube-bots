@@ -651,7 +651,8 @@
 			"cooldown": "`{command}` komutunu yeniden kullanmadan önce {time} saniye bekleyin.",
 			"error": "Bir hata oluştu: `{error}`",
 			"vote_button": "Oy Ver!",
-			"vote_message": "Durun! Bu komutu kullanabilmek için top.gg üzerinde oy vermelisiniz. Teşekkürler."
+			"vote_message": "Durun! Bu komutu kullanabilmek için top.gg üzerinde oy vermelisiniz. Teşekkürler.",
+			"slash_deprecated": "Slash komutları kullanımdan kaldırıldı! Lütfen yerine `{prefix}{command}` kullanın. 🎵"
 		},
 		"message": {
 			"prefix_mention": "Merhaba, bu sunucu için ön ekim `{prefix}`. Daha fazla bilgi mi istiyorsunuz? `{prefix}help` yapın\nGüvende kalın, harika kalın!",

@@ -648,7 +648,8 @@
 			"cooldown": "Por favor, espera {time} segundo(s) más antes de volver a usar el comando `{command}`.",
 			"error": "Se ha producido un error: `{error}`",
 			"vote_button": "¡Vota por mí!",
-			"vote_message": "¡Espera! Necesitas votar en top.gg para usar este comando. Gracias."
+			"vote_message": "¡Espera! Necesitas votar en top.gg para usar este comando. Gracias.",
+			"slash_deprecated": "¡Los comandos slash han sido descontinuados! Por favor, usa `{prefix}{command}` en su lugar. 🎵"
 		},
 		"message": {
 			"prefix_mention": "Hola, mi prefijo para este servidor es `{prefix}`. ¿Quieres más información? Entonces escribe `{prefix}help`\n¡Mantente seguro, mantente genial!",

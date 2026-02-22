@@ -650,7 +650,8 @@
 			"cooldown": "Harap tunggu {time} detik lagi sebelum menggunakan kembali command `{command}`.",
 			"error": "Terjadi kesalahan: `{error}`",
 			"vote_button": "Vote untuk saya!",
-			"vote_message": "Tunggu! Anda perlu memberikan vote di top.gg untuk menggunakan perintah ini. Terima kasih."
+			"vote_message": "Tunggu! Anda perlu memberikan vote di top.gg untuk menggunakan perintah ini. Terima kasih.",
+			"slash_deprecated": "Perintah slash sudah tidak digunakan lagi! Silakan gunakan `{prefix}{command}` sebagai gantinya. 🎵"
 		},
 		"message": {
 			"prefix_mention": "Hai, prefix saya untuk server ini adalah `{prefix}`. Ingin informasi lebih lanjut? Lakukan `{prefix}help`\nTetap Aman, Tetap Luar Biasa!",

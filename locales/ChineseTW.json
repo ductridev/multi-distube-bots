@@ -671,7 +671,8 @@
 			"cooldown": "請等待 {time} 秒後再使用 `{command}` 指令。",
 			"error": "發生錯誤: `{error}`",
 			"vote_button": "為我投票！",
-			"vote_message": "等等！您需要在 top.gg 上為機器人投票才能使用此指令。謝謝。"
+			"vote_message": "等等！您需要在 top.gg 上為機器人投票才能使用此指令。謝謝。",
+			"slash_deprecated": "斜線指令已棄用！請改用 `{prefix}{command}`。🎵"
 		},
 		"message": {
 			"prefix_mention": "嘿，我這個伺服器的前綴是 `{prefix}`。想要了解更多資訊？請執行 `{prefix}help`\n注意安全，保持出色！",

@@ -650,7 +650,8 @@
 			"cooldown": "Poczekaj {time} sekund(y), zanim ponownie użyjesz tej komendy `{command}`.",
 			"error": "Wystąpił błąd: `{error}`",
 			"vote_button": "Zagłosuj na mnie!",
-			"vote_message": "Czekaj! Musisz zagłosować na top.gg, aby użyć tej komendy. Dzięki."
+			"vote_message": "Czekaj! Musisz zagłosować na top.gg, aby użyć tej komendy. Dzięki.",
+			"slash_deprecated": "Komendy slash zostały wycofane! Użyj `{prefix}{command}` zamiast tego. 🎵"
 		},
 		"message": {
 			"prefix_mention": "Hej, mój prefiks dla tego serwera to `{prefix}`. Chcesz uzyskać więcej informacji? Uzyj komendy `{prefix}help`\nBądź bezpieczeny i niesamowity!",
