@@ -1,0 +1,40 @@
+diff --git a/node_modules/lavalink-client/dist/index.d.mts b/node_modules/lavalink-client/dist/index.d.mts
+index 978f685..442ae6d 100644
+--- a/node_modules/lavalink-client/dist/index.d.mts
++++ b/node_modules/lavalink-client/dist/index.d.mts
+@@ -198,6 +198,8 @@ interface PlayerJson {
+     nodeSessionId?: string;
+     /** The stored queue */
+     queue?: StoredQueue;
++    /** Custom data for the player */
++    data?: anyObject;
+ }
+ type RepeatMode = "queue" | "track" | "off";
+ interface PlayerOptions {
+diff --git a/node_modules/lavalink-client/dist/index.d.ts b/node_modules/lavalink-client/dist/index.d.ts
+index 978f685..442ae6d 100644
+--- a/node_modules/lavalink-client/dist/index.d.ts
++++ b/node_modules/lavalink-client/dist/index.d.ts
+@@ -198,6 +198,8 @@ interface PlayerJson {
+     nodeSessionId?: string;
+     /** The stored queue */
+     queue?: StoredQueue;
++    /** Custom data for the player */
++    data?: anyObject;
+ }
+ type RepeatMode = "queue" | "track" | "off";
+ interface PlayerOptions {
+diff --git a/node_modules/lavalink-client/dist/index.mjs b/node_modules/lavalink-client/dist/index.mjs
+index 327877d..bc02588 100644
+--- a/node_modules/lavalink-client/dist/index.mjs
++++ b/node_modules/lavalink-client/dist/index.mjs
+@@ -6038,7 +6038,8 @@ var Player = class {
+       nodeId: this.node?.id,
+       nodeSessionId: this.node?.sessionId,
+       ping: this.ping,
+-      queue: this.queue?.utils?.toJSON?.()
++      queue: this.queue?.utils?.toJSON?.(),
++      data: this.data
+     };
+   }
+ };
