@@ -49,6 +49,7 @@ export default class Skip extends Command {
 			});
 		}
 		const currentTrack = player.queue.current?.info;
+		player.set('messageId', undefined);
 		player.skip(0, !autoplay);
 		if (ctx.isInteraction) {
 			return await ctx.sendMessage({

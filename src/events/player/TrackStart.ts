@@ -392,6 +392,7 @@ function createCollector(
 				}
 
 				await interaction.deferUpdate();
+				player.set('messageId', undefined);
 				player.skip(0, !autoplay);
 				await editMessage(
 					T(locale, 'player.trackStart.skipped_by', {
