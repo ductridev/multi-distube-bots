@@ -41,7 +41,7 @@
 		},
 		"botinfo": {
 			"description": "Informasjon om boten",
-			"content": "Botinformasjon:\n- **Operativsystem**: {osInfo}\n- **Oppetid**: {osUptime}\n- **Vertsnavn**: {osHostname}\n- **CPU-arkitektur**: {cpuInfo}\n- **CPU-bruk**: {cpuUsed}%\n- **Minnebruk**: {memUsed}MB / {memTotal}GB\n- **Nodeversjon**: {nodeVersion}\n- **Discord-versjon**: {discordJsVersion}\n- **Tilkoblet** {guilds} servere, {channels} kanaler og {users} brukere\n- **Totalt antall kommandoer**: {commands}"
+			"content": "Botinformasjon:\n- **Operativsystem**: {osInfo}\n- **Oppetid**: {osUptime}\n- **Vertsnavn**: {osHostname}\n- **CPU-arkitektur**: {cpuInfo}\n- **CPU-bruk**: {cpuUsed}%\n- **Minnebruk**: {memUsed} / {memTotal}\n- **Nodeversjon**: {nodeVersion}\n- **Discord-versjon**: {discordJsVersion}\n- **Tilkoblet** {guilds} servere, {channels} kanaler og {users} brukere\n- **Totalt antall kommandoer**: {commands}"
 		},
 		"about": {
 			"description": "Viser informasjon om boten",

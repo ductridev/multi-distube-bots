@@ -41,7 +41,7 @@
 		},
 		"botinfo": {
 			"description": "Informasi tentang bot",
-			"content": "Informasi Bot:\n- **Sistem Operasi**: {osInfo}\n- **Uptime**: {osUptime}\n- **Nama Host**: {osHostname}\n- **Arsitektur CPU**: {cpuInfo}\n- **Penggunaan CPU**: {cpuUsed}%\n- **Penggunaan Memori**: {memUsed}MB / {memTotal}GB\n- **Versi Node**: {nodeVersion}\n- **Versi Discord**: {discordJsVersion}\n- **Terhubung ke** {guilds} guild, {channels} saluran, dan {users} pengguna\n- **Total command**: {commands}"
+			"content": "Informasi Bot:\n- **Sistem Operasi**: {osInfo}\n- **Uptime**: {osUptime}\n- **Nama Host**: {osHostname}\n- **Arsitektur CPU**: {cpuInfo}\n- **Penggunaan CPU**: {cpuUsed}%\n- **Penggunaan Memori**: {memUsed} / {memTotal}\n- **Versi Node**: {nodeVersion}\n- **Versi Discord**: {discordJsVersion}\n- **Terhubung ke** {guilds} guild, {channels} saluran, dan {users} pengguna\n- **Total command**: {commands}"
 		},
 		"about": {
 			"description": "Menampilkan informasi tentang bot",

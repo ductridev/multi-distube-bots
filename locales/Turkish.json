@@ -41,7 +41,7 @@
 		},
 		"botinfo": {
 			"description": "Bot hakkında bilgi verir.",
-			"content": "Bot Bilgisi:\n- **İşletim Sistemi**: {osInfo}\n- **Çalışma Süresi**: {osUptime}\n- **Ana Bilgisayar Adı**: {osHostname}\n- **CPU Mimarisi**: {cpuInfo}\n- **CPU Kullanımı**: %{cpuUsed}\n- **Bellek Kullanımı**: {memUsed}MB / {memTotal}GB\n- **Node Versiyonu**: {nodeVersion}\n- **Discord.js Versiyonu**: {discordJsVersion}\n- {guilds} sunucuya, {channels} kanala ve {users} kullanıcıya bağlı\n- **Toplam Komutlar**: {commands}"
+			"content": "Bot Bilgisi:\n- **İşletim Sistemi**: {osInfo}\n- **Çalışma Süresi**: {osUptime}\n- **Ana Bilgisayar Adı**: {osHostname}\n- **CPU Mimarisi**: {cpuInfo}\n- **CPU Kullanımı**: %{cpuUsed}\n- **Bellek Kullanımı**: {memUsed} / {memTotal}\n- **Node Versiyonu**: {nodeVersion}\n- **Discord.js Versiyonu**: {discordJsVersion}\n- {guilds} sunucuya, {channels} kanala ve {users} kullanıcıya bağlı\n- **Toplam Komutlar**: {commands}"
 		},
 		"about": {
 			"description": "Bot hakkında bilgi gösterir.",

@@ -43,7 +43,7 @@
 		},
 		"botinfo": {
 			"description": "關於機器人的資訊",
-			"content": "機器人資訊：\n- **操作系統**: {osInfo}\n- **正常運行時間**: {osUptime}\n- **主機名**: {osHostname}\n- **CPU 架構**: {cpuInfo}\n- **CPU 使用率**: {cpuUsed}%\n- **記憶體使用量**: {memUsed}MB / {memTotal}GB\n- **節點版本**: {nodeVersion}\n- **Discord 版本**: {discordJsVersion}\n- **已連接到** {guilds} 個伺服器，{channels} 個頻道和 {users} 個使用者\n- **指令總數**: {commands}"
+			"content": "機器人資訊：\n- **操作系統**: {osInfo}\n- **正常運行時間**: {osUptime}\n- **主機名**: {osHostname}\n- **CPU 架構**: {cpuInfo}\n- **CPU 使用率**: {cpuUsed}%\n- **記憶體使用量**: {memUsed} / {memTotal}\n- **節點版本**: {nodeVersion}\n- **Discord 版本**: {discordJsVersion}\n- **已連接到** {guilds} 個伺服器，{channels} 個頻道和 {users} 個使用者\n- **指令總數**: {commands}"
 		},
 		"about": {
 			"description": "顯示關於機器人的資訊",

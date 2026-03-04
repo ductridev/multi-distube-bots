@@ -41,7 +41,7 @@
 		},
 		"botinfo": {
 			"description": "Bot ke baare mein jankari",
-			"content": "Bot Jankari:\n- **Operating System**: {osInfo}\n- **Uptime**: {osUptime}\n- **Hostname**: {osHostname}\n- **CPU Architecture**: {cpuInfo}\n- **CPU Upbhog**: {cpuUsed}%\n- **Smriti Upbhog**: {memUsed}MB / {memTotal}GB\n- **Node Sansकरण**: {nodeVersion}\n- **Discord Sansकरण**: {discordJsVersion}\n- **Se जुड़ा हुआ** {guilds} guilds, {channels} channels, aur {users} users\n- **Kul Commands**: {commands}"
+			"content": "Bot Jankari:\n- **Operating System**: {osInfo}\n- **Uptime**: {osUptime}\n- **Hostname**: {osHostname}\n- **CPU Architecture**: {cpuInfo}\n- **CPU Upbhog**: {cpuUsed}%\n- **Smriti Upbhog**: {memUsed} / {memTotal}\n- **Node Sansकरण**: {nodeVersion}\n- **Discord Sansकरण**: {discordJsVersion}\n- **Se जुड़ा हुआ** {guilds} guilds, {channels} channels, aur {users} users\n- **Kul Commands**: {commands}"
 		},
 		"about": {
 			"description": "Bot ke baare mein jankari dhakeye",

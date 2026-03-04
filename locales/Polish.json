@@ -41,7 +41,7 @@
 		},
 		"botinfo": {
 			"description": "Informacje o bocie",
-			"content": "Informacje o bocie:\n- **System operacyjny**: {osInfo}\n- **Czas działania**: {osUptime}\n- **Nazwa hosta**: {osHostname}\n- **Architektura procesora**: {cpuInfo}\n- **Wykorzystanie procesora**: {cpuUsed}%\n- **Zużycie pamięci**: {memUsed}MB / {memTotal}GB\n- **Wersja Node**: {nodeVersion}\n- **Wersja Discord**: {discordJsVersion}\n- **Połączony z** {guilds} serwerami, {channels} kanałami i {users} użytkownikami\n- **Łącznie komend**: {commands}"
+			"content": "Informacje o bocie:\n- **System operacyjny**: {osInfo}\n- **Czas działania**: {osUptime}\n- **Nazwa hosta**: {osHostname}\n- **Architektura procesora**: {cpuInfo}\n- **Wykorzystanie procesora**: {cpuUsed}%\n- **Zużycie pamięci**: {memUsed} / {memTotal}\n- **Wersja Node**: {nodeVersion}\n- **Wersja Discord**: {discordJsVersion}\n- **Połączony z** {guilds} serwerami, {channels} kanałami i {users} użytkownikami\n- **Łącznie komend**: {commands}"
 		},
 		"about": {
 			"description": "Pokazuje informacje o bocie",

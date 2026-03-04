@@ -41,7 +41,7 @@
 		},
 		"botinfo": {
 			"description": "봇에 대한 정보를 표시해요",
-			"content": "봇 정보:\n- **운영 체제**: {osInfo}\n- **업타임**: {osUptime}\n- **호스트 이름**: {osHostname}\n- **CPU 아키텍처**: {cpuInfo}\n- **CPU 사용량**: {cpuUsed}%\n- **메모리 사용량**: {memUsed}MB / {memTotal}GB\n- **Node 버전**: {nodeVersion}\n- **Discord.js 버전**: {discordJsVersion}\n- 서버 {guilds}개, 채널 {channels}개, 유저 {users}명\n- **명령어 수**: {commands}개"
+			"content": "봇 정보:\n- **운영 체제**: {osInfo}\n- **업타임**: {osUptime}\n- **호스트 이름**: {osHostname}\n- **CPU 아키텍처**: {cpuInfo}\n- **CPU 사용량**: {cpuUsed}%\n- **메모리 사용량**: {memUsed} / {memTotal}\n- **Node 버전**: {nodeVersion}\n- **Discord.js 버전**: {discordJsVersion}\n- 서버 {guilds}개, 채널 {channels}개, 유저 {users}명\n- **명령어 수**: {commands}개"
 		},
 		"about": {
 			"description": "봇에 대한 정보를 확인해요",

@@ -43,7 +43,7 @@
 		},
 		"botinfo": {
 			"description": "Informatie over de bot",
-			"content": "Bot informatie:\n- **Besturingssysteem**: {osInfo}\n- **Uptime**: {osUptime}\n- **Hostnaam**: {osHostname}\n- **CPU Architectuur**: {cpuInfo}\n- **CPU Gebruik**: {cpuUsed}%\n- **Werkgeheugen Gebruik**: {memUsed}MB / {memTotal}GB\n- **Node Versie**: {nodeVersion}\n- **Discord.js Versie**: {discordJsVersion}\n- **Verbonden met** {guilds} servers, {channels} kanalen, en {users} gebruikers\n- **Totaal aantal commando's**: {commands}"
+			"content": "Bot informatie:\n- **Besturingssysteem**: {osInfo}\n- **Uptime**: {osUptime}\n- **Hostnaam**: {osHostname}\n- **CPU Architectuur**: {cpuInfo}\n- **CPU Gebruik**: {cpuUsed}%\n- **Werkgeheugen Gebruik**: {memUsed} / {memTotal}\n- **Node Versie**: {nodeVersion}\n- **Discord.js Versie**: {discordJsVersion}\n- **Verbonden met** {guilds} servers, {channels} kanalen, en {users} gebruikers\n- **Totaal aantal commando's**: {commands}"
 		},
 		"about": {
 			"description": "Laat informatie over de bot zien",

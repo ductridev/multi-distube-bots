@@ -52,7 +52,7 @@
 		},
 		"botinfo": {
 			"description": "Get to know me better! Check my stats and info 🤖",
-			"content": "Bot Information:\n- **Operating System**: {osInfo}\n- **Uptime**: {osUptime}\n- **Hostname**: {osHostname}\n- **CPU Architecture**: {cpuInfo}\n- **CPU Usage**: {cpuUsed}%\n- **Memory Usage**: {memUsed}MB / {memTotal}GB\n- **Node Version**: {nodeVersion}\n- **Discord.js Version**: {discordJsVersion}\n- **Connected to** {guilds} guilds, {channels} channels, and {users} users\n- **Total Commands**: {commands}"
+			"content": "Bot Information:\n- **Operating System**: {osInfo}\n- **Uptime**: {osUptime}\n- **Hostname**: {osHostname}\n- **CPU Architecture**: {cpuInfo}\n- **CPU Usage**: {cpuUsed}%\n- **Memory Usage**: {memUsed} / {memTotal}\n- **Node Version**: {nodeVersion}\n- **Discord.js Version**: {discordJsVersion}\n- **Connected to** {guilds} guilds, {channels} channels, and {users} users\n- **Total Commands**: {commands}"
 		},
 		"about": {
 			"description": "Learn about my story! Who made me and why 💡",

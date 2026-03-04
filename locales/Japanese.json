@@ -41,7 +41,7 @@
 		},
 		"botinfo": {
 			"description": "ボットに関する情報",
-			"content": "ボット情報:\n- **オペレーティングシステム**: {osInfo}\n- **稼働時間**: {osUptime}\n- **ホスト名**: {osHostname}\n- **CPUアーキテクチャ**: {cpuInfo}\n- **CPU使用率**: {cpuUsed}%\n- **メモリ使用量**: {memUsed}MB / {memTotal}GB\n- **Nodeバージョン**: {nodeVersion}\n- **Discordバージョン**: {discordJsVersion}\n- **接続中** {guilds} サーバー, {channels} チャンネル, {users} ユーザー\n- **合計コマンド数**: {commands}"
+			"content": "ボット情報:\n- **オペレーティングシステム**: {osInfo}\n- **稼働時間**: {osUptime}\n- **ホスト名**: {osHostname}\n- **CPUアーキテクチャ**: {cpuInfo}\n- **CPU使用率**: {cpuUsed}%\n- **メモリ使用量**: {memUsed} / {memTotal}\n- **Nodeバージョン**: {nodeVersion}\n- **Discordバージョン**: {discordJsVersion}\n- **接続中** {guilds} サーバー, {channels} チャンネル, {users} ユーザー\n- **合計コマンド数**: {commands}"
 		},
 		"about": {
 			"description": "ボットに関する情報を表示します",

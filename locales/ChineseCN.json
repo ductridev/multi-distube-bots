@@ -43,7 +43,7 @@
 		},
 		"botinfo": {
 			"description": "查看我的详细信息！🤖",
-			"content": "机器人信息：\n- **操作系统**: {osInfo}\n- **运行时间**: {osUptime}\n- **主机名**: {osHostname}\n- **CPU 架构**: {cpuInfo}\n- **CPU 使用率**: {cpuUsed}%\n- **内存使用**: {memUsed}MB / {memTotal}GB\n- **Node 版本**: {nodeVersion}\n- **Discord 版本**: {discordJsVersion}\n- **已连接到** {guilds} 个服务器，{channels} 个频道和 {users} 个用户\n- **命令总数**: {commands}"
+			"content": "机器人信息：\n- **操作系统**: {osInfo}\n- **运行时间**: {osUptime}\n- **主机名**: {osHostname}\n- **CPU 架构**: {cpuInfo}\n- **CPU 使用率**: {cpuUsed}%\n- **内存使用**: {memUsed} / {memTotal}\n- **Node 版本**: {nodeVersion}\n- **Discord 版本**: {discordJsVersion}\n- **已连接到** {guilds} 个服务器，{channels} 个频道和 {users} 个用户\n- **命令总数**: {commands}"
 		},
 		"about": {
 			"description": "关于我的一些介绍 💫",

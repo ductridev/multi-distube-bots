@@ -86,7 +86,7 @@
 			}
 		},
 		"botinfo": {
-			"content": "📊 **Thông tin về mình:**\n- **Hệ điều hành:** {osInfo}\n- **Thời gian hoạt động:** {osUptime}\n- **Máy chủ:** {osHostname}\n- **CPU:** {cpuInfo}\n- **Sử dụng CPU:** {cpuUsed}%\n- **RAM:** {memUsed}MB / {memTotal}GB\n- **Node.js:** {nodeVersion}\n- **Discord.js:** {discordJsVersion}\n- **Đang phục vụ:** {guilds} servers, {channels} kênh và {users} người dùng\n- **Tổng lệnh:** {commands}",
+			"content": "📊 **Thông tin về mình:**\n- **Hệ điều hành:** {osInfo}\n- **Thời gian hoạt động:** {osUptime}\n- **Máy chủ:** {osHostname}\n- **CPU:** {cpuInfo}\n- **Sử dụng CPU:** {cpuUsed}%\n- **RAM:** {memUsed} / {memTotal}\n- **Node.js:** {nodeVersion}\n- **Discord.js:** {discordJsVersion}\n- **Đang phục vụ:** {guilds} servers, {channels} kênh và {users} người dùng\n- **Tổng lệnh:** {commands}",
 			"description": "Xem thông số kỹ thuật và tình trạng hoạt động của mình! 📊"
 		},
 		"clearqueue": {

@@ -52,7 +52,7 @@
     },
     "botinfo": {
       "description": "ข้อมูลเกี่ยวกับบอท",
-      "content": "ข้อมูลบอท:\n- **OS:** {osInfo}\n- **เวลาทำงาน:** {osUptime}\n- **โฮสต์เนม:** {osHostname}\n- **สถาปัตยกรรม CPU:** {cpuInfo}\n- **การใช้ CPU:** {cpuUsed}%\n- **การใช้หน่วยความจำ:** {memUsed}MB / {memTotal}GB\n- **เวอร์ชัน Node:** {nodeVersion}\n- **เวอร์ชัน Discord.js:** {discordJsVersion}\n- **เชื่อมต่ออยู่กับ:** {guilds} เซิร์ฟเวอร์, {channels} ช่อง, และ {users} ผู้ใช้\n- **จำนวนคำสั่งทั้งหมด:** {commands}"
+      "content": "ข้อมูลบอท:\n- **OS:** {osInfo}\n- **เวลาทำงาน:** {osUptime}\n- **โฮสต์เนม:** {osHostname}\n- **สถาปัตยกรรม CPU:** {cpuInfo}\n- **การใช้ CPU:** {cpuUsed}%\n- **การใช้หน่วยความจำ:** {memUsed} / {memTotal}\n- **เวอร์ชัน Node:** {nodeVersion}\n- **เวอร์ชัน Discord.js:** {discordJsVersion}\n- **เชื่อมต่ออยู่กับ:** {guilds} เซิร์ฟเวอร์, {channels} ช่อง, และ {users} ผู้ใช้\n- **จำนวนคำสั่งทั้งหมด:** {commands}"
     },
     "about": {
       "description": "เกี่ยวกับบอท",
