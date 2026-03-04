@@ -356,7 +356,7 @@ class ApiClient {
 
   // Check premium status
   async checkPremiumStatus(): Promise<PremiumStatusResponse> {
-    const { data } = await this.client.get<PremiumStatusResponse>("/api/stats/check-premium");
+    const { data } = (await this.client.get("/api/stats/check-premium")).data;
     return data;
   }
 
