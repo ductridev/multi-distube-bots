@@ -2,6 +2,7 @@ import os from 'node:os';
 import { version } from 'discord.js';
 import { showTotalMemory, usagePercent } from 'node-system-stats';
 import { Command, type Context, type Lavamusic } from '../../structures/index';
+import { Utils } from '../../utils/Utils';
 
 export default class Botinfo extends Command {
 	constructor(client: Lavamusic) {
@@ -41,18 +42,21 @@ export default class Botinfo extends Command {
 		
 		// Wrap system stats calls in try-catch for containerized environments
 		let cpuUsed = 0;
-		let memTotal: string = '0 MB';
+		let memTotal: string = '0 Bytes';
 		try {
 			cpuUsed = (await usagePercent({ coreIndex: 0, sampleMs: 2000 })).percent;
 			const totalMem = showTotalMemory(true);
-			memTotal = typeof totalMem === 'string' ? totalMem : `${totalMem} MB`;
+			// Convert MB to bytes and use Utils.formatBytes for dynamic unit display
+			const totalMemMB = typeof totalMem === 'string' ? parseFloat(totalMem) : totalMem;
+			memTotal = Utils.formatBytes(totalMemMB * 1024 * 1024); // Convert MB to bytes
 		} catch (error) {
 			// Fallback for containerized environments (Docker/Pterodactyl)
 			cpuUsed = 0;
-			memTotal = `${(os.totalmem() / 1024 ** 2).toFixed(2)} MB`;
+			memTotal = Utils.formatBytes(os.totalmem());
 		}
 		
-		const memUsed = (process.memoryUsage().rss / 1024 ** 2).toFixed(2);
+		// Use Utils.formatBytes for dynamic unit display
+		const memUsed = Utils.formatBytes(process.memoryUsage().rss);
 		const nodeVersion = process.version;
 		const discordJsVersion = version;
 		const commands = client.commands.size;
