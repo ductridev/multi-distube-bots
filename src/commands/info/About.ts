@@ -41,7 +41,7 @@ export default class About extends Command {
 		const supportButton = new ButtonBuilder()
 			.setLabel(ctx.locale('buttons.support'))
 			.setStyle(ButtonStyle.Link)
-			.setURL('https://discord.gg/YQsGbTwPBx');
+			.setURL('https://discord.gg/uzesCqZgdr');
 		const row = new ActionRowBuilder<ButtonBuilder>().addComponents(inviteButton, supportButton);
 		const embed = this.client
 			.embed()
