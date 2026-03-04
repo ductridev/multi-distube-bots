@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import type { FastifyRequest, FastifyReply } from 'fastify';
 import { activeBots } from '../../index';
 import Logger from '../../structures/Logger';
+import { env } from '../../env';
 import type {
 	TimePeriod,
 	AggregationMethod,
@@ -16,9 +17,9 @@ import type {
 const prisma = new PrismaClient();
 const logger = new Logger('StatsController');
 
-// Premium periods require donation >= $1
+// Premium periods require donation >= MINIMUM_DONATION_AMOUNT (configurable via env)
 const PREMIUM_PERIODS: TimePeriod[] = ['last_30_days', 'all_time'];
-const MINIMUM_DONATION_AMOUNT = 1.0;
+const MINIMUM_DONATION_AMOUNT = env.MINIMUM_DONATION_AMOUNT;
 
 /**
  * Convert period string to date range
@@ -80,9 +81,14 @@ function aggregateData(data: number[], method: AggregationMethod): number {
 }
 
 /**
- * Check if user has premium status (donated >= $1 USD)
+ * Check if user has premium status (owner role or donated >= $1 USD)
  */
-async function checkPremiumStatus(userId: string): Promise<boolean> {
+async function checkPremiumStatus(userId: string, userRole?: string): Promise<boolean> {
+	// Owners automatically have premium access
+	if (userRole === 'owner') {
+		return true;
+	}
+
 	try {
 		const donations = await prisma.userDonation.aggregate({
 			where: {
@@ -341,7 +347,7 @@ export class StatsController {
 
 			// Check premium for premium periods
 			if (PREMIUM_PERIODS.includes(period)) {
-				const isPremium = await checkPremiumStatus(user.discordId);
+				const isPremium = await checkPremiumStatus(user.discordId, user.role);
 				if (!isPremium) {
 					return reply.status(403).send({
 						error: 'Premium required',
@@ -999,7 +1005,7 @@ export class StatsController {
 			}
 
 			if (PREMIUM_PERIODS.includes(period)) {
-				const isPremium = await checkPremiumStatus(user.discordId);
+				const isPremium = await checkPremiumStatus(user.discordId, user.role);
 				if (!isPremium) {
 					return reply.status(403).send({
 						error: 'Premium required',
@@ -1072,7 +1078,7 @@ export class StatsController {
 			}
 
 			if (PREMIUM_PERIODS.includes(period)) {
-				const isPremium = await checkPremiumStatus(user.discordId);
+				const isPremium = await checkPremiumStatus(user.discordId, user.role);
 				if (!isPremium) {
 					return reply.status(403).send({
 						error: 'Premium required',
@@ -1142,7 +1148,7 @@ export class StatsController {
 			}
 
 			if (PREMIUM_PERIODS.includes(period)) {
-				const isPremium = await checkPremiumStatus(user.discordId);
+				const isPremium = await checkPremiumStatus(user.discordId, user.role);
 				if (!isPremium) {
 					return reply.status(403).send({
 						error: 'Premium required',
@@ -1181,7 +1187,7 @@ export class StatsController {
 			}
 
 			if (PREMIUM_PERIODS.includes(period)) {
-				const isPremium = await checkPremiumStatus(user.discordId);
+				const isPremium = await checkPremiumStatus(user.discordId, user.role);
 				if (!isPremium) {
 					return reply.status(403).send({
 						error: 'Premium required',
@@ -1220,7 +1226,7 @@ export class StatsController {
 			}
 
 			if (PREMIUM_PERIODS.includes(period)) {
-				const isPremium = await checkPremiumStatus(user.discordId);
+				const isPremium = await checkPremiumStatus(user.discordId, user.role);
 				if (!isPremium) {
 					return reply.status(403).send({
 						error: 'Premium required',
@@ -1259,7 +1265,7 @@ export class StatsController {
 			}
 
 			if (PREMIUM_PERIODS.includes(period)) {
-				const isPremium = await checkPremiumStatus(user.discordId);
+				const isPremium = await checkPremiumStatus(user.discordId, user.role);
 				if (!isPremium) {
 					return reply.status(403).send({
 						error: 'Premium required',
@@ -1298,7 +1304,7 @@ export class StatsController {
 			}
 
 			if (PREMIUM_PERIODS.includes(period)) {
-				const isPremium = await checkPremiumStatus(user.discordId);
+				const isPremium = await checkPremiumStatus(user.discordId, user.role);
 				if (!isPremium) {
 					return reply.status(403).send({
 						error: 'Premium required',
@@ -1337,7 +1343,7 @@ export class StatsController {
 			}
 
 			if (PREMIUM_PERIODS.includes(period)) {
-				const isPremium = await checkPremiumStatus(user.discordId);
+				const isPremium = await checkPremiumStatus(user.discordId, user.role);
 				if (!isPremium) {
 					return reply.status(403).send({
 						error: 'Premium required',
@@ -1370,7 +1376,7 @@ export class StatsController {
 				return reply.status(401).send({ error: 'Unauthorized' });
 			}
 
-			const isPremium = await checkPremiumStatus(user.discordId);
+			const isPremium = await checkPremiumStatus(user.discordId, user.role);
 			const totalDonated = await getTotalDonated(user.discordId);
 
 			return {

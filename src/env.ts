@@ -55,6 +55,11 @@ const envSchema = z.object({
 	DISCORD_CLIENT_ID: z.string().optional(),
 	DISCORD_CLIENT_SECRET: z.string().optional(),
 	SESSION_COOKIE_NAME: z.string().default('dashboard_session'),
+	// Premium features
+	MINIMUM_DONATION_AMOUNT: z.preprocess(
+		val => (typeof val === 'string' ? parseFloat(val) : val),
+		z.number().min(0).default(1.0),
+	),
 });
 
 type Env = z.infer<typeof envSchema>;
