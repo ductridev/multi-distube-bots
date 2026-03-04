@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack -H 0.0.0.0 -p 20082",
     "build": "next build",
     "start": "next start -H 0.0.0.0 -p 20082",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.12",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4.1.18",
     "@tanstack/react-query-devtools": "^5.91.1",
     "@types/node": "^25.0.2",

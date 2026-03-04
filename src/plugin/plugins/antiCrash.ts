@@ -19,11 +19,11 @@ const antiCrash: BotPlugin = {
 				process.exit();
 			}
 		};
-		process.on('unhandledRejection', (reason, promise) => {
-			client.logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
+		process.on('unhandledRejection', (_reason, _promise) => {
+			// client.logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
 		});
-		process.on('uncaughtException', err => {
-			client.logger.error('Uncaught Exception thrown:', err.message, err.stack);
+		process.on('uncaughtException', _err => {
+			// client.logger.error('Uncaught Exception thrown:');
 		});
 		process.on('SIGINT', handleExit);
 		process.on('SIGTERM', handleExit);

@@ -25,7 +25,14 @@ const navigation = [
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { sidebarOpen, toggleSidebar, socketConnected } = useDashboardStore();
+  const { sidebarOpen, toggleSidebar, setSidebarOpen, socketConnected } = useDashboardStore();
+
+  // Close sidebar on mobile after navigation
+  const handleNavClick = () => {
+    if (window.innerWidth < 1024) {
+      setSidebarOpen(false);
+    }
+  };
 
   return (
     <>
@@ -34,15 +41,18 @@ export function Sidebar() {
         <div
           className="fixed inset-0 bg-gray-900 bg-opacity-50 z-20 lg:hidden"
           onClick={toggleSidebar}
+          aria-hidden="true"
         />
       )}
 
       {/* Sidebar */}
       <aside
+        id="sidebar"
         className={cn(
           "fixed top-0 left-0 z-30 h-full bg-white border-r border-gray-200 transition-all duration-300",
           sidebarOpen ? "w-64" : "w-20"
         )}
+        aria-label="Main navigation"
       >
         {/* Logo */}
         <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
@@ -64,7 +74,7 @@ export function Sidebar() {
         </div>
 
         {/* Navigation */}
-        <nav className="p-4 space-y-2">
+        <nav className="p-4 space-y-2" aria-label="Main navigation">
           {navigation.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -73,6 +83,7 @@ export function Sidebar() {
               <Link
                 key={item.name}
                 href={item.href}
+                onClick={handleNavClick}
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors",
                   isActive
@@ -81,6 +92,7 @@ export function Sidebar() {
                   !sidebarOpen && "justify-center"
                 )}
                 title={!sidebarOpen ? item.name : undefined}
+                aria-current={isActive ? "page" : undefined}
               >
                 <Icon className="w-5 h-5 flex-shrink-0" />
                 {sidebarOpen && <span>{item.name}</span>}
@@ -124,6 +136,7 @@ export function Sidebar() {
         <button
           onClick={toggleSidebar}
           className="absolute bottom-4 left-0 right-0 mx-auto w-10 h-10 bg-white border border-gray-200 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-colors shadow-sm"
+          aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
         >
           {sidebarOpen ? (
             <ChevronLeft className="w-5 h-5 text-gray-600" />

@@ -308,6 +308,13 @@
 				"lyrics_error": "Oops! Hit a snag getting the lyrics. Try again? 🔧"
 			}
 		},
+		"livelyrics": {
+			"description": "Show live synced lyrics for the current track! Karaoke mode 🎤",
+			"errors": {
+				"no_player": "There is no music playing right now.",
+				"no_synced": "No synced lyrics found for this track."
+			}
+		},
 		"nowplaying": {
 			"description": "See what's currently playing! Track info at a glance 🎵",
 			"now_playing": "Now Playing",
@@ -577,6 +584,80 @@
 		},
 		"loop_queue": {
 			"description": "Loop the entire queue! Keep the party going 🔁"
+		},
+		"lavaconfig": {
+			"description": "Manage LavaSrc configuration at runtime 🎵",
+			"errors": {
+				"service_unavailable": "LavaSrc configuration service is not available.",
+				"missing_subcommand": "Please provide a subcommand. Available: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`",
+				"missing_node": "Missing required argument: `node`. Example: `!lavaconfig {subcommand} node:main`",
+				"unknown_subcommand": "Unknown subcommand: `{subcommand}`. Available: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`"
+			},
+			"messages": {
+				"processing": "Processing...",
+				"config_updated_title": "✅ {source} Configuration Updated",
+				"config_updated_desc": "Successfully updated {source} configuration for node **{nodeId}**",
+				"updated_config": "Updated Configuration",
+				"view_title": "📋 LavaSrc Configuration - {nodeId}",
+				"nodes_title": "📡 Lavalink Nodes",
+				"no_nodes": "No nodes available.",
+				"total_nodes": "Total: {count} node(s)"
+			},
+			"usage": {
+				"title": "Usage",
+				"value": "`!lavaconfig <subcommand> [options]`\nExample: `!lavaconfig spotify node:main clientId:xxx`"
+			}
+		},
+		"youtubeconfig": {
+			"description": "Manage YouTube source configuration at runtime 🎵",
+			"errors": {
+				"service_unavailable": "YouTube configuration service is not available.",
+				"missing_subcommand": "Please provide a subcommand. Available: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_node": "Missing required argument: `node`. Example: `!youtubeconfig {subcommand} node:main`",
+				"unknown_subcommand": "Unknown subcommand: `{subcommand}`. Available: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_oauth_option": "Please provide at least one option: `refreshToken` or `skipInitialization`",
+				"missing_potoken_pair": "Both `poToken` and `visitorData` should be provided together for best results",
+				"missing_refresh_token": "Missing required argument: `refreshToken`. Example: `!youtubeconfig refresh-token node:main refreshToken:xxx`"
+			},
+			"messages": {
+				"processing": "Processing...",
+				"oauth_updated_title": "✅ YouTube OAuth Configuration Updated",
+				"oauth_updated_desc": "Successfully updated YouTube OAuth configuration for node **{nodeId}**",
+				"potoken_updated_title": "✅ YouTube poToken Configuration Updated",
+				"potoken_updated_desc": "Successfully updated YouTube poToken configuration for node **{nodeId}**",
+				"token_refreshed_title": "✅ OAuth Token Refreshed",
+				"token_refreshed_desc": "Successfully refreshed OAuth token for node **{nodeId}**",
+				"view_title": "📋 YouTube Source Configuration - {nodeId}",
+				"nodes_title": "📡 Lavalink Nodes",
+				"no_nodes": "No nodes available.",
+				"total_nodes": "Total: {count} node(s)",
+				"not_set": "Not set",
+				"na": "N/A"
+			},
+			"fields": {
+				"refresh_token": "Refresh Token",
+				"skip_initialization": "Skip Initialization",
+				"potoken": "poToken",
+				"visitor_data": "Visitor Data",
+				"token_type": "Token Type",
+				"expires_in": "Expires In",
+				"scope": "Scope",
+				"access_token_truncated": "Access Token (truncated)",
+				"updated": "✅ Updated",
+				"not_changed": "⚪ Not changed",
+				"yes": "✅ Yes",
+				"no": "❌ No",
+				"important": "⚠️ Important",
+				"oauth_warning": "OAuth tokens should be kept secret. Consider using a burner YouTube account.",
+				"how_to_generate": "💡 How to Generate",
+				"generator_link": "Use [youtube-trusted-session-generator](https://github.com/iv-org/youtube-trusted-session-generator) to obtain these values.",
+				"note": "ℹ️ Note",
+				"api_note": "Only the refresh token is returned by the API. poToken and visitorData are not exposed."
+			},
+			"usage": {
+				"title": "Usage",
+				"value": "`!youtubeconfig <subcommand> [options]`\nExample: `!youtubeconfig oauth node:main refreshToken:xxx`"
+			}
 		}
 	},
 	"buttons": {
@@ -731,11 +812,70 @@
 		"no_listeners": "I'll leave in {time} minutes if nobody's listening! Come hang out? 👂",
 		"no_songs": "I'll leave in {time} minutes - queue is empty! Add some songs 🎶"
 	},
+	"LIVE_LYRICS": {
+		"NO_PLAYER": "There is no music playing right now.",
+		"NO_LYRICS": "No synced lyrics found for this track.",
+		"TITLE": "🎤 Live Lyrics - {track}",
+		"CURRENT": "🎵 NOW PLAYING",
+		"STOPPED": "Live lyrics stopped.",
+		"REFRESHED": "Lyrics refreshed!",
+		"ERROR": "An error occurred while fetching lyrics.",
+		"ENDED": "Track ended. Live lyrics stopped.",
+		"PAUSED": "Playback paused. Lyrics will resume when playback continues.",
+		"SEARCHING": "Searching for synced lyrics...",
+		"NO_SYNCED_TITLE": "⚠️ Synced Lyrics Not Available",
+		"NO_SYNCED_DESCRIPTION": "Could not find synchronized lyrics for **{trackTitle}**.\n\n**Alternatives:**\n• Use `/lyrics` for static lyrics\n• Try a different track\n\nSynced lyrics work best with popular songs from Spotify, Deezer, or YouTube Music.",
+		"ALREADY_RUNNING": "Live lyrics is already running! Use the Stop button to end it first.",
+		"STARTED": "🎤 Live lyrics started! Check the message below.",
+		"PROGRESS": "Progress",
+		"UPDATE_INTERVAL": "Updates every {seconds} seconds",
+		"CLICK_REFRESH": "Click Refresh for instant update",
+		"NO_LYRICS_AVAILABLE": "No lyrics available",
+		"REFRESH_BUTTON": "Refresh",
+		"STOP_BUTTON": "Stop"
+	},
 	"Evaluate code": "Run and test code snippets 💻",
 	"Leave a guild": "Make the bot leave a server 🚪",
 	"List all guilds the bot is in": "Show all servers I'm in 📝",
 	"Restart the bot": "Restart the bot 🔄",
 	"The loop mode you want to set": "Choose loop mode (off/track/queue) 🔁",
 	"Show current maintenance status": "Check if bot is under maintenance 🛠️",
-	"Show current maintenance status.": "Check maintenance status 🛠️"
+	"Show current maintenance status.": "Check maintenance status 🛠️",
+	"Manage LavaSrc configuration at runtime": "Manage LavaSrc configuration at runtime",
+	"Update Spotify configuration": "Update Spotify configuration",
+	"Update Apple Music configuration": "Update Apple Music configuration",
+	"Update Deezer configuration": "Update Deezer configuration",
+	"Update Yandex Music configuration": "Update Yandex Music configuration",
+	"Update VK Music configuration": "Update VK Music configuration",
+	"Update Qobuz configuration": "Update Qobuz configuration",
+	"Update yt-dlp configuration": "Update yt-dlp configuration",
+	"View current LavaSrc configuration for a node": "View current LavaSrc configuration for a node",
+	"List all available Lavalink nodes": "List all available Lavalink nodes",
+	"The Lavalink node ID": "The Lavalink node ID",
+	"Spotify client ID": "Spotify client ID",
+	"Spotify client secret": "Spotify client secret",
+	"Spotify sp_dc cookie value": "Spotify sp_dc cookie value",
+	"Prefer anonymous token": "Prefer anonymous token",
+	"Custom token endpoint URL": "Custom token endpoint URL",
+	"Apple Music media API token": "Apple Music media API token",
+	"Deezer ARL cookie value": "Deezer ARL cookie value",
+	"Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)": "Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)",
+	"Yandex Music access token": "Yandex Music access token",
+	"VK Music user token": "VK Music user token",
+	"Qobuz user OAuth token": "Qobuz user OAuth token",
+	"Qobuz application ID": "Qobuz application ID",
+	"Qobuz application secret": "Qobuz application secret",
+	"Path to yt-dlp executable": "Path to yt-dlp executable",
+	"Custom load arguments (comma-separated)": "Custom load arguments (comma-separated)",
+	"Custom playback arguments (comma-separated)": "Custom playback arguments (comma-separated)",
+	"Manage YouTube source configuration at runtime": "Manage YouTube source configuration at runtime",
+	"Update YouTube OAuth configuration": "Update YouTube OAuth configuration",
+	"Update YouTube poToken configuration": "Update YouTube poToken configuration",
+	"View current YouTube source configuration": "View current YouTube source configuration",
+	"Refresh an OAuth token using a refresh token": "Refresh an OAuth token using a refresh token",
+	"YouTube OAuth2 refresh token": "YouTube OAuth2 refresh token",
+	"Skip OAuth initialization flow (recommended when providing token)": "Skip OAuth initialization flow (recommended when providing token)",
+	"Proof of Origin token (generate with youtube-trusted-session-generator)": "Proof of Origin token (generate with youtube-trusted-session-generator)",
+	"Visitor data associated with the poToken": "Visitor data associated with the poToken",
+	"The refresh token to use": "The refresh token to use"
 }

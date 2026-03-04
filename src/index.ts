@@ -7,6 +7,8 @@ import { Player } from 'lavalink-client';
 import { ShardStateManager } from './structures/ShardStateManager';
 import { startApiServer } from './api/server';
 import { PeriodicMessageSystem } from './utils/PeriodicMessageSystem';
+import { startCleanupScheduler } from './services/DatabaseCleanup';
+import { TemporaryAnnouncementService } from './services/TemporaryAnnouncementService';
 
 const prisma = new PrismaClient();
 
@@ -201,6 +203,10 @@ try {
 				if (activeBots.length > 0) {
 					PeriodicMessageSystem.startPeriodicCheck();
 					console.log('[PERIODIC MESSAGES] Started periodic message system');
+
+					// Start temporary announcement service
+					TemporaryAnnouncementService.startIntervalCheck();
+					console.log('[TEMP ANNOUNCEMENTS] Started temporary announcement service');
 				}
 			}, 10000); // Wait 10 seconds for bots to initialize
 		}
@@ -209,6 +215,8 @@ try {
 		setTimeout(async () => {
 			try {
 				await startApiServer(activeBots);
+				// Start database cleanup scheduler after API server is up
+				startCleanupScheduler();
 			} catch (error) {
 				console.error('[API] Failed to start API server:', error);
 			}

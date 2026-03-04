@@ -536,7 +536,7 @@
 		},
 		"lyrics": {
 			"description": "वर्तमान में चल रहे ट्रैक के बोल प्राप्त करें",
-			"lyrics_track": "### Lyrics for: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
+			"lyrics_track": "### के लिए बोल: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
 			"searching": "`🔍` **{trackTitle}** के बोल खोजे जा रहे हैं...",
 			"errors": {
 				"no_results": "वर्तमान ट्रैक के लिए कोई बोल नहीं मिले।",
@@ -568,16 +568,97 @@
 			"added_to_queue": "कतार में [{title}]({url}) जोड़ा गया"
 		},
 		"loop_current": {
-			"description": "cmd.loop_current.description"
+			"description": "वर्तमान में चल रहे ट्रैक को लूप करें"
 		},
 		"loop_queue": {
-			"description": "cmd.loop_queue.description"
+			"description": "कतार को लूप करें"
+		},
+		"lavaconfig": {
+			"description": "LavaSrc कॉन्फ़िगरेशन को रनटाइम पर प्रबंधित करें 🎵",
+			"errors": {
+				"service_unavailable": "LavaSrc कॉन्फ़िगरेशन सेवा उपलब्ध नहीं है।",
+				"missing_subcommand": "कृपया एक सबकमांड प्रदान करें। उपलब्ध: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`",
+				"missing_node": "आवश्यक तर्क गायब: `node`। उदाहरण: `!lavaconfig {subcommand} node:main`",
+				"unknown_subcommand": "अज्ञात सबकमांड: `{subcommand}`। उपलब्ध: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`"
+			},
+			"messages": {
+				"processing": "प्रसंस्करण हो रहा है...",
+				"config_updated_title": "✅ {source} कॉन्फ़िगरेशन अपडेट किया गया",
+				"config_updated_desc": "नोड **{nodeId}** के लिए {source} कॉन्फ़िगरेशन सफलतापूर्वक अपडेट किया गया",
+				"updated_config": "अपडेट की गई कॉन्फ़िगरेशन",
+				"view_title": "📋 LavaSrc कॉन्फ़िगरेशन - {nodeId}",
+				"nodes_title": "📡 Lavalink नोड्स",
+				"no_nodes": "कोई नोड उपलब्ध नहीं है।",
+				"total_nodes": "कुल: {count} नोड"
+			},
+			"usage": {
+				"title": "उपयोग",
+				"value": "`!lavaconfig <सबकमांड> [विकल्प]`\nउदाहरण: `!lavaconfig spotify node:main clientId:xxx`"
+			}
+		},
+		"youtubeconfig": {
+			"description": "YouTube स्रोत कॉन्फ़िगरेशन को रनटाइम पर प्रबंधित करें 🎵",
+			"errors": {
+				"service_unavailable": "YouTube कॉन्फ़िगरेशन सेवा उपलब्ध नहीं है।",
+				"missing_subcommand": "कृपया एक सबकमांड प्रदान करें। उपलब्ध: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_node": "आवश्यक तर्क गायब: `node`। उदाहरण: `!youtubeconfig {subcommand} node:main`",
+				"unknown_subcommand": "अज्ञात सबकमांड: `{subcommand}`। उपलब्ध: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_oauth_option": "कृपया कम से कम एक विकल्प प्रदान करें: `refreshToken` या `skipInitialization`",
+				"missing_potoken_pair": "सर्वोत्तम परिणामों के लिए `poToken` और `visitorData` दोनों एक साथ प्रदान किए जाने चाहिए",
+				"missing_refresh_token": "आवश्यक तर्क गायब: `refreshToken`। उदाहरण: `!youtubeconfig refresh-token node:main refreshToken:xxx`"
+			},
+			"messages": {
+				"processing": "प्रसंस्करण हो रहा है...",
+				"oauth_updated_title": "✅ YouTube OAuth कॉन्फ़िगरेशन अपडेट किया गया",
+				"oauth_updated_desc": "नोड **{nodeId}** के लिए YouTube OAuth कॉन्फ़िगरेशन सफलतापूर्वक अपडेट किया गया",
+				"potoken_updated_title": "✅ YouTube poToken कॉन्फ़िगरेशन अपडेट किया गया",
+				"potoken_updated_desc": "नोड **{nodeId}** के लिए YouTube poToken कॉन्फ़िगरेशन सफलतापूर्वक अपडेट किया गया",
+				"token_refreshed_title": "✅ OAuth टोकन रिफ्रेश किया गया",
+				"token_refreshed_desc": "नोड **{nodeId}** के लिए OAuth टोकन सफलतापूर्वक रिफ्रेश किया गया",
+				"view_title": "📋 YouTube स्रोत कॉन्फ़िगरेशन - {nodeId}",
+				"nodes_title": "📡 Lavalink नोड्स",
+				"no_nodes": "कोई नोड उपलब्ध नहीं है।",
+				"total_nodes": "कुल: {count} नोड",
+				"not_set": "सेट नहीं है",
+				"na": "लागू नहीं"
+			},
+			"fields": {
+				"refresh_token": "रिफ्रेश टोकन",
+				"skip_initialization": "इनिशियलाइज़ेशन छोड़ें",
+				"potoken": "poToken",
+				"visitor_data": "विज़िटर डेटा",
+				"token_type": "टोकन प्रकार",
+				"expires_in": "समाप्ति में",
+				"scope": "स्कोप",
+				"access_token_truncated": "एक्सेस टोकन (छोटा किया गया)",
+				"updated": "✅ अपडेट किया गया",
+				"not_changed": "⚪ बदला नहीं गया",
+				"yes": "✅ हाँ",
+				"no": "❌ नहीं",
+				"important": "⚠️ महत्वपूर्ण",
+				"oauth_warning": "OAuth टोकन गोपनीय रखे जाने चाहिए। एक बर्नर YouTube खाते का उपयोग करने पर विचार करें।",
+				"how_to_generate": "💡 कैसे जेनरेट करें",
+				"generator_link": "इन मानों को प्राप्त करने के लिए [youtube-trusted-session-generator](https://github.com/iv-org/youtube-trusted-session-generator) का उपयोग करें।",
+				"note": "ℹ️ नोट",
+				"api_note": "API द्वारा केवल रिफ्रेश टोकन लौटाया जाता है। poToken और visitorData उजागर नहीं किए जाते।"
+			},
+			"usage": {
+				"title": "उपयोग",
+				"value": "`!youtubeconfig <सबकमांड> [विकल्प]`\nउदाहरण: `!youtubeconfig oauth node:main refreshToken:xxx`"
+			}
 		},
 		"vote": {
-			"description": "Quản lý hệ thống bỏ phiếu cho các lệnh nhạc",
+			"description": "संगीत कमांड के लिए वोटिंग सिस्टम प्रबंधित करें",
 			"options": {
-				"toggle": "Bật hoặc tắt hệ thống bỏ phiếu",
-				"status": "Kiểm tra trạng thái hiện tại của hệ thống bỏ phiếu"
+				"toggle": "वोटिंग सिस्टम चालू या बंद करें",
+				"status": "वोटिंग सिस्टम की वर्तमान स्थिति जांचें"
+			}
+		},
+		"livelyrics": {
+			"description": "वर्तमान ट्रैक के लिए लाइव सिंक्ड बोल दिखाएं! कराओके मोड🎤",
+			"errors": {
+				"no_player": "अभी कोई संगीत नहीं चल रहा है।",
+				"no_synced": "इस ट्रैक के लिए कोई सिंक्ड बोल नहीं मिले।"
 			}
 		}
 	},
@@ -593,7 +674,6 @@
 			"not_author": "Aap is button ka upyog nahin kar sakte."
 		}
 	},
-
 	"player": {
 		"errors": {
 			"no_player": "Is guild mein koi active player nahin hai.",
@@ -730,6 +810,65 @@
 		"no_listeners": "सुनने वालों के न होने के कारण बॉट {time} मिनट में चला जाएगा।",
 		"no_songs": "गाने न होने के कारण बॉट {time} मिनट में चला जाएगा।"
 	},
+	"LIVE_LYRICS": {
+		"NO_PLAYER": "अभी कोई संगीत नहीं चल रहा है।",
+		"NO_LYRICS": "इस ट्रैक के लिए कोई सिंक्ड बोल नहीं मिले।",
+		"TITLE": "🎵 लाइव बोल - {track}",
+		"CURRENT": "🎵 अभी चल रहा है",
+		"STOPPED": "लाइव बोल बंद कर दिए गए।",
+		"REFRESHED": "बोल रिफ्रेश किए गए!",
+		"ERROR": "बोल प्राप्त करते समय एक त्रुटि हुई।",
+		"ENDED": "ट्रैक समाप्त। लाइव बोल बंद।",
+		"PAUSED": "प्लेबैक रोका गया। जब प्लेबैक जारी रहेगा तब बोल फिर से शुरू होंगे।",
+		"SEARCHING": "सिंक्ड बोल खोजे जा रहे हैं...",
+		"NO_SYNCED_TITLE": "⚠️ सिंक्ड बोल उपलब्ध नहीं हैं",
+		"NO_SYNCED_DESCRIPTION": "**{trackTitle}** के लिए सिंक्रनाइज्ड बोल नहीं मिले।\n\n**विकल्प:**\n• स्थिर बोल के लिए `/lyrics` का उपयोग करें\n• कोई अन्य ट्रैक आज़माएं\n\nसिंक्ड बोल Spotify, Deezer, या YouTube Music के लोकप्रिय गानों के साथ सबसे अच्छा काम करते हैं।",
+		"ALREADY_RUNNING": "लाइव बोल पहले से चल रहे हैं! इसे पहले बंद करने के लिए स्टॉप बटन का उपयोग करें।",
+		"STARTED": "🎤 लाइव बोल शुरू हो गए! नीचे दिए गए संदेश की जांच करें।",
+		"PROGRESS": "प्रगति",
+		"UPDATE_INTERVAL": "हर {seconds} सेकंड में अपडेट",
+		"CLICK_REFRESH": "तत्काल अपडेट के लिए रिफ्रेश पर क्लिक करें",
+		"NO_LYRICS_AVAILABLE": "कोई बोल उपलब्ध नहीं",
+		"REFRESH_BUTTON": "रिफ्रेश",
+		"STOP_BUTTON": "बंद करें"
+	},
 	"Show current maintenance status": "वर्तमान रखरखाव स्थिति दिखाएं",
-	"Show current maintenance status.": "Show current maintenance status."
+	"Show current maintenance status.": "Show current maintenance status.",
+	"Manage LavaSrc configuration at runtime": "Manage LavaSrc configuration at runtime",
+	"Update Spotify configuration": "Update Spotify configuration",
+	"Update Apple Music configuration": "Update Apple Music configuration",
+	"Update Deezer configuration": "Update Deezer configuration",
+	"Update Yandex Music configuration": "Update Yandex Music configuration",
+	"Update VK Music configuration": "Update VK Music configuration",
+	"Update Qobuz configuration": "Update Qobuz configuration",
+	"Update yt-dlp configuration": "Update yt-dlp configuration",
+	"View current LavaSrc configuration for a node": "View current LavaSrc configuration for a node",
+	"List all available Lavalink nodes": "List all available Lavalink nodes",
+	"The Lavalink node ID": "The Lavalink node ID",
+	"Spotify client ID": "Spotify client ID",
+	"Spotify client secret": "Spotify client secret",
+	"Spotify sp_dc cookie value": "Spotify sp_dc cookie value",
+	"Prefer anonymous token": "Prefer anonymous token",
+	"Custom token endpoint URL": "Custom token endpoint URL",
+	"Apple Music media API token": "Apple Music media API token",
+	"Deezer ARL cookie value": "Deezer ARL cookie value",
+	"Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)": "Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)",
+	"Yandex Music access token": "Yandex Music access token",
+	"VK Music user token": "VK Music user token",
+	"Qobuz user OAuth token": "Qobuz user OAuth token",
+	"Qobuz application ID": "Qobuz application ID",
+	"Qobuz application secret": "Qobuz application secret",
+	"Path to yt-dlp executable": "Path to yt-dlp executable",
+	"Custom load arguments (comma-separated)": "Custom load arguments (comma-separated)",
+	"Custom playback arguments (comma-separated)": "Custom playback arguments (comma-separated)",
+	"Manage YouTube source configuration at runtime": "Manage YouTube source configuration at runtime",
+	"Update YouTube OAuth configuration": "Update YouTube OAuth configuration",
+	"Update YouTube poToken configuration": "Update YouTube poToken configuration",
+	"View current YouTube source configuration": "View current YouTube source configuration",
+	"Refresh an OAuth token using a refresh token": "Refresh an OAuth token using a refresh token",
+	"YouTube OAuth2 refresh token": "YouTube OAuth2 refresh token",
+	"Skip OAuth initialization flow (recommended when providing token)": "Skip OAuth initialization flow (recommended when providing token)",
+	"Proof of Origin token (generate with youtube-trusted-session-generator)": "Proof of Origin token (generate with youtube-trusted-session-generator)",
+	"Visitor data associated with the poToken": "Visitor data associated with the poToken",
+	"The refresh token to use": "The refresh token to use"
 }

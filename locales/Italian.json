@@ -570,7 +570,95 @@
 	  },
 	  "loop_queue": {
 		"description": "Ripeti l'intera coda"
-	  }
+	  },
+	  "lavaconfig": {
+		"description": "Gestisci la configurazione LavaSrc durante l'esecuzione 🎵",
+		"errors": {
+		  "service_unavailable": "Il servizio di configurazione LavaSrc non è disponibile.",
+		  "missing_subcommand": "Per favore, fornisci un sottocomando. Disponibili: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`",
+		  "missing_node": "Argomento richiesto mancante: `node`. Esempio: `!lavaconfig {subcommand} node:main`",
+		  "unknown_subcommand": "Sottocomando sconosciuto: `{subcommand}`. Disponibili: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`"
+		},
+		"messages": {
+		  "processing": "Elaborazione...",
+		  "config_updated_title": "✅ Configurazione {source} Aggiornata",
+		  "config_updated_desc": "Configurazione {source} aggiornata con successo per il nodo **{nodeId}**",
+		  "updated_config": "Configurazione Aggiornata",
+		  "view_title": "📋 Configurazione LavaSrc - {nodeId}",
+		  "nodes_title": "📡 Nodi Lavalink",
+		  "no_nodes": "Nessun nodo disponibile.",
+		  "total_nodes": "Totale: {count} nodo(i)"
+		},
+		"usage": {
+		  "title": "Utilizzo",
+		  "value": "`!lavaconfig <sottocomando> [opzioni]`\nEsempio: `!lavaconfig spotify node:main clientId:xxx`"
+		}
+	  },
+	  "youtubeconfig": {
+		"description": "Gestisci la configurazione della sorgente YouTube durante l'esecuzione 🎵",
+		"errors": {
+		  "service_unavailable": "Il servizio di configurazione YouTube non è disponibile.",
+		  "missing_subcommand": "Per favore, fornisci un sottocomando. Disponibili: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+		  "missing_node": "Argomento richiesto mancante: `node`. Esempio: `!youtubeconfig {subcommand} node:main`",
+		  "unknown_subcommand": "Sottocomando sconosciuto: `{subcommand}`. Disponibili: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+		  "missing_oauth_option": "Per favore, fornisci almeno un'opzione: `refreshToken` o `skipInitialization`",
+		  "missing_potoken_pair": "Sia `poToken` che `visitorData` dovrebbero essere forniti insieme per ottenere i migliori risultati",
+		  "missing_refresh_token": "Argomento richiesto mancante: `refreshToken`. Esempio: `!youtubeconfig refresh-token node:main refreshToken:xxx`"
+		},
+		"messages": {
+		  "processing": "Elaborazione...",
+		  "oauth_updated_title": "✅ Configurazione OAuth YouTube Aggiornata",
+		  "oauth_updated_desc": "Configurazione OAuth YouTube aggiornata con successo per il nodo **{nodeId}**",
+		  "potoken_updated_title": "✅ Configurazione poToken YouTube Aggiornata",
+		  "potoken_updated_desc": "Configurazione poToken YouTube aggiornata con successo per il nodo **{nodeId}**",
+		  "token_refreshed_title": "✅ Token OAuth Aggiornato",
+		  "token_refreshed_desc": "Token OAuth aggiornato con successo per il nodo **{nodeId}**",
+		  "view_title": "📋 Configurazione Sorgente YouTube - {nodeId}",
+		  "nodes_title": "📡 Nodi Lavalink",
+		  "no_nodes": "Nessun nodo disponibile.",
+		  "total_nodes": "Totale: {count} nodo(i)",
+		  "not_set": "Non impostato",
+		  "na": "N/D"
+		},
+		"fields": {
+		  "refresh_token": "Refresh Token",
+		  "skip_initialization": "Salta Inizializzazione",
+		  "potoken": "poToken",
+		  "visitor_data": "Visitor Data",
+		  "token_type": "Tipo Token",
+		  "expires_in": "Scade Tra",
+		  "scope": "Ambito",
+		  "access_token_truncated": "Access Token (troncato)",
+		  "updated": "✅ Aggiornato",
+		  "not_changed": "⚪ Non modificato",
+		  "yes": "✅ Sì",
+		  "no": "❌ No",
+		  "important": "⚠️ Importante",
+		  "oauth_warning": "I token OAuth dovrebbero essere mantenuti segreti. Considera l'utilizzo di un account YouTube burner.",
+		  "how_to_generate": "💡 Come Generare",
+		  "generator_link": "Usa [youtube-trusted-session-generator](https://github.com/iv-org/youtube-trusted-session-generator) per ottenere questi valori.",
+		  "note": "ℹ️ Nota",
+		  "api_note": "Solo il refresh token viene restituito dall'API. poToken e visitorData non sono esposti."
+		},
+		"usage": {
+		  "title": "Utilizzo",
+		  "value": "`!youtubeconfig <sottocomando> [opzioni]`\nEsempio: `!youtubeconfig oauth node:main refreshToken:xxx`"
+		}
+		 },
+		"vote": {
+			"description": "Gestisci il sistema di votazione per i comandi musicali",
+			"options": {
+				"toggle": "Attiva o disattiva il sistema di votazione",
+				"status": "Controlla lo stato attuale del sistema di votazione"
+			}
+		},
+		 "livelyrics": {
+		"description": "Mostra i testi sincronizzati in tempo reale per la traccia corrente! Modalità karaoke🎤",
+		"errors": {
+		  "no_player": "Non c'è nessuna musica in riproduzione al momento.",
+		  "no_synced": "Nessun testo sincronizzato trovato per questa traccia."
+		}
+		 }
 	},
 	"buttons": {
 	  "invite": "Invita",
@@ -713,6 +801,28 @@
 	"will_leave": {
 	  "no_listeners": "Il bot lascerà tra {time} minuti a causa della mancanza di ascoltatori.",
 	  "no_songs": "Il bot lascerà tra {time} minuti a causa della mancanza di canzoni."
+	},
+	"LIVE_LYRICS": {
+	  "NO_PLAYER": "Non c'è nessuna musica in riproduzione al momento.",
+	  "NO_LYRICS": "Nessun testo sincronizzato trovato per questa traccia.",
+	  "TITLE": "🎵 Testi in Tempo Reale - {track}",
+	  "CURRENT": "🎵 IN RIPRODUZIONE",
+	  "STOPPED": "Testi in tempo reale fermati.",
+	  "REFRESHED": "Testi aggiornati!",
+	  "ERROR": "Si è verificato un errore durante il recupero dei testi.",
+	  "ENDED": "Traccia terminata. Testi in tempo reale fermati.",
+	  "PAUSED": "Riproduzione in pausa. I testi riprenderanno quando la riproduzione continuerà.",
+	  "SEARCHING": "Ricerca di testi sincronizzati in corso...",
+	  "NO_SYNCED_TITLE": "⚠️ Testi Sincronizzati Non Disponibili",
+	  "NO_SYNCED_DESCRIPTION": "Impossibile trovare testi sincronizzati per **{trackTitle}**.\n\n**Alternative:**\n• Usa `/lyrics` per testi statici\n• Prova una traccia diversa\n\nI testi sincronizzati funzionano meglio con canzoni popolari da Spotify, Deezer o YouTube Music.",
+	  "ALREADY_RUNNING": "I testi in tempo reale sono già attivi! Usa il pulsante Stop per fermarli prima.",
+	  "STARTED": "🎤 Testi in tempo reale avviati! Controlla il messaggio qui sotto.",
+	  "PROGRESS": "Progresso",
+	  "UPDATE_INTERVAL": "Aggiornamenti ogni {seconds} secondi",
+	  "CLICK_REFRESH": "Clicca Aggiorna per aggiornamento istantaneo",
+	  "NO_LYRICS_AVAILABLE": "Nessun testo disponibile",
+	  "REFRESH_BUTTON": "Aggiorna",
+	  "STOP_BUTTON": "Ferma"
 	},
 	"Evaluate code": "Valuta il codice",
 	"Leave a guild": "Abbandona un server",

@@ -148,7 +148,7 @@
 			"subcommands": "Các lệnh phụ"
 		},
 		"vote": {
-			"description": "Quản lý hệ thống vote dân chủ cho các lệnh nhạc! 🗳️",
+			"description": "Quản lý hệ thống vote cho các lệnh nhạc! 🗳️",
 			"errors": {
 				"no_subcommand": "Chọn toggle hoặc status nhé! 📝",
 				"invalid_subcommand": "Lệnh không hợp lệ. Thử toggle hoặc status! 🔧"
@@ -636,6 +636,97 @@
 			"options": {
 				"number": "Mức âm lượng (0-200)"
 			}
+		},
+		"lavaconfig": {
+			"description": "Quản lý cấu hình LavaSrc khi chạy! Cập nhật dịch vụ ngay lập tức ⚙️",
+			"errors": {
+				"service_unavailable": "Dịch vụ Lavalink không khả dụng! Đảm bảo Lavalink đang chạy nhé! 🔧",
+				"missing_subcommand": "Cung cấp lệnh con nhé! Thử: spotify, applemusic, deezer, yandexmusic, flowerytts, ttsloc, view hoặc nodes",
+				"missing_node": "Cung cấp tên node! Dùng 'nodes' để xem các node khả dụng 📋",
+				"unknown_subcommand": "Lệnh con không xác định! Thử: spotify, applemusic, deezer, yandexmusic, flowerytts, ttsloc, view hoặc nodes"
+			},
+			"messages": {
+				"processing": "Đang xử lý yêu cầu của bạn... ⚙️",
+				"config_updated_title": "Đã Cập Nhật Cấu Hình LavaSrc",
+				"config_updated_desc": "Đã cập nhật cấu hình {service} cho node **{node}** thành công! Thay đổi đã được áp dụng ✅",
+				"view_title": "Cấu Hình LavaSrc",
+				"nodes_title": "Các Node Lavalink Khả Dụng",
+				"no_nodes": "Không có node Lavalink nào! Đảm bảo Lavalink đã kết nối nhé 🔌",
+				"total_nodes": "Tổng số node: {count}"
+			},
+			"fields": {
+				"client_id": "Client ID",
+				"client_secret": "Client Secret",
+				"api_key": "API Key",
+				"decode_track": "Giải Mã Track",
+				"country_code": "Mã Quốc Gia",
+				"playlist_limit": "Giới Hạn Playlist",
+				"album_limit": "Giới Hạn Album",
+				"search_limit": "Giới Hạn Tìm Kiếm",
+				"isrc_search": "Tìm Kiếm ISRC",
+				"fallback_search": "Tìm Kiếm Dự Phòng",
+				"load_timeout": "Timeout Tải",
+				"spotify_enabled": "Spotify Bật",
+				"apple_enabled": "Apple Music Bật",
+				"deezer_enabled": "Deezer Bật"
+			},
+			"usage": {
+				"title": "Cách Dùng",
+				"value": "`/lavaconfig <lệnh_con> <node> [tùy_chọn]`\nDùng các lệnh con để cấu hình dịch vụ khác nhau."
+			}
+		},
+		"youtubeconfig": {
+			"description": "Quản lý cấu hình nguồn YouTube khi chạy! Điều khiển cài đặt OAuth và poToken 🎬",
+			"errors": {
+				"service_unavailable": "Dịch vụ Lavalink không khả dụng! Đảm bảo Lavalink đang chạy nhé! 🔧",
+				"missing_subcommand": "Cung cấp lệnh con nhé! Thử: oauth, potoken, view hoặc nodes",
+				"missing_node": "Cung cấp tên node! Dùng 'nodes' để xem các node khả dụng 📋",
+				"unknown_subcommand": "Lệnh con không xác định! Thử: oauth, potoken, view hoặc nodes",
+				"missing_oauth_option": "Cung cấp tùy chọn OAuth! Thử: email, authorization hoặc skip",
+				"missing_potoken_pair": "Cung cấp cả poToken và visitorData cho tùy chọn pair!",
+				"missing_refresh_token": "Thiếu refresh token! Cấu hình OAuth cần refresh token."
+			},
+			"messages": {
+				"processing": "Đang xử lý yêu cầu của bạn... ⚙️",
+				"oauth_updated_title": "Đã Cập Nhật YouTube OAuth",
+				"potoken_updated_title": "Đã Cập Nhật YouTube poToken",
+				"token_refreshed_title": "Đã Làm Mới YouTube Token",
+				"view_title": "Cấu Hình Nguồn YouTube",
+				"nodes_title": "Các Node Lavalink Khả Dụng",
+				"not_set": "Chưa Đặt",
+				"na": "N/A"
+			},
+			"fields": {
+				"refresh_token": "Refresh Token",
+				"skip_initialization": "Bỏ Qua Khởi Tạo",
+				"potoken": "poToken",
+				"visitor_data": "Dữ Liệu Visitor",
+				"po_token": "poToken",
+				"visitor_data_short": "Dữ Liệu Visitor",
+				"oauth_email": "Email OAuth",
+				"authorization": "Ủy Quyền",
+				"skip": "Bỏ Qua",
+				"pair": "Cặp",
+				"refresh": "Làm Mới",
+				"email": "Email",
+				"authorization_code": "Mã Ủy Quyền",
+				"status": "Trạng Thái",
+				"enabled": "Bật",
+				"disabled": "Tắt",
+				"last_updated": "Cập Nhật Lần Cuối"
+			},
+			"usage": {
+				"title": "Cách Dùng",
+				"value": "`/youtubeconfig <lệnh_con> <node> [tùy_chọn]`\nDùng oauth để cấu hình OAuth, potoken cho cài đặt poToken."
+			}
+		},
+		"livelyrics": {
+			"description": "Hiển thị lời bài hát đồng bộ theo thời gian thực cho bài hát hiện tại với chế độ karaoke",
+			"aliases": "karaoke, syncedlyrics",
+			"errors": {
+				"no_player": "Hiện không có nhạc nào đang phát.",
+				"no_synced": "Không tìm thấy lời bài hát cho bài này."
+			}
 		}
 	},
 	"Evaluate code": "Đánh giá mã",
@@ -807,5 +898,64 @@
 		"no_songs": "Mình sẽ rời sau {time} phút vì không có nhạc! Phát tiếp nhé 🎵"
 	},
 	"will_restart_after": "Mình sẽ khởi động lại sau {time}! Chờ mình tí nhé 🔄",
-	"Show current maintenance status.": "Hiển thị tình trạng bảo trì hiện tại."
+	"Show current maintenance status.": "Hiển thị tình trạng bảo trì hiện tại.",
+	"Manage LavaSrc configuration at runtime": "Manage LavaSrc configuration at runtime",
+	"Update Spotify configuration": "Update Spotify configuration",
+	"Update Apple Music configuration": "Update Apple Music configuration",
+	"Update Deezer configuration": "Update Deezer configuration",
+	"Update Yandex Music configuration": "Update Yandex Music configuration",
+	"Update VK Music configuration": "Update VK Music configuration",
+	"Update Qobuz configuration": "Update Qobuz configuration",
+	"Update yt-dlp configuration": "Update yt-dlp configuration",
+	"View current LavaSrc configuration for a node": "View current LavaSrc configuration for a node",
+	"List all available Lavalink nodes": "List all available Lavalink nodes",
+	"The Lavalink node ID": "The Lavalink node ID",
+	"Spotify client ID": "Spotify client ID",
+	"Spotify client secret": "Spotify client secret",
+	"Spotify sp_dc cookie value": "Spotify sp_dc cookie value",
+	"Prefer anonymous token": "Prefer anonymous token",
+	"Custom token endpoint URL": "Custom token endpoint URL",
+	"Apple Music media API token": "Apple Music media API token",
+	"Deezer ARL cookie value": "Deezer ARL cookie value",
+	"Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)": "Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)",
+	"Yandex Music access token": "Yandex Music access token",
+	"VK Music user token": "VK Music user token",
+	"Qobuz user OAuth token": "Qobuz user OAuth token",
+	"Qobuz application ID": "Qobuz application ID",
+	"Qobuz application secret": "Qobuz application secret",
+	"Path to yt-dlp executable": "Path to yt-dlp executable",
+	"Custom load arguments (comma-separated)": "Custom load arguments (comma-separated)",
+	"Custom playback arguments (comma-separated)": "Custom playback arguments (comma-separated)",
+	"Manage YouTube source configuration at runtime": "Manage YouTube source configuration at runtime",
+	"Update YouTube OAuth configuration": "Update YouTube OAuth configuration",
+	"Update YouTube poToken configuration": "Update YouTube poToken configuration",
+	"View current YouTube source configuration": "View current YouTube source configuration",
+	"Refresh an OAuth token using a refresh token": "Refresh an OAuth token using a refresh token",
+	"YouTube OAuth2 refresh token": "YouTube OAuth2 refresh token",
+	"Skip OAuth initialization flow (recommended when providing token)": "Skip OAuth initialization flow (recommended when providing token)",
+	"Proof of Origin token (generate with youtube-trusted-session-generator)": "Proof of Origin token (generate with youtube-trusted-session-generator)",
+	"Visitor data associated with the poToken": "Visitor data associated with the poToken",
+	"The refresh token to use": "The refresh token to use",
+	"LIVE_LYRICS": {
+		"NO_PLAYER": "Hiện không có nhạc nào đang phát.",
+		"NO_LYRICS": "Không tìm thấy lời bài hát cho bài này.",
+		"TITLE": "🎵 Lời Bài Hát Trực Tiếp",
+		"CURRENT": "Hiện tại",
+		"STOPPED": "Đã dừng lời bài hát trực tiếp.",
+		"REFRESHED": "Đã làm mới lời bài hát trực tiếp!",
+		"ERROR": "Đã xảy ra lỗi khi lấy lời bài hát.",
+		"ENDED": "Lời bài hát trực tiếp đã kết thúc.",
+		"PAUSED": "Lời bài hát trực tiếp đã tạm dừng.",
+		"SEARCHING": "Đang tìm lời bài hát ...",
+		"NO_SYNCED_TITLE": "Không Có Lời Bài Hát",
+		"NO_SYNCED_DESCRIPTION": "Bài hát này không có lời bài hát (có dấu thời gian). Bạn có thể thử lệnh `{prefix}lyrics` thông thường để xem lời bài hát dạng văn bản.",
+		"ALREADY_RUNNING": "Lời bài hát trực tiếp đang chạy cho máy chủ này rồi!",
+		"STARTED": "Đã bắt đầu lời bài hát trực tiếp! Hiển thị sẽ tự động cập nhật khi bài hát phát.",
+		"PROGRESS": "Tiến độ",
+		"UPDATE_INTERVAL": "Cập nhật mỗi {seconds} giây",
+		"CLICK_REFRESH": "Nhấn Làm mới để cập nhật ngay",
+		"NO_LYRICS_AVAILABLE": "Không có lời bài hát",
+		"REFRESH_BUTTON": "Làm mới",
+		"STOP_BUTTON": "Dừng"
+	}
 }

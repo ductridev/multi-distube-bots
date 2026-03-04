@@ -278,6 +278,7 @@ export async function recordPlayedTrack(data: {
   trackUrl: string;
   trackTitle: string;
   author: string;
+  authorId: string;
   duration: number;
 }): Promise<PlayerHistory> {
   return await prisma.playerHistory.create({
@@ -407,6 +408,215 @@ export async function getUserActivitySummary(userId: string) {
     activeSessions: sessions,
     totalActions: logs,
     totalPlays: playCount
+  };
+}
+
+// ==================== TemporaryAnnouncement Utilities ====================
+
+import type { TemporaryAnnouncement } from '@prisma/client';
+
+/**
+ * Input type for creating a temporary announcement
+ */
+export interface CreateTemporaryAnnouncementData {
+  title: string;
+  description: string;
+  color?: string;
+  intervalMs?: number;
+  expiresAt: Date;
+  createdBy: string;
+  createdByName?: string;
+}
+
+/**
+ * Input type for updating a temporary announcement
+ */
+export interface UpdateTemporaryAnnouncementData {
+  title?: string;
+  description?: string;
+  color?: string;
+  intervalMs?: number;
+  expiresAt?: Date;
+  isActive?: boolean;
+}
+
+/**
+ * Create a new temporary announcement
+ */
+export async function createTemporaryAnnouncement(
+  data: CreateTemporaryAnnouncementData
+): Promise<TemporaryAnnouncement> {
+  return await prisma.temporaryAnnouncement.create({
+    data: {
+      title: data.title,
+      description: data.description,
+      color: data.color ?? '5865F2',
+      intervalMs: data.intervalMs ?? 1800000, // Default: 30 minutes
+      expiresAt: data.expiresAt,
+      createdBy: data.createdBy,
+      createdByName: data.createdByName,
+    },
+  });
+}
+
+/**
+ * Get all active temporary announcements (not expired, not disabled)
+ */
+export async function getActiveTemporaryAnnouncements(): Promise<TemporaryAnnouncement[]> {
+  const now = new Date();
+  return await prisma.temporaryAnnouncement.findMany({
+    where: {
+      isActive: true,
+      expiresAt: { gt: now },
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+}
+
+/**
+ * Get all temporary announcements (for listing)
+ */
+export async function getAllTemporaryAnnouncements(): Promise<TemporaryAnnouncement[]> {
+  return await prisma.temporaryAnnouncement.findMany({
+    orderBy: { createdAt: 'desc' },
+  });
+}
+
+/**
+ * Get temporary announcements by filter
+ */
+export async function getTemporaryAnnouncementsByFilter(
+  filter: 'all' | 'active' | 'expired'
+): Promise<TemporaryAnnouncement[]> {
+  const now = new Date();
+
+  switch (filter) {
+    case 'active':
+      return await prisma.temporaryAnnouncement.findMany({
+        where: {
+          isActive: true,
+          expiresAt: { gt: now },
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+    case 'expired':
+      return await prisma.temporaryAnnouncement.findMany({
+        where: {
+          OR: [
+            { isActive: false },
+            { expiresAt: { lte: now } },
+          ],
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+    default:
+      return await getAllTemporaryAnnouncements();
+  }
+}
+
+/**
+ * Get a single temporary announcement by ID
+ */
+export async function getTemporaryAnnouncement(id: string): Promise<TemporaryAnnouncement | null> {
+  return await prisma.temporaryAnnouncement.findUnique({
+    where: { id },
+  });
+}
+
+/**
+ * Update a temporary announcement
+ */
+export async function updateTemporaryAnnouncement(
+  id: string,
+  data: UpdateTemporaryAnnouncementData
+): Promise<TemporaryAnnouncement> {
+  return await prisma.temporaryAnnouncement.update({
+    where: { id },
+    data,
+  });
+}
+
+/**
+ * Delete a temporary announcement
+ */
+export async function deleteTemporaryAnnouncement(id: string): Promise<void> {
+  await prisma.temporaryAnnouncement.delete({
+    where: { id },
+  });
+}
+
+/**
+ * Update lastSentAt and increment sendCount
+ */
+export async function markAnnouncementSent(id: string): Promise<void> {
+  await prisma.temporaryAnnouncement.update({
+    where: { id },
+    data: {
+      lastSentAt: new Date(),
+      sendCount: { increment: 1 },
+    },
+  });
+}
+
+/**
+ * Mark expired announcements as inactive
+ */
+export async function markExpiredAnnouncementsInactive(): Promise<number> {
+  const now = new Date();
+  const result = await prisma.temporaryAnnouncement.updateMany({
+    where: {
+      isActive: true,
+      expiresAt: { lte: now },
+    },
+    data: { isActive: false },
+  });
+  return result.count;
+}
+
+/**
+ * Cleanup expired announcements (delete from database)
+ */
+export async function cleanupExpiredAnnouncements(): Promise<number> {
+  const now = new Date();
+  const result = await prisma.temporaryAnnouncement.deleteMany({
+    where: {
+      OR: [
+        { expiresAt: { lt: now } },
+        { isActive: false },
+      ],
+    },
+  });
+  return result.count;
+}
+
+/**
+ * Get temporary announcement statistics
+ */
+export async function getTemporaryAnnouncementStats() {
+  const now = new Date();
+  const [total, active, expired, totalSends] = await Promise.all([
+    prisma.temporaryAnnouncement.count(),
+    prisma.temporaryAnnouncement.count({
+      where: { isActive: true, expiresAt: { gt: now } },
+    }),
+    prisma.temporaryAnnouncement.count({
+      where: {
+        OR: [
+          { isActive: false },
+          { expiresAt: { lte: now } },
+        ],
+      },
+    }),
+    prisma.temporaryAnnouncement.aggregate({
+      _sum: { sendCount: true },
+    }),
+  ]);
+
+  return {
+    total,
+    active,
+    expired,
+    totalSends: totalSends._sum.sendCount ?? 0,
   };
 }
 

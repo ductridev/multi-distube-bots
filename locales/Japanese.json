@@ -141,7 +141,7 @@
 				"off": "`✅` | ベースブーストフィルターが`無効`になりました。"
 			},
 			"options": {
-				"level": "The bassboost level you want to set"
+				"level": "設定したいベースブーストレベル"
 			}
 		},
 		"distortion": {
@@ -535,8 +535,8 @@
 			}
 		},
 		"lyrics": {
-			"description": "Get's the lyrics of the currently playing track",
-			"lyrics_track": "### Lyrics for: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
+			"description": "現在再生中のトラックの歌詞を取得します",
+			"lyrics_track": "### 歌詞: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
 			"searching": "`🔍` **{trackTitle}**の歌詞を検索中...",
 			"errors": {
 				"no_results": "現在のトラックの歌詞が見つかりませんでした。",
@@ -544,20 +544,20 @@
 			}
 		},
 		"fairplay": {
-			"description": "Set the bot to play music fairly",
+			"description": "ボットが公平に音楽を再生するように設定します",
 			"errors": {
-				"not_in_voice": "You need to be in a voice channel to use this command.",
-				"generic": "An error occurred while trying to execute this command."
+				"not_in_voice": "このコマンドを使用するにはボイスチャンネルに参加する必要があります。",
+				"generic": "コマンドの実行中にエラーが発生しました。"
 			},
 			"messages": {
-				"disabled": "`✅` | Fairplay mode has been `DISABLED`.",
-				"enabled": "`✅` | Fairplay mode has been `ENABLED`."
+				"disabled": "`✅` | フェアプレイモードが`無効化`されました。",
+				"enabled": "`✅` | フェアプレイモードが`有効化`されました。"
 			}
 		},
 		"playlocal": {
-			"description": "Plays an your local audio files",
+			"description": "ローカルオーディオファイルを再生します",
 			"options": {
-				"file": "The audio file you want to play"
+				"file": "再生したいオーディオファイル"
 			},
 			"loading": "読み込み中...",
 			"errors": {
@@ -568,16 +568,97 @@
 			"added_to_queue": "キューに[{title}]({url})を追加しました"
 		},
 		"loop_current": {
-			"description": "cmd.loop_current.description"
+			"description": "現在再生中のトラックをループします"
 		},
 		"loop_queue": {
-			"description": "cmd.loop_queue.description"
+			"description": "キューをループします"
 		},
 		"vote": {
-			"description": "Quản lý hệ thống bỏ phiếu cho các lệnh nhạc",
+			"description": "音楽コマンドの投票システムを管理します",
 			"options": {
-				"toggle": "Bật hoặc tắt hệ thống bỏ phiếu",
-				"status": "Kiểm tra trạng thái hiện tại của hệ thống bỏ phiếu"
+				"toggle": "投票システムをオンまたはオフにします",
+				"status": "投票システムの現在の状態を確認します"
+			}
+		},
+		"lavaconfig": {
+			"description": "LavaSrc設定を実行時に管理します 🎵",
+			"errors": {
+				"service_unavailable": "LavaSrc設定サービスは利用できません。",
+				"missing_subcommand": "サブコマンドを指定してください。利用可能: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`",
+				"missing_node": "必須引数が不足しています: `node`。例: `!lavaconfig {subcommand} node:main`",
+				"unknown_subcommand": "不明なサブコマンド: `{subcommand}`。利用可能: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`"
+			},
+			"messages": {
+				"processing": "処理中...",
+				"config_updated_title": "✅ {source}設定が更新されました",
+				"config_updated_desc": "ノード**{nodeId}**の{source}設定が正常に更新されました",
+				"updated_config": "更新された設定",
+				"view_title": "📋 LavaSrc設定 - {nodeId}",
+				"nodes_title": "📡 Lavalinkノード",
+				"no_nodes": "利用可能なノードがありません。",
+				"total_nodes": "合計: {count}ノード"
+			},
+			"usage": {
+				"title": "使用法",
+				"value": "`!lavaconfig <サブコマンド> [オプション]`\n例: `!lavaconfig spotify node:main clientId:xxx`"
+			}
+		},
+		"youtubeconfig": {
+			"description": "YouTubeソース設定を実行時に管理します 🎵",
+			"errors": {
+				"service_unavailable": "YouTube設定サービスは利用できません。",
+				"missing_subcommand": "サブコマンドを指定してください。利用可能: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_node": "必須引数が不足しています: `node`。例: `!youtubeconfig {subcommand} node:main`",
+				"unknown_subcommand": "不明なサブコマンド: `{subcommand}`。利用可能: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_oauth_option": "少なくとも1つのオプションを指定してください: `refreshToken` または `skipInitialization`",
+				"missing_potoken_pair": "最良の結果を得るには、`poToken` と `visitorData` の両方を一緒に提供する必要があります",
+				"missing_refresh_token": "必須引数が不足しています: `refreshToken`。例: `!youtubeconfig refresh-token node:main refreshToken:xxx`"
+			},
+			"messages": {
+				"processing": "処理中...",
+				"oauth_updated_title": "✅ YouTube OAuth設定が更新されました",
+				"oauth_updated_desc": "ノード**{nodeId}**のYouTube OAuth設定が正常に更新されました",
+				"potoken_updated_title": "✅ YouTube poToken設定が更新されました",
+				"potoken_updated_desc": "ノード**{nodeId}**のYouTube poToken設定が正常に更新されました",
+				"token_refreshed_title": "✅ OAuthトークンが更新されました",
+				"token_refreshed_desc": "ノード**{nodeId}**のOAuthトークンが正常に更新されました",
+				"view_title": "📋 YouTubeソース設定 - {nodeId}",
+				"nodes_title": "📡 Lavalinkノード",
+				"no_nodes": "利用可能なノードがありません。",
+				"total_nodes": "合計: {count}ノード",
+				"not_set": "未設定",
+				"na": "N/A"
+			},
+			"fields": {
+				"refresh_token": "リフレッシュトークン",
+				"skip_initialization": "初期化をスキップ",
+				"potoken": "poToken",
+				"visitor_data": "Visitor Data",
+				"token_type": "トークンタイプ",
+				"expires_in": "有効期限",
+				"scope": "スコープ",
+				"access_token_truncated": "アクセストークン（省略）",
+				"updated": "✅ 更新済み",
+				"not_changed": "⚪ 変更なし",
+				"yes": "✅ はい",
+				"no": "❌ いいえ",
+				"important": "⚠️ 重要",
+				"oauth_warning": "OAuthトークンは秘密にしておく必要があります。バーナーYouTubeアカウントの使用を検討してください。",
+				"how_to_generate": "💡 生成方法",
+				"generator_link": "[youtube-trusted-session-generator](https://github.com/iv-org/youtube-trusted-session-generator)を使用してこれらの値を取得してください。",
+				"note": "ℹ️ メモ",
+				"api_note": "APIから返されるのはリフレッシュトークンのみです。poTokenとvisitorDataは公開されません。"
+			},
+			"usage": {
+				"title": "使用法",
+				"value": "`!youtubeconfig <サブコマンド> [オプション]`\n例: `!youtubeconfig oauth node:main refreshToken:xxx`"
+			}
+		},
+		"livelyrics": {
+			"description": "現在のトラックの同期された歌詞をリアルタイムで表示します！カラオケモード🎤",
+			"errors": {
+				"no_player": "現在音楽が再生されていません。",
+				"no_synced": "このトラックの同期された歌詞が見つかりませんでした。"
 			}
 		}
 	},
@@ -593,7 +674,6 @@
 			"not_author": "このボタンを使用する権限がありません。"
 		}
 	},
-
 	"player": {
 		"errors": {
 			"no_player": "このギルドにはアクティブなプレイヤーがありません。",
@@ -730,6 +810,65 @@
 		"no_listeners": "リスナーがいないため、ボットは{time}分後に退出します。",
 		"no_songs": "曲がないため、ボットは{time}分後に退出します。"
 	},
+	"LIVE_LYRICS": {
+		"NO_PLAYER": "現在音楽が再生されていません。",
+		"NO_LYRICS": "このトラックの同期された歌詞が見つかりませんでした。",
+		"TITLE": "🎵 ライブ歌詞 - {track}",
+		"CURRENT": "🎵 再生中",
+		"STOPPED": "ライブ歌詞が停止されました。",
+		"REFRESHED": "歌詞が更新されました！",
+		"ERROR": "歌詞の取得中にエラーが発生しました。",
+		"ENDED": "トラックが終了しました。ライブ歌詞が停止されました。",
+		"PAUSED": "再生が一時停止されました。再生が再開されると歌詞も再開されます。",
+		"SEARCHING": "同期された歌詞を検索中...",
+		"NO_SYNCED_TITLE": "⚠️ 同期された歌詞が利用できません",
+		"NO_SYNCED_DESCRIPTION": "**{trackTitle}**の同期された歌詞が見つかりませんでした。\n\n**代替案:**\n• 静的な歌詞には `/lyrics` を使用\n• 別のトラックを試す\n\n同期された歌詞はSpotify、Deezer、YouTube Musicの人気曲で最もよく機能します。",
+		"ALREADY_RUNNING": "ライブ歌詞は既に実行中です！まず停止ボタンを使用して終了してください。",
+		"STARTED": "🎤 ライブ歌詞が開始されました！下のメッセージを確認してください。",
+		"PROGRESS": "進行状況",
+		"UPDATE_INTERVAL": "{seconds}秒ごとに更新",
+		"CLICK_REFRESH": "即時更新するには更新をクリック",
+		"NO_LYRICS_AVAILABLE": "歌詞がありません",
+		"REFRESH_BUTTON": "更新",
+		"STOP_BUTTON": "停止"
+	},
 	"Show current maintenance status": "現在のメンテナンス状態を表示",
-	"Show current maintenance status.": "Show current maintenance status."
+	"Show current maintenance status.": "Show current maintenance status.",
+	"Manage LavaSrc configuration at runtime": "Manage LavaSrc configuration at runtime",
+	"Update Spotify configuration": "Update Spotify configuration",
+	"Update Apple Music configuration": "Update Apple Music configuration",
+	"Update Deezer configuration": "Update Deezer configuration",
+	"Update Yandex Music configuration": "Update Yandex Music configuration",
+	"Update VK Music configuration": "Update VK Music configuration",
+	"Update Qobuz configuration": "Update Qobuz configuration",
+	"Update yt-dlp configuration": "Update yt-dlp configuration",
+	"View current LavaSrc configuration for a node": "View current LavaSrc configuration for a node",
+	"List all available Lavalink nodes": "List all available Lavalink nodes",
+	"The Lavalink node ID": "The Lavalink node ID",
+	"Spotify client ID": "Spotify client ID",
+	"Spotify client secret": "Spotify client secret",
+	"Spotify sp_dc cookie value": "Spotify sp_dc cookie value",
+	"Prefer anonymous token": "Prefer anonymous token",
+	"Custom token endpoint URL": "Custom token endpoint URL",
+	"Apple Music media API token": "Apple Music media API token",
+	"Deezer ARL cookie value": "Deezer ARL cookie value",
+	"Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)": "Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)",
+	"Yandex Music access token": "Yandex Music access token",
+	"VK Music user token": "VK Music user token",
+	"Qobuz user OAuth token": "Qobuz user OAuth token",
+	"Qobuz application ID": "Qobuz application ID",
+	"Qobuz application secret": "Qobuz application secret",
+	"Path to yt-dlp executable": "Path to yt-dlp executable",
+	"Custom load arguments (comma-separated)": "Custom load arguments (comma-separated)",
+	"Custom playback arguments (comma-separated)": "Custom playback arguments (comma-separated)",
+	"Manage YouTube source configuration at runtime": "Manage YouTube source configuration at runtime",
+	"Update YouTube OAuth configuration": "Update YouTube OAuth configuration",
+	"Update YouTube poToken configuration": "Update YouTube poToken configuration",
+	"View current YouTube source configuration": "View current YouTube source configuration",
+	"Refresh an OAuth token using a refresh token": "Refresh an OAuth token using a refresh token",
+	"YouTube OAuth2 refresh token": "YouTube OAuth2 refresh token",
+	"Skip OAuth initialization flow (recommended when providing token)": "Skip OAuth initialization flow (recommended when providing token)",
+	"Proof of Origin token (generate with youtube-trusted-session-generator)": "Proof of Origin token (generate with youtube-trusted-session-generator)",
+	"Visitor data associated with the poToken": "Visitor data associated with the poToken",
+	"The refresh token to use": "The refresh token to use"
 }

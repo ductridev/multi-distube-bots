@@ -107,12 +107,14 @@ export type PlayerControlAction =
 
 // Statistics
 export interface StatsOverview {
+  totalBots: number;
   totalGuilds: number;
   totalUsers: number;
   totalPlayers: number;
-  totalTracks: number;
-  uptimeAvg: number;
-  memoryUsageAvg: number;
+  totalPlays: number;
+  uptime: number;
+  memory: number;
+  cpu: number;
 }
 
 export interface BotMetrics {
@@ -149,8 +151,8 @@ export interface TopGuild {
 }
 
 export interface TopTrack {
-  trackUrl: string;
-  trackTitle: string;
+  url: string;
+  title: string;
   author: string;
   playCount: number;
   totalDuration: number;
@@ -181,4 +183,144 @@ export interface PlayerHistory {
   requestedById: string;
   requestedByUsername: string;
   playedAt: Date;
+}
+
+// ============================================
+// Statistics API Types
+// ============================================
+
+// Time period and aggregation types
+export type TimePeriod =
+  | 'last_4_hours'
+  | 'today'
+  | 'yesterday'
+  | 'last_24_hours'
+  | 'last_7_days'
+  | 'last_30_days'
+  | 'all_time';
+
+export type AggregationMethod = 'average' | 'last' | 'max' | 'min';
+
+// User server for filtering
+export interface UserServer {
+  guildId: string;
+  guildName: string;
+  guildIcon?: string;
+  memberCount: number;
+  botClientId: string;
+  botName: string;
+}
+
+// Chart data point
+export interface ChartDataPoint {
+  timestamp: string;
+  value: number;
+  label: string;
+}
+
+// Track type percentages for pie chart
+export interface TrackTypePercentages {
+  youtube: number;
+  spotify: number;
+  soundcloud: number;
+}
+
+// Activity data for bar charts
+export interface ActivityData {
+  label: string;
+  value: number;
+}
+
+// Alias for consistency
+export type ActivityDataPoint = ActivityData;
+
+// Track stats for lists
+export interface TrackStats {
+  name: string;
+  url?: string;
+  source: string;
+  playCount: number;
+  totalDuration: number;
+}
+
+// Alias for most played items
+export type MostPlayedItem = TrackStats;
+
+// Most listened user item
+export interface MostListenedItem {
+  userId: string;
+  username: string;
+  avatar?: string | null;
+  totalDuration: number;
+  sessionCount: number;
+}
+
+// Command stats
+export interface CommandStats {
+  name: string;
+  usageCount: number;
+}
+
+// Alias for top command items
+export type TopCommandItem = CommandStats;
+
+// API response types for charts
+export interface SessionsChartResponse {
+  data: ChartDataPoint[];
+  period: TimePeriod;
+  aggregation: AggregationMethod;
+}
+
+export interface ListenersChartResponse {
+  data: ChartDataPoint[];
+  period: TimePeriod;
+  aggregation: AggregationMethod;
+}
+
+export interface TrackTypesChartResponse {
+  data: TrackTypePercentages;
+  period: TimePeriod;
+}
+
+export interface ActivityHoursResponse {
+  data: ActivityData[];
+  period: TimePeriod;
+}
+
+export interface ActivityWeekdaysResponse {
+  data: ActivityData[];
+  period: TimePeriod;
+}
+
+export interface MostPlayedResponse {
+  data: TrackStats[];
+  period: TimePeriod;
+}
+
+export interface MostListenedResponse {
+  data: MostListenedItem[];
+  period: TimePeriod;
+}
+
+export interface TopCommandsResponse {
+  data: CommandStats[];
+  period: TimePeriod;
+}
+
+export interface PremiumStatusResponse {
+  isPremium: boolean;
+  totalDonated: number;
+  currency: string;
+}
+
+// Combined stats overview for the new stats page
+export interface StatsOverviewData {
+  sessions: ChartDataPoint[];
+  listeners: ChartDataPoint[];
+  trackTypes: TrackTypePercentages;
+  activityHours: ActivityData[];
+  activityWeekdays: ActivityData[];
+  mostPlayed: TrackStats[];
+  mostListened: MostListenedItem[];
+  topCommands: CommandStats[];
 }

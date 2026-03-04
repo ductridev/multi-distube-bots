@@ -329,6 +329,7 @@ export default function PlayersPage() {
                           )
                         }
                         className="flex-1"
+                        aria-label={`Volume: ${player.volume}%`}
                       />
                     </div>
                   </div>

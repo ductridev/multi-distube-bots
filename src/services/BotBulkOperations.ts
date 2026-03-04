@@ -6,6 +6,7 @@
 import type { Lavamusic } from "../structures/index.js";
 import Logger from "../structures/Logger.js";
 import { PrismaClient } from "@prisma/client";
+import { RateLimitTracker } from "./RateLimitTracker.js";
 
 const prisma = new PrismaClient();
 
@@ -22,9 +23,11 @@ export interface BulkOperationResult {
 
 export class BotBulkOperations {
 	private logger: Logger;
+	private rateLimiter: RateLimitTracker;
 
 	constructor(private bots: Lavamusic[]) {
 		this.logger = new Logger("BulkOperations");
+		this.rateLimiter = RateLimitTracker.getInstance();
 	}
 
 	/**
@@ -299,6 +302,7 @@ export class BotBulkOperations {
 
 	/**
 	 * Broadcast message to all guilds across selected bots
+	 * Uses rate limiting to avoid hitting Discord's 50 req/sec global limit
 	 */
 	public async broadcastMessage(
 		clientIds: string[],
@@ -340,6 +344,7 @@ export class BotBulkOperations {
 				}
 
 				let sentCount = 0;
+				let failedCount = 0;
 
 				for (const guild of bot.guilds.cache.values()) {
 					try {
@@ -352,7 +357,10 @@ export class BotBulkOperations {
 							if (setupChannel?.textId) {
 								const channel = guild.channels.cache.get(setupChannel.textId);
 								if (channel?.isTextBased()) {
-									await channel.send(message);
+									// Use rate-limited send
+									await this.rateLimiter.throttled(async () => {
+										await channel.send(message);
+									});
 									sentCount++;
 								}
 							}
@@ -360,13 +368,28 @@ export class BotBulkOperations {
 							// Find system channel
 							const systemChannel = guild.systemChannel;
 							if (systemChannel) {
-								await systemChannel.send(message);
+								// Use rate-limited send
+								await this.rateLimiter.throttled(async () => {
+									await systemChannel.send(message);
+								});
 								sentCount++;
 							}
 						}
-					} catch (error) {
-						// Skip guilds where we can't send
-						continue;
+					} catch (error: any) {
+						failedCount++;
+
+						// Handle rate limit errors specifically
+						if (error.code === 429 || error.status === 429) {
+							const info = this.rateLimiter.handleRateLimitError(error);
+							this.logger.warn(
+								`[BROADCAST] Rate limited during broadcast to guild ${guild.id}. ` +
+								`Scope: ${info.scope}, Retry after: ${info.retryAfterMs}ms`,
+							);
+						} else {
+							this.logger.error(
+								`[BROADCAST] Failed to send to guild ${guild.id}: ${error instanceof Error ? error.message : String(error)}`,
+							);
+						}
 					}
 				}
 
@@ -377,7 +400,7 @@ export class BotBulkOperations {
 				results.successful++;
 
 				this.logger.info(
-					`[Bulk Operations] Broadcast to bot ${clientId}: ${sentCount} guilds`,
+					`[Bulk Operations] Broadcast to bot ${clientId}: ${sentCount} guilds sent, ${failedCount} failed`,
 				);
 			} catch (error) {
 				results.results.push({

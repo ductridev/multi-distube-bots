@@ -15,6 +15,11 @@ export default class PlayerDestroy extends Event {
 	public async run(player: Player, _reason: string): Promise<void> {
 		const guild = this.client.guilds.cache.get(player.guildId);
 
+		// Stop live lyrics session if active
+		if (this.client.liveLyricsService) {
+			this.client.liveLyricsService.handlePlayerDestroy(player.guildId);
+		}
+
 		// End periodic message session
 		PeriodicMessageSystem.endSession(player.guildId, this.client.childEnv.clientId);
 

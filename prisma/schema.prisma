@@ -21,7 +21,7 @@ model GlobalConfig {
 }
 
 model BotConfig {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   token        String
   prefix       String
@@ -51,13 +51,19 @@ model Guild {
 
   // New relation: one guild can have many bot-prefix mappings
   botConfigs GuildBotConfig[]
+
+  // Statistics relations
+  playbackSessions PlaybackSession[]
+  hourlyStats      HourlyStats[]
+  commandUsage     CommandUsage[]
+  trackPlays       TrackPlay[]
 }
 
 model GuildBotConfig {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  guildId      String
-  botClientId  String
-  prefix       String
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  guildId     String
+  botClientId String
+  prefix      String
 
   Guild     Guild     @relation(fields: [guildId], references: [guildId])
   BotConfig BotConfig @relation("BotClientConfig", fields: [botClientId], references: [clientId])
@@ -109,18 +115,18 @@ model Setup {
 }
 
 model PlayerState {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  guildId         String
-  botClientId     String
-  voiceChannelId  String
-  textChannelId   String
-  nodeId          String
-  selfDeaf        Boolean
-  selfMute        Boolean
-  applyVolumeAsFilter Boolean @default(false)
-  instaUpdateFiltersFix Boolean @default(false)
-  vcRegion           String
-  updatedAt       DateTime  @updatedAt
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  guildId               String
+  botClientId           String
+  voiceChannelId        String
+  textChannelId         String
+  nodeId                String
+  selfDeaf              Boolean
+  selfMute              Boolean
+  applyVolumeAsFilter   Boolean  @default(false)
+  instaUpdateFiltersFix Boolean  @default(false)
+  vcRegion              String
+  updatedAt             DateTime @updatedAt
 
   @@unique([guildId, botClientId])
 }
@@ -132,19 +138,19 @@ model GuildBotPreferences {
 }
 
 model DashboardUser {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  discordId   String   @unique
-  username    String
-  avatar      String?
-  role        String   @default("user") // owner, admin, moderator, user
-  createdAt   DateTime @default(now())
-  lastLogin   DateTime @updatedAt
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  discordId String   @unique
+  username  String
+  avatar    String?
+  role      String   @default("user") // owner, admin, moderator, user
+  createdAt DateTime @default(now())
+  lastLogin DateTime @updatedAt
 
   // Permissions
-  managedBots String[] // clientIds user can manage
-  sessions    DashboardSession[]
-  auditLogs   AuditLog[]
-  apiKeys     ApiKey[]
+  managedBots   String[] // clientIds user can manage
+  sessions      DashboardSession[]
+  auditLogs     AuditLog[]
+  apiKeys       ApiKey[]
   blockedTracks BlockedTrack[]
 }
 
@@ -156,18 +162,18 @@ model DashboardSession {
   ipAddress String?
   userAgent String?
 
-  user      DashboardUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user DashboardUser @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model AuditLog {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
-  action    String   // bot.create, bot.delete, player.skip, etc.
-  target    String   // clientId, guildId, etc.
-  metadata  Json?    // Additional context
+  action    String // bot.create, bot.delete, player.skip, etc.
+  target    String // clientId, guildId, etc.
+  metadata  Json? // Additional context
   timestamp DateTime @default(now())
 
-  user      DashboardUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user DashboardUser @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model BotStats {
@@ -177,41 +183,42 @@ model BotStats {
   guildCount  Int
   playerCount Int
   totalPlays  Int
-  uptime      Int      // seconds
-  memory      Float    // MB
-  cpu         Float    // percentage
-  latency     Int      // ms
+  uptime      Int // seconds
+  memory      Float // MB
+  cpu         Float // percentage
+  latency     Int // ms
 
   @@index([clientId, timestamp])
 }
 
 model PlayerHistory {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  guildId   String
-  clientId  String
-  trackUrl  String
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  guildId    String
+  clientId   String
+  trackUrl   String
   trackTitle String
-  author    String   // User who requested
-  playedAt  DateTime @default(now())
-  duration  Int      // Track duration in ms
+  author     String?  // Username who requested
+  authorId   String?  // User ID who requested
+  playedAt   DateTime @default(now())
+  duration   Int // Track duration in ms
 
   @@index([guildId, playedAt])
   @@index([clientId, playedAt])
 }
 
 model ApiKey {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  key         String   @unique
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  key         String    @unique
   name        String
-  userId      String   @db.ObjectId
+  userId      String    @db.ObjectId
   permissions String[] // Array of permission strings
-  rateLimit   Int      @default(100) // requests per minute
+  rateLimit   Int       @default(100) // requests per minute
   expiresAt   DateTime?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
   lastUsed    DateTime?
-  usageCount  Int      @default(0)
+  usageCount  Int       @default(0)
 
-  user        DashboardUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user DashboardUser @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
@@ -223,11 +230,131 @@ model BlockedTrack {
   reason    String
   blockedBy String   @db.ObjectId // User ID who blocked it
   blockedAt DateTime @default(now())
-  scope     String   // "global", "guild", or "bot"
-  scopeId   String?  // Guild ID or Bot Client ID
+  scope     String // "global", "guild", or "bot"
+  scopeId   String? // Guild ID or Bot Client ID
 
-  user      DashboardUser @relation(fields: [blockedBy], references: [id], onDelete: Cascade)
+  user DashboardUser @relation(fields: [blockedBy], references: [id], onDelete: Cascade)
 
   @@unique([uri, scope, scopeId])
   @@index([scope, scopeId])
+}
+
+// Track individual playback sessions
+model PlaybackSession {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  guildId       String
+  botId         String
+  startedAt     DateTime  @default(now())
+  endedAt       DateTime?
+  duration      Int // in seconds
+  listenerCount Int       @default(0)
+  source        String // youtube, spotify, soundcloud
+  trackName     String?
+  trackUrl      String?
+  createdAt     DateTime  @default(now())
+
+  guild Guild @relation(fields: [guildId], references: [guildId])
+
+  @@index([guildId, startedAt])
+  @@index([botId, startedAt])
+}
+
+// Aggregated hourly statistics for efficient querying
+model HourlyStats {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  guildId         String
+  botId           String
+  hour            DateTime // Truncated to hour
+  sessionCount    Int      @default(0)
+  totalDuration   Int      @default(0) // in seconds
+  avgListeners    Float    @default(0)
+  maxListeners    Int      @default(0)
+  minListeners    Int      @default(0)
+  youtubePlays    Int      @default(0)
+  spotifyPlays    Int      @default(0)
+  soundcloudPlays Int      @default(0)
+  createdAt       DateTime @default(now())
+
+  guild Guild @relation(fields: [guildId], references: [guildId])
+
+  @@unique([guildId, botId, hour])
+  @@index([guildId, hour])
+}
+
+// Track command usage
+model CommandUsage {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  guildId     String
+  botId       String
+  commandName String
+  usedAt      DateTime @default(now())
+  userId      String
+
+  guild Guild @relation(fields: [guildId], references: [guildId])
+
+  @@index([guildId, usedAt])
+  @@index([commandName])
+}
+
+// Track user donations for premium features
+model UserDonation {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String
+  amount    Float // in USD
+  currency  String   @default("USD")
+  donatedAt DateTime @default(now())
+  source    String? // paypal, patreon, etc.
+
+  @@index([userId])
+}
+
+// Track most played tracks
+model TrackPlay {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  guildId       String
+  botId         String
+  trackName     String
+  trackUrl      String
+  source        String // youtube, spotify, soundcloud
+  duration      Int // in seconds
+  startedAt     DateTime  @default(now())
+  endedAt       DateTime? // When the track finished/stopped
+  playedBy      String // user who requested
+  listenerCount Int       @default(0) // Number of listeners when track started/ended
+  // Unique identifier for upsert: guildId + botId + trackUrl + startedAt (rounded to second)
+  trackPlayId   String? // Optional unique ID, uses original MongoDB ObjectId for uniqueness
+
+  guild Guild @relation(fields: [guildId], references: [guildId])
+
+  @@index([guildId, startedAt])
+  @@index([trackUrl])
+  @@index([botId, startedAt])
+}
+
+// Temporary Recurring Announcements
+// Time-limited announcements that recur at specified intervals and automatically expire
+model TemporaryAnnouncement {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  title          String                      // Embed title
+  description    String                      // Embed description
+  color          String?   @default("5865F2") // Hex color code (optional, default: Discord blurple)
+
+  // Timing Configuration
+  intervalMs     Int       @default(1800000)  // Recurrence interval in ms (default: 30 min)
+  expiresAt      DateTime                    // When announcement stops being active
+
+  // State Management
+  isActive       Boolean   @default(true)     // Can be manually disabled
+  lastSentAt     DateTime?                   // Track last send time
+
+  // Metadata
+  createdAt      DateTime  @default(now())
+  createdBy      String                      // Discord user ID of creator
+  createdByName  String?                     // Username for display purposes
+
+  // Statistics
+  sendCount      Int       @default(0)        // Number of times sent
+
+  @@index([isActive, expiresAt])
+  @@index([lastSentAt])
 }

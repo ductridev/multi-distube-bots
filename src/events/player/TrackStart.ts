@@ -70,18 +70,86 @@ export default class TrackStart extends Event {
 			requestedBy: (track.requester as Requester).username,
 		});
 
-		// Record to player history
+		// Detect source from track URL
+		const detectSourceFromUrl = (url: string): string => {
+			if (url.includes('youtube.com') || url.includes('youtu.be')) {
+				return 'youtube';
+			}
+			if (url.includes('spotify.com')) {
+				return 'spotify';
+			}
+			if (url.includes('soundcloud.com')) {
+				return 'soundcloud';
+			}
+			return 'youtube'; // Default to youtube
+		};
+
+		// Maximum safe duration value for database (max 32-bit signed integer in milliseconds)
+		// This is approximately 24 days in milliseconds - more than enough for any real track
+		const MAX_SAFE_DURATION_MS = 2147483647;
+
+		// Cap duration to safe value to prevent overflow for livestreams/unknown duration tracks
+		const safeDurationMs = (duration: number): number => {
+			if (!duration || duration <= 0) return 0;
+			if (duration > MAX_SAFE_DURATION_MS) return MAX_SAFE_DURATION_MS;
+			return Math.floor(duration);
+		};
+
+		// Get listener count from voice channel
+		const getListenerCount = (): number => {
+			const voiceChannel = guild?.channels.cache.get(player.voiceChannelId!);
+			if (voiceChannel && 'members' in voiceChannel) {
+				const members = voiceChannel.members as Map<string, { user: { bot: boolean } }>;
+				return [...members.values()].filter((m) => !m.user.bot).length;
+			}
+			return 0;
+		};
+
+		const listenerCount = getListenerCount();
+		const startedAt = new Date();
+		const source = detectSourceFromUrl(track.info.uri || '');
+
+		// Generate unique trackPlayId for upsert: guildId-botId-trackUrl-timestamp
+		const trackPlayId = `${player.guildId}-${this.client.childEnv.clientId}-${encodeURIComponent(track.info.uri || 'unknown')}-${startedAt.getTime()}`;
+
+		// Record to player history and track play
 		try {
-			await prisma.playerHistory.create({
+			// Record to PlayerHistory (legacy)
+			const playerHistoryPromise = prisma.playerHistory.create({
 				data: {
 					guildId: player.guildId,
 					clientId: this.client.childEnv.clientId,
 					trackUrl: track.info.uri,
 					trackTitle: track.info.title,
 					author: (track.requester as Requester).username,
-					duration: track.info.duration,
+					authorId: (track.requester as Requester).id,
+					duration: safeDurationMs(track.info.duration),
 				},
 			});
+
+			// Record to TrackPlay using create (new statistics)
+			const trackPlayPromise = prisma.trackPlay.create({
+				data: {
+					trackPlayId,
+					guildId: player.guildId,
+					botId: this.client.childEnv.clientId,
+					trackName: track.info.title,
+					trackUrl: track.info.uri,
+					source,
+					duration: Math.floor(safeDurationMs(track.info.duration) / 1000), // Convert ms to seconds
+					playedBy: (track.requester as Requester).id,
+					startedAt,
+					listenerCount,
+				},
+			});
+
+			const [, trackPlayRecord] = await Promise.all([playerHistoryPromise, trackPlayPromise]);
+
+			// Store the record id in player customData for later update in TrackEnd
+			player.options.customData = {
+				...player.options.customData,
+				currentTrackPlayDbId: trackPlayRecord.id,
+			};
 		} catch (error) {
 			this.client.logger.error('Failed to record player history:', error);
 		}

@@ -193,7 +193,9 @@ export class ReportGeneratorService {
 					dailyTracks.set(dateKey, new Set());
 				}
 
-				dailyStats.get(dateKey)!.add(play.author);
+				if (play.author) {
+					dailyStats.get(dateKey)!.add(play.author);
+				}
 				dailyTracks.get(dateKey)!.add(play.trackUrl);
 			}
 

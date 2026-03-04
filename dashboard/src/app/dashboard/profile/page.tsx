@@ -22,15 +22,11 @@ export default function ProfilePage() {
 
   // Filter bots that the user manages
   // For owners, show all bots. For admins, show only their managed bots
-  const managedBots = user?.role === "owner" 
-    ? allBots 
-    : allBots.filter((bot: BotType) => 
+  const managedBots = user?.role === "owner"
+    ? allBots
+    : allBots.filter((bot: BotType) =>
         user?.managedBots?.includes(bot.clientId)
       );
-
-  console.log("User managed bots array:", user?.managedBots);
-  console.log("All bots:", allBots.map((b: BotType) => ({ id: b.id, clientId: b.clientId, name: b.name })));
-  console.log("Filtered managed bots:", managedBots.map((b: BotType) => ({ id: b.id, clientId: b.clientId, name: b.name })));
 
   if (!user) {
     return (

@@ -572,10 +572,91 @@
 			"description": "전체 대기열을 반복해요"
 		},
 		"vote": {
-			"description": "Quản lý hệ thống bỏ phiếu cho các lệnh nhạc",
+			"description": "음악 명령어에 대한 투표 시스템을 관리해요",
 			"options": {
-				"toggle": "Bật hoặc tắt hệ thống bỏ phiếu",
-				"status": "Kiểm tra trạng thái hiện tại của hệ thống bỏ phiếu"
+				"toggle": "투표 시스템을 켜거나 꺼요",
+				"status": "투표 시스템의 현재 상태를 확인해요"
+			}
+		},
+		"lavaconfig": {
+			"description": "런타임에 LavaSrc 설정을 관리해요 🎵",
+			"errors": {
+				"service_unavailable": "LavaSrc 설정 서비스를 사용할 수 없어요.",
+				"missing_subcommand": "하위 명령어를 입력해주세요. 사용 가능: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`",
+				"missing_node": "필수 인수가 누락되었어요: `node`. 예시: `!lavaconfig {subcommand} node:main`",
+				"unknown_subcommand": "알 수 없는 하위 명령어: `{subcommand}`. 사용 가능: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`"
+			},
+			"messages": {
+				"processing": "처리 중...",
+				"config_updated_title": "✅ {source} 설정이 업데이트되었어요",
+				"config_updated_desc": "노드 **{nodeId}**의 {source} 설정이 성공적으로 업데이트되었어요",
+				"updated_config": "업데이트된 설정",
+				"view_title": "📋 LavaSrc 설정 - {nodeId}",
+				"nodes_title": "📡 Lavalink 노드",
+				"no_nodes": "사용 가능한 노드가 없어요.",
+				"total_nodes": "총: {count}개 노드"
+			},
+			"usage": {
+				"title": "사용법",
+				"value": "`!lavaconfig <하위명령어> [옵션]`\n예시: `!lavaconfig spotify node:main clientId:xxx`"
+			}
+		},
+		"youtubeconfig": {
+			"description": "런타임에 YouTube 소스 설정을 관리해요 🎵",
+			"errors": {
+				"service_unavailable": "YouTube 설정 서비스를 사용할 수 없어요.",
+				"missing_subcommand": "하위 명령어를 입력해주세요. 사용 가능: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_node": "필수 인수가 누락되었어요: `node`. 예시: `!youtubeconfig {subcommand} node:main`",
+				"unknown_subcommand": "알 수 없는 하위 명령어: `{subcommand}`. 사용 가능: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_oauth_option": "최소 하나의 옵션을 입력해주세요: `refreshToken` 또는 `skipInitialization`",
+				"missing_potoken_pair": "최상의 결과를 위해 `poToken`과 `visitorData`를 함께 제공해야 해요",
+				"missing_refresh_token": "필수 인수가 누락되었어요: `refreshToken`. 예시: `!youtubeconfig refresh-token node:main refreshToken:xxx`"
+			},
+			"messages": {
+				"processing": "처리 중...",
+				"oauth_updated_title": "✅ YouTube OAuth 설정이 업데이트되었어요",
+				"oauth_updated_desc": "노드 **{nodeId}**의 YouTube OAuth 설정이 성공적으로 업데이트되었어요",
+				"potoken_updated_title": "✅ YouTube poToken 설정이 업데이트되었어요",
+				"potoken_updated_desc": "노드 **{nodeId}**의 YouTube poToken 설정이 성공적으로 업데이트되었어요",
+				"token_refreshed_title": "✅ OAuth 토큰이 새로고침되었어요",
+				"token_refreshed_desc": "노드 **{nodeId}**의 OAuth 토큰이 성공적으로 새로고침되었어요",
+				"view_title": "📋 YouTube 소스 설정 - {nodeId}",
+				"nodes_title": "📡 Lavalink 노드",
+				"no_nodes": "사용 가능한 노드가 없어요.",
+				"total_nodes": "총: {count}개 노드",
+				"not_set": "설정되지 않음",
+				"na": "해당 없음"
+			},
+			"fields": {
+				"refresh_token": "리프레시 토큰",
+				"skip_initialization": "초기화 건너뛰기",
+				"potoken": "poToken",
+				"visitor_data": "Visitor Data",
+				"token_type": "토큰 유형",
+				"expires_in": "만료 기간",
+				"scope": "범위",
+				"access_token_truncated": "액세스 토큰 (잘림)",
+				"updated": "✅ 업데이트됨",
+				"not_changed": "⚪ 변경되지 않음",
+				"yes": "✅ 예",
+				"no": "❌ 아니요",
+				"important": "⚠️ 중요",
+				"oauth_warning": "OAuth 토큰은 비밀로 유지해야 해요. 버너 YouTube 계정 사용을 고려해주세요.",
+				"how_to_generate": "💡 생성 방법",
+				"generator_link": "[youtube-trusted-session-generator](https://github.com/iv-org/youtube-trusted-session-generator)를 사용하여 이 값을 얻으세요.",
+				"note": "ℹ️ 참고",
+				"api_note": "API에서는 리프레시 토큰만 반환됩니다. poToken과 visitorData는 노출되지 않습니다."
+			},
+			"usage": {
+				"title": "사용법",
+				"value": "`!youtubeconfig <하위명령어> [옵션]`\n예시: `!youtubeconfig oauth node:main refreshToken:xxx`"
+			}
+		},
+		"livelyrics": {
+			"description": "현재 트랙의 실시간 동기화 가사를 표시해요! 노래방 모드🎤",
+			"errors": {
+				"no_player": "현재 재생 중인 음악이 없어요.",
+				"no_synced": "이 트랙의 동기화 가사를 찾을 수 없어요."
 			}
 		}
 	},
@@ -591,7 +672,6 @@
 			"not_author": "지금은 이 버튼을 사용할 수 없어요."
 		}
 	},
-
 	"player": {
 		"errors": {
 			"no_player": "이 서버에 활성 플레이어가 없어요.",
@@ -721,11 +801,70 @@
 		"no_listeners": "청취자가 없어 {time}분 후 봇이 나가요.",
 		"no_songs": "노래가 없어 {time}분 후 봇이 나가요."
 	},
+	"LIVE_LYRICS": {
+		"NO_PLAYER": "현재 재생 중인 음악이 없어요.",
+		"NO_LYRICS": "이 트랙의 동기화 가사를 찾을 수 없어요.",
+		"TITLE": "🎵 실시간 가사 - {track}",
+		"CURRENT": "🎵 재생 중",
+		"STOPPED": "실시간 가사가 중지되었어요.",
+		"REFRESHED": "가사가 새로고침되었어요!",
+		"ERROR": "가사를 가져오는 중 오류가 발생했어요.",
+		"ENDED": "트랙이 종료되었어요. 실시간 가사가 중지되었어요.",
+		"PAUSED": "재생이 일시정지되었어요. 재생이 계속되면 가사도 이어져요.",
+		"SEARCHING": "동기화 가사를 검색 중...",
+		"NO_SYNCED_TITLE": "⚠️ 동기화 가사를 사용할 수 없어요",
+		"NO_SYNCED_DESCRIPTION": "**{trackTitle}**의 동기화 가사를 찾을 수 없어요.\n\n**대안:**\n• 정적 가사는 `/lyrics`를 사용하세요\n• 다른 트랙을 시도해 보세요\n\n동기화 가사는 Spotify, Deezer, YouTube Music의 인기 노래에서 가장 잘 작동해요.",
+		"ALREADY_RUNNING": "실시간 가사가 이미 실행 중이에요! 먼저 정지 버튼을 눌러 종료해주세요.",
+		"STARTED": "🎤 실시간 가사가 시작되었어요! 아래 메시지를 확인하세요.",
+		"PROGRESS": "진행",
+		"UPDATE_INTERVAL": "{seconds}초마다 업데이트",
+		"CLICK_REFRESH": "즉시 업데이트하려면 새로고침을 클릭",
+		"NO_LYRICS_AVAILABLE": "가사 없음",
+		"REFRESH_BUTTON": "새로고침",
+		"STOP_BUTTON": "정지"
+	},
 	"Evaluate code": "코드를 실행해요",
 	"Leave a guild": "봇을 서버에서 퇴장시켜요",
 	"List all guilds the bot is in": "봇이 들어가 있는 서버를 확인해요",
 	"Restart the bot": "봇을 재시작해요",
 	"The loop mode you want to set": "설정하려는 반복 모드",
 	"Show current maintenance status": "현재 유지보수 상태를 표시해요",
-	"Show current maintenance status.": "Show current maintenance status."
+	"Show current maintenance status.": "Show current maintenance status.",
+	"Manage LavaSrc configuration at runtime": "Manage LavaSrc configuration at runtime",
+	"Update Spotify configuration": "Update Spotify configuration",
+	"Update Apple Music configuration": "Update Apple Music configuration",
+	"Update Deezer configuration": "Update Deezer configuration",
+	"Update Yandex Music configuration": "Update Yandex Music configuration",
+	"Update VK Music configuration": "Update VK Music configuration",
+	"Update Qobuz configuration": "Update Qobuz configuration",
+	"Update yt-dlp configuration": "Update yt-dlp configuration",
+	"View current LavaSrc configuration for a node": "View current LavaSrc configuration for a node",
+	"List all available Lavalink nodes": "List all available Lavalink nodes",
+	"The Lavalink node ID": "The Lavalink node ID",
+	"Spotify client ID": "Spotify client ID",
+	"Spotify client secret": "Spotify client secret",
+	"Spotify sp_dc cookie value": "Spotify sp_dc cookie value",
+	"Prefer anonymous token": "Prefer anonymous token",
+	"Custom token endpoint URL": "Custom token endpoint URL",
+	"Apple Music media API token": "Apple Music media API token",
+	"Deezer ARL cookie value": "Deezer ARL cookie value",
+	"Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)": "Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)",
+	"Yandex Music access token": "Yandex Music access token",
+	"VK Music user token": "VK Music user token",
+	"Qobuz user OAuth token": "Qobuz user OAuth token",
+	"Qobuz application ID": "Qobuz application ID",
+	"Qobuz application secret": "Qobuz application secret",
+	"Path to yt-dlp executable": "Path to yt-dlp executable",
+	"Custom load arguments (comma-separated)": "Custom load arguments (comma-separated)",
+	"Custom playback arguments (comma-separated)": "Custom playback arguments (comma-separated)",
+	"Manage YouTube source configuration at runtime": "Manage YouTube source configuration at runtime",
+	"Update YouTube OAuth configuration": "Update YouTube OAuth configuration",
+	"Update YouTube poToken configuration": "Update YouTube poToken configuration",
+	"View current YouTube source configuration": "View current YouTube source configuration",
+	"Refresh an OAuth token using a refresh token": "Refresh an OAuth token using a refresh token",
+	"YouTube OAuth2 refresh token": "YouTube OAuth2 refresh token",
+	"Skip OAuth initialization flow (recommended when providing token)": "Skip OAuth initialization flow (recommended when providing token)",
+	"Proof of Origin token (generate with youtube-trusted-session-generator)": "Proof of Origin token (generate with youtube-trusted-session-generator)",
+	"Visitor data associated with the poToken": "Visitor data associated with the poToken",
+	"The refresh token to use": "The refresh token to use"
 }

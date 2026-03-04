@@ -141,7 +141,7 @@
 				"off": "`✅` | Фильтр усиления басов был `ОТКЛЮЧЕН`."
 			},
 			"options": {
-				"level": "The bassboost level you want to set"
+				"level": "Уровень усиления баса, который вы хотите установить"
 			}
 		},
 		"distortion": {
@@ -535,8 +535,8 @@
 			}
 		},
 		"lyrics": {
-			"description": "Get's the lyrics of the currently playing track",
-			"lyrics_track": "### Lyrics for: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
+			"description": "Получить текст текущей воспроизводимой композиции",
+			"lyrics_track": "### Текст для: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
 			"searching": "`🔍` Поиск текста **{trackTitle}**...",
 			"errors": {
 				"no_results": "Текст для текущего трека не найден.",
@@ -544,20 +544,20 @@
 			}
 		},
 		"fairplay": {
-			"description": "Set the bot to play music fairly",
+			"description": "Настроить бота для справедливого воспроизведения музыки",
 			"errors": {
-				"not_in_voice": "You need to be in a voice channel to use this command.",
-				"generic": "An error occurred while trying to execute this command."
+				"not_in_voice": "Вам нужно быть в голосовом канале, чтобы использовать эту команду.",
+				"generic": "Произошла ошибка при попытке выполнить эту команду."
 			},
 			"messages": {
-				"disabled": "`✅` | Fairplay mode has been `DISABLED`.",
-				"enabled": "`✅` | Fairplay mode has been `ENABLED`."
+				"disabled": "`✅` | Режим справедливого воспроизведения `ОТКЛЮЧЕН`.",
+				"enabled": "`✅` | Режим справедливого воспроизведения `ВКЛЮЧЕН`."
 			}
 		},
 		"playlocal": {
-			"description": "Plays an your local audio files",
+			"description": "Воспроизводит ваши локальные аудиофайлы",
 			"options": {
-				"file": "The audio file you want to play"
+				"file": "Аудиофайл, который вы хотите воспроизвести"
 			},
 			"loading": "Загрузка...",
 			"errors": {
@@ -568,16 +568,24 @@
 			"added_to_queue": "Добавлено [{title}]({url}) в очередь"
 		},
 		"loop_current": {
-			"description": "cmd.loop_current.description"
+			"description": "Повторять текущую воспроизводимую композицию"
 		},
 		"loop_queue": {
-			"description": "cmd.loop_queue.description"
+			"description": "Повторять очередь"
 		},
 		"vote": {
-			"description": "Quản lý hệ thống bỏ phiếu cho các lệnh nhạc",
+			"description": "Управление системой голосования для музыкальных команд",
 			"options": {
-				"toggle": "Bật hoặc tắt hệ thống bỏ phiếu",
-				"status": "Kiểm tra trạng thái hiện tại của hệ thống bỏ phiếu"
+				"toggle": "Включить или выключить систему голосования",
+				"status": "Проверить текущий статус системы голосования"
+			}
+		},
+		"livelyrics": {
+			"description": "Показать синхронизированные тексты для текущего трека в режиме караоке",
+			"aliases": "karaoke, syncedlyrics",
+			"errors": {
+				"no_player": "Сейчас ничего не воспроизводится.",
+				"no_synced": "Синхронизированные тексты для этого трека не найдены."
 			}
 		}
 	},
@@ -593,7 +601,6 @@
 			"not_author": "Вы не можете использовать эту кнопку."
 		}
 	},
-
 	"player": {
 		"errors": {
 			"no_player": "В этом сервере нет активного проигрывателя.",
@@ -630,6 +637,89 @@
 			"playlist_too_long": "The playlist is too long. The maximum length is {maxPlaylistSize} songs.",
 			"added_to_queue": "Added [{title}]({uri}) to the queue.",
 			"added_playlist_to_queue": "Added [{length}] songs from the playlist to the queue."
+		},
+		"lavaconfig": {
+			"description": "Управление конфигурацией LavaSrc во время работы! Обновляйте сервисы на лету ⚙️",
+			"errors": {
+				"service_unavailable": "Сервис Lavalink недоступен. Убедитесь, что Lavalink запущен! 🔧",
+				"missing_subcommand": "Пожалуйста, укажите подкоманду! Попробуйте: spotify, applemusic, deezer, yandexmusic, flowerytts, ttsloc, view или nodes",
+				"missing_node": "Пожалуйста, укажите имя узла! Используйте 'nodes' для просмотра доступных узлов 📋",
+				"unknown_subcommand": "Неизвестная подкоманда! Попробуйте: spotify, applemusic, deezer, yandexmusic, flowerytts, ttsloc, view или nodes"
+			},
+			"messages": {
+				"processing": "Обработка вашего запроса... ⚙️",
+				"config_updated_title": "Конфигурация LavaSrc Обновлена",
+				"config_updated_desc": "Успешно обновлена конфигурация {service} для узла **{node}**! Изменения применены ✅",
+				"view_title": "Конфигурация LavaSrc",
+				"nodes_title": "Доступные Узлы Lavalink",
+				"no_nodes": "Нет доступных узлов Lavalink! Убедитесь, что Lavalink подключен 🔌",
+				"total_nodes": "Всего узлов: {count}"
+			},
+			"fields": {
+				"client_id": "ID Клиента",
+				"client_secret": "Секрет Клиента",
+				"api_key": "API Ключ",
+				"decode_track": "Декодировать Трек",
+				"country_code": "Код Страны",
+				"playlist_limit": "Лимит Плейлиста",
+				"album_limit": "Лимит Альбома",
+				"search_limit": "Лимит Поиска",
+				"isrc_search": "Поиск ISRC",
+				"fallback_search": "Резервный Поиск",
+				"load_timeout": "Таймаут Загрузки",
+				"spotify_enabled": "Spotify Включён",
+				"apple_enabled": "Apple Music Включён",
+				"deezer_enabled": "Deezer Включён"
+			},
+			"usage": {
+				"title": "Использование",
+				"value": "`/lavaconfig <подкоманда> <узел> [опции]`\nИспользуйте подкоманды для настройки различных сервисов."
+			}
+		},
+		"youtubeconfig": {
+			"description": "Управление конфигурацией источника YouTube во время работы! Контролируйте настройки OAuth и poToken 🎬",
+			"errors": {
+				"service_unavailable": "Сервис Lavalink недоступен. Убедитесь, что Lavalink запущен! 🔧",
+				"missing_subcommand": "Пожалуйста, укажите подкоманду! Попробуйте: oauth, potoken, view или nodes",
+				"missing_node": "Пожалуйста, укажите имя узла! Используйте 'nodes' для просмотра доступных узлов 📋",
+				"unknown_subcommand": "Неизвестная подкоманда! Попробуйте: oauth, potoken, view или nodes",
+				"missing_oauth_option": "Пожалуйста, укажите опцию OAuth! Попробуйте: email, authorization или skip",
+				"missing_potoken_pair": "Пожалуйста, укажите и poToken, и visitorData для опции pair!",
+				"missing_refresh_token": "Отсутствует токен обновления! Конфигурация OAuth требует токен обновления."
+			},
+			"messages": {
+				"processing": "Обработка вашего запроса... ⚙️",
+				"oauth_updated_title": "YouTube OAuth Обновлён",
+				"potoken_updated_title": "YouTube poToken Обновлён",
+				"token_refreshed_title": "YouTube Токен Обновлён",
+				"view_title": "Конфигурация Источника YouTube",
+				"nodes_title": "Доступные Узлы Lavalink",
+				"not_set": "Не Установлено",
+				"na": "Н/Д"
+			},
+			"fields": {
+				"refresh_token": "Токен Обновления",
+				"skip_initialization": "Пропустить Инициализацию",
+				"potoken": "poToken",
+				"visitor_data": "Данные Посетителя",
+				"po_token": "poToken",
+				"visitor_data_short": "Данные Посетителя",
+				"oauth_email": "OAuth Email",
+				"authorization": "Авторизация",
+				"skip": "Пропустить",
+				"pair": "Пара",
+				"refresh": "Обновить",
+				"email": "Email",
+				"authorization_code": "Код Авторизации",
+				"status": "Статус",
+				"enabled": "ВКЛЮЧЁН",
+				"disabled": "ВЫКЛЮЧЕН",
+				"last_updated": "Последнее Обновление"
+			},
+			"usage": {
+				"title": "Использование",
+				"value": "`/youtubeconfig <подкоманда> <узел> [опции]`\nИспользуйте oauth для настройки OAuth, potoken для настроек poToken."
+			}
 		}
 	},
 	"event": {
@@ -731,5 +821,64 @@
 		"no_songs": "Бот покинет канал через {time} минут из-за отсутствия песен."
 	},
 	"Show current maintenance status": "Показать текущий статус обслуживания",
-	"Show current maintenance status.": "Show current maintenance status."
+	"Show current maintenance status.": "Show current maintenance status.",
+	"Manage LavaSrc configuration at runtime": "Manage LavaSrc configuration at runtime",
+	"Update Spotify configuration": "Update Spotify configuration",
+	"Update Apple Music configuration": "Update Apple Music configuration",
+	"Update Deezer configuration": "Update Deezer configuration",
+	"Update Yandex Music configuration": "Update Yandex Music configuration",
+	"Update VK Music configuration": "Update VK Music configuration",
+	"Update Qobuz configuration": "Update Qobuz configuration",
+	"Update yt-dlp configuration": "Update yt-dlp configuration",
+	"View current LavaSrc configuration for a node": "View current LavaSrc configuration for a node",
+	"List all available Lavalink nodes": "List all available Lavalink nodes",
+	"The Lavalink node ID": "The Lavalink node ID",
+	"Spotify client ID": "Spotify client ID",
+	"Spotify client secret": "Spotify client secret",
+	"Spotify sp_dc cookie value": "Spotify sp_dc cookie value",
+	"Prefer anonymous token": "Prefer anonymous token",
+	"Custom token endpoint URL": "Custom token endpoint URL",
+	"Apple Music media API token": "Apple Music media API token",
+	"Deezer ARL cookie value": "Deezer ARL cookie value",
+	"Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)": "Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)",
+	"Yandex Music access token": "Yandex Music access token",
+	"VK Music user token": "VK Music user token",
+	"Qobuz user OAuth token": "Qobuz user OAuth token",
+	"Qobuz application ID": "Qobuz application ID",
+	"Qobuz application secret": "Qobuz application secret",
+	"Path to yt-dlp executable": "Path to yt-dlp executable",
+	"Custom load arguments (comma-separated)": "Custom load arguments (comma-separated)",
+	"Custom playback arguments (comma-separated)": "Custom playback arguments (comma-separated)",
+	"Manage YouTube source configuration at runtime": "Manage YouTube source configuration at runtime",
+	"Update YouTube OAuth configuration": "Update YouTube OAuth configuration",
+	"Update YouTube poToken configuration": "Update YouTube poToken configuration",
+	"View current YouTube source configuration": "View current YouTube source configuration",
+	"Refresh an OAuth token using a refresh token": "Refresh an OAuth token using a refresh token",
+	"YouTube OAuth2 refresh token": "YouTube OAuth2 refresh token",
+	"Skip OAuth initialization flow (recommended when providing token)": "Skip OAuth initialization flow (recommended when providing token)",
+	"Proof of Origin token (generate with youtube-trusted-session-generator)": "Proof of Origin token (generate with youtube-trusted-session-generator)",
+	"Visitor data associated with the poToken": "Visitor data associated with the poToken",
+	"The refresh token to use": "The refresh token to use",
+	"LIVE_LYRICS": {
+		"NO_PLAYER": "Сейчас ничего не воспроизводится.",
+		"NO_LYRICS": "Синхронизированные тексты для этого трека не найдены.",
+		"TITLE": "🎵 Текст в реальном времени",
+		"CURRENT": "Текущий",
+		"STOPPED": "Текст в реальном времени остановлен.",
+		"REFRESHED": "Текст в реальном времени обновлён!",
+		"ERROR": "Произошла ошибка при получении текста.",
+		"ENDED": "Текст в реальном времени завершён.",
+		"PAUSED": "Текст в реальном времени приостановлен.",
+		"SEARCHING": "Поиск синхронизированных текстов...",
+		"NO_SYNCED_TITLE": "Синхронизированные тексты недоступны",
+		"NO_SYNCED_DESCRIPTION": "У этого трека нет синхронизированных (с временными метками) текстов. Вы можете попробовать обычную команду `{prefix}lyrics` для простого текста.",
+		"ALREADY_RUNNING": "Текст в реальном времени уже запущен для этого сервера!",
+		"STARTED": "Текст в реальном времени запущен! Отображение будет обновляться автоматически по мере воспроизведения.",
+		"PROGRESS": "Прогресс",
+		"UPDATE_INTERVAL": "Обновление каждые {seconds} секунд",
+		"CLICK_REFRESH": "Нажмите Обновить для мгновенного обновления",
+		"NO_LYRICS_AVAILABLE": "Текст недоступен",
+		"REFRESH_BUTTON": "Обновить",
+		"STOP_BUTTON": "Стоп"
+	}
 }

@@ -10,10 +10,23 @@ import type {
   TopTrack,
   DashboardUser,
   PlayerControlAction,
+  TimePeriod,
+  AggregationMethod,
+  UserServer,
+  SessionsChartResponse,
+  ListenersChartResponse,
+  TrackTypesChartResponse,
+  ActivityHoursResponse,
+  ActivityWeekdaysResponse,
+  MostPlayedResponse,
+  MostListenedResponse,
+  TopCommandsResponse,
+  PremiumStatusResponse,
 } from "@/types/api";
 
 class ApiClient {
   private client: AxiosInstance;
+  private csrfToken: string | null = null;
 
   constructor() {
     // Use relative URLs in browser to leverage Next.js proxy
@@ -30,25 +43,36 @@ class ApiClient {
       },
     });
 
-    // Request interceptor for auth token
+    // Request interceptor for auth token and CSRF token
     this.client.interceptors.request.use(
       (config) => {
         const token = this.getToken();
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
+        // Include CSRF token in mutation requests (POST, PUT, PATCH, DELETE)
+        if (this.csrfToken && ["post", "put", "patch", "delete"].includes(config.method?.toLowerCase() || "")) {
+          config.headers["X-CSRF-Token"] = this.csrfToken;
+        }
         return config;
       },
       (error) => Promise.reject(error)
     );
 
-    // Response interceptor for error handling
+    // Response interceptor for error handling and CSRF token extraction
     this.client.interceptors.response.use(
-      (response) => response,
+      (response) => {
+        // Extract and store CSRF token from any response that includes it
+        if (response.data?.csrfToken) {
+          this.csrfToken = response.data.csrfToken;
+        }
+        return response;
+      },
       (error: AxiosError) => {
         if (error.response?.status === 401) {
           // Unauthorized - clear token and redirect to login
           this.clearToken();
+          this.csrfToken = null;
           if (typeof window !== "undefined") {
             window.location.href = "/login";
           }
@@ -75,6 +99,11 @@ class ApiClient {
     }
   }
 
+  // Get the current CSRF token (for external use if needed)
+  getCsrfToken(): string | null {
+    return this.csrfToken;
+  }
+
   // Auth Methods
   async login(code: string): Promise<{ token: string; user: DashboardUser }> {
     const { data } = await this.client.post<{ success: boolean; token: string; user: DashboardUser; csrfToken: string }>(
@@ -82,17 +111,24 @@ class ApiClient {
       { code }
     );
     this.setToken(data.token);
+    if (data.csrfToken) {
+      this.csrfToken = data.csrfToken;
+    }
     return { token: data.token, user: data.user };
   }
 
   async getCurrentUser(): Promise<DashboardUser> {
     const { data } = await this.client.get<{ success: boolean; user: DashboardUser; csrfToken: string }>("/api/auth/me");
+    if (data.csrfToken) {
+      this.csrfToken = data.csrfToken;
+    }
     return data.user;
   }
 
   async logout(): Promise<void> {
     await this.client.post("/api/auth/logout");
     this.clearToken();
+    this.csrfToken = null;
   }
 
   // Bot Methods
@@ -176,6 +212,152 @@ class ApiClient {
       `/api/stats/top-tracks?limit=${limit}`
     );
     return data.data;
+  }
+
+  // ============================================
+  // New Statistics API Methods
+  // ============================================
+
+  // Get servers the user is in (that the bot is also in)
+  async getUserServers(): Promise<UserServer[]> {
+    const { data } = await this.client.get<ApiResponse<UserServer[]>>("/api/stats/user/servers");
+    return data.data;
+  }
+
+  // Get sessions chart data
+  async getSessionsChart(
+    guildId: string | null,
+    period: TimePeriod,
+    aggregation: AggregationMethod
+  ): Promise<SessionsChartResponse> {
+    const params = new URLSearchParams();
+    params.append("period", period);
+    params.append("aggregation", aggregation);
+
+    const basePath = guildId
+      ? `/api/stats/servers/${guildId}/charts/sessions`
+      : `/api/stats/servers/all/charts/sessions`;
+    
+    const { data } = await this.client.get<SessionsChartResponse>(
+      `${basePath}?${params.toString()}`
+    );
+    return data;
+  }
+
+  // Get listeners chart data
+  async getListenersChart(
+    guildId: string | null,
+    period: TimePeriod,
+    aggregation: AggregationMethod
+  ): Promise<ListenersChartResponse> {
+    const params = new URLSearchParams();
+    params.append("period", period);
+    params.append("aggregation", aggregation);
+
+    const basePath = guildId
+      ? `/api/stats/servers/${guildId}/charts/listeners`
+      : `/api/stats/servers/all/charts/listeners`;
+    
+    const { data } = await this.client.get<ListenersChartResponse>(
+      `${basePath}?${params.toString()}`
+    );
+    return data;
+  }
+
+  // Get track types distribution
+  async getTrackTypesChart(guildId: string | null, period: TimePeriod): Promise<TrackTypesChartResponse> {
+    const params = new URLSearchParams();
+    params.append("period", period);
+
+    const basePath = guildId
+      ? `/api/stats/servers/${guildId}/charts/track-types`
+      : `/api/stats/servers/all/charts/track-types`;
+    
+    const { data } = await this.client.get<TrackTypesChartResponse>(
+      `${basePath}?${params.toString()}`
+    );
+    return data;
+  }
+
+  // Get activity by hours
+  async getActivityHoursChart(guildId: string | null, period: TimePeriod): Promise<ActivityHoursResponse> {
+    const params = new URLSearchParams();
+    params.append("period", period);
+
+    const basePath = guildId
+      ? `/api/stats/servers/${guildId}/charts/activity/hours`
+      : `/api/stats/servers/all/charts/activity/hours`;
+    
+    const { data } = await this.client.get<ActivityHoursResponse>(
+      `${basePath}?${params.toString()}`
+    );
+    return data;
+  }
+
+  // Get activity by weekdays
+  async getActivityWeekdaysChart(guildId: string | null, period: TimePeriod): Promise<ActivityWeekdaysResponse> {
+    const params = new URLSearchParams();
+    params.append("period", period);
+
+    const basePath = guildId
+      ? `/api/stats/servers/${guildId}/charts/activity/weekdays`
+      : `/api/stats/servers/all/charts/activity/weekdays`;
+    
+    const { data } = await this.client.get<ActivityWeekdaysResponse>(
+      `${basePath}?${params.toString()}`
+    );
+    return data;
+  }
+
+  // Get most played tracks
+  async getMostPlayedList(guildId: string | null, period: TimePeriod): Promise<MostPlayedResponse> {
+    const params = new URLSearchParams();
+    params.append("period", period);
+
+    const basePath = guildId
+      ? `/api/stats/servers/${guildId}/lists/most-played`
+      : `/api/stats/servers/all/lists/most-played`;
+    
+    const { data } = await this.client.get<MostPlayedResponse>(
+      `${basePath}?${params.toString()}`
+    );
+    return data;
+  }
+
+  // Get most listened tracks
+  async getMostListenedList(guildId: string | null, period: TimePeriod): Promise<MostListenedResponse> {
+    const params = new URLSearchParams();
+    params.append("period", period);
+
+    const basePath = guildId
+      ? `/api/stats/servers/${guildId}/lists/most-listened`
+      : `/api/stats/servers/all/lists/most-listened`;
+    
+    const { data } = await this.client.get<MostListenedResponse>(
+      `${basePath}?${params.toString()}`
+    );
+    return data;
+  }
+
+  // Get top commands
+  async getTopCommandsList(guildId: string | null, period: TimePeriod): Promise<TopCommandsResponse> {
+    const params = new URLSearchParams();
+    params.append("period", period);
+
+    const basePath = guildId
+      ? `/api/stats/servers/${guildId}/lists/top-commands`
+      : `/api/stats/servers/all/lists/top-commands`;
+    
+    const { data } = await this.client.get<TopCommandsResponse>(
+      `${basePath}?${params.toString()}`
+    );
+    return data;
+  }
+
+  // Check premium status
+  async checkPremiumStatus(): Promise<PremiumStatusResponse> {
+    const { data } = await this.client.get<PremiumStatusResponse>("/api/stats/check-premium");
+    return data;
   }
 
   // Health Check

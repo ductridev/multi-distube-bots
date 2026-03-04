@@ -4,6 +4,9 @@ import { Event, type Lavamusic } from '../../structures/index';
 import { updateSetup } from '../../utils/SetupSystem';
 import { T } from '../../structures/I18n';
 import { dashboardSocket } from '../../api/websocket/DashboardSocket';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export default class TrackEnd extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -13,11 +16,49 @@ export default class TrackEnd extends Event {
 	}
 
 	public async run(player: Player, _track: Track | null, _payload: TrackStartEvent): Promise<void> {
+		// Stop live lyrics session if active
+		if (this.client.liveLyricsService) {
+			this.client.liveLyricsService.handleTrackEnd(player.guildId);
+		}
+
 		// Emit player:end event to dashboard
 		dashboardSocket.emitPlayerEnd({
 			guildId: player.guildId,
 			clientId: this.client.childEnv.clientId,
 		});
+
+		// Update TrackPlay with endedAt and final listener count
+		const currentTrackPlayDbId = player.options.customData?.currentTrackPlayDbId as string | undefined;
+		if (currentTrackPlayDbId) {
+			try {
+				// Get final listener count
+				const guild = this.client.guilds.cache.get(player.guildId);
+				let finalListenerCount = 0;
+				if (guild && player.voiceChannelId) {
+					const voiceChannel = guild.channels.cache.get(player.voiceChannelId);
+					if (voiceChannel && 'members' in voiceChannel) {
+						const members = voiceChannel.members as Map<string, { user: { bot: boolean } }>;
+						finalListenerCount = [...members.values()].filter((m) => !m.user.bot).length;
+					}
+				}
+
+				// Update the TrackPlay record with endedAt using the MongoDB _id
+				await prisma.trackPlay.update({
+					where: { id: currentTrackPlayDbId },
+					data: {
+						endedAt: new Date(),
+						listenerCount: finalListenerCount, // Update with final listener count
+					},
+				});
+
+				// Clear the currentTrackPlayDbId from customData
+				if (player.options.customData) {
+					delete player.options.customData.currentTrackPlayDbId;
+				}
+			} catch (error) {
+				this.client.logger.error('Failed to update TrackPlay end time:', error);
+			}
+		}
 
 		// For track loop mode, don't delete message - trackStart will reuse it
 		if (player.repeatMode === 'track') {

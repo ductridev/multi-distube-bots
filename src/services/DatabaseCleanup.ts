@@ -10,6 +10,7 @@ import {
   cleanupOldStats,
   cleanupOldHistory
 } from '../utils/database';
+import { cleanupExpiredAnnouncements } from '../utils/database/migration-new-dashboard';
 
 const logger = new Logger('DatabaseCleanup');
 
@@ -52,6 +53,17 @@ export function startCleanupScheduler() {
     }
   });
 
+  // Daily cleanup of expired temporary announcements (runs at 3 AM)
+  cron.schedule('0 3 * * *', async () => {
+    try {
+      logger.info('Running daily expired announcement cleanup...');
+      const deleted = await cleanupExpiredAnnouncements();
+      logger.success(`Cleaned up ${deleted} expired announcement(s)`);
+    } catch (error) {
+      logger.error('Failed to cleanup expired announcements:', error);
+    }
+  });
+
   logger.success('✅ Database cleanup scheduler started');
 }
 
@@ -62,18 +74,20 @@ export async function runManualCleanup() {
   logger.info('🧹 Running manual database cleanup...');
 
   try {
-    const [sessions, stats, history] = await Promise.all([
+    const [sessions, stats, history, announcements] = await Promise.all([
       cleanupExpiredSessions(),
       cleanupOldStats(30),
-      cleanupOldHistory(90)
+      cleanupOldHistory(90),
+      cleanupExpiredAnnouncements()
     ]);
 
     logger.success(`Manual cleanup complete:
       - Expired sessions: ${sessions}
       - Old stats: ${stats}
-      - Old history: ${history}`);
+      - Old history: ${history}
+      - Expired announcements: ${announcements}`);
 
-    return { sessions, stats, history };
+    return { sessions, stats, history, announcements };
   } catch (error) {
     logger.error('Manual cleanup failed:', error);
     throw error;

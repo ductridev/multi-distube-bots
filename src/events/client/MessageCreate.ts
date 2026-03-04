@@ -14,7 +14,29 @@ import { T } from '../../structures/I18n';
 import { Context, Event, type Lavamusic } from '../../structures/index';
 import { env } from '../../env';
 import { getBotsForGuild } from '../..';
-import { Stay } from '@prisma/client';
+import { Stay, PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+/**
+ * Parse a string into args, respecting quoted strings (both double and single quotes)
+ * This ensures that values like node:"BuNgo Node" are kept as a single arg
+ * @param input - The string to parse
+ * @returns Array of args with quoted values preserved
+ * @example
+ * parseArgsWithQuotes('spotify node:"BuNgo Node" other:value')
+ * // Returns: ["spotify", "node:\"BuNgo Node\"", "other:value"]
+ */
+function parseArgsWithQuotes(input: string): string[] {
+	const args: string[] = [];
+	// Match either: non-space/quote chars, or double-quoted strings, or single-quoted strings
+	const regex = /[^\s"']+|"([^"]*)"|'([^']*)'/g;
+	let match;
+	while ((match = regex.exec(input)) !== null) {
+		args.push(match[0]);
+	}
+	return args;
+}
 
 export default class MessageCreate extends Event {
 	constructor(client: Lavamusic, file: string) {
@@ -67,7 +89,7 @@ export default class MessageCreate extends Event {
 		const match = message.content.toLocaleLowerCase().match(combinedPrefixRegex);
 		if (!match) return;
 		const [matchedPrefix] = match;
-		const args = message.content.slice(matchedPrefix.length).trim().split(/ +/g);
+		const args = parseArgsWithQuotes(message.content.slice(matchedPrefix.length).trim());
 		const cmd = args.shift()?.toLowerCase();
 		if (!cmd) return;
 		const command = this.client.commands.get(cmd) || this.client.commands.get(this.client.aliases.get(cmd) as string);
@@ -476,13 +498,28 @@ export default class MessageCreate extends Event {
 		}
 
 		try {
-			return command.run(this.client, ctx, ctx.args);
+			return await command.run(this.client, ctx, ctx.args);
 		} catch (error: any) {
 			this.client.logger.error(error);
 			await message.reply({
 				content: T(locale, 'event.message.error', { error: error.message || 'Unknown error' }),
 			});
 		} finally {
+			// Track command usage for statistics
+			try {
+				await prisma.commandUsage.create({
+					data: {
+						guildId: message.guildId!,
+						botId: this.client.childEnv.clientId,
+						commandName: command.name,
+						userId: message.author.id,
+					},
+				});
+			} catch (error) {
+				// Silently fail - don't interrupt command execution
+				this.client.logger.error('Failed to track command usage:', error);
+			}
+
 			const logs = this.client.channels.cache.get(this.client.env.LOG_COMMANDS_ID!);
 			if (logs) {
 				const embed = new EmbedBuilder()

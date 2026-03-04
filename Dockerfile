@@ -9,16 +9,16 @@ RUN apk add --no-cache python3 make g++
 # Copy package files first for better layer caching
 COPY package*.json ./
 COPY prisma/schema.prisma ./prisma/
+COPY patches ./patches
 
 # Install dependencies (using npm install instead of ci)
-RUN npm install --legacy-peer-deps
+RUN npm install --force
 
 # Copy remaining source files
 COPY . .
 
 # Build TypeScript and generate Prisma client
-RUN npm run build && \
-    npx prisma generate
+RUN npx prisma generate && npm run build
 
 # Stage 2: Production image
 FROM node:23-alpine

@@ -11,6 +11,11 @@ export default class PlayerResumed extends Event {
     public async run(player: Player, track: Track): Promise<void> {
         if (!player || !track) return;
 
+        // Handle live lyrics resume
+        if (this.client.liveLyricsService) {
+            this.client.liveLyricsService.handleTrackResume(player.guildId);
+        }
+
         if (player.voiceChannelId) {
             if (!player.options.customData) player.options.customData = {};
             player.options.customData.botClientId = this.client.childEnv.clientId;

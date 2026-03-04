@@ -28,6 +28,9 @@ import { registerBot } from "..";
 import { BotConfig } from "@prisma/client";
 import { PlayerSaver } from "./PlayerSaver";
 import { ShardStateManager } from "./ShardStateManager";
+import { LavaSrcConfigService } from "../services/LavaSrcConfigService.js";
+import { YouTubeConfigService } from "../services/YouTubeConfigService.js";
+import { LiveLyricsService } from "../services/LiveLyricsService.js";
 
 export default class Lavamusic extends Client {
   public commands: Collection<string, any> = new Collection();
@@ -50,6 +53,9 @@ export default class Lavamusic extends Client {
   public logger: Logger;
   public shardStateManager: ShardStateManager | null = null;
   public isShuttingDown: boolean = false;
+  public lavaSrcConfigService: LavaSrcConfigService | null = null;
+  public youTubeConfigService: YouTubeConfigService | null = null;
+  public liveLyricsService: LiveLyricsService | null = null;
   constructor(clientOptions: ClientOptions, bot: BotConfig) {
     super(clientOptions);
     this.logger = new Logger(bot.name);
@@ -77,6 +83,9 @@ export default class Lavamusic extends Client {
     }
     this.rest = new REST().setToken(this.childEnv.token ?? "");
     this.manager = new LavalinkClient(this);
+    this.lavaSrcConfigService = new LavaSrcConfigService(this.manager);
+    this.youTubeConfigService = new YouTubeConfigService(this.manager);
+    this.liveLyricsService = new LiveLyricsService(this);
     await this.loadCommands();
     this.logger.info("Successfully loaded commands!");
     await this.loadEvents();

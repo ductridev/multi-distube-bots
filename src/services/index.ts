@@ -20,3 +20,16 @@ export { ApiKeyManager } from "./ApiKeyManager.js";
 // Phase 6.4: Music Features
 export { GlobalQueueService } from "./GlobalQueueService.js";
 export { BlockedTracksService } from "./BlockedTracksService.js";
+
+// LavaSrc Configuration
+export { LavaSrcConfigService } from "./LavaSrcConfigService.js";
+
+// YouTube Source Configuration
+export { YouTubeConfigService } from "./YouTubeConfigService.js";
+
+// Live Lyrics Service
+export { LiveLyricsService } from "./LiveLyricsService.js";
+
+// Rate Limit Tracking (Phase 2)
+export { RateLimitTracker } from "./RateLimitTracker.js";
+export type { RateLimitInfo, RequestMetrics, RateLimitScope } from "./RateLimitTracker.js";

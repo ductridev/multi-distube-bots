@@ -572,10 +572,18 @@
 			"description": "Tüm kuyruğu tekrarla"
 		},
 		"vote": {
-			"description": "Quản lý hệ thống bỏ phiếu cho các lệnh nhạc",
+			"description": "Müzik komutları için oylama sistemini yönet",
 			"options": {
-				"toggle": "Bật hoặc tắt hệ thống bỏ phiếu",
-				"status": "Kiểm tra trạng thái hiện tại của hệ thống bỏ phiếu"
+				"toggle": "Oylama sistemini aç veya kapat",
+				"status": "Oylama sisteminin mevcut durumunu kontrol et"
+			}
+		},
+		"livelyrics": {
+			"description": "Mevcut parça için karaoke modunda senkronize canlı şarkı sözlerini göster",
+			"aliases": "karaoke, syncedlyrics",
+			"errors": {
+				"no_player": "Şu anda çalan müzik yok.",
+				"no_synced": "Bu parça için senkronize şarkı sözleri bulunamadı."
 			}
 		}
 	},
@@ -590,7 +598,6 @@
 		"errors": {
 			"not_author": "Bu butonu kullanamazsınız."
 		}
-	
 	},
 	"player": {
 		"errors": {
@@ -628,6 +635,89 @@
 			"playlist_too_long": "Çalma listesi çok uzun. Maksimum uzunluk {maxPlaylistSize} şarkıdır.",
 			"added_to_queue": "Kuyruğa [{title}]({uri}) eklendi.",
 			"added_playlist_to_queue": "Kuyruğa [{length}] şarkı eklendi."
+		},
+		"lavaconfig": {
+			"description": "LavaSrc yapılandırmasını çalışma zamanında yönetin! Hizmetleri anında güncelleyin ⚙️",
+			"errors": {
+				"service_unavailable": "Lavalink hizmeti mevcut değil. Lavalink'in çalıştığından emin olun! 🔧",
+				"missing_subcommand": "Lütfen bir alt komut belirtin! Deneyin: spotify, applemusic, deezer, yandexmusic, flowerytts, ttsloc, view veya nodes",
+				"missing_node": "Lütfen bir düğüm adı belirtin! Mevcut düğümleri görmek için 'nodes' kullanın 📋",
+				"unknown_subcommand": "Bilinmeyen alt komut! Deneyin: spotify, applemusic, deezer, yandexmusic, flowerytts, ttsloc, view veya nodes"
+			},
+			"messages": {
+				"processing": "İsteğiniz işleniyor... ⚙️",
+				"config_updated_title": "LavaSrc Yapılandırması Güncellendi",
+				"config_updated_desc": "**{node}** düğümü için {service} yapılandırması başarıyla güncellendi! Değişiklikler uygulandı ✅",
+				"view_title": "LavaSrc Yapılandırması",
+				"nodes_title": "Mevcut Lavalink Düğümleri",
+				"no_nodes": "Mevcut Lavalink düğümü yok! Lavalink'in bağlı olduğundan emin olun 🔌",
+				"total_nodes": "Toplam düğüm: {count}"
+			},
+			"fields": {
+				"client_id": "İstemci ID",
+				"client_secret": "İstemci Gizli Anahtarı",
+				"api_key": "API Anahtarı",
+				"decode_track": "Parçayı Çöz",
+				"country_code": "Ülke Kodu",
+				"playlist_limit": "Çalma Listesi Limiti",
+				"album_limit": "Albüm Limiti",
+				"search_limit": "Arama Limiti",
+				"isrc_search": "ISRC Araması",
+				"fallback_search": "Yedek Arama",
+				"load_timeout": "Yükleme Zaman Aşımı",
+				"spotify_enabled": "Spotify Açık",
+				"apple_enabled": "Apple Music Açık",
+				"deezer_enabled": "Deezer Açık"
+			},
+			"usage": {
+				"title": "Kullanım",
+				"value": "`/lavaconfig <altkomut> <düğüm> [seçenekler]`\nFarklı hizmetleri yapılandırmak için alt komutları kullanın."
+			}
+		},
+		"youtubeconfig": {
+			"description": "YouTube kaynağı yapılandırmasını çalışma zamanında yönetin! OAuth ve poToken ayarlarını kontrol edin 🎬",
+			"errors": {
+				"service_unavailable": "Lavalink hizmeti mevcut değil. Lavalink'in çalıştığından emin olun! 🔧",
+				"missing_subcommand": "Lütfen bir alt komut belirtin! Deneyin: oauth, potoken, view veya nodes",
+				"missing_node": "Lütfen bir düğüm adı belirtin! Mevcut düğümleri görmek için 'nodes' kullanın 📋",
+				"unknown_subcommand": "Bilinmeyen alt komut! Deneyin: oauth, potoken, view veya nodes",
+				"missing_oauth_option": "Lütfen bir OAuth seçeneği belirtin! Deneyin: email, authorization veya skip",
+				"missing_potoken_pair": "Pair seçeneği için hem poToken hem de visitorData belirtin!",
+				"missing_refresh_token": "Yenileme belirteci eksik! OAuth yapılandırması bir yenileme belirteci gerektirir."
+			},
+			"messages": {
+				"processing": "İsteğiniz işleniyor... ⚙️",
+				"oauth_updated_title": "YouTube OAuth Güncellendi",
+				"potoken_updated_title": "YouTube poToken Güncellendi",
+				"token_refreshed_title": "YouTube Belirteci Yenilendi",
+				"view_title": "YouTube Kaynak Yapılandırması",
+				"nodes_title": "Mevcut Lavalink Düğümleri",
+				"not_set": "Ayarlanmadı",
+				"na": "Yok"
+			},
+			"fields": {
+				"refresh_token": "Yenileme Belirteci",
+				"skip_initialization": "Başlatmayı Atla",
+				"potoken": "poToken",
+				"visitor_data": "Ziyaretçi Verisi",
+				"po_token": "poToken",
+				"visitor_data_short": "Ziyaretçi Verisi",
+				"oauth_email": "OAuth E-posta",
+				"authorization": "Yetkilendirme",
+				"skip": "Atla",
+				"pair": "Çift",
+				"refresh": "Yenile",
+				"email": "E-posta",
+				"authorization_code": "Yetkilendirme Kodu",
+				"status": "Durum",
+				"enabled": "AÇIK",
+				"disabled": "KAPALI",
+				"last_updated": "Son Güncelleme"
+			},
+			"usage": {
+				"title": "Kullanım",
+				"value": "`/youtubeconfig <altkomut> <düğüm> [seçenekler]`\nOAuth yapılandırması için oauth, poToken ayarları için potoken kullanın."
+			}
 		}
 	},
 	"will_leave": {
@@ -727,5 +817,64 @@
 	"Restart the bot": "Botu yeniden başlat",
 	"The loop mode you want to set": "Ayarlamak istediğiniz döngü modu",
 	"Show current maintenance status": "Mevcut bakım durumunu göster",
-	"Show current maintenance status.": "Show current maintenance status."
+	"Show current maintenance status.": "Show current maintenance status.",
+	"Manage LavaSrc configuration at runtime": "Manage LavaSrc configuration at runtime",
+	"Update Spotify configuration": "Update Spotify configuration",
+	"Update Apple Music configuration": "Update Apple Music configuration",
+	"Update Deezer configuration": "Update Deezer configuration",
+	"Update Yandex Music configuration": "Update Yandex Music configuration",
+	"Update VK Music configuration": "Update VK Music configuration",
+	"Update Qobuz configuration": "Update Qobuz configuration",
+	"Update yt-dlp configuration": "Update yt-dlp configuration",
+	"View current LavaSrc configuration for a node": "View current LavaSrc configuration for a node",
+	"List all available Lavalink nodes": "List all available Lavalink nodes",
+	"The Lavalink node ID": "The Lavalink node ID",
+	"Spotify client ID": "Spotify client ID",
+	"Spotify client secret": "Spotify client secret",
+	"Spotify sp_dc cookie value": "Spotify sp_dc cookie value",
+	"Prefer anonymous token": "Prefer anonymous token",
+	"Custom token endpoint URL": "Custom token endpoint URL",
+	"Apple Music media API token": "Apple Music media API token",
+	"Deezer ARL cookie value": "Deezer ARL cookie value",
+	"Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)": "Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)",
+	"Yandex Music access token": "Yandex Music access token",
+	"VK Music user token": "VK Music user token",
+	"Qobuz user OAuth token": "Qobuz user OAuth token",
+	"Qobuz application ID": "Qobuz application ID",
+	"Qobuz application secret": "Qobuz application secret",
+	"Path to yt-dlp executable": "Path to yt-dlp executable",
+	"Custom load arguments (comma-separated)": "Custom load arguments (comma-separated)",
+	"Custom playback arguments (comma-separated)": "Custom playback arguments (comma-separated)",
+	"Manage YouTube source configuration at runtime": "Manage YouTube source configuration at runtime",
+	"Update YouTube OAuth configuration": "Update YouTube OAuth configuration",
+	"Update YouTube poToken configuration": "Update YouTube poToken configuration",
+	"View current YouTube source configuration": "View current YouTube source configuration",
+	"Refresh an OAuth token using a refresh token": "Refresh an OAuth token using a refresh token",
+	"YouTube OAuth2 refresh token": "YouTube OAuth2 refresh token",
+	"Skip OAuth initialization flow (recommended when providing token)": "Skip OAuth initialization flow (recommended when providing token)",
+	"Proof of Origin token (generate with youtube-trusted-session-generator)": "Proof of Origin token (generate with youtube-trusted-session-generator)",
+	"Visitor data associated with the poToken": "Visitor data associated with the poToken",
+	"The refresh token to use": "The refresh token to use",
+	"LIVE_LYRICS": {
+		"NO_PLAYER": "Şu anda çalan müzik yok.",
+		"NO_LYRICS": "Bu parça için senkronize şarkı sözleri bulunamadı.",
+		"TITLE": "🎵 Canlı Şarkı Sözleri",
+		"CURRENT": "Şu anki",
+		"STOPPED": "Canlı şarkı sözleri durduruldu.",
+		"REFRESHED": "Canlı şarkı sözleri yenilendi!",
+		"ERROR": "Şarkı sözleri alınırken bir hata oluştu.",
+		"ENDED": "Canlı şarkı sözleri sona erdi.",
+		"PAUSED": "Canlı şarkı sözleri duraklatıldı.",
+		"SEARCHING": "Senkronize şarkı sözleri aranıyor...",
+		"NO_SYNCED_TITLE": "Senkronize Şarkı Sözleri Mevcut Değil",
+		"NO_SYNCED_DESCRIPTION": "Bu parçanın senkronize (zaman damgalı) şarkı sözleri yok. Düz metin şarkı sözleri için normal `{prefix}lyrics` komutunu deneyebilirsiniz.",
+		"ALREADY_RUNNING": "Canlı şarkı sözleri bu sunucu için zaten çalışıyor!",
+		"STARTED": "Canlı şarkı sözleri başladı! Görüntüleme şarkı çaldıkça otomatik olarak güncellenecek.",
+		"PROGRESS": "İlerleme",
+		"UPDATE_INTERVAL": "Her {seconds} saniyede bir güncellenir",
+		"CLICK_REFRESH": "Anında güncelleme için Yenile'ye tıklayın",
+		"NO_LYRICS_AVAILABLE": "Şarkı sözü mevcut değil",
+		"REFRESH_BUTTON": "Yenile",
+		"STOP_BUTTON": "Durdur"
+	}
 }

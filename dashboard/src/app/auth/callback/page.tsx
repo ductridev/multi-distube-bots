@@ -7,6 +7,11 @@ import { useDashboardStore } from "@/store/dashboard";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+// Type guard for API error response
+function isApiError(error: unknown): error is { response?: { data?: { error?: string }; status?: number }; request?: unknown; message?: string } {
+    return typeof error === "object" && error !== null;
+}
+
 function CallbackContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -16,6 +21,7 @@ function CallbackContent() {
     useEffect(() => {
         const handleCallback = async () => {
             const code = searchParams.get("code");
+            const state = searchParams.get("state");
             const errorParam = searchParams.get("error");
 
             if (errorParam) {
@@ -25,6 +31,19 @@ function CallbackContent() {
                 }, 2000);
                 return;
             }
+
+            // Validate OAuth state for CSRF protection
+            const storedState = sessionStorage.getItem("oauth_state");
+            if (!state || state !== storedState) {
+                setError("Invalid authentication state. Please try again.");
+                sessionStorage.removeItem("oauth_state");
+                setTimeout(() => {
+                    router.push("/login?error=invalid_state");
+                }, 2000);
+                return;
+            }
+            // Clear the used state
+            sessionStorage.removeItem("oauth_state");
 
             if (!code) {
                 setError("No authorization code received");
@@ -50,22 +69,23 @@ function CallbackContent() {
             } catch (err: unknown) {
                 console.error("Auth callback error:", err);
                 
-                // Extract detailed error message
-                const axiosError = err as { response?: { data?: { error?: string }; status?: number }; request?: unknown; message?: string };
+                // Extract detailed error message with proper type checking
                 let errorMessage = "Failed to authenticate";
                 
-                if (axiosError.response) {
-                    // Server responded with error
-                    errorMessage = axiosError.response.data?.error || 
-                                   `Server error: ${axiosError.response.status}`;
-                    console.error("Server error:", axiosError.response.data);
-                } else if (axiosError.request) {
-                    // Request made but no response
-                    errorMessage = "No response from server. Is the API running?";
-                    console.error("No response received");
-                } else {
-                    // Error setting up request
-                    errorMessage = axiosError.message || "Failed to authenticate";
+                if (isApiError(err)) {
+                    if (err.response) {
+                        // Server responded with error
+                        errorMessage = err.response.data?.error || 
+                                       `Server error: ${err.response.status}`;
+                        console.error("Server error:", err.response.data);
+                    } else if (err.request) {
+                        // Request made but no response
+                        errorMessage = "No response from server. Is the API running?";
+                        console.error("No response received");
+                    } else if (err.message) {
+                        // Error setting up request
+                        errorMessage = err.message;
+                    }
                 }
                 
                 setError(errorMessage);

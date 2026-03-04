@@ -541,6 +541,13 @@
 				"lyrics_error": "Une erreur s'est produite lors de la récupération des paroles."
 			}
 		},
+		"livelyrics": {
+			"description": "Affiche les paroles synchronisées en direct pour la piste actuelle ! Mode karaoké 🎤",
+			"errors": {
+				"no_player": "Aucune musique n'est en cours de lecture.",
+				"no_synced": "Aucune parole synchronisée trouvée pour cette piste."
+			}
+		},
 		"fairplay": {
 			"description": "Configure le bot pour jouer de la musique de manière équitable",
 			"errors": {
@@ -571,12 +578,89 @@
 		"loop_queue": {
 			"description": "Boucle toute la file d'attente"
 		},
-		"vote": {
-			"description": "Quản lý hệ thống bỏ phiếu cho các lệnh nhạc",
-			"options": {
-				"toggle": "Bật hoặc tắt hệ thống bỏ phiếu",
-				"status": "Kiểm tra trạng thái hiện tại của hệ thống bỏ phiếu"
+		"lavaconfig": {
+			"description": "Gérer la configuration LavaSrc à l'exécution 🎵",
+			"errors": {
+				"service_unavailable": "Le service de configuration LavaSrc n'est pas disponible.",
+				"missing_subcommand": "Veuillez fournir une sous-commande. Disponible: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`",
+				"missing_node": "Argument requis manquant: `node`. Exemple: `!lavaconfig {subcommand} node:main`",
+				"unknown_subcommand": "Sous-commande inconnue: `{subcommand}`. Disponible: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`"
+			},
+			"messages": {
+				"processing": "Traitement en cours...",
+				"config_updated_title": "✅ Configuration {source} Mise à Jour",
+				"config_updated_desc": "Configuration {source} mise à jour avec succès pour le nœud **{nodeId}**",
+				"updated_config": "Configuration Mise à Jour",
+				"view_title": "📋 Configuration LavaSrc - {nodeId}",
+				"nodes_title": "📡 Nœuds Lavalink",
+				"no_nodes": "Aucun nœud disponible.",
+				"total_nodes": "Total: {count} nœud(s)"
+			},
+			"usage": {
+				"title": "Utilisation",
+				"value": "`!lavaconfig <sous-commande> [options]`\nExemple: `!lavaconfig spotify node:main clientId:xxx`"
 			}
+		},
+		"youtubeconfig": {
+			"description": "Gérer la configuration de la source YouTube à l'exécution 🎵",
+			"errors": {
+				"service_unavailable": "Le service de configuration YouTube n'est pas disponible.",
+				"missing_subcommand": "Veuillez fournir une sous-commande. Disponible: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_node": "Argument requis manquant: `node`. Exemple: `!youtubeconfig {subcommand} node:main`",
+				"unknown_subcommand": "Sous-commande inconnue: `{subcommand}`. Disponible: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_oauth_option": "Veuillez fournir au moins une option: `refreshToken` ou `skipInitialization`",
+				"missing_potoken_pair": "`poToken` et `visitorData` doivent être fournis ensemble pour de meilleurs résultats",
+				"missing_refresh_token": "Argument requis manquant: `refreshToken`. Exemple: `!youtubeconfig refresh-token node:main refreshToken:xxx`"
+			},
+			"messages": {
+				"processing": "Traitement en cours...",
+				"oauth_updated_title": "✅ Configuration YouTube OAuth Mise à Jour",
+				"oauth_updated_desc": "Configuration YouTube OAuth mise à jour avec succès pour le nœud **{nodeId}**",
+				"potoken_updated_title": "✅ Configuration YouTube poToken Mise à Jour",
+				"potoken_updated_desc": "Configuration YouTube poToken mise à jour avec succès pour le nœud **{nodeId}**",
+				"token_refreshed_title": "✅ Jeton OAuth Rafraîchi",
+				"token_refreshed_desc": "Jeton OAuth rafraîchi avec succès pour le nœud **{nodeId}**",
+				"view_title": "📋 Configuration Source YouTube - {nodeId}",
+				"nodes_title": "📡 Nœuds Lavalink",
+				"no_nodes": "Aucun nœud disponible.",
+				"total_nodes": "Total: {count} nœud(s)",
+				"not_set": "Non défini",
+				"na": "N/A"
+			},
+			"fields": {
+				"refresh_token": "Jeton de Rafraîchissement",
+				"skip_initialization": "Ignorer l'Initialisation",
+				"potoken": "poToken",
+				"visitor_data": "Données Visiteur",
+				"token_type": "Type de Jeton",
+				"expires_in": "Expire Dans",
+				"scope": "Portée",
+				"access_token_truncated": "Jeton d'Accès (tronqué)",
+				"updated": "✅ Mis à Jour",
+				"not_changed": "⚪ Non Modifié",
+				"yes": "✅ Oui",
+				"no": "❌ Non",
+				"important": "⚠️ Important",
+				"oauth_warning": "Les jetons OAuth doivent rester secrets. Envisagez d'utiliser un compte YouTube jetable.",
+				"how_to_generate": "💡 Comment Générer",
+				"generator_link": "Utilisez [youtube-trusted-session-generator](https://github.com/iv-org/youtube-trusted-session-generator) pour obtenir ces valeurs.",
+				"note": "ℹ️ Note",
+				"api_note": "Seul le jeton de rafraîchissement est renvoyé par l'API. poToken et visitorData ne sont pas exposés."
+			},
+			"usage": {
+				"title": "Utilisation",
+				"value": "`!youtubeconfig <sous-commande> [options]`\nExemple: `!youtubeconfig oauth node:main refreshToken:xxx`"
+			}
+		},
+		"vote": {
+			"description": "Gérer le système de vote pour les commandes musicales",
+			"options": {
+				"toggle": "Activer ou désactiver le système de vote",
+				"status": "Vérifier l'état actuel du système de vote"
+			}
+		},
+		"livelyrics": {
+			"description": "Activer ou désactiver la synchronisation des paroles en direct"
 		}
 	},
 	"buttons": {
@@ -590,7 +674,6 @@
 		"errors": {
 			"not_author": "Vous ne pouvez pas utiliser ce bouton."
 		}
-	
 	},
 	"player": {
 		"errors": {
@@ -723,11 +806,70 @@
 		"no_listeners": "Le bot partira dans {time} minutes en raison de l'absence d'auditeurs.",
 		"no_songs": "Le bot partira dans {time} minutes en raison de l'absence de chansons."
 	},
+	"LIVE_LYRICS": {
+		"NO_PLAYER": "Aucune musique n'est en cours de lecture.",
+		"NO_LYRICS": "Aucune parole synchronisée trouvée pour cette piste.",
+		"TITLE": "Paroles en Direct - {track}",
+		"CURRENT": "🎵 EN COURS DE LECTURE",
+		"STOPPED": "Paroles en direct arrêtées.",
+		"REFRESHED": "Paroles actualisées !",
+		"ERROR": "Une erreur s'est produite lors de la récupération des paroles.",
+		"ENDED": "Piste terminée. Paroles en direct arrêtées.",
+		"PAUSED": "Lecture mise en pause. Les paroles reprendront lorsque la lecture continuera.",
+		"SEARCHING": "Recherche de paroles synchronisées...",
+		"NO_SYNCED_TITLE": "⚠️ Paroles Synchronisées Indisponibles",
+		"NO_SYNCED_DESCRIPTION": "Impossible de trouver des paroles synchronisées pour **{trackTitle}**.\n\n**Alternatives :**\n• Utilisez `/lyrics` pour des paroles statiques\n• Essayez une autre piste\n\nLes paroles synchronisées fonctionnent mieux avec les chansons populaires de Spotify, Deezer ou YouTube Music.",
+		"ALREADY_RUNNING": "Les paroles en direct sont déjà actives ! Utilisez d'abord le bouton Arrêter pour les terminer.",
+		"STARTED": "🎤 Paroles en direct démarrées ! Consultez le message ci-dessous.",
+		"PROGRESS": "Progression",
+		"UPDATE_INTERVAL": "Mise à jour toutes les {seconds} secondes",
+		"CLICK_REFRESH": "Cliquez sur Actualiser pour une mise à jour instantanée",
+		"NO_LYRICS_AVAILABLE": "Aucunes paroles disponibles",
+		"REFRESH_BUTTON": "Actualiser",
+		"STOP_BUTTON": "Arrêter"
+	},
 	"Evaluate code": "Évaluer le code",
 	"Leave a guild": "Quitter un serveur",
 	"List all guilds the bot is in": "Lister tous les serveurs dans lesquels se trouve le bot",
 	"Restart the bot": "Redémarrer le bot",
 	"The loop mode you want to set": "Le mode de boucle que vous souhaitez définir",
 	"Show current maintenance status": "Afficher l'état de maintenance actuel",
-	"Show current maintenance status.": "Show current maintenance status."
+	"Show current maintenance status.": "Show current maintenance status.",
+	"Manage LavaSrc configuration at runtime": "Manage LavaSrc configuration at runtime",
+	"Update Spotify configuration": "Update Spotify configuration",
+	"Update Apple Music configuration": "Update Apple Music configuration",
+	"Update Deezer configuration": "Update Deezer configuration",
+	"Update Yandex Music configuration": "Update Yandex Music configuration",
+	"Update VK Music configuration": "Update VK Music configuration",
+	"Update Qobuz configuration": "Update Qobuz configuration",
+	"Update yt-dlp configuration": "Update yt-dlp configuration",
+	"View current LavaSrc configuration for a node": "View current LavaSrc configuration for a node",
+	"List all available Lavalink nodes": "List all available Lavalink nodes",
+	"The Lavalink node ID": "The Lavalink node ID",
+	"Spotify client ID": "Spotify client ID",
+	"Spotify client secret": "Spotify client secret",
+	"Spotify sp_dc cookie value": "Spotify sp_dc cookie value",
+	"Prefer anonymous token": "Prefer anonymous token",
+	"Custom token endpoint URL": "Custom token endpoint URL",
+	"Apple Music media API token": "Apple Music media API token",
+	"Deezer ARL cookie value": "Deezer ARL cookie value",
+	"Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)": "Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)",
+	"Yandex Music access token": "Yandex Music access token",
+	"VK Music user token": "VK Music user token",
+	"Qobuz user OAuth token": "Qobuz user OAuth token",
+	"Qobuz application ID": "Qobuz application ID",
+	"Qobuz application secret": "Qobuz application secret",
+	"Path to yt-dlp executable": "Path to yt-dlp executable",
+	"Custom load arguments (comma-separated)": "Custom load arguments (comma-separated)",
+	"Custom playback arguments (comma-separated)": "Custom playback arguments (comma-separated)",
+	"Manage YouTube source configuration at runtime": "Manage YouTube source configuration at runtime",
+	"Update YouTube OAuth configuration": "Update YouTube OAuth configuration",
+	"Update YouTube poToken configuration": "Update YouTube poToken configuration",
+	"View current YouTube source configuration": "View current YouTube source configuration",
+	"Refresh an OAuth token using a refresh token": "Refresh an OAuth token using a refresh token",
+	"YouTube OAuth2 refresh token": "YouTube OAuth2 refresh token",
+	"Skip OAuth initialization flow (recommended when providing token)": "Skip OAuth initialization flow (recommended when providing token)",
+	"Proof of Origin token (generate with youtube-trusted-session-generator)": "Proof of Origin token (generate with youtube-trusted-session-generator)",
+	"Visitor data associated with the poToken": "Visitor data associated with the poToken",
+	"The refresh token to use": "The refresh token to use"
 }

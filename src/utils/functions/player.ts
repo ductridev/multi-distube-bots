@@ -45,22 +45,49 @@ export async function autoPlayFunction(player: Player, lastTrack?: Track): Promi
 	if (!player.get('autoplay')) return;
 	if (!lastTrack) return;
 
+	// if (lastTrack.info.sourceName === 'spotify') {
+	// 	const author = lastTrack.info.author;
+	// 	const title = lastTrack.info.title;
+	// 	const preRes = await player.search({
+	// 		query: `${author} - ${title}`,
+	// 		source: 'ytsearch',
+	// 	}, { requester: lastTrack.requester });
+	// 	if (preRes.tracks.length === 0) return;
+
+	// 	const identifier = preRes.tracks[0].info.identifier;
+
+	// 	const res = await player
+	// 		.search(
+	// 			{
+	// 				query: `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`,
+	// 				source: 'youtube',
+	// 			},
+	// 			lastTrack.requester,
+	// 		)
+	// 		.then((response: UnresolvedSearchResult | SearchResult) => {
+	// 			response.tracks = (response.tracks as Track[]).filter(
+	// 				(v) => v.info.identifier !== lastTrack.info.identifier
+	// 			); // remove the lastPlayed track if it's in there..
+	// 			return response;
+	// 		})
+	// 		.catch(console.warn);
+	// 	if (res && res.tracks.length > 0)
+	// 		await player.queue.add(
+	// 			res.tracks.slice(0, 5).map((track) => {
+	// 				// transform the track plugininfo so you can figure out if the track is from autoplay or not.
+	// 				track.pluginInfo.clientData = { ...(track.pluginInfo.clientData || {}), fromAutoplay: true };
+	// 				return track;
+	// 			}),
+	// 		);
+	// 	return;
+	// }
 	if (lastTrack.info.sourceName === 'spotify') {
-		const author = lastTrack.info.author;
-		const title = lastTrack.info.title;
-		const preRes = await player.search({
-			query: `${author} - ${title}`,
-			source: 'ytsearch',
-		}, { requester: lastTrack.requester });
-		if (preRes.tracks.length === 0) return;
-
-		const identifier = preRes.tracks[0].info.identifier;
-
+		// spotify recommends based on current track. So we will take the the last track from the queue history and use them as seed for the recommendation.
 		const res = await player
 			.search(
 				{
-					query: `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`,
-					source: 'youtube',
+					query: `${lastTrack.info.identifier}`,
+					source: 'sprec',
 				},
 				lastTrack.requester,
 			)

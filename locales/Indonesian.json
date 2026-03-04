@@ -141,7 +141,7 @@
 				"off": "`✅` | Filter bassboost telah `DINONAKTIFKAN`."
 			},
 			"options": {
-				"level": "The bassboost level you want to set"
+				"level": "Level bassboost yang ingin Anda atur"
 			}
 		},
 		"distortion": {
@@ -535,8 +535,8 @@
 			}
 		},
 		"lyrics": {
-			"description": "Get's the lyrics of the currently playing track",
-			"lyrics_track": "### Lyrics for: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
+			"description": "Mendapatkan lirik lagu yang sedang diputar",
+			"lyrics_track": "### Lirik untuk: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
 			"searching": "`🔍` Mencari lirik **{trackTitle}**...",
 			"errors": {
 				"no_results": "Tidak ada lirik yang ditemukan untuk lagu saat ini.",
@@ -544,7 +544,7 @@
 			}
 		},
 		"fairplay": {
-			"description": "Set the bot to play music fairly",
+			"description": "Atur bot untuk memutar musik secara adil",
 			"errors": {
 				"not_in_voice": "Anda harus berada di saluran suara untuk menggunakan perintah ini.",
 				"generic": "Terjadi kesalahan saat mencoba menjalankan perintah ini."
@@ -555,9 +555,9 @@
 			}
 		},
 		"playlocal": {
-			"description": "Plays an your local audio files",
+			"description": "Memutar file audio lokal Anda",
 			"options": {
-				"file": "The audio file you want to play"
+				"file": "File audio yang ingin Anda putar"
 			},
 			"loading": "Memuat...",
 			"errors": {
@@ -568,32 +568,112 @@
 			"added_to_queue": "Menambahkan [{title}]({url}) ke antrean"
 		},
 		"loop_current": {
-			"description": "cmd.loop_current.description"
+			"description": "Ulangi lagu yang sedang diputar"
 		},
 		"loop_queue": {
-			"description": "cmd.loop_queue.description"
+			"description": "Ulangi antrean"
 		},
 		"vote": {
-			"description": "Quản lý hệ thống bỏ phiếu cho các lệnh nhạc",
+			"description": "Kelola sistem voting untuk perintah musik",
 			"options": {
-				"toggle": "Bật hoặc tắt hệ thống bỏ phiếu",
-				"status": "Kiểm tra trạng thái hiện tại của hệ thống bỏ phiếu"
+				"toggle": "Aktifkan atau nonaktifkan sistem voting",
+				"status": "Periksa status sistem voting saat ini"
+			}
+		},
+		"lavaconfig": {
+			"description": "Kelola konfigurasi LavaSrc saat runtime 🎵",
+			"errors": {
+				"service_unavailable": "Layanan konfigurasi LavaSrc tidak tersedia.",
+				"missing_subcommand": "Harap berikan subcommand. Tersedia: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`",
+				"missing_node": "Argumen yang diperlukan tidak ada: `node`. Contoh: `!lavaconfig {subcommand} node:main`",
+				"unknown_subcommand": "Subcommand tidak dikenal: `{subcommand}`. Tersedia: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`"
+			},
+			"messages": {
+				"processing": "Memproses...",
+				"config_updated_title": "✅ Konfigurasi {source} Diperbarui",
+				"config_updated_desc": "Berhasil memperbarui konfigurasi {source} untuk node **{nodeId}**",
+				"updated_config": "Konfigurasi Diperbarui",
+				"view_title": "📋 Konfigurasi LavaSrc - {nodeId}",
+				"nodes_title": "📡 Node Lavalink",
+				"no_nodes": "Tidak ada node yang tersedia.",
+				"total_nodes": "Total: {count} node"
+			},
+			"usage": {
+				"title": "Penggunaan",
+				"value": "`!lavaconfig <subcommand> [opsi]`\nContoh: `!lavaconfig spotify node:main clientId:xxx`"
+			}
+		},
+		"youtubeconfig": {
+			"description": "Kelola konfigurasi sumber YouTube saat runtime 🎵",
+			"errors": {
+				"service_unavailable": "Layanan konfigurasi YouTube tidak tersedia.",
+				"missing_subcommand": "Harap berikan subcommand. Tersedia: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_node": "Argumen yang diperlukan tidak ada: `node`. Contoh: `!youtubeconfig {subcommand} node:main`",
+				"unknown_subcommand": "Subcommand tidak dikenal: `{subcommand}`. Tersedia: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_oauth_option": "Harap berikan setidaknya satu opsi: `refreshToken` atau `skipInitialization`",
+				"missing_potoken_pair": "Baik `poToken` maupun `visitorData` harus diberikan bersama untuk hasil terbaik",
+				"missing_refresh_token": "Argumen yang diperlukan tidak ada: `refreshToken`. Contoh: `!youtubeconfig refresh-token node:main refreshToken:xxx`"
+			},
+			"messages": {
+				"processing": "Memproses...",
+				"oauth_updated_title": "✅ Konfigurasi OAuth YouTube Diperbarui",
+				"oauth_updated_desc": "Berhasil memperbarui konfigurasi OAuth YouTube untuk node **{nodeId}**",
+				"potoken_updated_title": "✅ Konfigurasi poToken YouTube Diperbarui",
+				"potoken_updated_desc": "Berhasil memperbarui konfigurasi poToken YouTube untuk node **{nodeId}**",
+				"token_refreshed_title": "✅ Token OAuth Diperbarui",
+				"token_refreshed_desc": "Berhasil memperbarui token OAuth untuk node **{nodeId}**",
+				"view_title": "📋 Konfigurasi Sumber YouTube - {nodeId}",
+				"nodes_title": "📡 Node Lavalink",
+				"no_nodes": "Tidak ada node yang tersedia.",
+				"total_nodes": "Total: {count} node",
+				"not_set": "Tidak diatur",
+				"na": "T/A"
+			},
+			"fields": {
+				"refresh_token": "Refresh Token",
+				"skip_initialization": "Lewati Inisialisasi",
+				"potoken": "poToken",
+				"visitor_data": "Visitor Data",
+				"token_type": "Tipe Token",
+				"expires_in": "Kedaluwarsa Dalam",
+				"scope": "Cakupan",
+				"access_token_truncated": "Access Token (dipotong)",
+				"updated": "✅ Diperbarui",
+				"not_changed": "⚪ Tidak berubah",
+				"yes": "✅ Ya",
+				"no": "❌ Tidak",
+				"important": "⚠️ Penting",
+				"oauth_warning": "Token OAuth harus dirahasiakan. Pertimbangkan untuk menggunakan akun YouTube burner.",
+				"how_to_generate": "💡 Cara Menghasilkan",
+				"generator_link": "Gunakan [youtube-trusted-session-generator](https://github.com/iv-org/youtube-trusted-session-generator) untuk mendapatkan nilai ini.",
+				"note": "ℹ️ Catatan",
+				"api_note": "Hanya refresh token yang dikembalikan oleh API. poToken dan visitorData tidak ditampilkan."
+			},
+			"usage": {
+				"title": "Penggunaan",
+				"value": "`!youtubeconfig <subcommand> [opsi]`\nContoh: `!youtubeconfig oauth node:main refreshToken:xxx`"
+			}
+		},
+		"livelyrics": {
+			"description": "Tampilkan lirik sinkron langsung untuk lagu yang sedang diputar! Mode karaoke🎤",
+			"errors": {
+				"no_player": "Tidak ada musik yang sedang diputar.",
+				"no_synced": "Tidak ditemukan lirik sinkron untuk lagu ini."
 			}
 		}
 	},
 	"buttons": {
-		"invite": "Invite",
-		"support": "Server Support",
-		"previous": "Previous",
-		"resume": "Resume",
-		"stop": "Stop",
-		"skip": "Skip",
-		"loop": "Loop",
+		"invite": "Undang",
+		"support": "Server Dukungan",
+		"previous": "Sebelumnya",
+		"resume": "Lanjutkan",
+		"stop": "Berhenti",
+		"skip": "Lewati",
+		"loop": "Ulangi",
 		"errors": {
 			"not_author": "Anda tidak dapat menggunakan tombol ini."
 		}
 	},
-
 	"player": {
 		"errors": {
 			"no_player": "Tidak ada player yang aktif di server ini.",
@@ -730,6 +810,65 @@
 		"no_listeners": "Bot akan keluar dalam {time} menit karena tidak ada pendengar.",
 		"no_songs": "Bot akan keluar dalam {time} menit karena tidak ada lagu."
 	},
+	"LIVE_LYRICS": {
+		"NO_PLAYER": "Tidak ada musik yang sedang diputar.",
+		"NO_LYRICS": "Tidak ditemukan lirik sinkron untuk lagu ini.",
+		"TITLE": "🎵 Lirik Langsung - {track}",
+		"CURRENT": "🎵 SEDANG DIPUTAR",
+		"STOPPED": "Lirik langsung dihentikan.",
+		"REFRESHED": "Lirik diperbarui!",
+		"ERROR": "Terjadi kesalahan saat mengambil lirik.",
+		"ENDED": "Lagu selesai. Lirik langsung dihentikan.",
+		"PAUSED": "Pemutaran dijeda. Lirik akan dilanjutkan saat pemutaran berlanjut.",
+		"SEARCHING": "Mencari lirik sinkron...",
+		"NO_SYNCED_TITLE": "⚠️ Lirik Sinkron Tidak Tersedia",
+		"NO_SYNCED_DESCRIPTION": "Tidak dapat menemukan lirik sinkron untuk **{trackTitle}**.\n\n**Alternatif:**\n• Gunakan `/lyrics` untuk lirik statis\n• Coba lagu yang berbeda\n\nLirik sinkron bekerja paling baik dengan lagu populer dari Spotify, Deezer, atau YouTube Music.",
+		"ALREADY_RUNNING": "Lirik langsung sudah berjalan! Gunakan tombol Stop untuk menghentikannya terlebih dahulu.",
+		"STARTED": "🎤 Lirik langsung dimulai! Periksa pesan di bawah.",
+		"PROGRESS": "Kemajuan",
+		"UPDATE_INTERVAL": "Pembaruan setiap {seconds} detik",
+		"CLICK_REFRESH": "Klik Segarkan untuk pembaruan instan",
+		"NO_LYRICS_AVAILABLE": "Tidak ada lirik tersedia",
+		"REFRESH_BUTTON": "Segarkan",
+		"STOP_BUTTON": "Berhenti"
+	},
 	"Show current maintenance status": "Tampilkan status pemeliharaan saat ini",
-	"Show current maintenance status.": "Show current maintenance status."
+	"Show current maintenance status.": "Show current maintenance status.",
+	"Manage LavaSrc configuration at runtime": "Manage LavaSrc configuration at runtime",
+	"Update Spotify configuration": "Update Spotify configuration",
+	"Update Apple Music configuration": "Update Apple Music configuration",
+	"Update Deezer configuration": "Update Deezer configuration",
+	"Update Yandex Music configuration": "Update Yandex Music configuration",
+	"Update VK Music configuration": "Update VK Music configuration",
+	"Update Qobuz configuration": "Update Qobuz configuration",
+	"Update yt-dlp configuration": "Update yt-dlp configuration",
+	"View current LavaSrc configuration for a node": "View current LavaSrc configuration for a node",
+	"List all available Lavalink nodes": "List all available Lavalink nodes",
+	"The Lavalink node ID": "The Lavalink node ID",
+	"Spotify client ID": "Spotify client ID",
+	"Spotify client secret": "Spotify client secret",
+	"Spotify sp_dc cookie value": "Spotify sp_dc cookie value",
+	"Prefer anonymous token": "Prefer anonymous token",
+	"Custom token endpoint URL": "Custom token endpoint URL",
+	"Apple Music media API token": "Apple Music media API token",
+	"Deezer ARL cookie value": "Deezer ARL cookie value",
+	"Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)": "Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)",
+	"Yandex Music access token": "Yandex Music access token",
+	"VK Music user token": "VK Music user token",
+	"Qobuz user OAuth token": "Qobuz user OAuth token",
+	"Qobuz application ID": "Qobuz application ID",
+	"Qobuz application secret": "Qobuz application secret",
+	"Path to yt-dlp executable": "Path to yt-dlp executable",
+	"Custom load arguments (comma-separated)": "Custom load arguments (comma-separated)",
+	"Custom playback arguments (comma-separated)": "Custom playback arguments (comma-separated)",
+	"Manage YouTube source configuration at runtime": "Manage YouTube source configuration at runtime",
+	"Update YouTube OAuth configuration": "Update YouTube OAuth configuration",
+	"Update YouTube poToken configuration": "Update YouTube poToken configuration",
+	"View current YouTube source configuration": "View current YouTube source configuration",
+	"Refresh an OAuth token using a refresh token": "Refresh an OAuth token using a refresh token",
+	"YouTube OAuth2 refresh token": "YouTube OAuth2 refresh token",
+	"Skip OAuth initialization flow (recommended when providing token)": "Skip OAuth initialization flow (recommended when providing token)",
+	"Proof of Origin token (generate with youtube-trusted-session-generator)": "Proof of Origin token (generate with youtube-trusted-session-generator)",
+	"Visitor data associated with the poToken": "Visitor data associated with the poToken",
+	"The refresh token to use": "The refresh token to use"
 }

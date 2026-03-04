@@ -16,6 +16,9 @@ import {
   Power,
   PowerOff,
   RotateCw,
+  X,
+  AlertTriangle,
+  Loader2,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -23,9 +26,106 @@ import { formatNumber, formatRelativeTime, getBotStatusColor } from "@/lib/utils
 import Link from "next/link";
 import Image from "next/image";
 
+interface ConfirmModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  title: string;
+  message: string;
+  confirmText?: string;
+  cancelText?: string;
+  isDestructive?: boolean;
+  isLoading?: boolean;
+}
+
+function ConfirmModal({
+  isOpen,
+  onClose,
+  onConfirm,
+  title,
+  message,
+  confirmText = "Confirm",
+  cancelText = "Cancel",
+  isDestructive = false,
+  isLoading = false,
+}: ConfirmModalProps) {
+  if (!isOpen) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      aria-describedby="modal-description"
+    >
+      <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 space-y-4">
+        {/* Header */}
+        <div className="flex items-start gap-4">
+          <div
+            className={`p-3 rounded-full flex-shrink-0 ${
+              isDestructive ? "bg-red-100" : "bg-amber-100"
+            }`}
+          >
+            <AlertTriangle
+              className={`w-6 h-6 ${isDestructive ? "text-red-600" : "text-amber-600"}`}
+            />
+          </div>
+          <div className="flex-1">
+            <h2 id="modal-title" className="text-lg font-semibold text-gray-900">
+              {title}
+            </h2>
+            <p id="modal-description" className="text-sm text-gray-600 mt-1">
+              {message}
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
+            aria-label="Close dialog"
+            disabled={isLoading}
+          >
+            <X className="w-5 h-5 text-gray-500" />
+          </button>
+        </div>
+
+        {/* Actions */}
+        <div className="flex gap-3 justify-end">
+          <button
+            onClick={onClose}
+            disabled={isLoading}
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+          >
+            {cancelText}
+          </button>
+          <button
+            onClick={onConfirm}
+            disabled={isLoading}
+            className={`px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50 ${
+              isDestructive
+                ? "bg-red-600 hover:bg-red-700"
+                : "bg-indigo-600 hover:bg-indigo-700"
+            }`}
+          >
+            {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+            {confirmText}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function BotsPage() {
   const { bots, removeBot } = useDashboardStore();
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [deleteModal, setDeleteModal] = useState<{
+    isOpen: boolean;
+    botId: string;
+    botName: string;
+  }>({ isOpen: false, botId: "", botName: "" });
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const { data: botsData = [], isLoading, refetch } = useQuery({
     queryKey: ["bots"],
@@ -47,34 +147,38 @@ export default function BotsPage() {
     botId: string,
     action: "start" | "stop" | "restart"
   ) => {
+    setActionLoading(botId + action);
     try {
-      toast.loading(`${action.charAt(0).toUpperCase() + action.slice(1)}ing bot...`);
-      // TODO: Implement bot control API endpoints
-      // await api.controlBot(botId, action);
-      toast.success(`Bot ${action}ed successfully`);
-      await refetch();
-    } catch {
-      toast.error(`Failed to ${action} bot`);
+      // Bot control API endpoint is not yet implemented
+      // This functionality is disabled until the backend endpoint is available
+      toast.error(`Bot ${action} is not available. Control API endpoint is not implemented.`);
+    } finally {
+      setActionLoading(null);
     }
   };
 
-  const handleDeleteBot = async (botId: string, botName: string) => {
-    if (
-      !confirm(
-        `Are you sure you want to delete "${botName}"? This action cannot be undone.`
-      )
-    ) {
-      return;
-    }
+  const handleDeleteClick = (botId: string, botName: string) => {
+    setDeleteModal({ isOpen: true, botId, botName });
+  };
 
+  const handleDeleteConfirm = async () => {
+    setIsDeleting(true);
     try {
-      toast.loading("Deleting bot...");
-      await api.deleteBot(botId);
-      removeBot(botId);
+      await api.deleteBot(deleteModal.botId);
+      removeBot(deleteModal.botId);
       toast.success("Bot deleted successfully");
+      setDeleteModal({ isOpen: false, botId: "", botName: "" });
       await refetch();
     } catch {
       toast.error("Failed to delete bot");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    if (!isDeleting) {
+      setDeleteModal({ isOpen: false, botId: "", botName: "" });
     }
   };
 
@@ -90,6 +194,19 @@ export default function BotsPage() {
 
   return (
     <div className="space-y-6">
+      {/* Delete Confirmation Modal */}
+      <ConfirmModal
+        isOpen={deleteModal.isOpen}
+        onClose={handleDeleteCancel}
+        onConfirm={handleDeleteConfirm}
+        title="Delete Bot"
+        message={`Are you sure you want to delete "${deleteModal.botName}"? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        isDestructive={true}
+        isLoading={isDeleting}
+      />
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -323,10 +440,14 @@ export default function BotsPage() {
                   onClick={() =>
                     handleBotAction(bot.id, bot.isOnline ? "restart" : "start")
                   }
-                  className="flex items-center justify-center p-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  disabled={actionLoading === bot.id + (bot.isOnline ? "restart" : "start")}
+                  className="flex items-center justify-center p-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
                   title={bot.isOnline ? "Restart" : "Start"}
+                  aria-label={bot.isOnline ? "Restart bot" : "Start bot"}
                 >
-                  {bot.isOnline ? (
+                  {actionLoading === bot.id + (bot.isOnline ? "restart" : "start") ? (
+                    <Loader2 className="w-4 h-4 text-indigo-600 animate-spin" />
+                  ) : bot.isOnline ? (
                     <RotateCw className="w-4 h-4 text-indigo-600" />
                   ) : (
                     <Power className="w-4 h-4 text-green-600" />
@@ -334,9 +455,10 @@ export default function BotsPage() {
                 </button>
 
                 <button
-                  onClick={() => handleDeleteBot(bot.id, bot.name)}
+                  onClick={() => handleDeleteClick(bot.id, bot.name)}
                   className="flex items-center justify-center p-2 bg-white border border-gray-300 rounded-lg hover:bg-red-50 hover:border-red-300 transition-colors"
                   title="Delete"
+                  aria-label="Delete bot"
                 >
                   <Trash2 className="w-4 h-4 text-red-600" />
                 </button>

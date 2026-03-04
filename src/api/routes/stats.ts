@@ -50,4 +50,124 @@ export async function statsRoutes(fastify: FastifyInstance) {
 		}
 		return reply.send(result);
 	});
+
+	// Check premium status
+	fastify.get('/check-premium', { preHandler: [authenticateJWT] }, async (request, reply) => {
+		return StatsController.checkPremium(request, reply);
+	});
+
+	// Get user's servers (guilds the user and bot share)
+	fastify.get('/user/servers', { preHandler: [authenticateJWT] }, async (request, reply) => {
+		return StatsController.getUserServers(request, reply);
+	});
+
+	// ==================== SERVER-SPECIFIC STATISTICS ====================
+
+	// Get server stats overview
+	fastify.get<{ Params: { guildId: string } }>(
+		'/servers/:guildId/overview',
+		{ preHandler: [authenticateJWT] },
+		async (request, reply) => {
+			return StatsController.getServerStatsOverview(
+				request as any,
+				reply,
+			);
+		},
+	);
+
+	// Get sessions chart data
+	fastify.get<{ Params: { guildId: string } }>(
+		'/servers/:guildId/charts/sessions',
+		{ preHandler: [authenticateJWT] },
+		async (request, reply) => {
+			return StatsController.getSessionsChart(
+				request as any,
+				reply,
+			);
+		},
+	);
+
+	// Get listeners chart data
+	fastify.get<{ Params: { guildId: string } }>(
+		'/servers/:guildId/charts/listeners',
+		{ preHandler: [authenticateJWT] },
+		async (request, reply) => {
+			return StatsController.getListenersChart(
+				request as any,
+				reply,
+			);
+		},
+	);
+
+	// Get track types chart data
+	fastify.get<{ Params: { guildId: string } }>(
+		'/servers/:guildId/charts/track-types',
+		{ preHandler: [authenticateJWT] },
+		async (request, reply) => {
+			return StatsController.getTrackTypesChart(
+				request as any,
+				reply,
+			);
+		},
+	);
+
+	// Get activity by hours chart data
+	fastify.get<{ Params: { guildId: string } }>(
+		'/servers/:guildId/charts/activity/hours',
+		{ preHandler: [authenticateJWT] },
+		async (request, reply) => {
+			return StatsController.getActivityHoursChart(
+				request as any,
+				reply,
+			);
+		},
+	);
+
+	// Get activity by weekdays chart data
+	fastify.get<{ Params: { guildId: string } }>(
+		'/servers/:guildId/charts/activity/weekdays',
+		{ preHandler: [authenticateJWT] },
+		async (request, reply) => {
+			return StatsController.getActivityWeekdaysChart(
+				request as any,
+				reply,
+			);
+		},
+	);
+
+	// Get most played tracks list
+	fastify.get<{ Params: { guildId: string } }>(
+		'/servers/:guildId/lists/most-played',
+		{ preHandler: [authenticateJWT] },
+		async (request, reply) => {
+			return StatsController.getMostPlayedList(
+				request as any,
+				reply,
+			);
+		},
+	);
+
+	// Get most listened tracks list
+	fastify.get<{ Params: { guildId: string } }>(
+		'/servers/:guildId/lists/most-listened',
+		{ preHandler: [authenticateJWT] },
+		async (request, reply) => {
+			return StatsController.getMostListenedList(
+				request as any,
+				reply,
+			);
+		},
+	);
+
+	// Get top commands list
+	fastify.get<{ Params: { guildId: string } }>(
+		'/servers/:guildId/lists/top-commands',
+		{ preHandler: [authenticateJWT] },
+		async (request, reply) => {
+			return StatsController.getTopCommandsList(
+				request as any,
+				reply,
+			);
+		},
+	);
 }

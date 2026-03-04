@@ -128,7 +128,7 @@
 				"off": "`✅` | O filtro de reforço de graves foi `DESATIVADO`."
 			},
 			"options": {
-				"level": "The bassboost level you want to set"
+				"level": "O nível de bassboost que deseja definir"
 			}
 		},
 		"distortion": {
@@ -535,7 +535,7 @@
 			}
 		},
 		"fairplay": {
-			"description": "Set the bot to play music fairly",
+			"description": "Configurar o bot para reproduzir música de forma justa",
 			"errors": {
 				"not_in_voice": "Você precisa estar em um canal de voz para usar este comando.",
 				"generic": "Ocorreu um erro ao tentar executar este comando."
@@ -546,8 +546,8 @@
 			}
 		},
 		"lyrics": {
-			"description": "Get's the lyrics of the currently playing track",
-			"lyrics_track": "### Lyrics for: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
+			"description": "Obter a letra da faixa atualmente em reprodução",
+			"lyrics_track": "### Letra de: [{trackTitle}]({trackUrl})\n**`{lyrics}`**",
 			"searching": "`🔍` Procurando letra de **{trackTitle}**...",
 			"errors": {
 				"no_results": "Nenhuma letra encontrada para a faixa atual.",
@@ -555,9 +555,9 @@
 			}
 		},
 		"playlocal": {
-			"description": "Plays an your local audio files",
+			"description": "Reproduz os seus ficheiros de áudio locais",
 			"options": {
-				"file": "The audio file you want to play"
+				"file": "O ficheiro de áudio que deseja reproduzir"
 			},
 			"loading": "Carregando...",
 			"errors": {
@@ -568,10 +568,17 @@
 			"added_to_queue": "Adicionado [{title}]({url}) à fila"
 		},
 		"loop_current": {
-			"description": "Loop the currently playing song"
+			"description": "Repetir a música atualmente em reprodução"
 		},
 		"loop_queue": {
-			"description": "Loop the entire queue"
+			"description": "Repetir toda a fila"
+		},
+		"vote": {
+			"description": "Gerir o sistema de votação para comandos de música",
+			"options": {
+				"toggle": "Ativar ou desativar o sistema de votação",
+				"status": "Verificar o estado atual do sistema de votação"
+			}
 		}
 	},
 	"buttons": {
@@ -623,6 +630,97 @@
 			"playlist_too_long": "The playlist is too long. The maximum length is {maxPlaylistSize} songs.",
 			"added_to_queue": "Added [{title}]({uri}) to the queue.",
 			"added_playlist_to_queue": "Added [{length}] songs from the playlist to the queue."
+		},
+		"lavaconfig": {
+			"description": "Gerir a configuração do LavaSrc em tempo real! Atualizar serviços em movimento ⚙️",
+			"errors": {
+				"service_unavailable": "O serviço Lavalink não está disponível. Certifique-se de que o Lavalink está a correr! 🔧",
+				"missing_subcommand": "Por favor, forneça um subcomando! Tente: spotify, applemusic, deezer, yandexmusic, flowerytts, ttsloc, view ou nodes",
+				"missing_node": "Por favor, forneça um nome de nó! Use 'nodes' para ver os nós disponíveis 📋",
+				"unknown_subcommand": "Subcomando desconhecido! Tente: spotify, applemusic, deezer, yandexmusic, flowerytts, ttsloc, view ou nodes"
+			},
+			"messages": {
+				"processing": "A processar o seu pedido... ⚙️",
+				"config_updated_title": "Configuração LavaSrc Atualizada",
+				"config_updated_desc": "Configuração {service} atualizada com sucesso para o nó **{node}**! Alterações aplicadas ✅",
+				"view_title": "Configuração LavaSrc",
+				"nodes_title": "Nós Lavalink Disponíveis",
+				"no_nodes": "Nenhum nó Lavalink disponível! Certifique-se de que o Lavalink está ligado 🔌",
+				"total_nodes": "Total de nós: {count}"
+			},
+			"fields": {
+				"client_id": "ID do Cliente",
+				"client_secret": "Segredo do Cliente",
+				"api_key": "Chave API",
+				"decode_track": "Descodificar Faixa",
+				"country_code": "Código do País",
+				"playlist_limit": "Limite da Playlist",
+				"album_limit": "Limite do Álbum",
+				"search_limit": "Limite de Pesquisa",
+				"isrc_search": "Pesquisa ISRC",
+				"fallback_search": "Pesquisa de Reserva",
+				"load_timeout": "Tempo Limite de Carregamento",
+				"spotify_enabled": "Spotify Ativado",
+				"apple_enabled": "Apple Music Ativado",
+				"deezer_enabled": "Deezer Ativado"
+			},
+			"usage": {
+				"title": "Uso",
+				"value": "`/lavaconfig <subcomando> <nó> [opções]`\nUse os subcomandos para configurar diferentes serviços."
+			}
+		},
+		"youtubeconfig": {
+			"description": "Gerir a configuração da fonte YouTube em tempo real! Controlar definições de OAuth e poToken 🎬",
+			"errors": {
+				"service_unavailable": "O serviço Lavalink não está disponível. Certifique-se de que o Lavalink está a correr! 🔧",
+				"missing_subcommand": "Por favor, forneça um subcomando! Tente: oauth, potoken, view ou nodes",
+				"missing_node": "Por favor, forneça um nome de nó! Use 'nodes' para ver os nós disponíveis 📋",
+				"unknown_subcommand": "Subcomando desconhecido! Tente: oauth, potoken, view ou nodes",
+				"missing_oauth_option": "Por favor, forneça uma opção OAuth! Tente: email, authorization ou skip",
+				"missing_potoken_pair": "Por favor, forneça tanto o poToken como o visitorData para a opção pair!",
+				"missing_refresh_token": "Token de atualização em falta! A configuração OAuth requer um token de atualização."
+			},
+			"messages": {
+				"processing": "A processar o seu pedido... ⚙️",
+				"oauth_updated_title": "OAuth YouTube Atualizado",
+				"potoken_updated_title": "poToken YouTube Atualizado",
+				"token_refreshed_title": "Token YouTube Atualizado",
+				"view_title": "Configuração da Fonte YouTube",
+				"nodes_title": "Nós Lavalink Disponíveis",
+				"not_set": "Não Definido",
+				"na": "N/D"
+			},
+			"fields": {
+				"refresh_token": "Token de Atualização",
+				"skip_initialization": "Saltar Inicialização",
+				"potoken": "poToken",
+				"visitor_data": "Dados do Visitante",
+				"po_token": "poToken",
+				"visitor_data_short": "Dados do Visitante",
+				"oauth_email": "Email OAuth",
+				"authorization": "Autorização",
+				"skip": "Saltar",
+				"pair": "Par",
+				"refresh": "Atualizar",
+				"email": "Email",
+				"authorization_code": "Código de Autorização",
+				"status": "Estado",
+				"enabled": "ATIVADO",
+				"disabled": "DESATIVADO",
+				"last_updated": "Última Atualização"
+			},
+			"usage": {
+				"title": "Uso",
+				"value": "`/youtubeconfig <subcomando> <nó> [opções]`\nUse oauth para configurar OAuth, potoken para definições de poToken."
+			}
+		},
+		"livelyrics": {
+			"description": "Mostrar letras sincronizadas em tempo real para a faixa atual com modo karaoke",
+			"aliases": "karaoke, syncedlyrics",
+			"errors": {
+				"no_player": "Não há música a reproduzir neste momento.",
+				"no_synced": "Não foram encontradas letras sincronizadas para esta faixa."
+			}
 		}
 	},
 	"event": {
@@ -723,5 +821,27 @@
 	"List all guilds the bot is in": "Listar todos os servidores em que o bot está",
 	"Restart the bot": "Reiniciar o bot",
 	"The loop mode you want to set": "O modo de repetição que você deseja definir",
-	"Show current maintenance status": "Mostrar status de manutenção atual"
+	"Show current maintenance status": "Mostrar status de manutenção atual",
+	"LIVE_LYRICS": {
+		"NO_PLAYER": "Não há música a reproduzir neste momento.",
+		"NO_LYRICS": "Não foram encontradas letras sincronizadas para esta faixa.",
+		"TITLE": "🎵 Letras em Tempo Real",
+		"CURRENT": "Atual",
+		"STOPPED": "Letras em tempo real paradas.",
+		"REFRESHED": "Letras em tempo real atualizadas!",
+		"ERROR": "Ocorreu um erro ao obter as letras.",
+		"ENDED": "Letras em tempo real terminadas.",
+		"PAUSED": "Letras em tempo real pausadas.",
+		"SEARCHING": "A procurar letras sincronizadas...",
+		"NO_SYNCED_TITLE": "Sem Letras Sincronizadas Disponíveis",
+		"NO_SYNCED_DESCRIPTION": "Esta faixa não tem letras sincronizadas (com marcação de tempo) disponíveis. Pode tentar o comando normal `{prefix}lyrics` para letras de texto simples.",
+		"ALREADY_RUNNING": "As letras em tempo real já estão a funcionar neste servidor!",
+		"STARTED": "Letras em tempo real iniciadas! A exibição será atualizada automaticamente à medida que a música reproduz.",
+		"PROGRESS": "Progresso",
+		"UPDATE_INTERVAL": "Atualizações a cada {seconds} segundos",
+		"CLICK_REFRESH": "Clique Atualizar para atualização instantânea",
+		"NO_LYRICS_AVAILABLE": "Sem letras disponíveis",
+		"REFRESH_BUTTON": "Atualizar",
+		"STOP_BUTTON": "Parar"
+	}
 }

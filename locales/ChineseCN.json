@@ -550,6 +550,13 @@
 				"lyrics_error": "获取歌词时出错了！稍后再试？🔧"
 			}
 		},
+		"livelyrics": {
+			"description": "显示当前歌曲的实时同步歌词！卡拉OK模式 🎤",
+			"errors": {
+				"no_player": "当前没有播放音乐。",
+				"no_synced": "这首歌没有找到同步歌词。"
+			}
+		},
 		"fairplay": {
 			"description": "启用公平模式！让每个人都有机会播放喜欢的歌 ⚖️",
 			"errors": {
@@ -595,11 +602,88 @@
 			"saved": "成功保存 {saved} 个会话。无法保存 {failed} 个会话。"
 		},
 		"vote": {
-			"description": "Quản lý hệ thống bỏ phiếu cho các lệnh nhạc",
+			"description": "管理音乐命令的投票系统",
 			"options": {
-				"toggle": "Bật hoặc tắt hệ thống bỏ phiếu",
-				"status": "Kiểm tra trạng thái hiện tại của hệ thống bỏ phiếu"
+				"toggle": "开启或关闭投票系统",
+				"status": "检查投票系统的当前状态"
 			}
+		},
+		"lavaconfig": {
+			"description": "运行时管理 LavaSrc 配置 🎵",
+			"errors": {
+				"service_unavailable": "LavaSrc 配置服务不可用。",
+				"missing_subcommand": "请提供子命令。可用: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`",
+				"missing_node": "缺少必要参数: `node`。示例: `!lavaconfig {subcommand} node:main`",
+				"unknown_subcommand": "未知子命令: `{subcommand}`。可用: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`"
+			},
+			"messages": {
+				"processing": "处理中...",
+				"config_updated_title": "✅ {source} 配置已更新",
+				"config_updated_desc": "已成功更新节点 **{nodeId}** 的 {source} 配置",
+				"updated_config": "已更新配置",
+				"view_title": "📋 LavaSrc 配置 - {nodeId}",
+				"nodes_title": "📡 Lavalink 节点",
+				"no_nodes": "没有可用节点。",
+				"total_nodes": "共 {count} 个节点"
+			},
+			"usage": {
+				"title": "用法",
+				"value": "`!lavaconfig <子命令> [选项]`\n示例: `!lavaconfig spotify node:main clientId:xxx`"
+			}
+		},
+		"youtubeconfig": {
+			"description": "运行时管理 YouTube 源配置 🎵",
+			"errors": {
+				"service_unavailable": "YouTube 配置服务不可用。",
+				"missing_subcommand": "请提供子命令。可用: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_node": "缺少必要参数: `node`。示例: `!youtubeconfig {subcommand} node:main`",
+				"unknown_subcommand": "未知子命令: `{subcommand}`。可用: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_oauth_option": "请提供至少一个选项: `refreshToken` 或 `skipInitialization`",
+				"missing_potoken_pair": "为了获得最佳效果，`poToken` 和 `visitorData` 应该一起提供",
+				"missing_refresh_token": "缺少必要参数: `refreshToken`。示例: `!youtubeconfig refresh-token node:main refreshToken:xxx`"
+			},
+			"messages": {
+				"processing": "处理中...",
+				"oauth_updated_title": "✅ YouTube OAuth 配置已更新",
+				"oauth_updated_desc": "已成功更新节点 **{nodeId}** 的 YouTube OAuth 配置",
+				"potoken_updated_title": "✅ YouTube poToken 配置已更新",
+				"potoken_updated_desc": "已成功更新节点 **{nodeId}** 的 YouTube poToken 配置",
+				"token_refreshed_title": "✅ OAuth 令牌已刷新",
+				"token_refreshed_desc": "已成功刷新节点 **{nodeId}** 的 OAuth 令牌",
+				"view_title": "📋 YouTube 源配置 - {nodeId}",
+				"nodes_title": "📡 Lavalink 节点",
+				"no_nodes": "没有可用节点。",
+				"total_nodes": "共 {count} 个节点",
+				"not_set": "未设置",
+				"na": "不适用"
+			},
+			"fields": {
+				"refresh_token": "刷新令牌",
+				"skip_initialization": "跳过初始化",
+				"potoken": "poToken",
+				"visitor_data": "访客数据",
+				"token_type": "令牌类型",
+				"expires_in": "过期时间",
+				"scope": "范围",
+				"access_token_truncated": "访问令牌（已截断）",
+				"updated": "✅ 已更新",
+				"not_changed": "⚪ 未更改",
+				"yes": "✅ 是",
+				"no": "❌ 否",
+				"important": "⚠️ 重要",
+				"oauth_warning": "OAuth 令牌应该保密。建议使用临时 YouTube 账号。",
+				"how_to_generate": "💡 如何生成",
+				"generator_link": "使用 [youtube-trusted-session-generator](https://github.com/iv-org/youtube-trusted-session-generator) 获取这些值。",
+				"note": "ℹ️ 注意",
+				"api_note": "API 只返回刷新令牌。poToken 和 visitorData 不会暴露。"
+			},
+			"usage": {
+				"title": "用法",
+				"value": "`!youtubeconfig <子命令> [选项]`\n示例: `!youtubeconfig oauth node:main refreshToken:xxx`"
+			}
+		},
+		"livelyrics": {
+			"description": "启用或禁用实时歌词同步"
 		}
 	},
 	"buttons": {
@@ -747,6 +831,28 @@
 		"no_listeners": "如果没人听，{time} 分钟后我就走了！来聊聊天？👂",
 		"no_songs": "{time} 分钟后我就走了 - 队列空了！添加一些歌吧 🎶"
 	},
+	"LIVE_LYRICS": {
+		"NO_PLAYER": "当前没有播放音乐。",
+		"NO_LYRICS": "这首歌没有找到同步歌词。",
+		"TITLE": "实时歌词 - {track}",
+		"CURRENT": "🎵 正在播放",
+		"STOPPED": "实时歌词已停止。",
+		"REFRESHED": "歌词已刷新！",
+		"ERROR": "获取歌词时发生错误。",
+		"ENDED": "歌曲已结束。实时歌词已停止。",
+		"PAUSED": "播放已暂停。歌词将在继续播放时恢复。",
+		"SEARCHING": "正在搜索同步歌词...",
+		"NO_SYNCED_TITLE": "⚠️ 同步歌词不可用",
+		"NO_SYNCED_DESCRIPTION": "找不到 **{trackTitle}** 的同步歌词。\n\n**替代方案：**\n• 使用 `/lyrics` 查看静态歌词\n• 尝试其他歌曲\n\n同步歌词最适用于 Spotify、Deezer 或 YouTube Music 上的热门歌曲。",
+		"ALREADY_RUNNING": "实时歌词已在运行！请先使用停止按钮结束它。",
+		"STARTED": "🎤 实时歌词已开始！请查看下方的消息。",
+		"PROGRESS": "进度",
+		"UPDATE_INTERVAL": "每 {seconds} 秒更新",
+		"CLICK_REFRESH": "点击刷新立即更新",
+		"NO_LYRICS_AVAILABLE": "暂无歌词",
+		"REFRESH_BUTTON": "刷新",
+		"STOP_BUTTON": "停止"
+	},
 	"will_restart_after": "{time} 后机器人将重启",
 	"maintenance": {
 		"title": "维护模式",
@@ -772,5 +878,42 @@
 	"Restart the bot": "重启机器人 🔄",
 	"The loop mode you want to set": "选择循环模式（关闭/单曲/队列）🔁",
 	"Show current maintenance status": "查看机器人是否在维护 🛠️",
-	"Show current maintenance status.": "查看维护状态 🛠️"
+	"Show current maintenance status.": "查看维护状态 🛠️",
+	"Manage LavaSrc configuration at runtime": "Manage LavaSrc configuration at runtime",
+	"Update Spotify configuration": "Update Spotify configuration",
+	"Update Apple Music configuration": "Update Apple Music configuration",
+	"Update Deezer configuration": "Update Deezer configuration",
+	"Update Yandex Music configuration": "Update Yandex Music configuration",
+	"Update VK Music configuration": "Update VK Music configuration",
+	"Update Qobuz configuration": "Update Qobuz configuration",
+	"Update yt-dlp configuration": "Update yt-dlp configuration",
+	"View current LavaSrc configuration for a node": "View current LavaSrc configuration for a node",
+	"List all available Lavalink nodes": "List all available Lavalink nodes",
+	"The Lavalink node ID": "The Lavalink node ID",
+	"Spotify client ID": "Spotify client ID",
+	"Spotify client secret": "Spotify client secret",
+	"Spotify sp_dc cookie value": "Spotify sp_dc cookie value",
+	"Prefer anonymous token": "Prefer anonymous token",
+	"Custom token endpoint URL": "Custom token endpoint URL",
+	"Apple Music media API token": "Apple Music media API token",
+	"Deezer ARL cookie value": "Deezer ARL cookie value",
+	"Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)": "Comma-separated formats (FLAC,MP3_320,MP3_256,MP3_128,MP3_64,AAC_64)",
+	"Yandex Music access token": "Yandex Music access token",
+	"VK Music user token": "VK Music user token",
+	"Qobuz user OAuth token": "Qobuz user OAuth token",
+	"Qobuz application ID": "Qobuz application ID",
+	"Qobuz application secret": "Qobuz application secret",
+	"Path to yt-dlp executable": "Path to yt-dlp executable",
+	"Custom load arguments (comma-separated)": "Custom load arguments (comma-separated)",
+	"Custom playback arguments (comma-separated)": "Custom playback arguments (comma-separated)",
+	"Manage YouTube source configuration at runtime": "Manage YouTube source configuration at runtime",
+	"Update YouTube OAuth configuration": "Update YouTube OAuth configuration",
+	"Update YouTube poToken configuration": "Update YouTube poToken configuration",
+	"View current YouTube source configuration": "View current YouTube source configuration",
+	"Refresh an OAuth token using a refresh token": "Refresh an OAuth token using a refresh token",
+	"YouTube OAuth2 refresh token": "YouTube OAuth2 refresh token",
+	"Skip OAuth initialization flow (recommended when providing token)": "Skip OAuth initialization flow (recommended when providing token)",
+	"Proof of Origin token (generate with youtube-trusted-session-generator)": "Proof of Origin token (generate with youtube-trusted-session-generator)",
+	"Visitor data associated with the poToken": "Visitor data associated with the poToken",
+	"The refresh token to use": "The refresh token to use"
 }

@@ -2,6 +2,7 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, type TextChannel } from '
 import type Lavamusic from '../structures/Lavamusic';
 import { T } from '../structures/I18n';
 import { activeBots } from '..';
+import { RateLimitTracker } from '../services/RateLimitTracker.js';
 
 /**
  * Map to store session start timestamps
@@ -33,6 +34,11 @@ const MESSAGE_INTERVAL_MS = 30 * 60 * 1000; // 30 minutes
 let periodicCheckInterval: NodeJS.Timeout | null = null;
 
 export class PeriodicMessageSystem {
+	/**
+	 * Rate limiter instance for Discord API operations
+	 */
+	private static rateLimiter: RateLimitTracker = RateLimitTracker.getInstance();
+
 	/**
 	 * Mark session start for a guild/bot combination
 	 */
@@ -72,30 +78,48 @@ export class PeriodicMessageSystem {
 					const players = Array.from(bot.manager.players.values());
 
 					for (const player of players) {
+						// DEBUG: Log player state
+						console.log(`[PERIODIC DEBUG] Guild: ${player.guildId}, Playing: ${player.playing}, Queue: ${player.queue.tracks.length}, State: ${player.toJSON()}, TextChannel: ${player.textChannelId}`);
+
 						// Only process if player is actively playing
-						if (!player.playing) continue;
+						if (!player.playing) {
+							console.log(`[PERIODIC DEBUG] Skipping guild ${player.guildId} - player not playing`);
+							continue;
+						}
 
 						activePlayersCount++;
 						const clientId = bot.childEnv.clientId;
 						const key = `${player.guildId}:${clientId}`;
 						const sessionStart = sessionStartTimes.get(key);
 						
+						console.log(`[PERIODIC DEBUG] Key: ${key}, SessionStart: ${sessionStart}`);
+						
 						if (!sessionStart) {
 							// Session not tracked yet, start it
+							console.log(`[PERIODIC DEBUG] No session found for ${key}, starting new session`);
 							this.startSession(player.guildId, clientId);
 							continue;
 						}
 
 						const lastMessageTime = lastMessageTimes.get(key) || sessionStart;
 						const timeSinceLastMessage = now - lastMessageTime;
+						const minutesSinceLastMessage = Math.floor(timeSinceLastMessage / 60000);
+
+						console.log(`[PERIODIC DEBUG] LastMessageTime: ${lastMessageTime}, TimeSince: ${minutesSinceLastMessage} min, Interval: ${MESSAGE_INTERVAL_MS / 60000} min`);
 
 						// Check if 30 minutes have passed since last message
 						if (timeSinceLastMessage >= MESSAGE_INTERVAL_MS) {
+							console.log(`[PERIODIC DEBUG] Sending periodic message to guild ${player.guildId}`);
 							await this.sendPeriodicMessage(bot, player.guildId, player.textChannelId!);
 							lastMessageTimes.set(key, now);
+							console.log(`[PERIODIC DEBUG] Message sent successfully, updated lastMessageTime`);
+						} else {
+							console.log(`[PERIODIC DEBUG] Not sending message yet - ${minutesSinceLastMessage} min elapsed, need ${MESSAGE_INTERVAL_MS / 60000} min`);
 						}
 					}
 				}
+				
+				console.log(`[PERIODIC DEBUG] Check completed. Active players: ${activePlayersCount}`);
 			} catch (error) {
 				console.error('[PERIODIC MESSAGES] Check error:', error);
 			}
@@ -158,18 +182,32 @@ export class PeriodicMessageSystem {
 		textChannelId: string
 	): Promise<void> {
 		try {
+			console.log(`[PERIODIC DEBUG] sendPeriodicMessage called for guild ${guildId}, textChannel ${textChannelId}`);
+			
 			const guild = client.guilds.cache.get(guildId);
-			if (!guild) return;
+			if (!guild) {
+				console.log(`[PERIODIC DEBUG] Guild ${guildId} not found in cache`);
+				return;
+			}
 
 			const player = client.manager.getPlayer(guildId);
-			if (!player || !player.playing) return;
+			if (!player || !player.playing) {
+				console.log(`[PERIODIC DEBUG] Player not found or not playing for guild ${guildId}. Player exists: ${!!player}, Playing: ${player?.playing}`);
+				return;
+			}
 
 			const textChannel = guild.channels.cache.get(textChannelId) as TextChannel;
-			if (!textChannel) return;
+			if (!textChannel) {
+				console.log(`[PERIODIC DEBUG] Text channel ${textChannelId} not found in guild ${guildId}`);
+				return;
+			}
 
 			// Check how many bots are in the voice channel
 			const voiceChannel = guild.channels.cache.get(player.voiceChannelId!);
-			if (!voiceChannel || !('members' in voiceChannel)) return;
+			if (!voiceChannel || !('members' in voiceChannel)) {
+				console.log(`[PERIODIC DEBUG] Voice channel ${player.voiceChannelId} not found or invalid`);
+				return;
+			}
 
 			const totalBotsAvailable = activeBots.filter(bot =>
 				guild.members.cache.has(bot.user!.id)
@@ -179,6 +217,8 @@ export class PeriodicMessageSystem {
 				? Array.from(voiceChannel.members.values()).filter((m: any) => m.user.bot).length
 				: 0;
 			const needsMoreBots = botsInVC < totalBotsAvailable;
+
+			console.log(`[PERIODIC DEBUG] Bots in VC: ${botsInVC}, Total available: ${totalBotsAvailable}, Needs more: ${needsMoreBots}`);
 
 			const currentLocale = await client.db.getLanguage(guildId);
 			const buttons = new ActionRowBuilder<ButtonBuilder>();
@@ -196,7 +236,7 @@ export class PeriodicMessageSystem {
 				buttons.addComponents(
 					new ButtonBuilder()
 						.setLabel(T(currentLocale, 'player.trackStart.get_more_bots_button'))
-						.setURL('https://ductridev.github.io/multi-distube-bots/')
+						.setURL('https://music-bots.tuitenbo.com')
 						.setStyle(ButtonStyle.Link)
 				);
 			}
@@ -214,10 +254,23 @@ export class PeriodicMessageSystem {
 				})
 				.setTimestamp();
 
-			await textChannel.send({
-				embeds: [periodicEmbed],
-				components: [buttons],
-			}).catch(() => null);
+			console.log(`[PERIODIC DEBUG] Sending message to channel ${textChannelId}`);
+			try {
+				await this.rateLimiter.throttled(async () => {
+					await textChannel.send({
+						embeds: [periodicEmbed],
+						components: [buttons],
+					});
+				});
+				console.log(`[PERIODIC DEBUG] Message sent successfully to guild ${guildId}`);
+			} catch (error: any) {
+				if (error.code === 429 || error.status === 429) {
+					const info = this.rateLimiter.handleRateLimitError(error);
+					console.error(`[PERIODIC] Rate limited in guild ${guildId}. Scope: ${info.scope}, Retry after: ${info.retryAfterMs}ms`);
+				} else {
+					console.error(`[PERIODIC DEBUG] Failed to send message:`, error);
+				}
+			}
 		} catch (error) {
 			console.error('[PERIODIC MESSAGES] Failed to send message:', error);
 		}

@@ -3,21 +3,15 @@
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { useDashboardStore } from "@/store/dashboard";
 import { Music2, Users, Server, Activity } from "lucide-react";
 import { formatNumber } from "@/lib/utils";
 
 export default function DashboardPage() {
-  const { setStats, setBots, setPlayers } = useDashboardStore();
-
+  // Use React Query as single source of truth - no redundant store updates
   // Fetch statistics
   const { data: stats, isLoading: statsLoading } = useQuery({
     queryKey: ["stats"],
-    queryFn: async () => {
-      const data = await api.getStatsOverview();
-      setStats(data);
-      return data;
-    },
+    queryFn: () => api.getStatsOverview(),
     refetchInterval: 30000, // Refresh every 30 seconds
   });
 
@@ -26,7 +20,6 @@ export default function DashboardPage() {
     queryKey: ["bots"],
     queryFn: async () => {
       const data = await api.getBots();
-      setBots(data || []);
       return data || [];
     },
     refetchInterval: 30000,
@@ -37,7 +30,6 @@ export default function DashboardPage() {
     queryKey: ["players"],
     queryFn: async () => {
       const data = await api.getPlayers();
-      setPlayers(data || []);
       return data || [];
     },
     refetchInterval: 10000, // Refresh every 10 seconds
@@ -72,7 +64,7 @@ export default function DashboardPage() {
     },
     {
       label: "Total Tracks Played",
-      value: stats?.totalTracks || 0,
+      value: stats?.totalPlays || 0,
       icon: Activity,
       color: "bg-pink-500",
       bgColor: "bg-pink-50",

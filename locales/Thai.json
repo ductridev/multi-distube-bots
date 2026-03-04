@@ -570,6 +570,13 @@
     },
     "loop_queue": {
       "description": "วนคิวเพลงทั้งหมด"
+    },
+    "vote": {
+      "description": "จัดการระบบโหวตสำหรับคำสั่งเพลง",
+      "options": {
+        "toggle": "เปิดหรือปิดระบบโหวต",
+        "status": "ตรวจสอบสถานะปัจจุบันของระบบโหวต"
+      }
     }
   },
   "buttons": {
@@ -620,6 +627,97 @@
       "playlist_too_long": "เพลย์ลิสต์ยาวเกินไป สูงสุด {maxPlaylistSize} เพลง",
       "added_to_queue": "เพิ่ม [{title}]({uri}) ลงในคิวแล้ว",
       "added_playlist_to_queue": "เพิ่ม {length} เพลงจากเพลย์ลิสต์ลงในคิวแล้ว"
+    },
+    "lavaconfig": {
+      "description": "จัดการการตั้งค่า LavaSrc แบบเรียลไทม์! อัปเดตบริการได้ทันที ⚙️",
+      "errors": {
+        "service_unavailable": "บริการ Lavalink ไม่พร้อมใช้งาน กรุณาตรวจสอบว่า Lavalink กำลังทำงาน! 🔧",
+        "missing_subcommand": "กรุณาระบุคำสั่งย่อย! ลอง: spotify, applemusic, deezer, yandexmusic, flowerytts, ttsloc, view หรือ nodes",
+        "missing_node": "กรุณาระบุชื่อโหนด! ใช้ 'nodes' เพื่อดูโหนดที่พร้อมใช้งาน 📋",
+        "unknown_subcommand": "คำสั่งย่อยไม่ถูกต้อง! ลอง: spotify, applemusic, deezer, yandexmusic, flowerytts, ttsloc, view หรือ nodes"
+      },
+      "messages": {
+        "processing": "กำลังประมวลผลคำขอของคุณ... ⚙️",
+        "config_updated_title": "อัปเดตการตั้งค่า LavaSrc แล้ว",
+        "config_updated_desc": "อัปเดตการตั้งค่า {service} สำเร็จสำหรับโหนด **{node}**! การเปลี่ยนแปลงถูกนำไปใช้แล้ว ✅",
+        "view_title": "การตั้งค่า LavaSrc",
+        "nodes_title": "โหนด Lavalink ที่พร้อมใช้งาน",
+        "no_nodes": "ไม่มีโหนด Lavalink พร้อมใช้งาน! กรุณาตรวจสอบว่า Lavalink เชื่อมต่อแล้ว 🔌",
+        "total_nodes": "จำนวนโหนดทั้งหมด: {count}"
+      },
+      "fields": {
+        "client_id": "Client ID",
+        "client_secret": "Client Secret",
+        "api_key": "API Key",
+        "decode_track": "ถอดรหัสแทร็ก",
+        "country_code": "รหัสประเทศ",
+        "playlist_limit": "ขีดจำกัดเพลย์ลิสต์",
+        "album_limit": "ขีดจำกัดอัลบั้ม",
+        "search_limit": "ขีดจำกัดการค้นหา",
+        "isrc_search": "ค้นหา ISRC",
+        "fallback_search": "ค้นหาสำรอง",
+        "load_timeout": "หมดเวลาโหลด",
+        "spotify_enabled": "เปิด Spotify",
+        "apple_enabled": "เปิด Apple Music",
+        "deezer_enabled": "เปิด Deezer"
+      },
+      "usage": {
+        "title": "วิธีใช้",
+        "value": "`/lavaconfig <คำสั่งย่อย> <โหนด> [ตัวเลือก]`\nใช้คำสั่งย่อยเพื่อตั้งค่าบริการต่างๆ"
+      }
+    },
+    "youtubeconfig": {
+      "description": "จัดการการตั้งค่าแหล่งที่มา YouTube แบบเรียลไทม์! ควบคุมการตั้งค่า OAuth และ poToken 🎬",
+      "errors": {
+        "service_unavailable": "บริการ Lavalink ไม่พร้อมใช้งาน กรุณาตรวจสอบว่า Lavalink กำลังทำงาน! 🔧",
+        "missing_subcommand": "กรุณาระบุคำสั่งย่อย! ลอง: oauth, potoken, view หรือ nodes",
+        "missing_node": "กรุณาระบุชื่อโหนด! ใช้ 'nodes' เพื่อดูโหนดที่พร้อมใช้งาน 📋",
+        "unknown_subcommand": "คำสั่งย่อยไม่ถูกต้อง! ลอง: oauth, potoken, view หรือ nodes",
+        "missing_oauth_option": "กรุณาระบุตัวเลือก OAuth! ลอง: email, authorization หรือ skip",
+        "missing_potoken_pair": "กรุณาระบุทั้ง poToken และ visitorData สำหรับตัวเลือก pair!",
+        "missing_refresh_token": "ขาด refresh token! การตั้งค่า OAuth ต้องการ refresh token"
+      },
+      "messages": {
+        "processing": "กำลังประมวลผลคำขอของคุณ... ⚙️",
+        "oauth_updated_title": "อัปเดต YouTube OAuth แล้ว",
+        "potoken_updated_title": "อัปเดต YouTube poToken แล้ว",
+        "token_refreshed_title": "รีเฟรช YouTube Token แล้ว",
+        "view_title": "การตั้งค่าแหล่งที่มา YouTube",
+        "nodes_title": "โหนด Lavalink ที่พร้อมใช้งาน",
+        "not_set": "ยังไม่ได้ตั้งค่า",
+        "na": "ไม่มีข้อมูล"
+      },
+      "fields": {
+        "refresh_token": "Refresh Token",
+        "skip_initialization": "ข้ามการเริ่มต้น",
+        "potoken": "poToken",
+        "visitor_data": "ข้อมูลผู้เยี่ยมชม",
+        "po_token": "poToken",
+        "visitor_data_short": "ข้อมูลผู้เยี่ยมชม",
+        "oauth_email": "อีเมล OAuth",
+        "authorization": "การอนุญาต",
+        "skip": "ข้าม",
+        "pair": "คู่",
+        "refresh": "รีเฟรช",
+        "email": "อีเมล",
+        "authorization_code": "รหัสการอนุญาต",
+        "status": "สถานะ",
+        "enabled": "เปิด",
+        "disabled": "ปิด",
+        "last_updated": "อัปเดตล่าสุด"
+      },
+      "usage": {
+        "title": "วิธีใช้",
+        "value": "`/youtubeconfig <คำสั่งย่อย> <โหนด> [ตัวเลือก]`\nใช้ oauth เพื่อตั้งค่า OAuth, potoken สำหรับการตั้งค่า poToken"
+      }
+    },
+    "livelyrics": {
+      "description": "แสดงเนื้อเพลงที่ซิงค์แบบเรียลไทม์สำหรับเพลงปัจจุบันในโหมดคาราโอเกะ",
+      "aliases": "karaoke, syncedlyrics",
+      "errors": {
+        "no_player": "ไม่มีเพลงกำลังเล่นอยู่ในขณะนี้",
+        "no_synced": "ไม่พบเนื้อเพลงที่ซิงค์สำหรับเพลงนี้"
+      }
     }
   },
   "event": {
@@ -718,5 +816,27 @@
   "List all guilds the bot is in": "แสดงรายชื่อเซิร์ฟเวอร์ทั้งหมดที่บอทอยู่",
 	"Restart the bot": "รีสตาร์ทบอท",
 	"The loop mode you want to set": "โหมดวนซ้ำที่คุณต้องการตั้งค่า",
-	"Show current maintenance status": "แสดงสถานะการบำรุงรักษาปัจจุบัน"
+	"Show current maintenance status": "แสดงสถานะการบำรุงรักษาปัจจุบัน",
+	"LIVE_LYRICS": {
+		"NO_PLAYER": "ไม่มีเพลงกำลังเล่นอยู่ในขณะนี้",
+		"NO_LYRICS": "ไม่พบเนื้อเพลงที่ซิงค์สำหรับเพลงนี้",
+		"TITLE": "🎵 เนื้อเพลงสด",
+		"CURRENT": "ปัจจุบัน",
+		"STOPPED": "หยุดเนื้อเพลงสดแล้ว",
+		"REFRESHED": "รีเฟรชเนื้อเพลงสดแล้ว!",
+		"ERROR": "เกิดข้อผิดพลาดในการดึงเนื้อเพลง",
+		"ENDED": "สิ้นสุดเนื้อเพลงสดแล้ว",
+		"PAUSED": "หยุดเนื้อเพลงสดชั่วคราว",
+		"SEARCHING": "กำลังค้นหาเนื้อเพลงที่ซิงค์...",
+		"NO_SYNCED_TITLE": "ไม่มีเนื้อเพลงที่ซิงค์",
+		"NO_SYNCED_DESCRIPTION": "เพลงนี้ไม่มีเนื้อเพลงที่ซิงค์ (มีการกำกับด้วยเวลา) คุณสามารถลองใช้คำสั่ง `{prefix}lyrics` ปกติสำหรับเนื้อเพลงแบบข้อความธรรมดา",
+		"ALREADY_RUNNING": "เนื้อเพลงสดกำลังทำงานอยู่สำหรับเซิร์ฟเวอร์นี้แล้ว!",
+		"STARTED": "เริ่มเนื้อเพลงสดแล้ว! การแสดงผลจะอัปเดตโดยอัตโนมัติขณะเพลงเล่น",
+		"PROGRESS": "ความคืบหน้า",
+		"UPDATE_INTERVAL": "อัปเดตทุก {seconds} วินาที",
+		"CLICK_REFRESH": "คลิกรีเฟรชเพื่ออัปเดตทันที",
+		"NO_LYRICS_AVAILABLE": "ไม่มีเนื้อเพลง",
+		"REFRESH_BUTTON": "รีเฟรช",
+		"STOP_BUTTON": "หยุด"
+	}
 }

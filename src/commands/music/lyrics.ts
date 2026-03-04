@@ -6,7 +6,7 @@ import {
 	ComponentType,
 	type TextChannel,
 } from 'discord.js';
-import { getLyrics } from 'genius-lyrics-api';
+// import { getLyrics } from 'genius-lyrics-api';
 import { Command, type Context, type Lavamusic } from '../../structures/index';
 
 export default class Lyrics extends Command {
@@ -50,26 +50,23 @@ export default class Lyrics extends Command {
 
 		const track = player.queue.current!;
 		const trackTitle = track.info.title.replace(/\[.*?\]/g, '').trim();
-		const artistName = track.info.author.replace(/\[.*?\]/g, '').trim();
+		// const artistName = track.info.author.replace(/\[.*?\]/g, '').trim();
 		const trackUrl = track.info.uri;
 		const artworkUrl = track.info.artworkUrl;
 
 		await ctx.sendDeferMessage(ctx.locale('cmd.lyrics.searching', { trackTitle }));
 
-		const options = {
-			apiKey: client.env.GENIUS_API,
-			title: trackTitle,
-			artist: artistName,
-			optimizeQuery: true,
-		};
+		// const options = {
+		// 	apiKey: client.env.GENIUS_API,
+		// 	title: trackTitle,
+		// 	artist: artistName,
+		// 	optimizeQuery: true,
+		// };
 
 		try {
 			let lyrics = '';
-			try {
-				lyrics = await getLyrics(options);
-			} catch (e) {
-				lyrics = (await this.client.manager.getPlayer(ctx.guild!.id)!.getLyrics(track, true)).text ?? '';
-			}
+			lyrics = (await player.getCurrentLyrics(true))?.text ?? '';
+
 			if (lyrics) {
 				const lyricsPages = this.paginateLyrics(lyrics);
 				let currentPage = 0;

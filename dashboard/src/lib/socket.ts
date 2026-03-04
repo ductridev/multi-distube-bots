@@ -179,6 +179,25 @@ class DashboardSocketClient {
     }
   }
 
+  /**
+   * Update the authentication token for the socket connection.
+   * This is useful when the user re-authenticates and the token changes.
+   * If the socket is connected, it will reconnect with the new token.
+   */
+  updateAuthToken(token: string): void {
+    if (this.socket) {
+      // Update the auth data for the existing socket
+      this.socket.auth = { token };
+      
+      // If connected, we need to reconnect to use the new token
+      if (this.connected) {
+        console.log("[Socket] 🔄 Reconnecting with new auth token...");
+        this.socket.disconnect();
+        this.socket.connect();
+      }
+    }
+  }
+
   isConnected(): boolean {
     return this.connected;
   }

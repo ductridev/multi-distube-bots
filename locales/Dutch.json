@@ -279,6 +279,13 @@
 				"lyrics_error": "Er is een fout opgetreden bij het ophalen van de songtekst."
 			}
 		},
+		"livelyrics": {
+			"description": "Toon gesynchroniseerde songteksten voor het huidige nummer! Karaoke-modus 🎤",
+			"errors": {
+				"no_player": "Er wordt momenteel geen muziek afgespeeld.",
+				"no_synced": "Geen gesynchroniseerde songteksten gevonden voor dit nummer."
+			}
+		},
 		"nowplaying": {
 			"description": "Toont het huidige nummer",
 			"now_playing": "Nu Spelend",
@@ -579,6 +586,80 @@
 		"loop_queue": {
 			"description": "Schakel herhalen van de wachtrij in/uit."
 		},
+		"lavaconfig": {
+			"description": "Beheer LavaSrc-configuratie tijdens runtime 🎵",
+			"errors": {
+				"service_unavailable": "LavaSrc-configuratieservice is niet beschikbaar.",
+				"missing_subcommand": "Geef een subcommando op. Beschikbaar: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`",
+				"missing_node": "Ontbrekend vereist argument: `node`. Voorbeeld: `!lavaconfig {subcommand} node:main`",
+				"unknown_subcommand": "Onbekend subcommando: `{subcommand}`. Beschikbaar: `spotify`, `applemusic`, `deezer`, `yandexmusic`, `vkmusic`, `qobuz`, `ytdlp`, `view`, `list-nodes`"
+			},
+			"messages": {
+				"processing": "Verwerken...",
+				"config_updated_title": "✅ {source} Configuratie Bijgewerkt",
+				"config_updated_desc": "Succesvol {source} configuratie bijgewerkt voor node **{nodeId}**",
+				"updated_config": "Bijgewerkte Configuratie",
+				"view_title": "📋 LavaSrc Configuratie - {nodeId}",
+				"nodes_title": "📡 Lavalink Nodes",
+				"no_nodes": "Geen nodes beschikbaar.",
+				"total_nodes": "Totaal: {count} node(s)"
+			},
+			"usage": {
+				"title": "Gebruik",
+				"value": "`!lavaconfig <subcommand> [opties]`\nVoorbeeld: `!lavaconfig spotify node:main clientId:xxx`"
+			}
+		},
+		"youtubeconfig": {
+			"description": "Beheer YouTube-bronconfiguratie tijdens runtime 🎵",
+			"errors": {
+				"service_unavailable": "YouTube-configuratieservice is niet beschikbaar.",
+				"missing_subcommand": "Geef een subcommando op. Beschikbaar: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_node": "Ontbrekend vereist argument: `node`. Voorbeeld: `!youtubeconfig {subcommand} node:main`",
+				"unknown_subcommand": "Onbekend subcommando: `{subcommand}`. Beschikbaar: `oauth`, `potoken`, `view`, `refresh-token`, `list-nodes`",
+				"missing_oauth_option": "Geef minimaal één optie op: `refreshToken` of `skipInitialization`",
+				"missing_potoken_pair": "Zowel `poToken` als `visitorData` moeten samen worden opgegeven voor beste resultaten",
+				"missing_refresh_token": "Ontbrekend vereist argument: `refreshToken`. Voorbeeld: `!youtubeconfig refresh-token node:main refreshToken:xxx`"
+			},
+			"messages": {
+				"processing": "Verwerken...",
+				"oauth_updated_title": "✅ YouTube OAuth Configuratie Bijgewerkt",
+				"oauth_updated_desc": "Succesvol YouTube OAuth configuratie bijgewerkt voor node **{nodeId}**",
+				"potoken_updated_title": "✅ YouTube poToken Configuratie Bijgewerkt",
+				"potoken_updated_desc": "Succesvol YouTube poToken configuratie bijgewerkt voor node **{nodeId}**",
+				"token_refreshed_title": "✅ OAuth Token Vernieuwd",
+				"token_refreshed_desc": "Succesvol OAuth token vernieuwd voor node **{nodeId}**",
+				"view_title": "📋 YouTube Bron Configuratie - {nodeId}",
+				"nodes_title": "📡 Lavalink Nodes",
+				"no_nodes": "Geen nodes beschikbaar.",
+				"total_nodes": "Totaal: {count} node(s)",
+				"not_set": "Niet ingesteld",
+				"na": "N.v.t."
+			},
+			"fields": {
+				"refresh_token": "Vernieuwingstoken",
+				"skip_initialization": "Initialisatie Overslaan",
+				"potoken": "poToken",
+				"visitor_data": "Bezoekersgegevens",
+				"token_type": "Tokentype",
+				"expires_in": "Verloopt Over",
+				"scope": "Bereik",
+				"access_token_truncated": "Toegangstoken (ingekort)",
+				"updated": "✅ Bijgewerkt",
+				"not_changed": "⚪ Niet gewijzigd",
+				"yes": "✅ Ja",
+				"no": "❌ Nee",
+				"important": "⚠️ Belangrijk",
+				"oauth_warning": "OAuth-tokens moeten geheim worden gehouden. Overweeg het gebruik van een burner YouTube-account.",
+				"how_to_generate": "💡 Hoe te Genereren",
+				"generator_link": "Gebruik [youtube-trusted-session-generator](https://github.com/iv-org/youtube-trusted-session-generator) om deze waarden te verkrijgen.",
+				"note": "ℹ️ Opmerking",
+				"api_note": "Alleen de vernieuwingstoken wordt geretourneerd door de API. poToken en visitorData worden niet blootgesteld."
+			},
+			"usage": {
+				"title": "Gebruik",
+				"value": "`!youtubeconfig <subcommand> [opties]`\nVoorbeeld: `!youtubeconfig oauth node:main refreshToken:xxx`"
+			}
+		},
 		"announce": {
 			"messages": {
 				"default_content": "De bot is in onderhoud en we kunnen de bot opnieuw opstarten. Gebruik daarom het commando bresumesesssion nadat het onderhoud is voltooid om verder te gaan met luisteren."
@@ -591,6 +672,13 @@
 		},
 		"save_session": {
 			"saved": "Succesvol {saved} sessie(s) opgeslagen. Kan {failed} sessie(s) niet opslaan."
+		},
+		"vote": {
+			"description": "Beheer het stemsysteem voor muziekcommando's",
+			"options": {
+				"toggle": "Schakel het stemsysteem in of uit",
+				"status": "Controleer de huidige status van het stemsysteem"
+			}
 		}
 	},
 	"buttons": {
@@ -736,6 +824,28 @@
 	"will_leave": {
 		"no_listeners": "Bot zal vertrekken over {time} minuten vanwege geen luisteraars.",
 		"no_songs": "Bot zal vertrekken over {time} minuten vanwege geen nummers."
+	},
+	"LIVE_LYRICS": {
+		"NO_PLAYER": "Er wordt momenteel geen muziek afgespeeld.",
+		"NO_LYRICS": "Geen gesynchroniseerde songteksten gevonden voor dit nummer.",
+		"TITLE": "Live Songtekst - {track}",
+		"CURRENT": "🎵 NU SPELEND",
+		"STOPPED": "Live songtekst gestopt.",
+		"REFRESHED": "Songtekst vernieuwd!",
+		"ERROR": "Er is een fout opgetreden bij het ophalen van de songtekst.",
+		"ENDED": "Nummer beëindigd. Live songtekst gestopt.",
+		"PAUSED": "Afspelen gepauzeerd. Songtekst wordt hervat wanneer het afspelen doorgaat.",
+		"SEARCHING": "Zoeken naar gesynchroniseerde songteksten...",
+		"NO_SYNCED_TITLE": "⚠️ Gesynchroniseerde Songtekst Niet Beschikbaar",
+		"NO_SYNCED_DESCRIPTION": "Kon geen gesynchroniseerde songteksten vinden voor **{trackTitle}**.\n\n**Alternatieven:**\n• Gebruik `/lyrics` voor statische songteksten\n• Probeer een ander nummer\n\nGesynchroniseerde songteksten werken het beste met populaire nummers van Spotify, Deezer of YouTube Music.",
+		"ALREADY_RUNNING": "Live songtekst is al actief! Gebruik eerst de stopknop om te beëindigen.",
+		"STARTED": "🎤 Live songtekst gestart! Bekijk het bericht hieronder.",
+		"PROGRESS": "Voortgang",
+		"UPDATE_INTERVAL": "Updates elke {seconds} seconden",
+		"CLICK_REFRESH": "Klik Vernieuwen voor directe update",
+		"NO_LYRICS_AVAILABLE": "Geen songteksten beschikbaar",
+		"REFRESH_BUTTON": "Vernieuwen",
+		"STOP_BUTTON": "Stoppen"
 	},
 	"will_restart_after": "Bot zal opnieuw opstarten over {time}",
 	"maintenance": {
