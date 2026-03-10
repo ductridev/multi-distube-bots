@@ -43,9 +43,23 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // Note: WebSocket headers (Connection, Upgrade) cannot be set via Next.js headers() config.
-  // These headers are handled at the server/proxy level (e.g., nginx, reverse proxy).
-  // The rewrites above properly proxy socket.io connections without needing custom headers.
+  async headers() {
+    return [
+      {
+        source: '/socket.io/:path*',
+        headers: [
+          {
+            key: 'Connection',
+            value: 'Upgrade',
+          },
+          {
+            key: 'Upgrade',
+            value: 'websocket',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
