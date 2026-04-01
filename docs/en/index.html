@@ -11,10 +11,10 @@
         content="Multiple Discord music bots that play music from YouTube, Spotify, and SoundCloud - like having multiple Jockie Bots." />
     <meta property="og:image"
         content="https://raw.githubusercontent.com/ductridev/multi-distube-bots/master/assets/img/bot-avatar-1.jpg" />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" async></script>
 
     <!-- Google Analytics -->
-    <script src="../shared/analytics.js"></script>
+    <script src="../shared/analytics.js" async></script>
 
     <style type="text/tailwindcss">
         @variant dark (&:where(.dark, .dark *));
@@ -243,7 +243,7 @@
     </div>
 
     <!-- YouTube iFrame API & Scripts -->
-    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="https://www.youtube.com/iframe_api" async></script>
     <script>
         let player;
         let musicEnabled = false;
