@@ -4,7 +4,7 @@ const { Signale } = pkg;
 const options: SignaleOptions = {
 	disabled: false,
 	interactive: false,
-	logLevel: 'info',
+	logLevel: 'warn',
 	scope: 'Lavamusic',
 	types: {
 		info: {
