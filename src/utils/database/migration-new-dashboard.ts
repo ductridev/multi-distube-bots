@@ -547,13 +547,19 @@ export async function deleteTemporaryAnnouncement(id: string): Promise<void> {
 
 /**
  * Update lastSentAt and increment sendCount
+ * @param id Announcement ID
+ * @param messageIds Optional map of channelId -> messageId for tracking sent messages
  */
-export async function markAnnouncementSent(id: string): Promise<void> {
+export async function markAnnouncementSent(
+  id: string,
+  messageIds?: Record<string, string>
+): Promise<void> {
   await prisma.temporaryAnnouncement.update({
     where: { id },
     data: {
       lastSentAt: new Date(),
       sendCount: { increment: 1 },
+      ...(messageIds && { lastMessageIds: messageIds }),
     },
   });
 }
@@ -618,6 +624,90 @@ export async function getTemporaryAnnouncementStats() {
     expired,
     totalSends: totalSends._sum.sendCount ?? 0,
   };
+}
+
+// ==================== PeriodicMessageTracker Utilities ====================
+
+import type { PeriodicMessageTracker } from '@prisma/client';
+
+/**
+ * Get periodic message tracker for a guild/bot combination
+ */
+export async function getPeriodicMessageTracker(
+  guildId: string,
+  botClientId: string
+): Promise<PeriodicMessageTracker | null> {
+  return await prisma.periodicMessageTracker.findUnique({
+    where: {
+      guildId_botClientId: { guildId, botClientId }
+    }
+  });
+}
+
+/**
+ * Upsert periodic message tracker with new message ID
+ */
+export async function upsertPeriodicMessageTracker(
+  guildId: string,
+  botClientId: string,
+  channelId: string,
+  messageId: string
+): Promise<void> {
+  await prisma.periodicMessageTracker.upsert({
+    where: {
+      guildId_botClientId: { guildId, botClientId }
+    },
+    update: {
+      channelId,
+      messageId,
+      sentAt: new Date()
+    },
+    create: {
+      guildId,
+      botClientId,
+      channelId,
+      messageId
+    }
+  });
+}
+
+/**
+ * Delete periodic message tracker when session ends
+ */
+export async function deletePeriodicMessageTracker(
+  guildId: string,
+  botClientId: string
+): Promise<void> {
+  try {
+    await prisma.periodicMessageTracker.delete({
+      where: {
+        guildId_botClientId: { guildId, botClientId }
+      }
+    });
+  } catch {
+    // Ignore if not found
+  }
+}
+
+/**
+ * Cleanup old periodic message trackers
+ * Removes trackers older than specified days
+ * @param daysOld - Delete trackers older than this many days
+ * @returns Number of deleted records
+ */
+export async function cleanupOldPeriodicMessageTrackers(daysOld: number = 7): Promise<number> {
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - daysOld);
+
+  const result = await prisma.periodicMessageTracker.deleteMany({
+    where: {
+      updatedAt: {
+        lt: cutoffDate
+      }
+    }
+  });
+
+  return result.count;
 }
 
 export { prisma };
