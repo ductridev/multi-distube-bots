@@ -48,8 +48,14 @@ export default class PlayerCreate extends Event {
 			player
 		);
 
-		this.client.playerSaver!.set(player.guildId, JSON.stringify(player.toJSON()));
-		// await this.client.db.setSavedPlayerData(player.toJSON(), this.client.childEnv.clientId);
+		// Only save to playerSaver if the new player has queue data, or no saved data exists yet.
+		// This prevents 247 reconnection (empty player) from overwriting saved state that has tracks.
+		const existingSaved = this.client.playerSaver!.getPlayer(player.guildId);
+		const hasExistingQueue = existingSaved?.queue?.current || (existingSaved?.queue?.tracks && existingSaved.queue.tracks.length > 0);
+		const hasNewQueue = player.queue.current || player.queue.tracks.length > 0;
+		if (!hasExistingQueue || hasNewQueue) {
+			this.client.playerSaver!.set(player.guildId, JSON.stringify(player.toJSON()));
+		}
 	}
 }
 
