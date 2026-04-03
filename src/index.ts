@@ -9,6 +9,9 @@ import { startApiServer } from './api/server';
 import { PeriodicMessageSystem } from './utils/PeriodicMessageSystem';
 import { startCleanupScheduler } from './services/DatabaseCleanup';
 import { TemporaryAnnouncementService } from './services/TemporaryAnnouncementService';
+import Logger from './structures/Logger';
+
+const logger = new Logger('Main');
 
 const prisma = new PrismaClient();
 
@@ -46,7 +49,7 @@ export function registerBot(botInstance: Lavamusic) {
 		try {
 			await syncBotWithGuilds(botInstance);
 		} catch (error) {
-			console.error(`Failed to sync bot ${botInstance.childEnv.clientId} with guilds:`, error);
+			logger.error(`Failed to sync bot ${botInstance.childEnv.clientId} with guilds:`, error);
 		}
 	});
 }
@@ -61,11 +64,11 @@ async function syncBotWithGuilds(botInstance: Lavamusic) {
 			await addBotToGuild(guildId, botInstance.childEnv.clientId);
 			syncedCount++;
 		} catch (error) {
-			console.error(`Failed to sync bot ${botInstance.childEnv.clientId} with guild ${guildId} (${guild.name}):`, error);
+			logger.error(`Failed to sync bot ${botInstance.childEnv.clientId} with guild ${guildId} (${guild.name}):`, error);
 		}
 	}
 
-	console.log(`Bot ${botInstance.childEnv.clientId} synced with ${syncedCount}/${guilds.size} guilds`);
+	logger.info(`Bot ${botInstance.childEnv.clientId} synced with ${syncedCount}/${guilds.size} guilds`);
 }
 
 // Guild bot preference management
@@ -123,7 +126,7 @@ async function saveBotPreferencesToDB(guildId: string, clientIds: string[]) {
 			create: { guildId, botClientIds: clientIds }
 		});
 	} catch (error) {
-		console.error(`Failed to save bot preferences for guild ${guildId}:`, error);
+		logger.error(`Failed to save bot preferences for guild ${guildId}:`, error);
 	}
 }
 
@@ -133,7 +136,7 @@ async function deleteBotPreferencesFromDB(guildId: string) {
 			where: { guildId }
 		});
 	} catch (error) {
-		console.error(`Failed to delete bot preferences for guild ${guildId}:`, error);
+		logger.error(`Failed to delete bot preferences for guild ${guildId}:`, error);
 	}
 }
 
@@ -143,15 +146,15 @@ export async function loadBotPreferencesFromDB() {
 		for (const pref of preferences) {
 			guildBotPreferences.set(pref.guildId, pref.botClientIds);
 		}
-		console.log(`Loaded bot preferences for ${preferences.length} guilds`);
+		logger.info(`Loaded bot preferences for ${preferences.length} guilds`);
 	} catch (error) {
-		console.error('Failed to load bot preferences from database:', error);
+		logger.error('Failed to load bot preferences from database:', error);
 	}
 }
 
 // Utility function to manually sync all active bots with their current guilds
 export async function syncAllBotsWithGuilds() {
-	console.log('Starting manual sync of all bots with their guilds...');
+	logger.info('Starting manual sync of all bots with their guilds...');
 	let totalSynced = 0;
 
 	for (const bot of activeBots) {
@@ -160,12 +163,12 @@ export async function syncAllBotsWithGuilds() {
 				await syncBotWithGuilds(bot);
 				totalSynced++;
 			} catch (error) {
-				console.error(`Failed to sync bot ${bot.childEnv.clientId}:`, error);
+				logger.error(`Failed to sync bot ${bot.childEnv.clientId}:`, error);
 			}
 		}
 	}
 
-	console.log(`Manual sync completed: ${totalSynced}/${activeBots.length} bots synced`);
+	logger.info(`Manual sync completed: ${totalSynced}/${activeBots.length} bots synced`);
 }
 
 /**
@@ -178,12 +181,12 @@ function setConsoleTitle(title: string): void {
 }
 
 try {
-	// console.clear();
+	console.clear();
 	// Set a custom title for the console window
 	setConsoleTitle('Lavamusic');
 	prisma.botConfig.findMany({ where: { active: true } }).then(async bots => {
 		if (!bots.length) {
-			console.error('[LAUNCH] No bot configurations found.');
+			logger.error('[LAUNCH] No bot configurations found.');
 			process.exit(1);
 		}
 		await restoreSessions();
@@ -198,30 +201,44 @@ try {
 
 		// Start periodic message system (once for all bots)
 		if (bots.length > 0) {
-			// Use the first bot's instance to start the cleanup (it will check all players)
-			setTimeout(() => {
-				if (activeBots.length > 0) {
+			// Polling interval to wait for at least one bot to be ready
+			logger.info('[STARTUP] Waiting for at least one bot to be ready...');
+			const periodicMessageInterval = setInterval(() => {
+				if (activeBots.length > 0 && activeBots.some(bot => bot.isReady())) {
+					clearInterval(periodicMessageInterval);
+					logger.info('[STARTUP] At least one bot is ready, starting periodic message system');
 					PeriodicMessageSystem.startPeriodicCheck();
-					console.log('[PERIODIC MESSAGES] Started periodic message system');
+					logger.info('[PERIODIC MESSAGES] Started periodic message system');
 
 					// Start temporary announcement service
 					TemporaryAnnouncementService.startIntervalCheck();
-					console.log('[TEMP ANNOUNCEMENTS] Started temporary announcement service');
+					logger.info('[TEMP ANNOUNCEMENTS] Started temporary announcement service');
 				}
-			}, 10000); // Wait 10 seconds for bots to initialize
+			}, 10000); // Check every 10 seconds
 		}
 
-		// Start API server after bots are initialized
-		setTimeout(async () => {
-			try {
-				await startApiServer(activeBots);
-				// Start database cleanup scheduler after API server is up
-				startCleanupScheduler();
-			} catch (error) {
-				console.error('[API] Failed to start API server:', error);
+		// Start file watcher for hot reload in development
+		if (process.env.HOT_RELOAD_WATCH === 'true') {
+			const { startFileWatcher } = require('./utils/FileWatcher');
+			startFileWatcher();
+		}
+
+		// Start API server after at least one bot is ready
+		logger.info('[STARTUP] Waiting for at least one bot to be ready for API server...');
+		const apiServerInterval = setInterval(async () => {
+			if (activeBots.length > 0 && activeBots.some(bot => bot.isReady())) {
+				clearInterval(apiServerInterval);
+				logger.info('[STARTUP] At least one bot is ready, starting API server');
+				try {
+					await startApiServer(activeBots);
+					// Start database cleanup scheduler after API server is up
+					startCleanupScheduler();
+				} catch (error) {
+					logger.error('[API] Failed to start API server:', error);
+				}
 			}
-		}, 5000); // Wait 5 seconds for bots to initialize
+		}, 10000); // Check every 10 seconds
 	});
 } catch (err) {
-	console.error('[CLIENT] An error has occurred:', err);
+	logger.error('[CLIENT] An error has occurred:', err);
 }
