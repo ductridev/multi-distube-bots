@@ -31,6 +31,10 @@ import { ShardStateManager } from "./ShardStateManager";
 import { LavaSrcConfigService } from "../services/LavaSrcConfigService.js";
 import { YouTubeConfigService } from "../services/YouTubeConfigService.js";
 import { LiveLyricsService } from "../services/LiveLyricsService.js";
+import { PeriodicMessageSystem } from "../utils/PeriodicMessageSystem";
+import { TemporaryAnnouncementService } from "../services/TemporaryAnnouncementService";
+import { TranslationService } from "../services/TranslationService";
+import { stopCleanupScheduler } from "../services/DatabaseCleanup";
 
 export default class Lavamusic extends Client {
   public commands: Collection<string, any> = new Collection();
@@ -40,7 +44,7 @@ export default class Lavamusic extends Client {
   public config = config;
   public readonly emoji = config.emoji;
   public readonly color = config.color;
-  private body: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
+  public body: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
   public topGG!: Api;
   public utils = Utils;
   public env: typeof env = env;
@@ -56,6 +60,11 @@ export default class Lavamusic extends Client {
   public lavaSrcConfigService: LavaSrcConfigService | null = null;
   public youTubeConfigService: YouTubeConfigService | null = null;
   public liveLyricsService: LiveLyricsService | null = null;
+  private registeredEventHandlers: Array<{
+    name: string;
+    handler: (...args: any[]) => void;
+    type: 'client' | 'player' | 'node';
+  }> = [];
   constructor(clientOptions: ClientOptions, bot: BotConfig) {
     super(clientOptions);
     this.logger = new Logger(bot.name);
@@ -68,6 +77,10 @@ export default class Lavamusic extends Client {
   public async start(): Promise<void> {
     initI18n(this.logger);
     this.playerSaver = new PlayerSaver(this.childEnv.name);
+    // CRITICAL: Ensure player data is loaded from disk before bot uses it
+    await this.playerSaver.ensureLoaded();
+    this.logger.info(`Player session data loaded for ${this.childEnv.name}`);
+    
     this.db = new ServerData(this.childEnv);
     await this.db.connect();
     config.maintenance = await this.db.getMaintainMode();
@@ -88,6 +101,7 @@ export default class Lavamusic extends Client {
     this.liveLyricsService = new LiveLyricsService(this);
     await this.loadCommands();
     this.logger.info("Successfully loaded commands!");
+    await this.validate247Stays();
     await this.loadEvents();
     this.logger.info("Successfully loaded events!");
     loadPlugins(this);
@@ -108,7 +122,7 @@ export default class Lavamusic extends Client {
     });
   }
 
-  private async loadCommands(): Promise<void> {
+  public async loadCommands(): Promise<void> {
     const commandsPath = fs.readdirSync(
       path.join(process.cwd(), "dist", "commands")
     );
@@ -233,30 +247,32 @@ export default class Lavamusic extends Client {
           }
           this.body.push(data);
         }
-
-        const stay = await this.db.get_247(this.childEnv.clientId);
-        if (!Array.isArray(stay)) return;
-
-        await Promise.all(
-          stay.map(async (s) => {
-            try {
-              const guild = await this.guilds.fetch(s.guildId).catch(() => null);
-              if (!guild) {
-                await this.db.delete_247(s.guildId, this.childEnv.clientId);
-                return;
-              }
-
-              const channel = await guild.channels.fetch(s.voiceId).catch(() => null);
-              if (!channel) {
-                await this.db.delete_247(s.guildId, this.childEnv.clientId);
-              }
-            } catch (error) {
-              await this.db.delete_247(s.guildId, this.childEnv.clientId);
-            }
-          })
-        );
       }
     }
+  }
+
+  private async validate247Stays(): Promise<void> {
+    const stay = await this.db.get_247(this.childEnv.clientId);
+    if (!Array.isArray(stay)) return;
+
+    await Promise.all(
+      stay.map(async (s) => {
+        try {
+          const guild = await this.guilds.fetch(s.guildId).catch(() => null);
+          if (!guild) {
+            await this.db.delete_247(s.guildId, this.childEnv.clientId);
+            return;
+          }
+
+          const channel = await guild.channels.fetch(s.voiceId).catch(() => null);
+          if (!channel) {
+            await this.db.delete_247(s.guildId, this.childEnv.clientId);
+          }
+        } catch (error) {
+          await this.db.delete_247(s.guildId, this.childEnv.clientId);
+        }
+      })
+    );
   }
 
   public async deployCommands(guildId?: string): Promise<void> {
@@ -292,7 +308,7 @@ export default class Lavamusic extends Client {
     }
   }
 
-  private async loadEvents(): Promise<void> {
+  public async loadEvents(): Promise<void> {
     const eventsPath = fs.readdirSync(
       path.join(process.cwd(), "dist", "events")
     );
@@ -307,17 +323,229 @@ export default class Lavamusic extends Client {
           path.join(process.cwd(), "dist", "events", dir, file)
         );
         const event = new eventModule.default(this, file);
+        const handler = (...args: any) => event.run(...args);
+        const type = dir === "player" ? "player" as const : dir === "node" ? "node" as const : "client" as const;
 
         if (dir === "player") {
-          this.manager.on(event.name, (...args: any) => event.run(...args));
+          this.manager.on(event.name, handler);
         } else if (dir === "node") {
-          this.manager.nodeManager.on(event.name, (...args: any) =>
-            event.run(...args)
-          );
+          this.manager.nodeManager.on(event.name, handler);
         } else {
-          this.on(event.name, (...args) => event.run(...args));
+          this.on(event.name, handler);
         }
+
+        this.registeredEventHandlers.push({ name: event.name, handler, type });
       }
     }
+  }
+
+  private clearRequireCache(dir: string): void {
+    const resolved = path.resolve(dir).replace(/\\/g, '/');
+    for (const key of Object.keys(require.cache)) {
+      if (key.replace(/\\/g, '/').startsWith(resolved)) {
+        delete require.cache[key];
+      }
+    }
+  }
+
+  public async reloadCommands(): Promise<{ success: boolean; loaded: number; errors: string[] }> {
+    const errors: string[] = [];
+    const oldCommands = new Collection(this.commands);
+    const oldAliases = new Collection(this.aliases);
+    const oldBody = [...this.body];
+
+    try {
+      this.clearRequireCache(path.join(process.cwd(), 'dist', 'commands'));
+      this.commands.clear();
+      this.aliases.clear();
+      this.body = [];
+      await this.loadCommands();
+      this.logger.info(`Hot reloaded ${this.commands.size} commands`);
+      return { success: true, loaded: this.commands.size, errors };
+    } catch (error: any) {
+      this.commands = oldCommands;
+      this.aliases = oldAliases;
+      this.body = oldBody;
+      errors.push(error.message);
+      this.logger.error('Failed to reload commands:', error);
+      return { success: false, loaded: 0, errors };
+    }
+  }
+
+  public async reloadEvents(): Promise<{ success: boolean; loaded: number; errors: string[] }> {
+    const errors: string[] = [];
+    const eventsDir = path.join(process.cwd(), 'dist', 'events');
+
+    // Pre-validate: try loading all event files before removing anything
+    try {
+      this.clearRequireCache(eventsDir);
+      const dirs = fs.readdirSync(eventsDir);
+      for (const dir of dirs) {
+        const files = fs.readdirSync(path.join(eventsDir, dir)).filter(f => f.endsWith('.js'));
+        for (const file of files) {
+          require(path.join(eventsDir, dir, file));
+        }
+      }
+    } catch (error: any) {
+      errors.push(`Pre-validation failed: ${error.message}`);
+      this.logger.error('Event reload pre-validation failed:', error);
+      return { success: false, loaded: 0, errors };
+    }
+
+    try {
+      // Remove all tracked event handlers
+      for (const entry of this.registeredEventHandlers) {
+        if (entry.type === 'player') {
+          (this.manager as any).removeListener(entry.name, entry.handler);
+        } else if (entry.type === 'node') {
+          (this.manager.nodeManager as any).removeListener(entry.name, entry.handler);
+        } else {
+          this.removeListener(entry.name, entry.handler);
+        }
+      }
+      this.registeredEventHandlers = [];
+
+      // Clear cache again and re-load
+      this.clearRequireCache(eventsDir);
+      await this.loadEvents();
+      this.logger.info(`Hot reloaded ${this.registeredEventHandlers.length} events`);
+      return { success: true, loaded: this.registeredEventHandlers.length, errors };
+    } catch (error: any) {
+      errors.push(error.message);
+      this.logger.error('CRITICAL: Event reload failed. Bot may be in degraded state.', error);
+      return { success: false, loaded: 0, errors };
+    }
+  }
+
+  public async reloadPlugins(): Promise<{ success: boolean; loaded: number; errors: string[] }> {
+    const errors: string[] = [];
+    const pluginsDir = path.join(process.cwd(), 'dist', 'plugin', 'plugins');
+
+    try {
+      // Shutdown existing plugins
+      if (fs.existsSync(pluginsDir)) {
+        const files = fs.readdirSync(pluginsDir).filter(f => f.endsWith('.js'));
+        for (const file of files) {
+          const pluginPath = path.join(pluginsDir, file);
+          try {
+            const cached = require.cache[require.resolve(pluginPath)];
+            if (cached) {
+              const plugin = cached.exports.default;
+              if (plugin?.shutdown) {
+                plugin.shutdown(this);
+                this.logger.info(`Shutdown plugin: ${plugin.name}`);
+              }
+            }
+          } catch (e: any) {
+            errors.push(`Shutdown error for ${file}: ${e.message}`);
+          }
+        }
+      }
+
+      // Clear cache and re-load
+      this.clearRequireCache(path.join(process.cwd(), 'dist', 'plugin'));
+      await loadPlugins(this);
+      this.logger.info('Hot reloaded plugins');
+      return { success: true, loaded: 1, errors };
+    } catch (error: any) {
+      errors.push(error.message);
+      this.logger.error('Failed to reload plugins:', error);
+      return { success: false, loaded: 0, errors };
+    }
+  }
+
+  public async reloadServices(): Promise<{ success: boolean; reloaded: string[]; errors: string[] }> {
+    const errors: string[] = [];
+    const reloaded: string[] = [];
+
+    // 1. Stop PeriodicMessageSystem
+    try {
+      PeriodicMessageSystem.stopPeriodicCheck();
+      reloaded.push('PeriodicMessageSystem (stopped)');
+    } catch (e: any) {
+      errors.push(`PeriodicMessageSystem stop: ${e.message}`);
+    }
+
+    // 2. Stop TemporaryAnnouncementService
+    try {
+      TemporaryAnnouncementService.stopIntervalCheck();
+      reloaded.push('TemporaryAnnouncementService (stopped)');
+    } catch (e: any) {
+      errors.push(`TemporaryAnnouncementService stop: ${e.message}`);
+    }
+
+    // 3. Stop DatabaseCleanup cron jobs
+    try {
+      stopCleanupScheduler();
+      reloaded.push('DatabaseCleanup (stopped)');
+    } catch (e: any) {
+      errors.push(`DatabaseCleanup stop: ${e.message}`);
+    }
+
+    // 4. Reset TranslationService singleton
+    try {
+      TranslationService.resetInstance();
+      reloaded.push('TranslationService (reset)');
+    } catch (e: any) {
+      errors.push(`TranslationService reset: ${e.message}`);
+    }
+
+    // 5. Stop LiveLyricsService sessions
+    try {
+      if (this.liveLyricsService) {
+        await this.liveLyricsService.stopAllSessions();
+        reloaded.push('LiveLyricsService (sessions stopped)');
+      }
+    } catch (e: any) {
+      errors.push(`LiveLyricsService stop: ${e.message}`);
+    }
+
+    // 6. Clear require cache for services and utils that hold state
+    this.clearRequireCache(path.join(process.cwd(), 'dist', 'services'));
+    this.clearRequireCache(path.join(process.cwd(), 'dist', 'utils', 'PeriodicMessageSystem.js'));
+
+    // 7. Re-instantiate per-bot services
+    try {
+      const { LavaSrcConfigService: FreshLavaSrc } = require('../services/LavaSrcConfigService.js');
+      this.lavaSrcConfigService = new FreshLavaSrc(this.manager);
+
+      const { YouTubeConfigService: FreshYouTube } = require('../services/YouTubeConfigService.js');
+      this.youTubeConfigService = new FreshYouTube(this.manager);
+
+      const { LiveLyricsService: FreshLyrics } = require('../services/LiveLyricsService.js');
+      this.liveLyricsService = new FreshLyrics(this);
+
+      reloaded.push('LavaSrcConfigService', 'YouTubeConfigService', 'LiveLyricsService');
+    } catch (e: any) {
+      errors.push(`Service re-instantiation: ${e.message}`);
+    }
+
+    // 8. Restart global services
+    try {
+      const { PeriodicMessageSystem: FreshPeriodic } = require('../utils/PeriodicMessageSystem');
+      FreshPeriodic.startPeriodicCheck();
+      reloaded.push('PeriodicMessageSystem (restarted)');
+    } catch (e: any) {
+      errors.push(`PeriodicMessageSystem restart: ${e.message}`);
+    }
+
+    try {
+      const { TemporaryAnnouncementService: FreshTempAnnounce } = require('../services/TemporaryAnnouncementService');
+      FreshTempAnnounce.startIntervalCheck();
+      reloaded.push('TemporaryAnnouncementService (restarted)');
+    } catch (e: any) {
+      errors.push(`TemporaryAnnouncementService restart: ${e.message}`);
+    }
+
+    try {
+      const { startCleanupScheduler: freshStartCleanup } = require('../services/DatabaseCleanup');
+      freshStartCleanup();
+      reloaded.push('DatabaseCleanup (restarted)');
+    } catch (e: any) {
+      errors.push(`DatabaseCleanup restart: ${e.message}`);
+    }
+
+    this.logger.info(`Hot reloaded services: ${reloaded.join(', ')}`);
+    return { success: errors.length === 0, reloaded, errors };
   }
 }
