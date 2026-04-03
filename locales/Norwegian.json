@@ -340,6 +340,22 @@
 				"removed": "Fjernet sangnummer {songNumber} fra køen."
 			}
 		},
+		"region": {
+			"description": "Se eller bytt lydserverregion for bedre kvalitet 🌐",
+			"options": {
+				"region": "Regionen å bytte til (f.eks. EU, VN)"
+			},
+			"info_title": "🌐 Lydserverregion",
+			"current_region": "**Nåværende node:** `{nodeId}`\n**Region:** {region}\n**Ping:** `{ping}ms`",
+			"available_regions": "Tilgjengelige regioner",
+			"region_field": "{nodeCount} node(r), {playerCount} spiller(e)\n{nodes}",
+			"current_indicator": " (nåværende)",
+			"switched": "Byttet til {region}-regionen!\n**Node:** `{oldNode}` → `{newNode}`\n**Ping:** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "Du er allerede på en {region}-node (`{nodeId}`)!",
+			"no_nodes_in_region": "Ingen tilgjengelige noder i {region}-regionen!",
+			"invalid_region": "Ukjent region `{region}`. Tilgjengelig: {available}",
+			"switch_failed": "Kunne ikke bytte region. Prøv igjen!"
+		},
 		"replay": {
 			"description": "Spiller gjeldende spor på nytt",
 			"errors": {
@@ -732,7 +748,10 @@
 			"error": "En feil oppstod: `{error}`",
 			"vote_button": "Stem på meg!",
 			"vote_message": "Vent! Du må stemme på top.gg for å bruke denne kommandoen. Takk.",
-			"slash_deprecated": "Skråstrekkommandoer er utdatert! Vennligst bruk `{prefix}{command}` i stedet. 🎵"
+			"slash_deprecated": "Skråstrekkommandoer er utdatert! Vennligst bruk `{prefix}{command}` i stedet. 🎵",
+			"periodic_message_vote_only": "🎵 Liker du musikken? Stem på oss på Top.gg! Din stemme hjelper oss å vokse! ❤️\nUstabil lyd? Bruk `bregion` for å bytte til en region nærmere deg",
+			"periodic_message_with_bots": "🎵 Liker du musikken? Stem på oss på Top.gg! Vil du ha musikk i flere rom? Legg til flere botter! 🎶\nUstabil lyd? Bruk `bregion` for å bytte til en region nærmere deg"
+
 		},
 		"message": {
 			"prefix_mention": "Hei, prefikset mitt for denne serveren er `{prefix}`. Vil du ha mer informasjon? Bruk da `{prefix}help`\nHold deg trygg, hold deg fantastisk!",

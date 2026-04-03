@@ -325,6 +325,22 @@
 				"removed": "Se ha eliminado la canción número {songNumber} de la cola."
 			}
 		},
+		"region": {
+			"description": "Ver o cambiar la región del servidor de audio para mejor calidad 🌐",
+			"options": {
+				"region": "La región a la que cambiar (ej: EU, VN)"
+			},
+			"info_title": "🌐 Región del Servidor de Audio",
+			"current_region": "**Nodo actual:** `{nodeId}`\n**Región:** {region}\n**Ping:** `{ping}ms`",
+			"available_regions": "Regiones disponibles",
+			"region_field": "{nodeCount} nodo(s), {playerCount} reproductor(es)\n{nodes}",
+			"current_indicator": " (actual)",
+			"switched": "¡Cambiado a la región {region}!\n**Nodo:** `{oldNode}` → `{newNode}`\n**Ping:** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "¡Ya estás en un nodo {region} (`{nodeId}`)!",
+			"no_nodes_in_region": "¡No hay nodos disponibles en la región {region}!",
+			"invalid_region": "Región desconocida `{region}`. Disponibles: {available}",
+			"switch_failed": "Error al cambiar de región. ¡Inténtalo de nuevo!"
+		},
 		"replay": {
 			"description": "Vuelve a reproducir la pista actual",
 			"errors": {
@@ -739,7 +755,10 @@
 			"error": "Se ha producido un error: `{error}`",
 			"vote_button": "¡Vota por mí!",
 			"vote_message": "¡Espera! Necesitas votar en top.gg para usar este comando. Gracias.",
-			"slash_deprecated": "¡Los comandos slash han sido descontinuados! Por favor, usa `{prefix}{command}` en su lugar. 🎵"
+			"slash_deprecated": "¡Los comandos slash han sido descontinuados! Por favor, usa `{prefix}{command}` en su lugar. 🎵",
+			"periodic_message_vote_only": "🎵 ¿Te gusta la música? ¡Vota por nosotros en Top.gg! ¡Tu voto nos ayuda a crecer! ❤️\n¿Audio inestable? Usa `bregion` para cambiar a una región más cercana",
+			"periodic_message_with_bots": "🎵 ¿Te gusta la música? ¡Vota por nosotros en Top.gg! ¿Quieres música en varias salas? ¡Añade más bots! 🎶\n¿Audio inestable? Usa `bregion` para cambiar a una región más cercana"
+
 		},
 		"message": {
 			"prefix_mention": "Hola, mi prefijo para este servidor es `{prefix}`. ¿Quieres más información? Entonces escribe `{prefix}help`\n¡Mantente seguro, mantente genial!",

@@ -325,6 +325,22 @@
 				"removed": "Song Nummer {songNumber} aus der Warteschlange entfernt."
 			}
 		},
+		"region": {
+			"description": "Audioserver-Region anzeigen oder wechseln für bessere Qualität 🌐",
+			"options": {
+				"region": "Die Region, zu der gewechselt werden soll (z.B. EU, VN)"
+			},
+			"info_title": "🌐 Audioserver-Region",
+			"current_region": "**Aktueller Knoten:** `{nodeId}`\n**Region:** {region}\n**Ping:** `{ping}ms`",
+			"available_regions": "Verfügbare Regionen",
+			"region_field": "{nodeCount} Knoten, {playerCount} Spieler\n{nodes}",
+			"current_indicator": " (aktuell)",
+			"switched": "Zu Region {region} gewechselt!\n**Knoten:** `{oldNode}` → `{newNode}`\n**Ping:** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "Du bist bereits auf einem {region}-Knoten (`{nodeId}`)!",
+			"no_nodes_in_region": "Keine verfügbaren Knoten in der Region {region}!",
+			"invalid_region": "Unbekannte Region `{region}`. Verfügbar: {available}",
+			"switch_failed": "Regionswechsel fehlgeschlagen. Bitte erneut versuchen!"
+		},
 		"replay": {
 			"description": "Spielt den aktuellen Track erneut ab",
 			"errors": {
@@ -732,7 +748,10 @@
 			"error": "Ein Fehler ist aufgetreten: `{error}`",
 			"vote_button": "Stimme für mich ab!",
 			"vote_message": "Warte! Du musst auf top.gg abstimmen, um diesen Befehl zu verwenden. Danke.",
-			"slash_deprecated": "Slash-Befehle sind veraltet! Bitte verwende stattdessen `{prefix}{command}`. 🎵"
+			"slash_deprecated": "Slash-Befehle sind veraltet! Bitte verwende stattdessen `{prefix}{command}`. 🎵",
+			"periodic_message_vote_only": "🎵 Gefällt dir die Musik? Stimme für uns auf Top.gg ab! Deine Stimme hilft uns zu wachsen! ❤️\nInstabiler Ton? Verwende `bregion`, um zu einer näheren Region zu wechseln",
+			"periodic_message_with_bots": "🎵 Gefällt dir die Musik? Stimme für uns auf Top.gg ab! Musik in mehreren Räumen? Füge mehr Bots hinzu! 🎶\nInstabiler Ton? Verwende `bregion`, um zu einer näheren Region zu wechseln"
+
 		},
 		"message": {
 			"prefix_mention": "Hey, mein Präfix für diesen Server ist `{prefix}`. Möchtest du mehr Infos? Dann gib `{prefix}help` ein\nBleib sicher, bleib großartig!",

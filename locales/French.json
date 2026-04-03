@@ -325,6 +325,22 @@
 				"removed": "Chanson numéro {songNumber} supprimée de la file d'attente."
 			}
 		},
+		"region": {
+			"description": "Voir ou changer la région du serveur audio pour une meilleure qualité 🌐",
+			"options": {
+				"region": "La région vers laquelle basculer (ex: EU, VN)"
+			},
+			"info_title": "🌐 Région du serveur audio",
+			"current_region": "**Nœud actuel :** `{nodeId}`\n**Région :** {region}\n**Ping :** `{ping}ms`",
+			"available_regions": "Régions disponibles",
+			"region_field": "{nodeCount} nœud(s), {playerCount} lecteur(s)\n{nodes}",
+			"current_indicator": " (actuel)",
+			"switched": "Basculé vers la région {region} !\n**Nœud :** `{oldNode}` → `{newNode}`\n**Ping :** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "Vous êtes déjà sur un nœud {region} (`{nodeId}`) !",
+			"no_nodes_in_region": "Aucun nœud disponible dans la région {region} !",
+			"invalid_region": "Région inconnue `{region}`. Disponibles : {available}",
+			"switch_failed": "Échec du changement de région. Réessayez !"
+		},
 		"replay": {
 			"description": "Relance la piste actuelle",
 			"errors": {
@@ -732,7 +748,10 @@
 			"error": "Une erreur s'est produite : `{error}`",
 			"vote_button": "Votez pour moi !",
 			"vote_message": "Attendez ! Vous devez voter sur top.gg pour utiliser cette commande. Merci.",
-			"slash_deprecated": "Les commandes slash sont obsolètes ! Veuillez utiliser `{prefix}{command}` à la place. 🎵"
+			"slash_deprecated": "Les commandes slash sont obsolètes ! Veuillez utiliser `{prefix}{command}` à la place. 🎵",
+			"periodic_message_vote_only": "🎵 Vous aimez la musique ? Votez pour nous sur Top.gg ! Votre vote nous aide à grandir ! ❤️\nAudio instable ? Utilisez `bregion` pour changer de région plus proche de vous",
+			"periodic_message_with_bots": "🎵 Vous aimez la musique ? Votez pour nous sur Top.gg ! Envie de musique dans plusieurs salons ? Ajoutez plus de bots ! 🎶\nAudio instable ? Utilisez `bregion` pour changer de région plus proche de vous"
+
 		},
 		"message": {
 			"prefix_mention": "Hé, mon préfixe pour ce serveur est `{prefix}`. Vous voulez plus d'infos ? alors faites `{prefix}help`\nRestez en sécurité, restez génial !",

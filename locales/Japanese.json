@@ -340,6 +340,22 @@
 				"removed": "キューから曲番号 {songNumber} を削除しました。"
 			}
 		},
+		"region": {
+			"description": "オーディオサーバーのリージョンを確認・切り替えて音質を改善 🌐",
+			"options": {
+				"region": "切り替えるリージョン（例：EU、VN）"
+			},
+			"info_title": "🌐 オーディオサーバーリージョン",
+			"current_region": "**現在のノード：** `{nodeId}`\n**リージョン：** {region}\n**Ping：** `{ping}ms`",
+			"available_regions": "利用可能なリージョン",
+			"region_field": "{nodeCount} ノード、{playerCount} プレイヤー\n{nodes}",
+			"current_indicator": "（現在）",
+			"switched": "{region} リージョンに切り替えました！\n**ノード：** `{oldNode}` → `{newNode}`\n**Ping：** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "既に {region} ノードです（`{nodeId}`）！",
+			"no_nodes_in_region": "{region} リージョンに利用可能なノードがありません！",
+			"invalid_region": "不明なリージョン `{region}`。利用可能：{available}",
+			"switch_failed": "リージョンの切り替えに失敗しました。もう一度お試しください！"
+		},
 		"replay": {
 			"description": "現在の曲を再生します",
 			"errors": {
@@ -731,7 +747,10 @@
 			"error": "エラーが発生しました: `{error}`",
 			"vote_button": "投票してください！",
 			"vote_message": "お待ちください！このコマンドを使用するには、top.ggで投票する必要があります。ありがとうございます。",
-			"slash_deprecated": "スラッシュコマンドは廃止されました！代わりに `{prefix}{command}` を使用してください。 🎵"
+			"slash_deprecated": "スラッシュコマンドは廃止されました！代わりに `{prefix}{command}` を使用してください。 🎵",
+			"periodic_message_vote_only": "🎵 音楽を楽しんでいますか？Top.ggで投票して応援してください！あなたの投票が成長の力になります！❤️\n音声が不安定？`bregion` でより近いリージョンに切り替えましょう",
+			"periodic_message_with_bots": "🎵 音楽を楽しんでいますか？Top.ggで投票してください！複数の部屋で音楽を聴きたい？もっとボットを追加しよう！🎶\n音声が不安定？`bregion` でより近いリージョンに切り替えましょう"
+
 		},
 		"message": {
 			"prefix_mention": "こんにちは、このサーバーの私のプレフィックスは `{prefix}` です。詳細を知りたい場合は `{prefix}help` と入力してください。\n安全に、そして素晴らしく過ごしましょう！",

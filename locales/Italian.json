@@ -371,6 +371,22 @@
 		  "removed": "Rimossa la canzone numero {songNumber} dalla coda."
 		}
 	  },
+	  "region": {
+		"description": "Visualizza o cambia la regione del server audio per una qualità migliore 🌐",
+		"options": {
+			"region": "La regione a cui passare (es: EU, VN)"
+		},
+		"info_title": "🌐 Regione Server Audio",
+		"current_region": "**Nodo attuale:** `{nodeId}`\n**Regione:** {region}\n**Ping:** `{ping}ms`",
+		"available_regions": "Regioni disponibili",
+		"region_field": "{nodeCount} nodo/i, {playerCount} riproduttore/i\n{nodes}",
+		"current_indicator": " (attuale)",
+		"switched": "Passato alla regione {region}!\n**Nodo:** `{oldNode}` → `{newNode}`\n**Ping:** `{oldPing}ms` → `{newPing}ms`",
+		"already_on_region": "Sei già su un nodo {region} (`{nodeId}`)!",
+		"no_nodes_in_region": "Nessun nodo disponibile nella regione {region}!",
+		"invalid_region": "Regione sconosciuta `{region}`. Disponibili: {available}",
+		"switch_failed": "Cambio regione fallito. Riprova!"
+	  },
 	  "replay": {
 		"description": "Riproduci nuovamente la traccia corrente",
 		"errors": {
@@ -729,7 +745,10 @@
 		"error": "Si è verificato un errore: `{error}`",
 		"vote_button": "Vota per me!",
 		"vote_message": "Aspetta! Devi votare su top.gg per usare questo comando. Grazie.",
-		"slash_deprecated": "I comandi slash sono stati deprecati! Usa invece `{prefix}{command}`. 🎵"
+		"slash_deprecated": "I comandi slash sono stati deprecati! Usa invece `{prefix}{command}`. 🎵",
+		"periodic_message_vote_only": "🎵 Ti piace la musica? Votaci su Top.gg! Il tuo voto ci aiuta a crescere! ❤️\nAudio instabile? Usa `bregion` per passare a una regione più vicina a te",
+		"periodic_message_with_bots": "🎵 Ti piace la musica? Votaci su Top.gg! Vuoi musica in più stanze? Aggiungi più bot! 🎶\nAudio instabile? Usa `bregion` per passare a una regione più vicina a te"
+
 	  },
 	  "message": {
 		"prefix_mention": "Ciao, il mio prefisso per questo server è `{prefix}`. Vuoi maggiori informazioni? Allora usa `{prefix}help`\nStai al sicuro, resta fantastico!",

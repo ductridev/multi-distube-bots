@@ -347,6 +347,22 @@
 				"removed": "{songNumber} numaralı şarkı kuyruktan kaldırıldı."
 			}
 		},
+		"region": {
+			"description": "Daha iyi kalite için ses sunucusu bölgesini görüntüle veya değiştir 🌐",
+			"options": {
+				"region": "Geçiş yapılacak bölge (örn: EU, VN)"
+			},
+			"info_title": "🌐 Ses Sunucusu Bölgesi",
+			"current_region": "**Mevcut düğüm:** `{nodeId}`\n**Bölge:** {region}\n**Ping:** `{ping}ms`",
+			"available_regions": "Mevcut bölgeler",
+			"region_field": "{nodeCount} düğüm, {playerCount} oynatıcı\n{nodes}",
+			"current_indicator": " (mevcut)",
+			"switched": "{region} bölgesine geçildi!\n**Düğüm:** `{oldNode}` → `{newNode}`\n**Ping:** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "Zaten {region} düğümündesiniz (`{nodeId}`)!",
+			"no_nodes_in_region": "{region} bölgesinde kullanılabilir düğüm yok!",
+			"invalid_region": "Bilinmeyen bölge `{region}`. Mevcut: {available}",
+			"switch_failed": "Bölge değiştirilemedi. Tekrar deneyin!"
+		},
 		"replay": {
 			"description": "Mevcut parçayı tekrar çalar.",
 			"errors": {
@@ -742,7 +758,10 @@
 			"error": "Bir hata oluştu: `{error}`",
 			"vote_button": "Oy Ver!",
 			"vote_message": "Durun! Bu komutu kullanabilmek için top.gg üzerinde oy vermelisiniz. Teşekkürler.",
-			"slash_deprecated": "Slash komutları kullanımdan kaldırıldı! Lütfen yerine `{prefix}{command}` kullanın. 🎵"
+			"slash_deprecated": "Slash komutları kullanımdan kaldırıldı! Lütfen yerine `{prefix}{command}` kullanın. 🎵",
+			"periodic_message_vote_only": "🎵 Müzikten keyif alıyor musun? Top.gg'de bize oy ver! Oyun büyümemize yardımcı olur! ❤️\nSes kararsız mı? Daha yakın bir bölgeye geçmek için `bregion` kullanın",
+			"periodic_message_with_bots": "🎵 Müzikten keyif alıyor musun? Top.gg'de bize oy ver! Birden fazla odada müzik mi istiyorsun? Daha fazla bot ekle! 🎶\nSes kararsız mı? Daha yakın bir bölgeye geçmek için `bregion` kullanın"
+
 		},
 		"message": {
 			"prefix_mention": "Merhaba, bu sunucu için ön ekim `{prefix}`. Daha fazla bilgi mi istiyorsunuz? `{prefix}help` yapın\nGüvende kalın, harika kalın!",

@@ -360,6 +360,22 @@
 				"removed": "{songNumber}번 노래가 제거되었어요."
 			}
 		},
+		"region": {
+			"description": "더 좋은 품질을 위해 오디오 서버 지역을 확인하거나 변경해요 🌐",
+			"options": {
+				"region": "변경할 지역 (예: EU, VN)"
+			},
+			"info_title": "🌐 오디오 서버 지역",
+			"current_region": "**현재 노드:** `{nodeId}`\n**지역:** {region}\n**핑:** `{ping}ms`",
+			"available_regions": "사용 가능한 지역",
+			"region_field": "{nodeCount}개 노드, {playerCount}개 플레이어\n{nodes}",
+			"current_indicator": " (현재)",
+			"switched": "{region} 지역으로 변경했어요!\n**노드:** `{oldNode}` → `{newNode}`\n**핑:** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "이미 {region} 노드에 있어요 (`{nodeId}`)!",
+			"no_nodes_in_region": "{region} 지역에 사용 가능한 노드가 없어요!",
+			"invalid_region": "알 수 없는 지역 `{region}`. 사용 가능: {available}",
+			"switch_failed": "지역 변경에 실패했어요. 다시 시도해주세요!"
+		},
 		"replay": {
 			"description": "현재 재생 중인 노래를 다시 재생해요",
 			"errors": {
@@ -728,7 +744,10 @@
 			"error": "오류: `{error}`",
 			"vote_button": "투표하기",
 			"vote_message": "잠깐! 이 명령어를 사용하려면 top.gg에서 투표해야 해요.",
-			"slash_deprecated": "빗금 명령어가 더 이상 사용되지 않아요! 대신 `{prefix}{command}`를 사용해 주세요. 🎵"
+			"slash_deprecated": "빗금 명령어가 더 이상 사용되지 않아요! 대신 `{prefix}{command}`를 사용해 주세요. 🎵",
+			"periodic_message_vote_only": "🎵 음악이 마음에 드시나요? Top.gg에서 투표해 주세요! 여러분의 투표가 성장에 도움이 됩니다! ❤️\n오디오가 불안정한가요? `bregion`을 사용하여 더 가까운 지역으로 전환하세요",
+			"periodic_message_with_bots": "🎵 음악이 마음에 드시나요? Top.gg에서 투표해 주세요! 여러 방에서 음악을 듣고 싶나요? 봇을 더 추가하세요! 🎶\n오디오가 불안정한가요? `bregion`을 사용하여 더 가까운 지역으로 전환하세요"
+
 		},
 		"message": {
 			"prefix_mention": "이 서버의 접두사는 `{prefix}`예요. 더 많은 정보를 원하시나요? `{prefix}help`를 사용하세요.\n안전하게 지내시고, 멋진 하루 보내세요!",

@@ -340,6 +340,22 @@
 				"removed": "Usunięto utwór o numerze {songNumber} z kolejki."
 			}
 		},
+		"region": {
+			"description": "Sprawdź lub zmień region serwera audio dla lepszej jakości 🌐",
+			"options": {
+				"region": "Region, na który chcesz przełączyć (np. EU, VN)"
+			},
+			"info_title": "🌐 Region serwera audio",
+			"current_region": "**Obecny węzeł:** `{nodeId}`\n**Region:** {region}\n**Ping:** `{ping}ms`",
+			"available_regions": "Dostępne regiony",
+			"region_field": "{nodeCount} węzeł(ów), {playerCount} odtwarzacz(y)\n{nodes}",
+			"current_indicator": " (obecny)",
+			"switched": "Przełączono na region {region}!\n**Węzeł:** `{oldNode}` → `{newNode}`\n**Ping:** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "Już jesteś na węźle {region} (`{nodeId}`)!",
+			"no_nodes_in_region": "Brak dostępnych węzłów w regionie {region}!",
+			"invalid_region": "Nieznany region `{region}`. Dostępne: {available}",
+			"switch_failed": "Nie udało się zmienić regionu. Spróbuj ponownie!"
+		},
 		"replay": {
 			"description": "Odtwarza ponownie bieżący utwór",
 			"errors": {
@@ -658,7 +674,10 @@
 			"error": "Wystąpił błąd: `{error}`",
 			"vote_button": "Zagłosuj na mnie!",
 			"vote_message": "Czekaj! Musisz zagłosować na top.gg, aby użyć tej komendy. Dzięki.",
-			"slash_deprecated": "Komendy slash zostały wycofane! Użyj `{prefix}{command}` zamiast tego. 🎵"
+			"slash_deprecated": "Komendy slash zostały wycofane! Użyj `{prefix}{command}` zamiast tego. 🎵",
+			"periodic_message_vote_only": "🎵 Podoba Ci się muzyka? Zagłosuj na nas na Top.gg! Twój głos pomaga nam rosnąć! ❤️\nNiestabilny dźwięk? Użyj `bregion`, aby przełączyć się na bliższy region",
+			"periodic_message_with_bots": "🎵 Podoba Ci się muzyka? Zagłosuj na nas na Top.gg! Chcesz muzykę w wielu pokojach? Dodaj więcej botów! 🎶\nNiestabilny dźwięk? Użyj `bregion`, aby przełączyć się na bliższy region"
+
 		},
 		"message": {
 			"prefix_mention": "Hej, mój prefiks dla tego serwera to `{prefix}`. Chcesz uzyskać więcej informacji? Uzyj komendy `{prefix}help`\nBądź bezpieczeny i niesamowity!",

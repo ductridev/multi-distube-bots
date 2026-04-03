@@ -327,6 +327,22 @@
 				"removed": "Música número {songNumber} removida da fila."
 			}
 		},
+		"region": {
+			"description": "Ver ou trocar a região do servidor de áudio para melhor qualidade 🌐",
+			"options": {
+				"region": "A região para a qual mudar (ex: EU, VN)"
+			},
+			"info_title": "🌐 Região do Servidor de Áudio",
+			"current_region": "**Nó atual:** `{nodeId}`\n**Região:** {region}\n**Ping:** `{ping}ms`",
+			"available_regions": "Regiões disponíveis",
+			"region_field": "{nodeCount} nó(s), {playerCount} reprodutor(es)\n{nodes}",
+			"current_indicator": " (atual)",
+			"switched": "Mudou para a região {region}!\n**Nó:** `{oldNode}` → `{newNode}`\n**Ping:** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "Você já está num nó {region} (`{nodeId}`)!",
+			"no_nodes_in_region": "Nenhum nó disponível na região {region}!",
+			"invalid_region": "Região desconhecida `{region}`. Disponíveis: {available}",
+			"switch_failed": "Falha ao trocar de região. Tente novamente!"
+		},
 		"replay": {
 			"description": "Reproduz novamente a faixa atual",
 			"errors": {
@@ -742,7 +758,10 @@
 			"error": "Ocorreu um erro: `{error}`",
 			"vote_button": "Vote em mim!",
 			"vote_message": "Espere! Você precisa votar no top.gg para usar este comando. Obrigado.",
-			"slash_deprecated": "Os comandos slash foram descontinuados! Por favor, use `{prefix}{command}` em vez disso. 🎵"
+			"slash_deprecated": "Os comandos slash foram descontinuados! Por favor, use `{prefix}{command}` em vez disso. 🎵",
+			"periodic_message_vote_only": "🎵 Curtindo a música? Vote em nós no Top.gg! Seu voto nos ajuda a crescer! ❤️\nÁudio instável? Use `bregion` para mudar para uma região mais perto de você",
+			"periodic_message_with_bots": "🎵 Curtindo a música? Vote em nós no Top.gg! Quer música em várias salas? Adicione mais bots! 🎶\nÁudio instável? Use `bregion` para mudar para uma região mais perto de você"
+
 		},
 		"message": {
 			"prefix_mention": "Olá, meu prefixo para este servidor é `{prefix}`. Quer mais informações? Então escreva `{prefix}help`\nFique seguro, fique incrível!",

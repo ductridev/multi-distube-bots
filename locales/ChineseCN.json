@@ -347,6 +347,22 @@
 				"removed": "已删除第 {songNumber} 首歌！拜拜 👋"
 			}
 		},
+		"region": {
+			"description": "查看或切换音频服务器区域，选择最近的节点获得最佳音质 🌐",
+			"options": {
+				"region": "要切换的区域（例如：EU、VN）"
+			},
+			"info_title": "🌐 音频服务器区域",
+			"current_region": "**当前节点：** `{nodeId}`\n**区域：** {region}\n**延迟：** `{ping}ms`",
+			"available_regions": "可用区域",
+			"region_field": "{nodeCount} 个节点，{playerCount} 个播放器\n{nodes}",
+			"current_indicator": "（当前）",
+			"switched": "已切换到 {region} 区域！\n**节点：** `{oldNode}` → `{newNode}`\n**延迟：** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "你已经在 {region} 区域了（`{nodeId}`）！",
+			"no_nodes_in_region": "{region} 区域目前没有可用节点！",
+			"invalid_region": "未知区域 `{region}`。可用区域：{available}",
+			"switch_failed": "切换区域失败，请重试！"
+		},
 		"replay": {
 			"description": "重新播放当前歌曲！再来一遍 🔁",
 			"errors": {
@@ -755,7 +771,10 @@
 			"error": "哎呀！出错了: `{error}` 😢",
 			"vote_button": "为我投票！⭐",
 			"vote_message": "等一下！在 top.gg 上为机器人投票后才能用这个命令。谢谢支持！💖",
-			"slash_deprecated": "斜杠命令已弃用！请改用 `{prefix}{command}`。🎵"
+			"slash_deprecated": "斜杠命令已弃用！请改用 `{prefix}{command}`。🎵",
+			"periodic_message_vote_only": "🎵 喜欢音乐吗？在 Top.gg 上为我们投票吧！您的支持让我们更强大！❤️\n音频不稳定？使用 `bregion` 切换到离你更近的地区",
+			"periodic_message_with_bots": "🎵 喜欢音乐吗？在 Top.gg 上为我们投票！想在多个房间播放音乐？添加更多机器人吧！🎶\n音频不稳定？使用 `bregion` 切换到离你更近的地区"
+
 		},
 		"message": {
 			"prefix_mention": "嘿，我这个服务器的前缀是 `{prefix}`。想要了解更多信息？请执行 `{prefix}help`\n注意安全，保持出色！",

@@ -371,6 +371,22 @@
         "removed": "ลบเพลงลำดับที่ {songNumber} ออกแล้ว"
       }
     },
+    "region": {
+      "description": "ดูหรือเปลี่ยนภูมิภาคเซิร์ฟเวอร์เสียงเพื่อคุณภาพที่ดีขึ้น 🌐",
+      "options": {
+        "region": "ภูมิภาคที่ต้องการเปลี่ยน (เช่น EU, VN)"
+      },
+      "info_title": "🌐 ภูมิภาคเซิร์ฟเวอร์เสียง",
+      "current_region": "**โหนดปัจจุบัน:** `{nodeId}`\n**ภูมิภาค:** {region}\n**Ping:** `{ping}ms`",
+      "available_regions": "ภูมิภาคที่ใช้ได้",
+      "region_field": "{nodeCount} โหนด, {playerCount} เครื่องเล่น\n{nodes}",
+      "current_indicator": " (ปัจจุบัน)",
+      "switched": "เปลี่ยนไปภูมิภาค {region} แล้ว!\n**โหนด:** `{oldNode}` → `{newNode}`\n**Ping:** `{oldPing}ms` → `{newPing}ms`",
+      "already_on_region": "คุณอยู่ในโหนด {region} อยู่แล้ว (`{nodeId}`)!",
+      "no_nodes_in_region": "ไม่มีโหนดที่ใช้ได้ในภูมิภาค {region}!",
+      "invalid_region": "ไม่รู้จักภูมิภาค `{region}` ที่ใช้ได้: {available}",
+      "switch_failed": "เปลี่ยนภูมิภาคไม่สำเร็จ ลองอีกครั้ง!"
+    },
     "replay": {
       "description": "เล่นเพลงเดิมซ้ำ",
       "errors": {
@@ -738,7 +754,9 @@
       "error": "เกิดข้อผิดพลาด: `{error}`",
       "vote_button": "โหวตให้ฉัน!",
       "vote_message": "รอหน่อย! คุณต้องโหวตใน top.gg ก่อนถึงจะใช้คำสั่งนี้ได้ ขอบคุณครับ",
-      "slash_deprecated": "คำสั่งแบบสแลชถูกยกเลิกแล้ว! กรุณาใช้ `{prefix}{command}` แทน 🎵"
+      "slash_deprecated": "คำสั่งแบบสแลชถูกยกเลิกแล้ว! กรุณาใช้ `{prefix}{command}` แทน 🎵",
+      "periodic_message_vote_only": "🎵 ชอบเพลงไหม? โหวตให้เราบน Top.gg! โหวตของคุณช่วยให้เราเติบโต! ❤️\nเสียงไม่เสถียร? ใช้ `bregion` เพื่อเปลี่ยนไปยังภูมิภาคที่ใกล้คุณกว่า",
+      "periodic_message_with_bots": "🎵 ชอบเพลงไหม? โหวตให้เราบน Top.gg! อยากฟังเพลงหลายห้อง? เพิ่มบอทเลย! 🎶\nเสียงไม่เสถียร? ใช้ `bregion` เพื่อเปลี่ยนไปยังภูมิภาคที่ใกล้คุณกว่า"
     },
     "message": {
       "prefix_mention": "เฮ้, prefix ของบอทในเซิร์ฟเวอร์นี้คือ `{prefix}` ถ้าต้องการข้อมูลเพิ่มเติม ให้ใช้ `{prefix}help`\nขอให้สนุกนะ!",

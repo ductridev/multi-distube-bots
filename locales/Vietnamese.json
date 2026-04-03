@@ -452,6 +452,22 @@
 				"song": "Tên hoặc link bài muốn xóa"
 			}
 		},
+		"region": {
+			"description": "Xem hoặc chuyển vùng server nhạc để chất lượng tốt hơn 🌐",
+			"options": {
+				"region": "Vùng muốn chuyển (ví dụ: EU, VN)"
+			},
+			"info_title": "🌐 Vùng Server Nhạc",
+			"current_region": "**Node hiện tại:** `{nodeId}`\n**Vùng:** {region}\n**Ping:** `{ping}ms`",
+			"available_regions": "Các vùng có sẵn",
+			"region_field": "{nodeCount} node, {playerCount} player\n{nodes}",
+			"current_indicator": " (hiện tại)",
+			"switched": "Đã chuyển sang vùng {region}!\n**Node:** `{oldNode}` → `{newNode}`\n**Ping:** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "Bạn đang ở vùng {region} rồi (`{nodeId}`)!",
+			"no_nodes_in_region": "Không có node nào sẵn sàng ở vùng {region}!",
+			"invalid_region": "Vùng `{region}` không tồn tại. Các vùng có sẵn: {available}",
+			"switch_failed": "Chuyển vùng thất bại. Thử lại nhé!"
+		},
 		"replay": {
 			"description": "Phát lại bài này từ đầu! Nghe lại thôi 🔁",
 			"errors": {
@@ -886,8 +902,8 @@
 			"skipped_by": "⏭ Bỏ qua bài hát bởi {user}",
 			"vote_button": "Vote cho mình! ⭐",
 			"get_more_bots_button": "Thêm Bot ➕",
-			"periodic_message_vote_only": "🎵 Thích nhạc chứ? Vote cho mình trên Top.gg nhé! Mỗi vote giúp mình lớn mạnh hơn! ❤️",
-			"periodic_message_with_bots": "🎵 Thích nhạc chứ? Vote cho mình trên Top.gg! Muốn phát nhạc nhiều phòng? Thêm bot nào! 🎶"
+			"periodic_message_vote_only": "🎵 Thích nhạc chứ? Vote cho mình trên Top.gg nhé! Mỗi vote giúp mình lớn mạnh hơn! ❤️\nÂm thanh không ổn định? Dùng ngay `bregion` để chuyển vùng gần bạn hơn",
+			"periodic_message_with_bots": "🎵 Thích nhạc chứ? Vote cho mình trên Top.gg! Muốn phát nhạc nhiều phòng? Thêm bot nào! 🎶\nÂm thanh không ổn định? Dùng ngay `bregion` để chuyển vùng gần bạn hơn"
 		}
 	},
 	"Restart the bot": "Khởi động lại bot",

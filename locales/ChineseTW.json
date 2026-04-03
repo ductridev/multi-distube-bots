@@ -347,6 +347,22 @@
 				"removed": "已從佇列中刪除歌曲編號 {songNumber}。"
 			}
 		},
+		"region": {
+			"description": "查看或切換音訊伺服器區域，選擇最近的節點獲得最佳音質 🌐",
+			"options": {
+				"region": "要切換的區域（例如：EU、VN）"
+			},
+			"info_title": "🌐 音訊伺服器區域",
+			"current_region": "**目前節點：** `{nodeId}`\n**區域：** {region}\n**延遲：** `{ping}ms`",
+			"available_regions": "可用區域",
+			"region_field": "{nodeCount} 個節點，{playerCount} 個播放器\n{nodes}",
+			"current_indicator": "（目前）",
+			"switched": "已切換到 {region} 區域！\n**節點：** `{oldNode}` → `{newNode}`\n**延遲：** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "你已經在 {region} 區域了（`{nodeId}`）！",
+			"no_nodes_in_region": "{region} 區域目前沒有可用節點！",
+			"invalid_region": "未知區域 `{region}`。可用區域：{available}",
+			"switch_failed": "切換區域失敗，請重試！"
+		},
 		"replay": {
 			"description": "重播當前曲目",
 			"errors": {
@@ -755,7 +771,10 @@
 			"error": "發生錯誤: `{error}`",
 			"vote_button": "為我投票！",
 			"vote_message": "等等！您需要在 top.gg 上為機器人投票才能使用此指令。謝謝。",
-			"slash_deprecated": "斜線指令已棄用！請改用 `{prefix}{command}`。🎵"
+			"slash_deprecated": "斜線指令已棄用！請改用 `{prefix}{command}`。🎵",
+			"periodic_message_vote_only": "🎵 喜歡音樂嗎？在 Top.gg 上為我們投票吧！您的支持讓我們更強大！❤️\n音訊不穩定？使用 `bregion` 切換到離你更近的地區",
+			"periodic_message_with_bots": "🎵 喜歡音樂嗎？在 Top.gg 上為我們投票！想在多個房間播放音樂？添加更多機器人吧！🎶\n音訊不穩定？使用 `bregion` 切換到離你更近的地區"
+
 		},
 		"message": {
 			"prefix_mention": "嘿，我這個伺服器的前綴是 `{prefix}`。想要了解更多資訊？請執行 `{prefix}help`\n注意安全，保持出色！",

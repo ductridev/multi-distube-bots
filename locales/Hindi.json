@@ -340,6 +340,22 @@
 				"removed": "Song number {songNumber} ko queue se हटा diya gaya है."
 			}
 		},
+		"region": {
+			"description": "बेहतर क्वालिटी के लिए ऑडियो सर्वर रीजन देखें या बदलें 🌐",
+			"options": {
+				"region": "जिस रीजन पर स्विच करना है (जैसे EU, VN)"
+			},
+			"info_title": "🌐 ऑडियो सर्वर रीजन",
+			"current_region": "**वर्तमान नोड:** `{nodeId}`\n**रीजन:** {region}\n**पिंग:** `{ping}ms`",
+			"available_regions": "उपलब्ध रीजन",
+			"region_field": "{nodeCount} नोड, {playerCount} प्लेयर\n{nodes}",
+			"current_indicator": " (वर्तमान)",
+			"switched": "{region} रीजन पर स्विच हो गया!\n**नोड:** `{oldNode}` → `{newNode}`\n**पिंग:** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "आप पहले से {region} नोड पर हैं (`{nodeId}`)!",
+			"no_nodes_in_region": "{region} रीजन में कोई नोड उपलब्ध नहीं है!",
+			"invalid_region": "अज्ञात रीजन `{region}`। उपलब्ध: {available}",
+			"switch_failed": "रीजन बदलने में विफल। कृपया पुनः प्रयास करें!"
+		},
 		"replay": {
 			"description": "Mojuda track ko replay karein",
 			"errors": {
@@ -731,7 +747,10 @@
 			"error": "Ek error aaya: `{error}`",
 			"vote_button": "मुझे वोट करें!",
 			"vote_message": "रुकें! इस कमांड का उपयोग करने के लिए आपको top.gg पर वोट करना होगा। धन्यवाद।",
-			"slash_deprecated": "स्लैश कमांड बंद कर दिए गए हैं! कृपया इसके बजाय `{prefix}{command}` का उपयोग करें। 🎵"
+			"slash_deprecated": "स्लैश कमांड बंद कर दिए गए हैं! कृपया इसके बजाय `{prefix}{command}` का उपयोग करें। 🎵",
+			"periodic_message_vote_only": "🎵 संगीत पसंद आ रहा है? Top.gg पर हमें वोट करें! आपका वोट हमें बढ़ने में मदद करता है! ❤️\nऑडियो अस्थिर है? अपने पास का क्षेत्र चुनने के लिए `bregion` का उपयोग करें",
+			"periodic_message_with_bots": "🎵 संगीत पसंद आ रहा है? Top.gg पर हमें वोट करें! कई रूम में संगीत चाहिए? और बॉट जोड़ें! 🎶\nऑडियो अस्थिर है? अपने पास का क्षेत्र चुनने के लिए `bregion` का उपयोग करें"
+
 		},
 		"message": {
 			"prefix_mention": "Hey, is server ke liye mera prefix `{prefix}` hai. Aur jankari chahiye? To `{prefix}help` karein\nSurakshit Rahein, Shaandaar Rahein!",

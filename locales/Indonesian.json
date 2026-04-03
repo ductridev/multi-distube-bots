@@ -340,6 +340,22 @@
 				"removed": "Menghapus lagu nomor {songNumber} dari antrean."
 			}
 		},
+		"region": {
+			"description": "Lihat atau ganti region server audio untuk kualitas lebih baik 🌐",
+			"options": {
+				"region": "Region yang ingin dipilih (contoh: EU, VN)"
+			},
+			"info_title": "🌐 Region Server Audio",
+			"current_region": "**Node saat ini:** `{nodeId}`\n**Region:** {region}\n**Ping:** `{ping}ms`",
+			"available_regions": "Region yang tersedia",
+			"region_field": "{nodeCount} node, {playerCount} player\n{nodes}",
+			"current_indicator": " (saat ini)",
+			"switched": "Berhasil pindah ke region {region}!\n**Node:** `{oldNode}` → `{newNode}`\n**Ping:** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "Kamu sudah di node {region} (`{nodeId}`)!",
+			"no_nodes_in_region": "Tidak ada node yang tersedia di region {region}!",
+			"invalid_region": "Region `{region}` tidak dikenal. Tersedia: {available}",
+			"switch_failed": "Gagal mengganti region. Coba lagi!"
+		},
 		"replay": {
 			"description": "Memutar ulang lagu saat ini",
 			"errors": {
@@ -731,7 +747,10 @@
 			"error": "Terjadi kesalahan: `{error}`",
 			"vote_button": "Vote untuk saya!",
 			"vote_message": "Tunggu! Anda perlu memberikan vote di top.gg untuk menggunakan perintah ini. Terima kasih.",
-			"slash_deprecated": "Perintah slash sudah tidak digunakan lagi! Silakan gunakan `{prefix}{command}` sebagai gantinya. 🎵"
+			"slash_deprecated": "Perintah slash sudah tidak digunakan lagi! Silakan gunakan `{prefix}{command}` sebagai gantinya. 🎵",
+			"periodic_message_vote_only": "🎵 Suka musiknya? Vote kami di Top.gg! Vote kamu membantu kami berkembang! ❤️\nAudio tidak stabil? Gunakan `bregion` untuk beralih ke region yang lebih dekat",
+			"periodic_message_with_bots": "🎵 Suka musiknya? Vote kami di Top.gg! Ingin musik di banyak ruangan? Tambahkan lebih banyak bot! 🎶\nAudio tidak stabil? Gunakan `bregion` untuk beralih ke region yang lebih dekat"
+
 		},
 		"message": {
 			"prefix_mention": "Hai, prefix saya untuk server ini adalah `{prefix}`. Ingin informasi lebih lanjut? Lakukan `{prefix}help`\nTetap Aman, Tetap Luar Biasa!",

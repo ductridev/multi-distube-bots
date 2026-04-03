@@ -356,6 +356,22 @@
 				"removed": "Nummer {songNumber} is verwijderd uit de wachtrij."
 			}
 		},
+		"region": {
+			"description": "Bekijk of wissel je audioserverregio voor betere kwaliteit 🌐",
+			"options": {
+				"region": "De regio om naar te wisselen (bijv. EU, VN)"
+			},
+			"info_title": "🌐 Audioserverregio",
+			"current_region": "**Huidig knooppunt:** `{nodeId}`\n**Regio:** {region}\n**Ping:** `{ping}ms`",
+			"available_regions": "Beschikbare regio's",
+			"region_field": "{nodeCount} knooppunt(en), {playerCount} speler(s)\n{nodes}",
+			"current_indicator": " (huidig)",
+			"switched": "Gewisseld naar {region} regio!\n**Knooppunt:** `{oldNode}` → `{newNode}`\n**Ping:** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "Je bent al op een {region} knooppunt (`{nodeId}`)!",
+			"no_nodes_in_region": "Geen beschikbare knooppunten in de {region} regio!",
+			"invalid_region": "Onbekende regio `{region}`. Beschikbaar: {available}",
+			"switch_failed": "Kan niet van regio wisselen. Probeer het opnieuw!"
+		},
 		"replay": {
 			"description": "Speelt het huidige nummer opnieuw af",
 			"errors": {
@@ -750,7 +766,10 @@
 			"error": "Er is een fout opgetreden: `{error}`",
 			"vote_button": "Stem op mij!",
 			"vote_message": "Wacht! Je moet stemmen op top.gg om dit commando te gebruiken. Bedankt.",
-			"slash_deprecated": "Slash-commando's zijn verouderd! Gebruik in plaats daarvan `{prefix}{command}`. 🎵"
+			"slash_deprecated": "Slash-commando's zijn verouderd! Gebruik in plaats daarvan `{prefix}{command}`. 🎵",
+			"periodic_message_vote_only": "🎵 Geniet je van de muziek? Stem op ons op Top.gg! Jouw stem helpt ons groeien! ❤️\nInstabiel geluid? Gebruik `bregion` om naar een regio dichter bij jou te schakelen",
+			"periodic_message_with_bots": "🎵 Geniet je van de muziek? Stem op ons op Top.gg! Muziek in meerdere kamers? Voeg meer bots toe! 🎶\nInstabiel geluid? Gebruik `bregion` om naar een regio dichter bij jou te schakelen"
+
 		},
 		"message": {
 			"prefix_mention": "Hé, mijn voorvoegsel voor deze server is `{prefix}`. Wil je meer informatie? Gebruik dan `{prefix}help`\nBlijf veilig, blijf geweldig!",

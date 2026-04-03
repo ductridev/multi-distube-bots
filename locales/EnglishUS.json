@@ -395,6 +395,22 @@
 				"removed": "Removed song #{songNumber} from the queue! Gone 👋"
 			}
 		},
+		"region": {
+			"description": "View or switch your audio server region for better quality 🌐",
+			"options": {
+				"region": "The region to switch to (e.g., EU, VN)"
+			},
+			"info_title": "🌐 Audio Server Region",
+			"current_region": "**Current Node:** `{nodeId}`\n**Region:** {region}\n**Ping:** `{ping}ms`",
+			"available_regions": "Available Regions",
+			"region_field": "{nodeCount} node(s), {playerCount} player(s)\n{nodes}",
+			"current_indicator": " (current)",
+			"switched": "Switched to {region} region!\n**Node:** `{oldNode}` → `{newNode}`\n**Ping:** `{oldPing}ms` → `{newPing}ms`",
+			"already_on_region": "You're already on a {region} node (`{nodeId}`)!",
+			"no_nodes_in_region": "No available nodes in the {region} region right now!",
+			"invalid_region": "Unknown region `{region}`. Available: {available}",
+			"switch_failed": "Failed to switch region. Please try again!"
+		},
 		"replay": {
 			"description": "Replay the current track! Hear it again 🔁",
 			"errors": {
@@ -700,8 +716,8 @@
 			"looping_off_by": "Loop Off by {user}",
 			"vote_button": "Vote for Us! ⭐",
 			"get_more_bots_button": "Get More Bots ➕",
-			"periodic_message_vote_only": "🎵 Enjoying the tunes? Support us with a vote on Top.gg! Your vote helps us grow! ❤️",
-			"periodic_message_with_bots": "🎵 Loving the music? Vote for us on Top.gg! Want music in multiple rooms? Get more bots! 🎶"
+			"periodic_message_vote_only": "🎵 Enjoying the tunes? Support us with a vote on Top.gg! Your vote helps us grow! ❤️\nUnstable audio? Use `bregion` to switch to a region closer to you",
+			"periodic_message_with_bots": "🎵 Loving the music? Vote for us on Top.gg! Want music in multiple rooms? Get more bots! 🎶\nUnstable audio? Use `bregion` to switch to a region closer to you"
 		},
 		"setupStart": {
 			"now_playing": "Now Playing",
