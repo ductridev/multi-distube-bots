@@ -7,6 +7,13 @@ export class PlayerSaver extends JSONStore {
     }
 
     /**
+     * Ensure player data is loaded from disk before accessing
+     */
+    public async ensureLoaded(): Promise<void> {
+        await super.ensureLoaded();
+    }
+
+    /**
      * Retrieve last saved session IDs: nodeId → nodeSessionId.
      */
     public getAllLastNodeSessions(): Map<string, string> {
