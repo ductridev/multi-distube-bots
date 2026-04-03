@@ -303,7 +303,7 @@ export default class LavaConfig extends Command {
             embed.setDescription(ctx.locale('cmd.lavaconfig.messages.no_nodes'));
         } else {
             const nodeList = nodes
-                .map(node => `**${node.id}** - ${node.host} ${node.connected ? '🟢' : '🔴'}`)
+                .map(node => `**${node.id}** ${node.connected ? '🟢' : '🔴'}`)
                 .join('\n');
             embed.setDescription(nodeList)
                 .setFooter({ 
