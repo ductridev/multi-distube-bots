@@ -5,11 +5,17 @@ import { writeFile } from "node:fs/promises";
 export class JSONStore {
     public data: MiniMap<string, string>;
     public filePath: string;
+    private loadPromise: Promise<void>;
 
     constructor(filePath?: string) {
         this.filePath = filePath ?? `${process.cwd()}/queueData.json`;
         this.data = new MiniMap<string, string>();
-        this.initLoadData();
+        this.loadPromise = this.initLoadData();
+    }
+
+    /** Ensure data is loaded before accessing */
+    public async ensureLoaded(): Promise<void> {
+        await this.loadPromise;
     }
 
     /** Load existing file or initialize a new one */
@@ -18,8 +24,10 @@ export class JSONStore {
             const raw = readFileSync(this.filePath, "utf-8");
             const entries = this.JSONtoEntries(raw);
             this.data = new MiniMap<string, string>(entries);
-        } catch {
+            console.log(`[JSONStore] Loaded ${entries.length} entries from ${this.filePath}`);
+        } catch (error) {
             // If file missing or corrupted, create it
+            console.warn(`[JSONStore] Failed to load ${this.filePath}, creating new store:`, error instanceof Error ? error.message : String(error));
             await writeFile(this.filePath, this.mapToJSON(this.data), "utf-8");
         }
     }
