@@ -12,7 +12,7 @@ const antiCrash: BotPlugin = {
 				// Set shutdown flag to prevent player data deletion
 				client.isShuttingDown = true;
 				client.logger.info('Graceful shutdown initiated - preserving player state...');
-				saveSessions();
+				await saveSessions();
 				client.logger.star('Disconnecting from Discord...');
 				await client.destroy();
 				client.logger.success('Successfully disconnected from Discord!');
