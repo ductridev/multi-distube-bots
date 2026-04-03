@@ -216,12 +216,13 @@ export default class TrackStart extends Event {
 				return;
 			}
 
-			// For queue loop or normal mode: delete old message and create new one
+			// For queue loop or normal mode: remove buttons from old message and create new one
 			if (previousMessageId) {
 				try {
 					const previousMessage = await channel.messages.fetch(previousMessageId).catch(() => null);
-					if (previousMessage?.deletable) {
-						await previousMessage.delete().catch(() => null);
+					if (previousMessage) {
+						// Remove buttons from the old message instead of deleting it
+						await previousMessage.edit({ components: [] }).catch(() => null);
 					}
 				} catch (error) {
 					// Message might already be deleted or not found, continue
@@ -392,7 +393,6 @@ function createCollector(
 				}
 
 				await interaction.deferUpdate();
-				player.set('messageId', undefined);
 				player.skip(0, !autoplay);
 				await editMessage(
 					T(locale, 'player.trackStart.skipped_by', {
