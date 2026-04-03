@@ -251,33 +251,42 @@ export class StatsController {
 	// Get top guilds
 	static async getTopGuilds(limit: number = 10) {
 		try {
-			// Limit the query to the last90 days to avoid memory limit issues
+			// Limit the query to the last 90 days to avoid memory limit issues
 			// MongoDB groupBy can exceed memory limit when processing large datasets
 			const ninetyDaysAgo = new Date();
 			ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
 
-			const topGuilds = await prisma.playerHistory.groupBy({
-				by: ['guildId'],
-				where: {
-					playedAt: { gte: ninetyDaysAgo }, // Only consider recent plays
-				},
-				_count: { guildId: true },
-				orderBy: { _count: { guildId: 'desc' } },
-				take: limit,
+			// Use raw MongoDB aggregation with allowDiskUse to avoid memory limit errors
+			// Convert Date to MongoDB Extended JSON format for $runCommandRaw
+			const aggregationPipeline = [
+				{ $match: { playedAt: { $gte: { $date: ninetyDaysAgo.toISOString() } } } },
+				{ $group: { _id: '$guildId', count: { $sum: 1 } } },
+				{ $sort: { count: -1 } },
+				{ $limit: limit },
+			];
+
+			const rawResult = await prisma.$runCommandRaw({
+				aggregate: 'PlayerHistory',
+				pipeline: aggregationPipeline,
+				cursor: { batchSize: 100 },
+				allowDiskUse: true,
 			});
+
+			// Parse the raw result - MongoDB returns { cursor: { firstBatch: [...] } }
+			const topGuilds = (rawResult as { cursor?: { firstBatch?: Array<{ _id: string; count: number }> } })?.cursor?.firstBatch ?? [];
 
 			// Enhance with guild info
 			const enhancedGuilds = [];
 			for (const item of topGuilds) {
 				// Find which bot has this guild
 				for (const bot of activeBots) {
-					const guild = bot.guilds.cache.get(item.guildId);
+					const guild = bot.guilds.cache.get(item._id);
 					if (guild) {
 						enhancedGuilds.push({
-							guildId: item.guildId,
+							guildId: item._id,
 							guildName: guild.name,
 							memberCount: guild.memberCount,
-							playCount: item._count.guildId,
+							playCount: item.count,
 						});
 						break;
 					}
@@ -294,28 +303,36 @@ export class StatsController {
 	// Get top tracks
 	static async getTopTracks(limit: number = 10) {
 		try {
-			// Limit the query to the last90 days to avoid memory limit issues
+			// Limit the query to the last 90 days to avoid memory limit issues
 			// MongoDB groupBy can exceed memory limit when processing large datasets
 			const ninetyDaysAgo = new Date();
 			ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
 
-			const topTracks = await prisma.playerHistory.groupBy({
-				by: ['trackTitle', 'trackUrl'],
-				where: {
-					trackTitle: { not: '' }, // Filter out empty track titles
-					playedAt: { gte: ninetyDaysAgo }, // Only consider recent tracks
-				},
-				_count: { trackTitle: true },
-				orderBy: { _count: { trackTitle: 'desc' } },
-				take: limit,
+			// Use raw MongoDB aggregation with allowDiskUse to avoid memory limit errors
+			// Convert Date to MongoDB Extended JSON format for $runCommandRaw
+			const aggregationPipeline = [
+				{ $match: { trackTitle: { $ne: '' }, playedAt: { $gte: { $date: ninetyDaysAgo.toISOString() } } } },
+				{ $group: { _id: { trackTitle: '$trackTitle', trackUrl: '$trackUrl' }, count: { $sum: 1 } } },
+				{ $sort: { count: -1 } },
+				{ $limit: limit },
+			];
+
+			const rawResult = await prisma.$runCommandRaw({
+				aggregate: 'PlayerHistory',
+				pipeline: aggregationPipeline,
+				cursor: { batchSize: 100 },
+				allowDiskUse: true,
 			});
+
+			// Parse the raw result - MongoDB returns { cursor: { firstBatch: [...] } }
+			const topTracks = (rawResult as { cursor?: { firstBatch?: Array<{ _id: { trackTitle: string; trackUrl: string }; count: number }> } })?.cursor?.firstBatch ?? [];
 
 			return {
 				success: true,
 				data: topTracks.map(item => ({
-					title: item.trackTitle || 'Unknown Track', // Fallback for null/empty
-					url: item.trackUrl,
-					playCount: item._count.trackTitle,
+					title: item._id?.trackTitle || 'Unknown Track', // Fallback for null/empty
+					url: item._id?.trackUrl,
+					playCount: item.count,
 				})),
 			};
 		} catch (error) {
@@ -820,32 +837,48 @@ export class StatsController {
 			}
 
 			// Fallback to PlayerHistory table - use playedAt instead of startedAt
-			const historyWhere: Record<string, unknown> = {
-				...StatsController.buildGroupByWhereClause(guildId, 'playedAt', start, end),
-				trackTitle: { not: '' }, // Filter out empty track titles
+			// Build match conditions for raw MongoDB aggregation
+			// Convert Date to MongoDB Extended JSON format for $runCommandRaw
+			const matchConditions: Record<string, unknown> = {
+				playedAt: { $gte: { $date: start.toISOString() }, $lte: { $date: end.toISOString() } },
+				trackTitle: { $ne: '' }, // Filter out empty track titles
 			};
 			
-			const playerHistory = await prisma.playerHistory.groupBy({
-				by: ['trackTitle', 'trackUrl'],
-				where: historyWhere,
-				_count: {
-					trackTitle: true,
+			// Add guildId filter if not "all"
+			if (guildId !== 'all') {
+				matchConditions.guildId = guildId;
+			}
+			
+			// Use raw MongoDB aggregation with allowDiskUse to avoid memory limit errors
+			const aggregationPipeline: object[] = [
+				{ $match: matchConditions },
+				{
+					$group: {
+						_id: { trackTitle: '$trackTitle', trackUrl: '$trackUrl' },
+						count: { $sum: 1 },
+						totalDurationMs: { $sum: '$duration' },
+					}
 				},
-				_sum: {
-					duration: true,
-				},
-				orderBy: {
-					_count: { trackTitle: 'desc' },
-				},
-				take: limit,
+				{ $sort: { count: -1 } },
+				{ $limit: limit },
+			];
+
+			const rawResult = await prisma.$runCommandRaw({
+				aggregate: 'PlayerHistory',
+				pipeline: aggregationPipeline,
+				cursor: { batchSize: 100 },
+				allowDiskUse: true,
 			});
 
+			// Parse the raw result - MongoDB returns { cursor: { firstBatch: [...] } }
+			const playerHistory = (rawResult as { cursor?: { firstBatch?: Array<{ _id: { trackTitle: string; trackUrl: string }; count: number; totalDurationMs: number }> } })?.cursor?.firstBatch ?? [];
+
 			return playerHistory.map(item => ({
-				name: item.trackTitle || 'Unknown Track', // Fallback for null/empty
-				url: item.trackUrl ?? undefined,
-				source: StatsController.detectSourceFromUrl(item.trackUrl),
-				playCount: item._count.trackTitle,
-				totalDuration: Math.floor((item._sum.duration ?? 0) / 1000), // Convert ms to seconds
+				name: item._id?.trackTitle || 'Unknown Track', // Fallback for null/empty
+				url: item._id?.trackUrl ?? undefined,
+				source: StatsController.detectSourceFromUrl(item._id?.trackUrl ?? ''),
+				playCount: item.count,
+				totalDuration: Math.floor((item.totalDurationMs ?? 0) / 1000), // Convert ms to seconds
 			}));
 		} catch (error) {
 			logger.error('Failed to get most played tracks:', error);
