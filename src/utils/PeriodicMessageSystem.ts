@@ -1,8 +1,16 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, type TextChannel } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, type TextChannel, type Message } from 'discord.js';
 import type Lavamusic from '../structures/Lavamusic';
 import { T } from '../structures/I18n';
 import { activeBots } from '..';
 import { RateLimitTracker } from '../services/RateLimitTracker.js';
+import {
+  getPeriodicMessageTracker,
+  upsertPeriodicMessageTracker,
+  deletePeriodicMessageTracker,
+} from './database/migration-new-dashboard.js';
+import Logger from '../structures/Logger';
+
+const logger = new Logger('PeriodicMessageSystem');
 
 /**
  * Map to store session start timestamps
@@ -52,10 +60,13 @@ export class PeriodicMessageSystem {
 	/**
 	 * Clear session data when player is destroyed or queue ends
 	 */
-	public static endSession(guildId: string, clientId: string): void {
+	public static async endSession(guildId: string, clientId: string): Promise<void> {
 		const key = `${guildId}:${clientId}`;
 		sessionStartTimes.delete(key);
 		lastMessageTimes.delete(key);
+
+		// Delete tracker from database
+		await deletePeriodicMessageTracker(guildId, clientId);
 	}
 
 	/**
@@ -64,7 +75,7 @@ export class PeriodicMessageSystem {
 	 */
 	public static startPeriodicCheck(): void {
 		if (periodicCheckInterval) {
-			console.log('[PERIODIC MESSAGES] Already running, skipping...');
+			logger.info('[PERIODIC MESSAGES] Already running, skipping...');
 			return; // Already running
 		}
 
@@ -79,11 +90,11 @@ export class PeriodicMessageSystem {
 
 					for (const player of players) {
 						// DEBUG: Log player state
-						console.log(`[PERIODIC DEBUG] Guild: ${player.guildId}, Playing: ${player.playing}, Queue: ${player.queue.tracks.length}, State: ${player.toJSON()}, TextChannel: ${player.textChannelId}`);
+						logger.debug(`[PERIODIC DEBUG] Guild: ${player.guildId}, Playing: ${player.playing}, Queue: ${player.queue.tracks.length}, State: ${player.toJSON()}, TextChannel: ${player.textChannelId}`);
 
 						// Only process if player is actively playing
 						if (!player.playing) {
-							console.log(`[PERIODIC DEBUG] Skipping guild ${player.guildId} - player not playing`);
+							logger.debug(`[PERIODIC DEBUG] Skipping guild ${player.guildId} - player not playing`);
 							continue;
 						}
 
@@ -92,11 +103,11 @@ export class PeriodicMessageSystem {
 						const key = `${player.guildId}:${clientId}`;
 						const sessionStart = sessionStartTimes.get(key);
 						
-						console.log(`[PERIODIC DEBUG] Key: ${key}, SessionStart: ${sessionStart}`);
+						logger.debug(`[PERIODIC DEBUG] Key: ${key}, SessionStart: ${sessionStart}`);
 						
 						if (!sessionStart) {
 							// Session not tracked yet, start it
-							console.log(`[PERIODIC DEBUG] No session found for ${key}, starting new session`);
+							logger.debug(`[PERIODIC DEBUG] No session found for ${key}, starting new session`);
 							this.startSession(player.guildId, clientId);
 							continue;
 						}
@@ -105,23 +116,23 @@ export class PeriodicMessageSystem {
 						const timeSinceLastMessage = now - lastMessageTime;
 						const minutesSinceLastMessage = Math.floor(timeSinceLastMessage / 60000);
 
-						console.log(`[PERIODIC DEBUG] LastMessageTime: ${lastMessageTime}, TimeSince: ${minutesSinceLastMessage} min, Interval: ${MESSAGE_INTERVAL_MS / 60000} min`);
+						logger.debug(`[PERIODIC DEBUG] LastMessageTime: ${lastMessageTime}, TimeSince: ${minutesSinceLastMessage} min, Interval: ${MESSAGE_INTERVAL_MS / 60000} min`);
 
 						// Check if 30 minutes have passed since last message
 						if (timeSinceLastMessage >= MESSAGE_INTERVAL_MS) {
-							console.log(`[PERIODIC DEBUG] Sending periodic message to guild ${player.guildId}`);
+							logger.debug(`[PERIODIC DEBUG] Sending periodic message to guild ${player.guildId}`);
 							await this.sendPeriodicMessage(bot, player.guildId, player.textChannelId!);
 							lastMessageTimes.set(key, now);
-							console.log(`[PERIODIC DEBUG] Message sent successfully, updated lastMessageTime`);
+							logger.debug(`[PERIODIC DEBUG] Message sent successfully, updated lastMessageTime`);
 						} else {
-							console.log(`[PERIODIC DEBUG] Not sending message yet - ${minutesSinceLastMessage} min elapsed, need ${MESSAGE_INTERVAL_MS / 60000} min`);
+							logger.debug(`[PERIODIC DEBUG] Not sending message yet - ${minutesSinceLastMessage} min elapsed, need ${MESSAGE_INTERVAL_MS / 60000} min`);
 						}
 					}
 				}
 				
-				console.log(`[PERIODIC DEBUG] Check completed. Active players: ${activePlayersCount}`);
+				logger.debug(`[PERIODIC DEBUG] Check completed. Active players: ${activePlayersCount}`);
 			} catch (error) {
-				console.error('[PERIODIC MESSAGES] Check error:', error);
+				logger.error('[PERIODIC MESSAGES] Check error:', error);
 			}
 		}, CHECK_INTERVAL_MS);
 	}
@@ -133,7 +144,7 @@ export class PeriodicMessageSystem {
 		if (periodicCheckInterval) {
 			clearInterval(periodicCheckInterval);
 			periodicCheckInterval = null;
-			console.log('[PERIODIC MESSAGES] Stopped periodic check');
+			logger.info('[PERIODIC MESSAGES] Stopped periodic check');
 		}
 	}
 
@@ -174,6 +185,32 @@ export class PeriodicMessageSystem {
 	}
 
 	/**
+	 * Delete old periodic message with error handling
+	 */
+	private static async deleteOldPeriodicMessage(
+		channel: TextChannel,
+		messageId: string
+	): Promise<boolean> {
+		try {
+			const message = await channel.messages.fetch(messageId);
+			if (message && message.deletable) {
+				await message.delete();
+				logger.info(`[PERIODIC] Deleted old message ${messageId}`);
+				return true;
+			}
+		} catch (error: any) {
+			if (error.code === 10008) {
+				// Unknown Message - already deleted
+				logger.info(`[PERIODIC] Old message ${messageId} already deleted`);
+			} else if (error.code !== 50001 && error.code !== 50013) {
+				// Log only if not permission-related
+				logger.warn(`[PERIODIC] Failed to delete old message:`, error.message);
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Send the periodic reminder message
 	 */
 	private static async sendPeriodicMessage(
@@ -182,30 +219,30 @@ export class PeriodicMessageSystem {
 		textChannelId: string
 	): Promise<void> {
 		try {
-			console.log(`[PERIODIC DEBUG] sendPeriodicMessage called for guild ${guildId}, textChannel ${textChannelId}`);
+			logger.debug(`[PERIODIC DEBUG] sendPeriodicMessage called for guild ${guildId}, textChannel ${textChannelId}`);
 			
 			const guild = client.guilds.cache.get(guildId);
 			if (!guild) {
-				console.log(`[PERIODIC DEBUG] Guild ${guildId} not found in cache`);
+				logger.debug(`[PERIODIC DEBUG] Guild ${guildId} not found in cache`);
 				return;
 			}
 
 			const player = client.manager.getPlayer(guildId);
 			if (!player || !player.playing) {
-				console.log(`[PERIODIC DEBUG] Player not found or not playing for guild ${guildId}. Player exists: ${!!player}, Playing: ${player?.playing}`);
+				logger.debug(`[PERIODIC DEBUG] Player not found or not playing for guild ${guildId}. Player exists: ${!!player}, Playing: ${player?.playing}`);
 				return;
 			}
 
 			const textChannel = guild.channels.cache.get(textChannelId) as TextChannel;
 			if (!textChannel) {
-				console.log(`[PERIODIC DEBUG] Text channel ${textChannelId} not found in guild ${guildId}`);
+				logger.debug(`[PERIODIC DEBUG] Text channel ${textChannelId} not found in guild ${guildId}`);
 				return;
 			}
 
 			// Check how many bots are in the voice channel
 			const voiceChannel = guild.channels.cache.get(player.voiceChannelId!);
 			if (!voiceChannel || !('members' in voiceChannel)) {
-				console.log(`[PERIODIC DEBUG] Voice channel ${player.voiceChannelId} not found or invalid`);
+				logger.debug(`[PERIODIC DEBUG] Voice channel ${player.voiceChannelId} not found or invalid`);
 				return;
 			}
 
@@ -218,7 +255,14 @@ export class PeriodicMessageSystem {
 				: 0;
 			const needsMoreBots = botsInVC < totalBotsAvailable;
 
-			console.log(`[PERIODIC DEBUG] Bots in VC: ${botsInVC}, Total available: ${totalBotsAvailable}, Needs more: ${needsMoreBots}`);
+			logger.debug(`[PERIODIC DEBUG] Bots in VC: ${botsInVC}, Total available: ${totalBotsAvailable}, Needs more: ${needsMoreBots}`);
+
+			// STEP 1: Get old message ID from database and delete it
+			const botClientId = client.childEnv.clientId;
+			const tracker = await getPeriodicMessageTracker(guildId, botClientId);
+			if (tracker && tracker.messageId) {
+				await this.deleteOldPeriodicMessage(textChannel, tracker.messageId);
+			}
 
 			const currentLocale = await client.db.getLanguage(guildId);
 			const buttons = new ActionRowBuilder<ButtonBuilder>();
@@ -254,25 +298,37 @@ export class PeriodicMessageSystem {
 				})
 				.setTimestamp();
 
-			console.log(`[PERIODIC DEBUG] Sending message to channel ${textChannelId}`);
+			logger.debug(`[PERIODIC DEBUG] Sending message to channel ${textChannelId}`);
 			try {
+				// STEP 2: Send new message and capture ID
+				let sentMessage: Message | undefined;
 				await this.rateLimiter.throttled(async () => {
-					await textChannel.send({
+					sentMessage = await textChannel.send({
 						embeds: [periodicEmbed],
 						components: [buttons],
 					});
 				});
-				console.log(`[PERIODIC DEBUG] Message sent successfully to guild ${guildId}`);
+
+				// STEP 3: Store new message ID in database
+				if (sentMessage) {
+					await upsertPeriodicMessageTracker(
+						guildId,
+						botClientId,
+						textChannelId,
+						sentMessage.id
+					);
+					logger.debug(`[PERIODIC DEBUG] Message sent successfully to guild ${guildId}, messageId: ${sentMessage.id}`);
+				}
 			} catch (error: any) {
 				if (error.code === 429 || error.status === 429) {
 					const info = this.rateLimiter.handleRateLimitError(error);
-					console.error(`[PERIODIC] Rate limited in guild ${guildId}. Scope: ${info.scope}, Retry after: ${info.retryAfterMs}ms`);
+					logger.error(`[PERIODIC] Rate limited in guild ${guildId}. Scope: ${info.scope}, Retry after: ${info.retryAfterMs}ms`);
 				} else {
-					console.error(`[PERIODIC DEBUG] Failed to send message:`, error);
+					logger.error(`[PERIODIC] Failed to send message:`, error);
 				}
 			}
 		} catch (error) {
-			console.error('[PERIODIC MESSAGES] Failed to send message:', error);
+			logger.error('[PERIODIC MESSAGES] Failed to send message:', error);
 		}
 	}
 }
