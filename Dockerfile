@@ -7,15 +7,15 @@ WORKDIR /opt/lavamusic
 RUN apk add --no-cache python3 make g++
 
 # Copy package files first for better layer caching
-COPY package*.json ./
-COPY prisma/schema.prisma ./prisma/
-COPY patches ./patches
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node prisma/schema.prisma ./prisma/
+COPY --chown=node:node patches ./patches
 
 # Install dependencies (using npm install instead of ci)
 RUN npm install --force
 
 # Copy remaining source files
-COPY . .
+COPY --chown=node:node . .
 
 # Build TypeScript and generate Prisma client
 RUN npx prisma generate && npm run build
@@ -42,8 +42,12 @@ COPY --from=builder --chown=node:node /opt/lavamusic/prisma ./prisma
 COPY --from=builder --chown=node:node /opt/lavamusic/package*.json ./
 COPY --from=builder --chown=node:node /opt/lavamusic/locales ./locales
 
+# Pre-create necessary directories with correct permissions BEFORE switching to node user
+RUN mkdir -p logs data \
+    && chown -R node:node logs data
+
 # Create non-root user and set permissions
-RUN chown -R node:node /opt/lavamusic
+# RUN chown -R node:node /opt/lavamusic
 USER node
 
 # Entrypoint script for runtime operations

@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile
     container_name: bungo-bot
     restart: unless-stopped
+    stop_grace_period: 30s
     environment:
       # Override Redis URL to use Docker service
       - REDIS_URL=redis://redis:6379
@@ -18,6 +19,29 @@ services:
         condition: service_healthy
     volumes:
       - bot-data:/opt/lavamusic/data
+      - bot-logs:/opt/lavamusic/logs
+      # PlayerData files - bind mounts for real-time sync
+      - ./playerData-[1b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[1b] BuNgo Bot Music.json
+      - ./playerData-[2b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[2b] BuNgo Bot Music.json
+      - ./playerData-[3b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[3b] BuNgo Bot Music.json
+      - ./playerData-[4b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[4b] BuNgo Bot Music.json
+      - ./playerData-[5b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[5b] BuNgo Bot Music.json
+      - ./playerData-[6b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[6b] BuNgo Bot Music.json
+      - ./playerData-[7b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[7b] BuNgo Bot Music.json
+      - ./playerData-[8b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[8b] BuNgo Bot Music.json
+      - ./playerData-[9b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[9b] BuNgo Bot Music.json
+      - ./playerData-[10b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[10b] BuNgo Bot Music.json
+      - ./playerData-[11b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[11b] BuNgo Bot Music.json
+      - ./playerData-[12b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[12b] BuNgo Bot Music.json
+      - ./playerData-[13b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[13b] BuNgo Bot Music.json
+      - ./playerData-[14b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[14b] BuNgo Bot Music.json
+      - ./playerData-[15b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[15b] BuNgo Bot Music.json
+      - ./playerData-[100b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[100b] BuNgo Bot Music.json
+      - ./playerData-[101b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[101b] BuNgo Bot Music.json
+      - ./playerData-[102b] BuNgo Bot Music.json:/opt/lavamusic/playerData-[102b] BuNgo Bot Music.json
+      - ./playerData.json:/opt/lavamusic/playerData.json
+      # Session data for session persistence across restarts
+      - ./sessions-map.json:/opt/lavamusic/sessions-map.json
     networks:
       - bot-network
     extra_hosts:
@@ -104,3 +128,5 @@ volumes:
     name: bungo-redis-data
   bot-data:
     name: bungo-bot-data
+  bot-logs:
+    name: bungo-bot-logs
