@@ -355,6 +355,42 @@ model TemporaryAnnouncement {
   // Statistics
   sendCount      Int       @default(0)        // Number of times sent
 
+  // Message Tracking - Map of channelId -> messageId for deleting old messages
+  lastMessageIds Json?     @default("{}")
+
   @@index([isActive, expiresAt])
   @@index([lastSentAt])
+}
+
+// Periodic Message Tracker
+// Tracks the last periodic message sent per guild/bot for deletion before sending new ones
+model PeriodicMessageTracker {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  guildId       String                       // Guild where message was sent
+  botClientId   String                       // Bot that sent the message
+  channelId     String                       // Channel where message was sent
+  messageId     String                       // ID of the last periodic message
+  sentAt        DateTime @default(now())     // When the message was sent
+  updatedAt     DateTime @updatedAt          // Last update time
+
+  @@unique([guildId, botClientId])           // One tracker per guild/bot combo
+  @@index([guildId])
+  @@index([botClientId])
+}
+
+// Translation Cache
+// Stores translated text to avoid redundant API calls and persist across bot restarts
+model TranslationCache {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  textHash       String   // Hash of the original text for quick lookup
+  sourceText     String   // Original text that was translated
+  sourceLang     String   // Source language ISO code (e.g., "en", "auto")
+  targetLang     String   // Target language ISO code (e.g., "vi", "zh-CN")
+  translatedText String   // The translated text
+  createdAt      DateTime @default(now())
+  expiresAt      DateTime // TTL for cache invalidation (24 hours from creation)
+
+  @@unique([textHash, sourceLang, targetLang]) // One translation per text/language combo
+  @@index([textHash])
+  @@index([expiresAt])
 }
