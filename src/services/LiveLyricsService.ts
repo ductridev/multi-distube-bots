@@ -351,6 +351,16 @@ export class LiveLyricsService {
 	}
 
 	/**
+	 * Stop all active lyrics sessions (used for hot reload)
+	 */
+	public async stopAllSessions(): Promise<void> {
+		const guildIds = [...this.sessions.keys()];
+		for (const guildId of guildIds) {
+			await this.stopSession(guildId);
+		}
+	}
+
+	/**
 	 * Handle track end event
 	 */
 	public handleTrackEnd(guildId: string): void {
