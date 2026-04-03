@@ -57,7 +57,7 @@ export default class SaveSession extends Command {
             }
         }
 
-        saveSessions();
+        await saveSessions();
 
         return await ctx.sendMessage({
             embeds: [embed.setColor(this.client.color.blue).setDescription(ctx.locale('cmd.save_session.saved', { saved, failed }))],
