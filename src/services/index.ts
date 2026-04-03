@@ -33,3 +33,6 @@ export { LiveLyricsService } from "./LiveLyricsService.js";
 // Rate Limit Tracking (Phase 2)
 export { RateLimitTracker } from "./RateLimitTracker.js";
 export type { RateLimitInfo, RequestMetrics, RateLimitScope } from "./RateLimitTracker.js";
+
+// Translation Service (Multi-Language Announcements Phase 1)
+export { TranslationService } from "./TranslationService.js";
